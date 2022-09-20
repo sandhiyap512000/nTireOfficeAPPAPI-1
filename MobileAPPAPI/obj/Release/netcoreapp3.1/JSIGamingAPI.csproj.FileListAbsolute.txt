@@ -1,0 +1,117 @@
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\appsettings.Development.json
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\appsettings.json
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\web.config
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\JSIGamingAPI.exe
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\JSIGamingAPI.deps.json
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\JSIGamingAPI.runtimeconfig.json
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\JSIGamingAPI.runtimeconfig.dev.json
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\JSIGamingAPI.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\JSIGamingAPI.pdb
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Castle.Core.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Castle.Windsor.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\LanguageExt.Core.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Web.Mvc.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Web.Razor.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Web.Helpers.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Web.WebPages.Deployment.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Web.WebPages.Razor.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Web.WebPages.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Newtonsoft.Json.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Npgsql.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Data.SqlClient.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Drawing.Common.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Security.AccessControl.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Security.Permissions.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Security.Principal.Windows.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Windows.Extensions.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Security.AccessControl.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+E:\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+E:\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.csproj.AssemblyReference.cache
+E:\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.AssemblyInfoInputs.cache
+E:\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.AssemblyInfo.cs
+E:\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.csproj.CoreCompileInputs.cache
+E:\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.MvcApplicationPartsAssemblyInfo.cache
+E:\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\staticwebassets\JSIGamingAPI.StaticWebAssets.Manifest.cache
+E:\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\staticwebassets\JSIGamingAPI.StaticWebAssets.xml
+E:\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\scopedcss\bundle\JSIGamingAPI.styles.css
+E:\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.RazorTargetAssemblyInfo.cache
+E:\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.csproj.CopyComplete
+E:\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.dll
+E:\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.pdb
+E:\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.genruntimeconfig.cache
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\appsettings.Development.json
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\appsettings.json
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\web.config
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\JSIGamingAPI.exe
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\JSIGamingAPI.deps.json
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\JSIGamingAPI.runtimeconfig.json
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\JSIGamingAPI.runtimeconfig.dev.json
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\JSIGamingAPI.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\JSIGamingAPI.pdb
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Castle.Core.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Castle.Windsor.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\LanguageExt.Core.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Web.Mvc.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Web.Razor.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Web.Helpers.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Web.WebPages.Deployment.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Web.WebPages.Razor.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Web.WebPages.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Newtonsoft.Json.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\Npgsql.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Data.SqlClient.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Drawing.Common.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Security.AccessControl.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Security.Permissions.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Security.Principal.Windows.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\System.Windows.Extensions.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Security.AccessControl.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.csproj.AssemblyReference.cache
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.AssemblyInfoInputs.cache
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.AssemblyInfo.cs
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.csproj.CoreCompileInputs.cache
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.MvcApplicationPartsAssemblyInfo.cache
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\staticwebassets\JSIGamingAPI.StaticWebAssets.Manifest.cache
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.RazorTargetAssemblyInfo.cache
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.csproj.CopyComplete
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.dll
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.pdb
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.genruntimeconfig.cache
+E:\JSI Gaming\JSIGaming\JSIGamingAPI\obj\Release\netcoreapp3.1\JSIGamingAPI.GeneratedMSBuildEditorConfig.editorconfig

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>E:\JSI Gaming\JSIGaming\JSIGamingAPI\bin\Release\netcoreapp3.1\publish\</_PublishTargetUrl>
+    <History>True|2022-01-12T08:54:12.9138628Z;True|2022-01-12T11:59:46.0918345+05:30;True|2022-01-11T12:17:08.8475694+05:30;True|2022-01-10T16:44:12.4597865+05:30;True|2022-01-10T10:54:28.1213389+05:30;True|2022-01-07T15:53:36.7813103+05:30;True|2021-12-27T15:40:01.7613964+05:30;True|2021-12-21T18:36:25.4644993+05:30;True|2021-12-14T14:20:28.3680310+05:30;True|2021-11-13T11:46:17.2092107+05:30;</History>
+  </PropertyGroup>
+</Project>

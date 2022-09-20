@@ -1,0 +1,67 @@
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: E:\JSI Gaming\JSIGaming\JSIGamingAPI
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+System.Data.SqlClient.SqlException (0x80131904): Incorrect syntax near ' ) 
+ AND ( #TEMP.LAN_ID in (  0, 1, 2  ) )
+ AND ( #TEMP.SML in (  0, 1, 2  ) ) 
+
+
+
+
+ ORDER BY #TEMP.STORY_ID,#TEMP.SQD_ID'.
+Unclosed quotation mark after the character string ')
+INSERT INTO #TEMP4(ROW_NUM,STORY_ID,STORY_NAME,SQD_ID,DESCRIPTION,[Yet to Play],	Correct,	Wrong,	[Not Play],	Played)
+			VALUES(',@TSID2,@TSNAME,',',',',',',')	
+
+WHILE ( @Counter <= @TCOUNT)
+BEGIN
+    SET @TSID2 =(SELECT STORY_ID FROM #TEMP3 WHERE ROW_NUM = @Counter)
+	SET  @TSNAME  =(SELECT STORY_NAME FROM #TEMP3 WHERE ROW_NUM = @Counter)
+	IF	@TSID = @TSID2
+	BEGIN
+	    INSERT INTO #TEMP4(ROW_NUM,STORY_ID,STORY_NAME,SQD_ID,DESCRIPTION,[Yet to Play],	Correct,	Wrong,	[Not Play],	Played)
+		SELECT ROW_NUM,STORY_ID,',SQD_ID,DESCRIPTION,[Yet to Play],	Correct,	Wrong,	[Not Play],	Played FROM #TEMP3 WHERE ROW_NUM = @Counter
+		SET @TSID = @TSID2
+	END 
+	ELSE
+	BEGIN
+		
+		INSERT INTO #TEMP4(ROW_NUM,STORY_ID,STORY_NAME,SQD_ID,DESCRIPTION,[Yet to Play],	Correct,	Wrong,	[Not Play],	Played)
+		VALUES(',@TSID2,@TSNAME,',',',',',',')			
+		INSERT INTO #TEMP4(ROW_NUM,STORY_ID,STORY_NAME,SQD_ID,DESCRIPTION,[Yet to Play],	Correct,	Wrong,	[Not Play],	Played)
+		SELECT ROW_NUM,STORY_ID,',SQD_ID,DESCRIPTION,[Yet to Play],	Correct,	Wrong,	[Not Play],	Played FROM #TEMP3 WHERE ROW_NUM = @Counter
+		SET @TSID = @TSID2
+	END 
+
+    SET @Counter  = @Counter  + 1
+END
+
+SELECT * FROM #TEMP4
+
+
+
+
+'.
+   at JSIGamingAPI.Controllers.StoryMasterController.GetDashboardadmin1(StoryMaster data) in E:\JSI Gaming\JSIGaming\JSIGamingAPI\Controllers\StoryMasterController.cs:line 435
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.<Invoke>g__AwaitMatcher|8_0(EndpointRoutingMiddleware middleware, HttpContext httpContext, Task`1 matcherTask

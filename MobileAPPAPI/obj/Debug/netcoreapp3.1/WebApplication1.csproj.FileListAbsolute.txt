@@ -1,0 +1,45 @@
+E:\Deepak\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\appsettings.Development.json
+E:\Deepak\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\appsettings.json
+E:\Deepak\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.exe
+E:\Deepak\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.deps.json
+E:\Deepak\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.runtimeconfig.json
+E:\Deepak\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.runtimeconfig.dev.json
+E:\Deepak\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.dll
+E:\Deepak\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.pdb
+E:\Deepak\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.csproj.AssemblyReference.cache
+E:\Deepak\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.AssemblyInfoInputs.cache
+E:\Deepak\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.AssemblyInfo.cs
+E:\Deepak\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.csproj.CoreCompileInputs.cache
+E:\Deepak\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.MvcApplicationPartsAssemblyInfo.cache
+E:\Deepak\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\staticwebassets\WebApplication1.StaticWebAssets.Manifest.cache
+E:\Deepak\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\staticwebassets\WebApplication1.StaticWebAssets.xml
+E:\Deepak\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\scopedcss\bundle\WebApplication1.styles.css
+E:\Deepak\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.RazorTargetAssemblyInfo.cache
+E:\Deepak\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.dll
+E:\Deepak\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.pdb
+E:\Deepak\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.genruntimeconfig.cache
+E:\Deepak\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\Npgsql.dll
+E:\Deepak\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.csproj.CopyComplete
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\appsettings.Development.json
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\appsettings.json
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.exe
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.deps.json
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.runtimeconfig.json
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.runtimeconfig.dev.json
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.dll
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\WebApplication1.pdb
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\bin\Debug\netcoreapp3.1\Npgsql.dll
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.csproj.AssemblyReference.cache
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.GeneratedMSBuildEditorConfig.editorconfig
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.AssemblyInfoInputs.cache
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.AssemblyInfo.cs
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.csproj.CoreCompileInputs.cache
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.MvcApplicationPartsAssemblyInfo.cache
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\staticwebassets\WebApplication1.StaticWebAssets.Manifest.cache
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\staticwebassets\WebApplication1.StaticWebAssets.xml
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\scopedcss\bundle\WebApplication1.styles.css
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.RazorTargetAssemblyInfo.cache
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.csproj.CopyComplete
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.dll
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.pdb
+D:\backup fdrive 11_8\SankariSSG\gameapplication\WebApplication1\obj\Debug\netcoreapp3.1\WebApplication1.genruntimeconfig.cache
