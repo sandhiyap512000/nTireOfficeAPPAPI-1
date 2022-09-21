@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.31515.178
+VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSIGamingAPI", "JSIGamingAPI.csproj", "{6113F433-8C2F-4726-B8D2-FBAE43745A86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileAppAPI", "MobileAppAPI.csproj", "{1035BAB4-DAA5-4DD8-9943-B6FA23C01808}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6113F433-8C2F-4726-B8D2-FBAE43745A86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6113F433-8C2F-4726-B8D2-FBAE43745A86}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6113F433-8C2F-4726-B8D2-FBAE43745A86}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6113F433-8C2F-4726-B8D2-FBAE43745A86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1035BAB4-DAA5-4DD8-9943-B6FA23C01808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1035BAB4-DAA5-4DD8-9943-B6FA23C01808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1035BAB4-DAA5-4DD8-9943-B6FA23C01808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1035BAB4-DAA5-4DD8-9943-B6FA23C01808}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {23BC00F6-0295-4A76-88CF-6C0803A750E7}
+		SolutionGuid = {B98065B8-6588-43B3-B00D-3F4059BE2AF4}
 	EndGlobalSection
 EndGlobal
