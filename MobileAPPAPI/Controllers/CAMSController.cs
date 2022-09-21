@@ -253,6 +253,9 @@ namespace MobileAppAPI.Controllers
             }
         }
 
+
+
+
         [HttpGet]
         [Route("Pendingsearchs11")]
         public string Pendingsearchs11(string strfunction, string branch, string fdate, string tdate, string Status, string strUserId, string UserType, string drpcategory, string drptype, string TASKTYPE, string AssetCode)//, string PrDesc, string PrCode string loginUserId,, string UserType
@@ -284,8 +287,9 @@ namespace MobileAppAPI.Controllers
                 cmd.Parameters.AddWithValue("@TASKTYPE", TASKTYPE);
                
                 cmd.Parameters.AddWithValue("@AssetCode", AssetCode);
+                    cmd.ExecuteNonQuery();
 
-                DataTable dt = new DataTable();
+                    DataTable dt = new DataTable();
                 apd.Fill(dt);
 
                 return JsonConvert.SerializeObject(dt, Formatting.Indented);
@@ -342,6 +346,212 @@ namespace MobileAppAPI.Controllers
                 return json;
             }
         }
+
+
+
+
+
+        [HttpGet]
+        [Route("CAMSPENDING_COMPLTED_SEARCH")]
+        public string CAMSPENDING_COMPLTED_SEARCH(string strfunction, string branch, string fdate, string tdate, string Status, string strUserId, string UserType, string drpcategory, string drptype, string TASKTYPE)//, string PrDesc, string PrCode string loginUserId,, string UserType
+        {
+            try
+            {
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+                    dbConn.Open();
+
+                    string Logdata1 = string.Empty;
+                    string sql = "CAMS_PENDINGDETAIL_COMPLETED_SEARCH"; //"CAMS_PENDINGDETAIL_SEARCHS1";
+                    SqlCommand cmd = new SqlCommand(sql, dbConn);
+                    SqlDataAdapter apd = new SqlDataAdapter(cmd);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    // cmd.Parameters.AddWithValue("@loginUserId", loginUserId);
+                    cmd.Parameters.AddWithValue("@strfunction", strfunction);
+                    cmd.Parameters.AddWithValue("@branch", branch);
+                    cmd.Parameters.AddWithValue("@fdate", fdate);
+                    cmd.Parameters.AddWithValue("@tdate", tdate);
+
+                    cmd.Parameters.AddWithValue("@Status", Status);
+
+                    cmd.Parameters.AddWithValue("@strUserId", strUserId);
+                    cmd.Parameters.AddWithValue("@UserType", UserType);
+                    cmd.Parameters.AddWithValue("@drpcategory", drpcategory);
+                    cmd.Parameters.AddWithValue("@drptype", drptype);
+
+                    cmd.Parameters.AddWithValue("@TASKTYPE", TASKTYPE);
+
+                   // cmd.Parameters.AddWithValue("@AssetCode", AssetCode);
+
+                    DataTable dt = new DataTable();
+                    apd.Fill(dt);
+
+                    return JsonConvert.SerializeObject(dt, Formatting.Indented);
+
+
+
+
+
+
+
+
+                    //DataSet ds1 = new DataSet();
+                    //    string Logdata1 = string.Empty;
+                    //    DataSet DS = new DataSet();
+                    //    using (SqlConnection dbConn = new SqlConnection(strconn))
+                    //    {
+                    //        dbConn.Open();
+                    //        string sql = "CAMS__SEARCHS_PENDINGDETAIL";
+                    //        SqlCommand cmd = new SqlCommand(sql, dbConn);
+                    //        cmd.CommandType = CommandType.StoredProcedure;
+                    //        cmd.CommandType = CommandType.StoredProcedure;
+                    //        // cmd.Parameters.AddWithValue("@loginUserId", loginUserId);
+                    //        cmd.Parameters.AddWithValue("@strfunction", strfunction);
+                    //        cmd.Parameters.AddWithValue("@branch", branch);
+                    //        cmd.Parameters.AddWithValue("@fdate", fdate);
+                    //        cmd.Parameters.AddWithValue("@tdate", tdate);
+                    //        cmd.Parameters.AddWithValue("@Status", Status);
+                    //        cmd.Parameters.AddWithValue("@strUserId", strUserId);
+                    //        cmd.Parameters.AddWithValue("@UserType", UserType);
+                    //        cmd.Parameters.AddWithValue("@drpcategory", drpcategory);
+                    //        cmd.Parameters.AddWithValue("@drptype", drptype);
+                    //    cmd.Parameters.AddWithValue("@TASKTYPE", TASKTYPE);
+                    //          cmd.Parameters.AddWithValue("@AssetCode", AssetCode);
+                    //    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    //        da.Fill(ds1);
+
+                    //        var reader = cmd.ExecuteReader();
+                    //        System.Data.DataTable results = new System.Data.DataTable();
+                    //        results.Load(reader);
+                    //        //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                    //        for (int i = 0; i < results.Rows.Count; i++)
+                    //        {
+                    //            DataRow row = results.Rows[i];
+                    //            Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    //        }
+                    //        return Logdata1;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return json;
+            }
+        }
+
+
+
+
+
+
+        [HttpPost]
+        [Route("assetlocationcategory")]
+        public async Task<ActionResult<CAMS>> assetlocationcategory(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT  FUNCTION_ID, VAL, TEXT  FROM  BO_PARAMETER with(nolock) where 1=1  and BO_PARAMETER.FUNCTION_ID=" + data.functionidrep + " and TYPE='InfCategory' and status='A'  ORDER BY TEXT asc ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+        [HttpPost]
+        [Route("assetlocationsubcategory")]
+        public async Task<ActionResult<CAMS>> assetlocationsubcategory(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT SUB_CATEGORY_ID,SUB_CATEGORY_DESC FROM CAMS_ASSET_SUBCATEGORY_MASTER WHERE FUNCTION_ID=" + data.functionidrep + " AND CATEGORY_ID=" + data.categoryid + " order by SUB_CATEGORY_DESC ASC";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+        [HttpPost]
+        [Route("refrencemax")]
+        public async Task<ActionResult<CAMS>> refrencemax(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select cast(isnull(max(isnull(ASSET_REF_NO,0)),0)+1 as decimal) as refnum from CAMS_LAST_MAINTENANCE with (nolock) where 1=1";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+
 
 
         public string DataTableToJSONWithStringBuilder(DataTable table)

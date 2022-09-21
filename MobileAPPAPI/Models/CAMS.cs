@@ -27,6 +27,15 @@ namespace MobileAppAPI.Models
 
         public string isworking { get; set; }
 
+        public string functionidrep { get; set; }
+
+        public int functionid { get; set; }
+        public int val { get; set; }
+        public string Text { get; set; }
+
+        public int categoryid { get; set; }
+
+
 
 
     }
