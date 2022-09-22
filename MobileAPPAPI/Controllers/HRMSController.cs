@@ -262,6 +262,238 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        [HttpGet]
+        [Route("EmployeeUpdate/{EmployeeId}/{Type}/{Parameter1}/{Parameter2}/{Parameter3}/{Parameter4}/{Parameter5}/{Parameter6}/{Parameter7}/{Parameter8}")]
+        public string EmployeeUpdate(string EmployeeId = null, string Type = null, string Parameter1 = null, string Parameter2 = null, string Parameter3 = null, string Parameter4 = null, string Parameter5 = null, string Parameter6 = null, string Parameter7 = null, string Parameter8 = null)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string sql = "HRMS_EMPLOYEE_UPDATE_BY_DETAILS";
+                SqlCommand sqlCommand = new SqlCommand(sql, dbConn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                if (EmployeeId != null && EmployeeId.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@EmployeeId", EmployeeId);
+                else
+                    sqlCommand.Parameters.AddWithValue("@EmployeeId", 0);
+
+                if (Type != null && Type.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@Type", Type);
+                else
+                    sqlCommand.Parameters.AddWithValue("@Type", 0);
+
+
+                if (Type != null && Type.Trim() != string.Empty)
+                {
+                    if (Type.Trim() == "PersonalDetails")
+                    {
+                        if (Parameter1 != null && Parameter1.Trim() != string.Empty && Parameter1 != "0")
+                            sqlCommand.Parameters.AddWithValue("@FirstName", Parameter1.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@FirstName", null);
+
+                        if (Parameter2 != null && Parameter2.Trim() != string.Empty && Parameter2 != "0")
+                            sqlCommand.Parameters.AddWithValue("@SecondName", Parameter2.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@SecondName", null);
+
+                        if (Parameter3 != null && Parameter3.Trim() != string.Empty && Parameter3 != "0")
+                            sqlCommand.Parameters.AddWithValue("@DOB", Parameter3.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@DOB", null);
+
+                        if (Parameter4 != null && Parameter4.Trim() != string.Empty && Parameter4 != "0")
+                            sqlCommand.Parameters.AddWithValue("@Qalification", Parameter4.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@Qalification", null);
+
+                        if (Parameter5 != null && Parameter5.Trim() != string.Empty && Parameter5 != "0")
+                            sqlCommand.Parameters.AddWithValue("@SubQualification", Parameter5.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@SubQualification", null);
+
+                    }
+                    else if (Type.Trim() == "CurrentAddress")
+                    {
+                        if (Parameter1 != null && Parameter1.Trim() != string.Empty && Parameter1 != "0")
+                            sqlCommand.Parameters.AddWithValue("@CurrentAddress", Parameter1.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@CurrentAddress", null);
+
+                        if (Parameter2 != null && Parameter2.Trim() != string.Empty && Parameter2 != "0")
+                            sqlCommand.Parameters.AddWithValue("@CurrentCity", Parameter2.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@CurrentCity", null);
+
+                        if (Parameter3 != null && Parameter3.Trim() != string.Empty && Parameter3 != "0")
+                            sqlCommand.Parameters.AddWithValue("@CurrentState", Parameter3.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@CurrentState", null);
+
+                        if (Parameter4 != null && Parameter4.Trim() != string.Empty && Parameter4 != "0")
+                            sqlCommand.Parameters.AddWithValue("@CurrentCountry", Parameter4.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@CurrentCountry", null);
+
+                        if (Parameter5 != null && Parameter5.Trim() != string.Empty && Parameter5 != "0")
+                            sqlCommand.Parameters.AddWithValue("@CurrentPincode", Parameter5.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@CurrentPincode", null);
+
+                    }
+                    else if (Type.Trim() == "PermanentAddress")
+                    {
+                        if (Parameter1 != null && Parameter1.Trim() != string.Empty && Parameter1 != "0")
+                            sqlCommand.Parameters.AddWithValue("@PermanentAddress", Parameter1.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@PermanentAddress", null);
+
+                        if (Parameter2 != null && Parameter2.Trim() != string.Empty && Parameter2 != "0")
+                            sqlCommand.Parameters.AddWithValue("@PermanentCity", Parameter2.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@PermanentCity", null);
+
+                        if (Parameter3 != null && Parameter3.Trim() != string.Empty && Parameter3 != "0")
+                            sqlCommand.Parameters.AddWithValue("@PermanentState", Parameter3.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@PermanentState", null);
+
+                        if (Parameter4 != null && Parameter4.Trim() != string.Empty && Parameter4 != "0")
+                            sqlCommand.Parameters.AddWithValue("@PermanentCountry", Parameter4.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@PermanentCountry", null);
+
+                        if (Parameter5 != null && Parameter5.Trim() != string.Empty && Parameter5 != "0")
+                            sqlCommand.Parameters.AddWithValue("@PermanentPincode", Parameter5.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@PermanentPincode", null);
+
+                    }
+                    else if (Type.Trim() == "ContactDetails")
+                    {
+                        if (Parameter1 != null && Parameter1.Trim() != string.Empty && Parameter1 != "0")
+                            sqlCommand.Parameters.AddWithValue("@Email", Parameter1.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@Email", null);
+
+                        if (Parameter2 != null && Parameter2.Trim() != string.Empty && Parameter2 != "0")
+                            sqlCommand.Parameters.AddWithValue("@Mobile", Parameter2.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@Mobile", null);
+
+                        if (Parameter3 != null && Parameter3.Trim() != string.Empty && Parameter3 != "0")
+                            sqlCommand.Parameters.AddWithValue("@OfficeNumber", Parameter3.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@OfficeNumber", null);
+
+                        if (Parameter4 != null && Parameter4.Trim() != string.Empty && Parameter4 != "0")
+                            sqlCommand.Parameters.AddWithValue("@EmergencyName", Parameter4.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@EmergencyName", null);
+
+                        if (Parameter5 != null && Parameter5.Trim() != string.Empty && Parameter5 != "0")
+                            sqlCommand.Parameters.AddWithValue("@EmergencyNumber", Parameter5.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@EmergencyNumber", null);
+
+
+
+                    }
+                    else if (Type.Trim() == "EducationDetails")
+                    {
+                        if (Parameter1 != null && Parameter1.Trim() != string.Empty && Parameter1 != "0")
+                            sqlCommand.Parameters.AddWithValue("@Category", Parameter1.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@Category", null);
+
+                        if (Parameter2 != null && Parameter2.Trim() != string.Empty && Parameter2 != "0")
+                            sqlCommand.Parameters.AddWithValue("@Specilization", Parameter2.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@Specilization", null);
+
+                        if (Parameter3 != null && Parameter3.Trim() != string.Empty && Parameter3 != "0")
+                            sqlCommand.Parameters.AddWithValue("@From", Parameter3.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@From", null);
+
+                        if (Parameter4 != null && Parameter4.Trim() != string.Empty && Parameter4 != "0")
+                            sqlCommand.Parameters.AddWithValue("@To", Parameter4.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@To", null);
+
+                        if (Parameter5 != null && Parameter5.Trim() != string.Empty && Parameter5 != "0")
+                            sqlCommand.Parameters.AddWithValue("@Institution", Parameter5.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@Institution", null);
+
+                        if (Parameter6 != null && Parameter6.Trim() != string.Empty && Parameter6 != "0")
+                            sqlCommand.Parameters.AddWithValue("@Percentage", Parameter6.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@Percentage", null);
+
+                        if (Parameter7 != null && Parameter7.Trim() != string.Empty && Parameter7 != "0")
+                            sqlCommand.Parameters.AddWithValue("@EducationId", Parameter7.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@EducationId", null);
+                    }
+                    else if (Type.Trim() == "CareerDetails")
+                    {
+                        if (Parameter1 != null && Parameter1.Trim() != string.Empty && Parameter1 != "0")
+                            sqlCommand.Parameters.AddWithValue("@Employer", Parameter1.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@Employer", null);
+
+                        if (Parameter2 != null && Parameter2.Trim() != string.Empty && Parameter2 != "0")
+                            sqlCommand.Parameters.AddWithValue("@FromDate", Parameter2.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@FromDate", null);
+
+                        if (Parameter3 != null && Parameter3.Trim() != string.Empty && Parameter3 != "0")
+                            sqlCommand.Parameters.AddWithValue("@ToDate", Parameter3.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@ToDate", null);
+
+                        if (Parameter4 != null && Parameter4.Trim() != string.Empty && Parameter4 != "0")
+                            sqlCommand.Parameters.AddWithValue("@ToDesignation", Parameter4.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@ToDesignation", null);
+
+                        if (Parameter5 != null && Parameter5.Trim() != string.Empty && Parameter5 != "0")
+                            sqlCommand.Parameters.AddWithValue("@Salary", Parameter5.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@Salary", null);
+
+                        if (Parameter6 != null && Parameter6.Trim() != string.Empty && Parameter6 != "0")
+                            sqlCommand.Parameters.AddWithValue("@CareerId", Parameter6.Trim());
+                        else
+                            sqlCommand.Parameters.AddWithValue("@CareerId", null);
+                    }
+                }
+
+
+
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+
+
+                var reader = sqlCommand.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
+
 
         public string DataTableToJSONWithStringBuilder(DataTable table)
         {

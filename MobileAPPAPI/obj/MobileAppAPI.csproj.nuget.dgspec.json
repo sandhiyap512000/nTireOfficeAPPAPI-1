@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "E:\\MobileAPP\\MobileAppAPI\\MobileAPPAPI\\MobileAppAPI.csproj": {}
+    "E:\\Mobile\\nTireOfficeAPPAPI\\MobileAPPAPI\\MobileAppAPI.csproj": {}
   },
   "projects": {
-    "E:\\MobileAPP\\MobileAppAPI\\MobileAPPAPI\\MobileAppAPI.csproj": {
+    "E:\\Mobile\\nTireOfficeAPPAPI\\MobileAPPAPI\\MobileAppAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\MobileAPP\\MobileAppAPI\\MobileAPPAPI\\MobileAppAPI.csproj",
+        "projectUniqueName": "E:\\Mobile\\nTireOfficeAPPAPI\\MobileAPPAPI\\MobileAppAPI.csproj",
         "projectName": "MobileAppAPI",
-        "projectPath": "E:\\MobileAPP\\MobileAppAPI\\MobileAPPAPI\\MobileAppAPI.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "E:\\MobileAPP\\MobileAppAPI\\MobileAPPAPI\\obj\\",
+        "projectPath": "E:\\Mobile\\nTireOfficeAPPAPI\\MobileAPPAPI\\MobileAppAPI.csproj",
+        "packagesPath": "C:\\Users\\Admin.SSG0079\\.nuget\\packages\\",
+        "outputPath": "E:\\Mobile\\nTireOfficeAPPAPI\\MobileAPPAPI\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin.SSG0079\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
@@ -66,6 +70,10 @@
               "target": "Package",
               "version": "[6.23.1, )"
             },
+            "Nancy": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
             "Npgsql": {
               "target": "Package",
               "version": "[5.0.10, )"
@@ -97,12 +105,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[3.1.22, 3.1.22]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -111,7 +113,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
         }
       }
     }
