@@ -30,6 +30,8 @@ namespace MobileAppAPI.Models
         public string functionidrep { get; set; }
 
         public int functionid { get; set; }
+
+        public string functionid1 { get; set; }
         public int val { get; set; }
         public string Text { get; set; }
 
@@ -59,6 +61,41 @@ namespace MobileAppAPI.Models
         public string reqdate { get; set; }
 
         public string assetreqid { get; set; }
+        public string vendorcode { get; set; }
+        public string datofservice { get; set; }
+
+        public int zoneid { get; set; }
+
+        public int regionid { get; set; }
+
+        public int fzoneid { get; set; }
+
+        public int fregionid { get; set; }
+
+        public int fbranchid { get; set; }
+
+        public int fassetcatid { get; set; }
+
+        public int fassetsubcatid { get; set; }
+
+        public string branch { get; set; }
+
+        public string remarks { get; set; }
+
+        public string rfdate { get; set; }
+
+        public string rassetcode { get; set; }
+
+        public string rtdate { get; set; }
+
+        public string rstatus { get; set; }
+
+        public string rbranch { get; set; }
+
+        public int depatmentid { get; set; }
+
+        public int locationidd { get; set; }
+
 
 
 

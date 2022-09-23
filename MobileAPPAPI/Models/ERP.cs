@@ -9,6 +9,8 @@ namespace MobileAppAPI.Models
     {
 		public string branchid { get; set; }
 		public string functionid { get; set; }
+
+		public int functionid1 { get; set; }
 		public string ponumber { get; set; }
 		public string vendorcode { get; set; }
 		public string fromdate { get; set; }
@@ -18,7 +20,11 @@ namespace MobileAppAPI.Models
 		public string usertype { get; set; }
 		public string userid { get; set; }
 		public string pageindex { get; set; }
+
+		public int pageindex1 { get; set; }
 		public string pagesize { get; set; }
+
+		public int pagesize1 { get; set; }
 		public string sortexpression { get; set; }
 		public string alphaname { get; set; }
 		public string prscode { get; set; }
@@ -35,5 +41,18 @@ namespace MobileAppAPI.Models
 		public string usercode { get; set; }
 
 		public string FUNCTION_ID { get; set; }
+		public string reuestdate { get; set; }
+
+		public string currentstatus { get; set; }
+
+		public string reqtype { get; set; }
+
+		public string menuid { get; set; }
+
+		public string requser { get; set; }
+
+		public string qutype { get; set; }
+
+		public string prsref { get; set; }
 	}
 }

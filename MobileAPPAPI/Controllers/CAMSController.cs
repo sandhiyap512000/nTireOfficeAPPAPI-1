@@ -116,6 +116,13 @@ namespace MobileAppAPI.Controllers
         }
 
 
+
+
+
+
+
+
+
         [HttpPost]
         [Route("assetserreqdept")]
         public async Task<ActionResult<CAMS>> assetserreqdept(CAMS data)
@@ -148,6 +155,170 @@ namespace MobileAppAPI.Controllers
 
             }
         }
+
+        [HttpPost]
+        [Route("assetservreqlistview")]
+        public async Task<ActionResult<CAMS>> assetservreqlistview(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select distinct CAMS_ASSET_SERVICE.REPLACEMENT_ASSET_ID, CAMS_ASSET_MASTER.asset_code as ASSET_CODE1,CAMS_ASSET_MASTER.ASSET_DESCRIPTION  ,CAMS_ASSET_SERVICE.FUNCTION_ID, HISTORY_ID,BO_BRANCH_MASTER.BRANCH_DESC as branch,CAMS_ASSET_SERVICE.ASSET_CODE,CAMS_ASSET_SERVICE.ASSET_ID,CAMS_ASSET_SERVICE.VENDOR_CODE as vendor,CONVERT(VARCHAR(10),DATE_OF_SERVICE,103) as DATE_OF_SERVICE,CONVERT(VARCHAR(10),EXPECTED_DATE_OF_DELIVERY,103) as'EXPECTED_DATE_OF_DELIVERY',convert(numeric(18,2),EXPECTED_EXPENSES) as EXPECTED_EXPENSES,case CAMS_ASSET_SERVICE.STATUS when 'N' then 'New' when 'P' then 'Pending' when 'A' then 'Approved' when 'D' then 'Denied' end as status,mode,INSURANCECOMPANY,AMOUNTINSURED,CONVERT(VARCHAR(10),WARRANTYDATE,103) as WARRANTYDATE,CAMS_ASSET_SERVICE.CREATED_ON createddate from CAMS_ASSET_SERVICE inner  join BO_BRANCH_MASTER with(nolock)on BO_BRANCH_MASTER.BRANCH_ID=CAMS_ASSET_SERVICE.BRANCH_ID and BO_BRANCH_MASTER.FUNCTION_ID=CAMS_ASSET_SERVICE.FUNCTION_ID left outer join  ERP_VENDOR_MASTER with(nolock)on ERP_VENDOR_MASTER.vendor_id=CAMS_ASSET_SERVICE.VENDOR_ID and ERP_VENDOR_MASTER.function_id=CAMS_ASSET_SERVICE.FUNCTION_ID Join CAMS_ASSET_MASTER on CAMS_ASSET_MASTER.ASSET_ID = CAMS_ASSET_SERVICE.asset_id and CAMS_ASSET_MASTER.FUNCTION_ID=CAMS_ASSET_SERVICE.FUNCTION_ID and CAMS_ASSET_MASTER.BRANCH_ID=CAMS_ASSET_SERVICE.BRANCH_ID where CAMS_ASSET_SERVICE.RELEASE in ('P','A','N','D') and CAMS_ASSET_SERVICE.MODE='S' and CAMS_ASSET_SERVICE.BRANCH_ID='" + data.branchid + "' order by CAMS_ASSET_SERVICE.CREATED_ON desc";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+
+        [HttpPost]
+        [Route("assetservreqlistviewfilter")]
+        public async Task<ActionResult<CAMS>> assetservreqlistviewfilter(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select distinct CAMS_ASSET_SERVICE.REPLACEMENT_ASSET_ID, CAMS_ASSET_MASTER.asset_code as ASSET_CODE1,CAMS_ASSET_MASTER.ASSET_DESCRIPTION  ,CAMS_ASSET_SERVICE.FUNCTION_ID, HISTORY_ID,BO_BRANCH_MASTER.BRANCH_DESC as branch,CAMS_ASSET_SERVICE.ASSET_CODE,CAMS_ASSET_SERVICE.ASSET_ID,CAMS_ASSET_SERVICE.VENDOR_CODE as vendor,CONVERT(VARCHAR(10),DATE_OF_SERVICE,103) as DATE_OF_SERVICE,CONVERT(VARCHAR(10),EXPECTED_DATE_OF_DELIVERY,103) as'EXPECTED_DATE_OF_DELIVERY',convert(numeric(18,2),EXPECTED_EXPENSES) as EXPECTED_EXPENSES,case CAMS_ASSET_SERVICE.STATUS when 'N' then 'New' when 'P' then 'Pending' when 'A' then 'Approved' when 'D' then 'Denied' end as status,mode,INSURANCECOMPANY,AMOUNTINSURED,CONVERT(VARCHAR(10),WARRANTYDATE,103) as WARRANTYDATE,CAMS_ASSET_SERVICE.CREATED_ON createddate from CAMS_ASSET_SERVICE inner  join BO_BRANCH_MASTER with(nolock)on BO_BRANCH_MASTER.BRANCH_ID=CAMS_ASSET_SERVICE.BRANCH_ID and BO_BRANCH_MASTER.FUNCTION_ID=CAMS_ASSET_SERVICE.FUNCTION_ID left outer join  ERP_VENDOR_MASTER with(nolock)on ERP_VENDOR_MASTER.vendor_id=CAMS_ASSET_SERVICE.VENDOR_ID and ERP_VENDOR_MASTER.function_id=CAMS_ASSET_SERVICE.FUNCTION_ID Join CAMS_ASSET_MASTER on CAMS_ASSET_MASTER.ASSET_ID = CAMS_ASSET_SERVICE.asset_id and CAMS_ASSET_MASTER.FUNCTION_ID=CAMS_ASSET_SERVICE.FUNCTION_ID and CAMS_ASSET_MASTER.BRANCH_ID=CAMS_ASSET_SERVICE.BRANCH_ID where CAMS_ASSET_SERVICE.RELEASE in ('P','A','N','D') and CAMS_ASSET_SERVICE.MODE='S' and CAMS_ASSET_SERVICE.BRANCH_ID='" + data.branchid + "'";
+
+                var flag = 0;
+                if (data.assetcode != null)
+                {
+                    if (flag == 0)
+                    {
+                        query = query + " AND CAMS_ASSET_MASTER.asset_code='" + data.assetcode + "'";
+                        flag = 1;
+                    }
+                    else
+                    {
+                        query = query + " AND CAMS_ASSET_MASTER.asset_code='" + data.assetcode + "'";
+                    }
+                }
+                if (data.vendorcode != null)
+                {
+                    if (flag == 0)
+                    {
+                        query = query + " AND  CAMS_ASSET_SERVICE.VENDOR_CODE='" + data.vendorcode + "'";
+                        flag = 1;
+                    }
+                    else
+                    {
+                        query = query + " AND CAMS_ASSET_SERVICE.VENDOR_CODE='" + data.vendorcode + "'";
+                    }
+                }
+                if (data.datofservice != null)
+                {
+                    if (flag == 0)
+                    {
+                        query = query + " AND  DATE_OF_SERVICE='" + data.datofservice + "'";
+                         flag = 1;
+                    }
+                    else
+                    {
+                        query = query + " AND  DATE_OF_SERVICE='" + data.datofservice + "'";
+                    }
+                }
+                query = query + "order by CAMS_ASSET_SERVICE.CREATED_ON desc";
+
+
+
+
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("assetservicelistreplace")]
+        public async Task<ActionResult<CAMS>> assetservicelistreplace(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            DataSet DS = new DataSet();
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string sql = "CAMS_ASSET_getAssetsforreplcaseasset";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@strstatus","A");
+                cmd.Parameters.AddWithValue("@Branch",data.branchid);
+                cmd.Parameters.AddWithValue("@strfunction",data.functionid);
+                cmd.Parameters.AddWithValue("@assettype","0");
+                cmd.Parameters.AddWithValue("@AssetReference","");
+                cmd.Parameters.AddWithValue("@code",data.assetcode);
+                cmd.Parameters.AddWithValue("@desc","");
+                cmd.Parameters.AddWithValue("@dept","");
+                cmd.Parameters.AddWithValue("@pageIndex","0");
+                cmd.Parameters.AddWithValue("@pageSize","20");
+                cmd.Parameters.AddWithValue("@sortExpression", "currentdate DESC");
+                cmd.Parameters.AddWithValue("@alphaname","");
+                cmd.Parameters.AddWithValue("@Category","0");
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Ok(Logdata1);
+
+            }
+        }
+
+
 
 
         [HttpPost]
@@ -321,6 +492,107 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        [HttpPost]
+        [Route("vendorcodelist")]
+        public async Task<ActionResult<CAMS>> vendorcodelist(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT Vendor_Code,vendor_id,Vendor_Name FROM ERP_VENDOR_MASTER erpm WHERE  function_id='1'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+        [HttpPost]
+        [Route("assetservicevendorlist")]
+        public async Task<ActionResult<CAMS>> assetservicevendorlist(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT * FROM ERP_VENDOR_MASTER erpm WHERE erpm.Vendor_Code='" + data.vendorcode + "' AND function_id='" + data.functionid + "'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("assetcodereplace")]
+        public async Task<ActionResult<CAMS>> assetcodereplace(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT ASSET_CODE FROM CAMS_ASSET_MASTER where ASSET_USER IS NULL";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
 
 
         [HttpPost]
@@ -470,6 +742,676 @@ namespace MobileAppAPI.Controllers
 
             }
         }
+
+
+
+        [HttpPost]
+        [Route("assetlocationzone")]
+        public async Task<ActionResult<CAMS>> assetlocationzone(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT DISTINCT ZONE_ID,ZONE_DESC from BO_ZONE_MASTER WHERE FUNCTION_ID=" + data.functionidrep + "";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("assetlocationarea")]
+        public async Task<ActionResult<CAMS>> assetlocationarea(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select VAL, TEXT from BO_PARAMETER where type='BO_DEPTLOCATION' and BO_PARAMETER.FUNCTION_ID=" + data.functionidrep + "";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+        [HttpPost]
+        [Route("assetlocationregion")]
+        public async Task<ActionResult<CAMS>> assetlocationregion(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT region_id,region_desc from BO_REGION_MASTER WHERE FUNCTION_ID=" + data.functionidrep + " AND zone_id=" + data.zoneid + "";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("assetlocationdeparment")]
+        public async Task<ActionResult<CAMS>> assetlocationdeparment(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select VAL, TEXT from BO_PARAMETER where type='BO_TEAM' and BO_PARAMETER.FUNCTION_ID=" + data.functionidrep + " and Status='A'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+        [HttpPost]
+        [Route("assetlocationbranch")]
+        public async Task<ActionResult<CAMS>> assetlocationbranch(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT BRANCH_ID,BRANCH_DESC from BO_BRANCH_MASTER WHERE FUNCTION_ID=" + data.functionidrep + " AND ZONE_ID=" +data.zoneid + " AND region_id=" + data.regionid + "";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+
+        [HttpPost]
+        [Route("assetloctionfilterfinal")]
+        public async Task<ActionResult<CAMS>> assetloctionfilterfinal(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                var pzoneid = data.fzoneid;
+                var pregionid = data.fregionid;
+                var pbranchid = data.fbranchid;
+                var passetcatid = data.fassetcatid;
+                var passetsubcatid = data.fassetsubcatid;
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT CAMS_ASSET_MASTER.FUNCTION_ID,BO_ZONE_MASTER.ZONE_ID,BO_ZONE_MASTER.ZONE_DESC AS 'Zone',BO_REGION_MASTER.region_id,BO_REGION_MASTER.region_desc as 'Region',CAMS_ASSET_MASTER.BRANCH_ID,BO_BRANCH_MASTER.BRANCH_DESC as 'Branch',CAMS_ASSET_MASTER.ASSET_CATEGORY,CAMS_ASSET_MASTER.ASSET_TYPE,BO_PARAMETER.TEXT as 'Category',CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_DESC as 'SubCategore',CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_ID,COUNT(CAMS_ASSET_MASTER.ASSET_ID) as Qty, CAMS_ASSET_MASTER.STATUS as 'Status' FROM CAMS_ASSET_MASTER WITH(NOLOCK) inner join BO_FUNCTION_MASTER with(nolock) on BO_FUNCTION_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID inner join BO_PARAMETER with(nolock) on BO_PARAMETER.TYPE='INFCATEGORY' and BO_PARAMETER.VAL=CAMS_ASSET_MASTER.ASSET_CATEGORY and BO_PARAMETER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID and BO_PARAMETER.STATUS='A' inner join CAMS_ASSET_SUBCATEGORY_MASTER with(nolock) on CAMS_ASSET_SUBCATEGORY_MASTER.CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_CATEGORY and CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_TYPE and CAMS_ASSET_SUBCATEGORY_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID INNER JOIN   BO_BRANCH_MASTER WITH (NOLOCK) ON BO_BRANCH_MASTER.BRANCH_ID=CAMS_ASSET_MASTER.BRANCH_ID   AND BO_BRANCH_MASTER.STATUS='A'   AND   BO_BRANCH_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID       INNER JOIN BO_ZONE_MASTER WITH (NOLOCK) ON BO_ZONE_MASTER.ZONE_ID=BO_BRANCH_MASTER.ZONE_ID AND BO_ZONE_MASTER.ZONE_STATUS='A'   AND   BO_ZONE_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID INNER JOIN BO_REGION_MASTER WITH(NOLOCK) ON BO_FUNCTION_MASTER.FUNCTION_ID=BO_REGION_MASTER.function_id AND BO_ZONE_MASTER.ZONE_ID=BO_REGION_MASTER.zone_id AND BO_BRANCH_MASTER.region_id=BO_REGION_MASTER.region_id  where 1=1 AND CAMS_ASSET_MASTER.FUNCTION_ID=" + data.functionidrep + "";
+
+
+                var flag = 0;
+                if (pzoneid != null && pregionid != null && pbranchid != null)
+                {
+                    if (flag == 0)
+                    {
+                         query = query + " AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " AND BO_REGION_MASTER.region_id=" + data.fregionid + "";
+                         flag = 1;
+                    }
+                    else
+                    {
+                         query = query + " AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " AND BO_REGION_MASTER.region_id=" + data.fregionid + "";
+                    }
+                }
+                if (pzoneid != null)
+                {
+                    if (flag == 0)
+                    {
+                         query = query + "  AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " ";
+                         flag = 1;
+                    }
+                    else
+                    {
+                         query = query + "  AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " ";
+                    }
+                }
+                if (pregionid != null)
+                {
+                    if (flag == 0)
+                    {
+                         query = query + "  AND BO_REGION_MASTER.region_id=" + data.fregionid + " ";
+                         flag = 1;
+                    }
+                    else
+                    {
+                         query = query + " AND BO_REGION_MASTER.region_id=" + data.fregionid + " ";
+                    }
+                }
+                if (pbranchid != null)
+                {
+                    if (flag == 0)
+                    {
+                         query = query + "  AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " ";
+                         flag = 1;
+                    }
+                    else
+                    {
+                         query = query + " AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " ";
+                    }
+                }
+                if (passetcatid != null)
+                {
+                    if (flag == 0)
+                    {
+                         query = query + "  AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " ";
+                         flag = 1;
+                    }
+                    else
+                    {
+                         query = query + " AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " ";
+                    }
+                }
+                if (passetsubcatid != null)
+                {
+                    if (flag == 0)
+                    {
+                         query = query + "  AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
+                         flag = 1;
+                    }
+                    else
+                    {
+                         query = query + " AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
+                    }
+                }
+                if (passetcatid != null && passetsubcatid != null)
+                {
+                    if (flag == 0)
+                    {
+                         query = query + " AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
+                         flag = 1;
+                    }
+                    else
+                    {
+                         query = query + " AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
+                    }
+                }
+                if (pzoneid != null && pregionid != null && pbranchid != null && passetcatid != null && passetsubcatid != null)
+                {
+                    if (flag == 0)
+                    {
+                         query = query + " AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " AND BO_REGION_MASTER.region_id=" + data.fregionid + " AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
+                         flag = 1;
+                    }
+                    else
+                    {
+                         query = query + " AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " AND BO_REGION_MASTER.region_id=" + data.fregionid + " AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
+                    }
+                }
+                query = query + " group by  CAMS_ASSET_MASTER.FUNCTION_ID,BO_ZONE_MASTER.ZONE_DESC ,BO_REGION_MASTER.region_desc ,BO_BRANCH_MASTER.BRANCH_DESC,BO_PARAMETER.TEXT,CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_DESC ,CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_ID,CAMS_ASSET_MASTER.ASSET_MODE,BO_ZONE_MASTER.ZONE_ID,BO_REGION_MASTER.region_id,CAMS_ASSET_MASTER.BRANCH_ID,CAMS_ASSET_MASTER.ASSET_CATEGORY,CAMS_ASSET_MASTER.ASSET_TYPE,CAMS_ASSET_MASTER.STATUS ";
+        // console.log(fserinslistf);
+
+
+
+
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+
+        [HttpPost]
+        [Route("assettransferfrombranchnew")]
+        public async Task<ActionResult<CAMS>> assettransferfrombranchnew(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            System.Data.DataTable results2 = new System.Data.DataTable();
+            string Logdata1 = string.Empty;
+            int ASSET_ID;
+            int CAT_HISTORY_ID;
+            //var logdata = "";
+            //var strtoken = "";
+            //// var result = "";
+            //int ASSET_USER;
+            //int ASSET_CATEGORY;
+
+            //int BRANCH_ID;
+            //int FUNCTION_ID;
+
+            string output = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select CAMS_ASSET_MASTER.ASSET_CATEGORY,CAMS_ASSET_MASTER.FUNCTION_ID,BRANCH_ID,ASSET_CODE,ASSET_ID,ASSET_SERIAL_NO,ASSET_OWNER_ID,isnull(BO_USER_MASTER.TUM_USER_CODE,'')  as'Assetownercode',ASSET_DEPARTMENT,'' as TO_DEPARTMENT_ID,''as Remarks,CAMS_PARAMETER_BRANCH.TEXT as departmentdescription,ASSET_DESCRIPTION from CAMS_ASSET_MASTER left outer join BO_USER_MASTER with(nolock)on BO_USER_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID and BO_USER_MASTER.TUM_BRANCH_ID=CAMS_ASSET_MASTER.BRANCH_ID and BO_USER_MASTER.TUM_USER_ID=CAMS_ASSET_MASTER.ASSET_OWNER_ID inner join CAMS_PARAMETER_BRANCH with(nolock)on CAMS_PARAMETER_BRANCH.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID AND  CAMS_PARAMETER_BRANCH.VAL=CAMS_ASSET_MASTER.ASSET_DEPARTMENT and CAMS_PARAMETER_BRANCH.TYPE='bo_team' where CAMS_ASSET_MASTER.STATUS='A' and CAMS_ASSET_MASTER.ASSET_CODE='" + data.fassetcode + "' and CAMS_ASSET_MASTER.BRANCH_ID='" + data.branch + "' ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+
+                    CAMS log = new CAMS();
+                    DataRow row = results.Rows[i];
+                    //ASSET_USER = Convert.ToInt32(row[0]);
+                   // ASSET_CATEGORY = Convert.ToInt32(row[1]);
+                    ASSET_ID = Convert.ToInt32(row[4]);
+                   // BRANCH_ID = Convert.ToInt32(row[2]);
+                   // FUNCTION_ID = Convert.ToInt32(row[3]);
+
+                    string query1 = "";
+                    query1 = "SELECT  TOP(1) CAT_HISTORY_ID FROM CAMS_ASSET_TRANSFER_Detail WHERE CAT_ASSET_ID='" + ASSET_ID + "' ORDER BY CAT_HISTORY_ID DESC";
+                    SqlCommand cmd1 = new SqlCommand(query1, dbConn);
+                    var reader1 = cmd1.ExecuteReader();
+                    System.Data.DataTable results1 = new System.Data.DataTable();
+                    results1.Load(reader1);
+                    for (int i1 = 0; i < results1.Rows.Count; i++)
+                    {
+                        DataRow row1 = results1.Rows[i];
+                        CAT_HISTORY_ID = Convert.ToInt32(row1[0]);
+                        string query2 = "";
+                        query2 = "SELECT  *  FROM CAMS_ASSET_TRANSFER_MASTER WHERE CAT_HISTORY_ID='" + CAT_HISTORY_ID + "' and STATUS IN('A','P') ";
+
+                        SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                        var reader2 = cmd2.ExecuteReader();
+                       
+                        results2.Load(reader2);
+                        
+
+                    }
+
+                           
+                }
+
+                if (results2.Rows.Count >= 1)
+                {
+                    Logdata1 = "This Asset Already Transferred";
+                    dbConn.Close();
+
+
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results2);
+                    dbConn.Close();
+                }
+
+                //Logdata1 = DataTableToJSONWithStringBuilder(results2);
+                //dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+            }
+
+
+        }
+
+
+
+        [HttpPost]
+        [Route("assettransferupdatebranchnew")]
+        public async Task<ActionResult<CAMS>> assettransferupdatebranchnew(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            System.Data.DataTable results2 = new System.Data.DataTable();
+            System.Data.DataTable results3 = new System.Data.DataTable();
+            string Logdata1 = string.Empty;
+            int ASSET_ID;
+            int CAT_HISTORY_ID;
+            int lasttransfericeidvv;
+            int WF_CONFIG_ID;
+
+
+
+            string output = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "INSERT INTO CAMS_ASSET_TRANSFER_MASTER (FUNCTION_ID,CAT_ASSET_ID,CAT_FROM_BRANCH_ID,CAT_TO_BRANCH_ID,CAT_FROM_DEPARTMENT_ID,CAT_TO_DEPARTMENT_ID,CAT_FROM_ASSET_OWNER_ID,CAT_TO_ASSET_OWNER_ID,CREATED_ON,UPDATED_ON,CREATED_BY,STATUS,CAT_CATEGORY_ID,Asset_Transfer_type,Total_Assets,transfertype)VALUES('" + data.functionidrep + "','" + data.assetid + "','" + data.oldbranchid + "','" + data.oldbranchid + "','" + data.assetdepart + "','0','" + data.assetownerid + "','0','" + data.dateins + "','" + data.dateins + "','" + data.createbytf + "','P','" + data.assetcategory + "','M',1,'1');select Scope_Identity() ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+
+                    CAMS log = new CAMS();
+                    DataRow row = results.Rows[i];
+
+                    lasttransfericeidvv = Convert.ToInt32(row[0]);
+
+
+                    string query1 = "";
+                    query1 = "INSERT INTO CAMS_ASSET_TRANSFER_Detail (FUNCTION_ID,CAT_ASSET_ID,CAT_FROM_BRANCH_ID,CAT_TO_BRANCH_ID,CAT_FROM_DEPARTMENT_ID,CAT_TO_DEPARTMENT_ID,CAT_FROM_ASSET_OWNER_ID,CAT_TO_ASSET_OWNER_ID,CREATED_ON,UPDATED_ON,CREATED_BY,STATUS,CAT_CATEGORY_ID,CAT_HISTORY_ID,Remarks,transfertype)VALUES ('" + data.functionidrep + "','" + data.assetid + "','" + data.oldbranchid + "','" + data.oldbranchid + "','" + data.assetdepart + "','0','" + data.assetownerid + "','0','" + data.dateins + "','" + data.dateins + "','" + data.assetownerid + "','P','0','" + lasttransfericeidvv + "' ,'" + data.remarks + "','2' )";
+                    SqlCommand cmd1 = new SqlCommand(query1, dbConn);
+                    var reader1 = cmd1.ExecuteReader();
+                    System.Data.DataTable results1 = new System.Data.DataTable();
+                    results1.Load(reader1);
+
+                    string query2 = "";
+                    query2 = "select WF_CONFIG_ID from BO_WORKFLOW_CONFIGURATIONS where table_name like '%CAMS_ASSET_TRANSFER_MASTER%' and status='A' and Function_ID='1' ";
+                    SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                    var reader2 = cmd2.ExecuteReader();
+                  
+                    results2.Load(reader2);
+
+                    for (int i2 = 0; i < results2.Rows.Count; i++)
+                    {
+                        DataRow row1 = results2.Rows[i];
+                        WF_CONFIG_ID = Convert.ToInt32(row1[0]);
+
+                        string query3 = "";
+                        query3 = "exec usp_WF_ApprovalUsers 'CAMS_ASSET_TRANSFER_MASTER','CAT_HISTORY_ID','0','0','0','','" + lasttransfericeidvv + "','','' ,'','' ,'1' ,'" + data.createbytf + "' ,'STATUS','P' ,'" + WF_CONFIG_ID + "' ";
+                        SqlCommand cmd3 = new SqlCommand(query3, dbConn);
+                        var reader3 = cmd3.ExecuteReader();
+
+                        results3.Load(reader3);
+                
+                    }
+     
+
+                    }
+
+               
+                Logdata1 = DataTableToJSONWithStringBuilder(results2);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+            }
+
+        }
+
+
+
+
+
+
+        [HttpPost]
+        [Route("assetreconciliationrep")]
+        public async Task<ActionResult<CAMS>> assetreconciliationrep(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+           
+            var functionidrep = data.functionidrep;
+            var rfdate = data.rfdate;
+            var rtdate = data.rtdate;
+            var rassetcode = data.rassetcode;
+            var rstatus = data.rstatus;
+            var rbranch = data.rbranch;
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "set dateformat DMY;SELECT distinct cams_PI_Reconciliation_Report.Asset_Code,cams_PI_Reconciliation_Report.Asset_description,cams_PI_Reconciliation_Report.Branch,cams_PI_Reconciliation_Report.Department,cams_PI_Reconciliation_Report.Last_PI as 'ScanDate',cams_PI_Reconciliation_Report.status as 'Status'  FROM cams_PI_Reconciliation_Report inner join CAMS_ASSET_MASTER with(nolock)on CAMS_ASSET_MASTER.ASSET_ID=cams_PI_Reconciliation_Report.ASSETID";
+
+                var flag = 0;
+                if (rfdate != "" && rtdate != "")
+                {
+                    if (flag == 0)
+                    {
+                       
+                      query=query+ " AND cast(cams_PI_Reconciliation_Report.Last_PI as date) BETWEEN CAST('" + data.rfdate + "' AS DATETIME2) and CAST('" + data.rtdate + "' AS DATETIME2) ";
+                        
+                         flag = 1;
+                    }
+                    else
+                    {
+                        //varquery=query+ " AND CAMS_PHYSICAL_INVENTORY.UPDATED_ON BETWEEN Cast('" + data.rfdate + " 00:00:00.000' as datetime) and Cast('" + data.rtdate + " 00:00:00.000' as datetime)";
+                      query=query+ " AND cast(cams_PI_Reconciliation_Report.Last_PI as date) BETWEEN '" + data.rfdate + "' and '" + data.rtdate + "'";
+                        // console.log(reconrep);
+                    }
+                }
+
+                if (rassetcode != "")
+                {
+                    if (flag == 0)
+                    {
+                      query=query+ " AND cams_PI_Reconciliation_Report.Asset_Code='" + data.rassetcode + "'";
+                         flag = 1;
+                    }
+                    else
+                    {
+                      query=query+ "AND cams_PI_Reconciliation_Report.Asset_Code='" + data.rassetcode + "'";
+                    }
+                }
+
+                query = query + "order by ScanDate desc";
+
+
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+
+
+        [HttpPost]
+        [Route("assetdepatmentwiselocation")]
+        public async Task<ActionResult<CAMS>> assetdepatmentwiselocation(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            var pzoneid = data.fzoneid;
+            var pregionid = data.fregionid;
+            var pbranchid = data.fbranchid;
+           
+            var depatid = data.depatmentid;
+            var locatid = data.locationidd;
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select DISTINCT  BO_FUNCTION_MASTER.FUNCTION_DESC as 'Function', BRANCH_DESC Branch ,BO_PARAMETER1.TEXT Department,BO_PARAMETER.TEXT Location, count (Asset_id) AssetCount   from CAMS_ASSET_MASTER  Join BO_PARAMETER on BO_PARAMETER.TYPE ='BO_DEPTLOCATION'  and CAMS_ASSET_MASTER.FUNCTION_ID =BO_PARAMETER.FUNCTION_ID and BO_PARAMETER.VAL=ASSET_LocationId Join Bo_branch_master on Bo_branch_master.FUNCTION_ID=CAMS_ASSET_MASTER.Function_id and CAMS_ASSET_MASTER.BRANCH_ID=Bo_branch_master.BRANCH_ID left Join BO_PARAMETER as BO_PARAMETER1 on BO_PARAMETER1.TYPE='BO_TEAM' and BO_PARAMETER1.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID and CAMS_ASSET_MASTER.BRANCH_ID=Bo_branch_master.BRANCH_ID and BO_PARAMETER1.val=CAMS_ASSET_MASTER.ASSET_DEPARTMENT and BO_PARAMETER1.STATUS='A' inner join BO_FUNCTION_MASTER on BO_FUNCTION_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID INNER JOIN BO_ZONE_MASTER ON BO_ZONE_MASTER.ZONE_ID=BO_BRANCH_MASTER.ZONE_ID AND ZONE_STATUS='A'   AND   BO_ZONE_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.function_id where  CAMS_ASSET_MASTER.STATUS='A'";
+
+                var flag = 0;
+                if (pzoneid != null)
+                {
+                    if (flag == 0)
+                    {
+                        query = query + " AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " ";
+                         flag = 1;
+                    }
+                    else
+                    {
+                        query = query + " AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " ";
+                    }
+                }
+                if (pbranchid != null)
+                {
+                    if (flag == 0)
+                    {
+                        query = query + " AND Bo_branch_master.BRANCH_ID=" + data.fbranchid + " ";
+                         flag = 1;
+                    }
+                    else
+                    {
+                        query = query + " AND Bo_branch_master.BRANCH_ID=" + data.fbranchid + "  ";
+                    }
+                }
+                if (depatid != null )
+                {
+                    if (flag == 0)
+                    {
+                        query = query + " AND ASSET_DEPARTMENT=" + data.depatmentid + " ";
+                         flag = 1;
+                    }
+                    else
+                    {
+                        query = query + " AND ASSET_DEPARTMENT=" + data.depatmentid + "  ";
+                    }
+                }
+                if (locatid != null )
+                {
+                    if (flag == 0)
+                    {
+                        query = query + " AND ASSET_LocationId=" + data.locationidd + " ";
+                         flag = 1;
+                    }
+                    else
+                    {
+                        query = query + " AND ASSET_LocationId=" + data.locationidd + "  ";
+                    }
+                }
+                query = query + " Group by BO_FUNCTION_MASTER.FUNCTION_DESC , BRANCH_DESC ,BO_PARAMETER1.TEXT ,BO_PARAMETER.TEXT ";
+             
+
+
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
 
 
         [HttpGet]

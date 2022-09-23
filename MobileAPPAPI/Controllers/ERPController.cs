@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MobileAppAPI.Models;
+using Nancy.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,7 +19,7 @@ namespace MobileAppAPI.Controllers
         public static Helper objhelper = new Helper();
         public static string strconn = objhelper.Connectionstring();
 
-
+        //node source starts
 
 
         [HttpPost]
@@ -523,6 +524,87 @@ namespace MobileAppAPI.Controllers
             }
         }
 
+        //node source end
+
+
+
+        //new method starts
+
+        //PRS search
+
+        [HttpPost]
+        [Route("get_PRS_search")]
+        public async Task<ActionResult<ERP>> get_PRS_search(ERP data)
+        {
+            // string struser = data.user_lower;
+
+            List<ERP> Logdata = new List<ERP>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            try
+            {
+
+
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+
+
+                    DataSet dsuserdetails = new DataSet();
+                    dbConn.Open();
+                    string sql = "MBL_erp_prs_getdetails";
+                    SqlCommand cmd = new SqlCommand(sql, dbConn);
+
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@FUNCTIONID", data.functionid);
+                    cmd.Parameters.AddWithValue("@BRANCHID", data.branchid);
+                    cmd.Parameters.AddWithValue("@PRSCODE", data.prscode);
+                    cmd.Parameters.AddWithValue("@FROMDATE", data.fromdate);
+                    cmd.Parameters.AddWithValue("@TODATE", data.todate);
+                    cmd.Parameters.AddWithValue("@REQUESTDATE", data.reuestdate);
+                    cmd.Parameters.AddWithValue("@STATUS", data.status);
+                    cmd.Parameters.AddWithValue("@CURRENTSTATUS", data.currentstatus);
+                    cmd.Parameters.AddWithValue("@REQTYPE", data.reqtype);
+
+                    cmd.Parameters.AddWithValue("@MENUID", data.menuid);
+                    cmd.Parameters.AddWithValue("@USERTYPE", data.usertype);
+                    cmd.Parameters.AddWithValue("@REQUSER", data.requser);
+                    cmd.Parameters.AddWithValue("@USERID", data.userid);
+
+                    cmd.Parameters.AddWithValue("@ALPHANAME", data.alphaname);
+                    cmd.Parameters.AddWithValue("@SORTEXPRESSION", data.sortexpression);
+                    cmd.Parameters.AddWithValue("@QUTYPE", data.qutype);
+
+                    cmd.Parameters.AddWithValue("@prsref", data.prsref);
+                    cmd.Parameters.AddWithValue("@PAGEINDEX", data.pageindex1);
+                    cmd.Parameters.AddWithValue("@PAGESIZE", data.pagesize1);
+
+                    var reader = cmd.ExecuteReader();
+                    System.Data.DataTable results = new System.Data.DataTable();
+                    results.Load(reader);
+                    //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                        logdata = DataTableToJSONWithStringBuilder(results);
+
+                        dbConn.Close();
+                    }
+                    var result = (new { logdata });
+                    return Ok(Logdata1);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return Ok(json);
+            }
+        }
 
 
 
