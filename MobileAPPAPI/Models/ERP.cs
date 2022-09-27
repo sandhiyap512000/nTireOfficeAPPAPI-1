@@ -54,5 +54,38 @@ namespace MobileAppAPI.Models
 		public string qutype { get; set; }
 
 		public string prsref { get; set; }
+
+		public string ipaddress { get; set; }
+
+		public string reasonpurchase { get; set; }
+
+		public string netamount { get; set; }
+
+		public string currency { get; set; }
+
+		public string requestcomments { get; set; }
+
+		public string isbid { get; set; }
+
+		public string prstype { get; set; }
+
+		public string prscategory { get; set; }
+
+		public string requestby { get; set; }
+
+		public string requestdate { get; set; }
+
+		public string requettype { get; set; }
+
+		public string issinglevendor { get; set; }
+
+		public string orderpriority { get; set; }
+
+		public string createdby { get; set; }
+
+		public string prsid { get; set; }
+
+
+
 	}
 }

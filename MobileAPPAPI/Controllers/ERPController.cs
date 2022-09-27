@@ -543,12 +543,79 @@ namespace MobileAppAPI.Controllers
             var logdata = "";
             var strtoken = "";
             // var result = "";
+        
             try
             {
 
 
                 using (SqlConnection dbConn = new SqlConnection(strconn))
                 {
+
+
+                    if (data.functionid.ToString() == "0" || data.functionid.ToString() == "" || data.functionid.ToString() == string.Empty || data.functionid.ToString() == null)
+                    {
+                        data.functionid = "0";
+                    }
+                    if (data.branchid.ToString() == "0" || data.branchid.ToString() == "" || data.branchid.ToString() == string.Empty || data.branchid.ToString() == null)
+                    {
+                        data.branchid = "0";
+                    }
+                    if (data.prscode.ToString() == "0" || data.prscode.ToString() == "" || data.prscode.ToString() == string.Empty || data.prscode.ToString() == null)
+                    {
+                        data.prscode = "0";
+                    }
+                    if (data.fromdate.ToString() == "0" || data.fromdate.ToString() == "" || data.fromdate.ToString() == string.Empty || data.fromdate.ToString() == null)
+                    {
+                        data.fromdate = "0";
+                    }
+                    if (data.todate.ToString() == "0" || data.todate.ToString() == "" || data.todate.ToString() == string.Empty || data.todate.ToString() == null)
+                    {
+                        data.todate = "0";
+                    }
+                    if (data.reuestdate.ToString() == "0" || data.reuestdate.ToString() == "" || data.reuestdate.ToString() == string.Empty || data.reuestdate.ToString() == null)
+                    {
+                        data.reuestdate = "0";
+                    }
+                    if (data.status.ToString() == "0" || data.status.ToString() == "" || data.status.ToString() == string.Empty || data.status.ToString() == null)
+                    {
+                        data.status = "0";
+                    }
+                    if (data.currentstatus.ToString() == "0" || data.currentstatus.ToString() == "" || data.currentstatus.ToString() == string.Empty || data.currentstatus.ToString() == null)
+                    {
+                        data.currentstatus = "0";
+                    }
+                    if (data.reqtype.ToString() == "0" || data.reqtype.ToString() == "" || data.reqtype.ToString() == string.Empty || data.reqtype.ToString() == null)
+                    {
+                        data.reqtype = "0";
+                    }
+                    if (data.requser.ToString() == "0" || data.requser.ToString() == "" || data.requser.ToString() == string.Empty || data.requser.ToString() == null)
+                    {
+                        data.requser = "0";
+                    }
+                    if (data.usertype.ToString() == "0" || data.usertype.ToString() == "" || data.usertype.ToString() == string.Empty || data.usertype.ToString() == null)
+                    {
+                        data.usertype = "0";
+                    }
+                    if (data.alphaname.ToString() == "0" || data.alphaname.ToString() == "" || data.alphaname.ToString() == string.Empty || data.alphaname.ToString() == null)
+                    {
+                        data.alphaname = "0";
+                    }
+                    if (data.qutype.ToString() == "0" || data.qutype.ToString() == "" || data.qutype.ToString() == string.Empty || data.qutype.ToString() == null)
+                    {
+                        data.qutype = "0";
+                    }
+                    if (data.prsref.ToString() == "0" || data.prsref.ToString() == "" || data.prsref.ToString() == string.Empty || data.prsref.ToString() == null)
+                    {
+                        data.prsref = "0";
+                    }
+                    if (data.menuid.ToString() == "0" || data.menuid.ToString() == "" || data.menuid.ToString() == string.Empty || data.menuid.ToString() == null)
+                    {
+                        data.menuid = "0";
+                    }
+                    if (data.userid.ToString() == "0" || data.userid.ToString() == "" || data.userid.ToString() == string.Empty || data.userid.ToString() == null)
+                    {
+                        data.userid = "0";
+                    }
 
 
                     DataSet dsuserdetails = new DataSet();
@@ -581,7 +648,7 @@ namespace MobileAppAPI.Controllers
                     cmd.Parameters.AddWithValue("@prsref", data.prsref);
                     cmd.Parameters.AddWithValue("@PAGEINDEX", data.pageindex1);
                     cmd.Parameters.AddWithValue("@PAGESIZE", data.pagesize1);
-
+                    cmd.ExecuteNonQuery();
                     var reader = cmd.ExecuteReader();
                     System.Data.DataTable results = new System.Data.DataTable();
                     results.Load(reader);
@@ -596,6 +663,227 @@ namespace MobileAppAPI.Controllers
                     }
                     var result = (new { logdata });
                     return Ok(Logdata1);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return Ok(json);
+            }
+        }
+
+
+
+
+
+
+
+        //PRS Insert
+
+        [HttpPost]
+        [Route("get_PRS_Insert")]
+        public async Task<ActionResult<ERP>> get_PRS_Insert(ERP data)
+        {
+            // string struser = data.user_lower;
+
+            List<ERP> Logdata = new List<ERP>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var stroutput = "";
+            string strprscode = "";
+            var strprsid = "";
+            // var result = "";
+
+            try
+            {
+
+
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+
+                    if (data.functionid.ToString() == "0" || data.functionid.ToString() == "" || data.functionid.ToString() == string.Empty || data.functionid.ToString() == null)
+                    {
+                        data.functionid = "0";
+                    }
+                    //if (data.prsid.ToString() == "0" || data.prsid.ToString() == "" || data.prsid.ToString() == string.Empty || data.prsid.ToString() == null)
+                    //{
+                    //    data.prsid = "0";
+                    //}
+                    if (data.status.ToString() == "0" || data.status.ToString() == "" || data.status.ToString() == string.Empty || data.status.ToString() == null)
+                    {
+                        data.status = "0";
+                    }
+                    if (data.createdby.ToString() == "0" || data.createdby.ToString() == "" || data.createdby.ToString() == string.Empty || data.createdby.ToString() == null)
+                    {
+                        data.createdby = "0";
+                    }
+                    if (data.ipaddress.ToString() == "0" || data.ipaddress.ToString() == "" || data.ipaddress.ToString() == string.Empty || data.ipaddress.ToString() == null)
+                    {
+                        data.ipaddress = "0";
+                    }
+                    if (data.reasonpurchase.ToString() == "0" || data.reasonpurchase.ToString() == "" || data.reasonpurchase.ToString() == string.Empty || data.reasonpurchase.ToString() == null)
+                    {
+                        data.reasonpurchase = "0";
+                    }
+                    if (data.netamount.ToString() == "0" || data.netamount.ToString() == "" || data.netamount.ToString() == string.Empty || data.netamount.ToString() == null)
+                    {
+                        data.netamount = "0";
+                    }
+                   
+                    if (data.currency.ToString() == "0" || data.currency.ToString() == "" || data.currency.ToString() == string.Empty || data.currency.ToString() == null)
+                    {
+                        data.currency = "0";
+                    }
+                    if (data.requestcomments.ToString() == "0" || data.requestcomments.ToString() == "" || data.requestcomments.ToString() == string.Empty || data.requestcomments.ToString() == null)
+                    {
+                        data.requestcomments = "0";
+                    }
+                    if (data.isbid.ToString() == "0" || data.isbid.ToString() == "" || data.isbid.ToString() == string.Empty || data.isbid.ToString() == null)
+                    {
+                        data.isbid = "0";
+                    }
+                    if (data.prstype.ToString() == "0" || data.prstype.ToString() == "" || data.prstype.ToString() == string.Empty || data.prstype.ToString() == null)
+                    {
+                        data.prstype = "0";
+                    }
+                    if (data.branchid.ToString() == "0" || data.branchid.ToString() == "" || data.branchid.ToString() == string.Empty || data.branchid.ToString() == null)
+                    {
+                        data.branchid = "0";
+                    }
+                    if (data.prsref.ToString() == "0" || data.prsref.ToString() == "" || data.prsref.ToString() == string.Empty || data.prsref.ToString() == null)
+                    {
+                        data.prsref = "0";
+                    }
+                    if (data.userid.ToString() == "0" || data.userid.ToString() == "" || data.userid.ToString() == string.Empty || data.userid.ToString() == null)
+                    {
+                        data.userid = "0";
+                    }
+                    if (data.requestby.ToString() == "0" || data.requestby.ToString() == "" || data.requestby.ToString() == string.Empty || data.requestby.ToString() == null)
+                    {
+                        data.requestby = "0";
+                    }
+                    if (data.requestdate.ToString() == "0" || data.requestdate.ToString() == "" || data.requestdate.ToString() == string.Empty || data.requestdate.ToString() == null)
+                    {
+                        data.requestdate = "0";
+                    }
+
+                    if (data.requettype.ToString() == "0" || data.requettype.ToString() == "" || data.requettype.ToString() == string.Empty || data.requettype.ToString() == null)
+                    {
+                        data.requettype = "0";
+                    }
+
+
+                    if (data.issinglevendor.ToString() == "0" || data.issinglevendor.ToString() == "" || data.issinglevendor.ToString() == string.Empty || data.issinglevendor.ToString() == null)
+                    {
+                        data.issinglevendor = "0";
+                    }
+
+                    if (data.orderpriority.ToString() == "0" || data.orderpriority.ToString() == "" || data.orderpriority.ToString() == string.Empty || data.orderpriority.ToString() == null)
+                    {
+                        data.orderpriority = "0";
+                    }
+
+                    dbConn.Open();
+                    if (data.prsid == "" || data.prsid == null)
+                    {
+
+                        string query = "";
+                        query = "select max(prs_id) as maxid from ERP_PRS_MASTER";
+
+                        SqlCommand cmd = new SqlCommand(query, dbConn);
+                        var reader = cmd.ExecuteReader();
+                        System.Data.DataTable results = new System.Data.DataTable();
+                        results.Load(reader);
+
+                        for (int i = 0; i < results.Rows.Count; i++)
+                        {
+                            DataRow row = results.Rows[i];
+                            strprsid = row[0].ToString() + 1;
+                        }
+                    }
+
+
+
+                    if (data.prscode == "" || data.prscode == null)
+                    {
+
+                        DataSet dsprscode = new DataSet();
+                        string sqlprscode = "ERP_PRS_ISCONFIG";
+                        SqlCommand cmdprscode = new SqlCommand(sqlprscode, dbConn);
+
+
+                        cmdprscode.CommandType = CommandType.StoredProcedure;
+
+                        cmdprscode.Parameters.AddWithValue("@FUNCTIONID", data.functionid);
+                        cmdprscode.Parameters.AddWithValue("@TYPE", "Purchaserequisition");
+
+                        cmdprscode.ExecuteNonQuery();
+                        var prscodereader = cmdprscode.ExecuteReader();
+                        System.Data.DataTable resultsprscode = new System.Data.DataTable();
+                        resultsprscode.Load(prscodereader);
+                        //string outputval = cmd1.Parameters["@outputparam"].Value.ToString();
+                        for (int i = 0; i < resultsprscode.Rows.Count; i++)
+                        {
+                            DataRow rowprscode = resultsprscode.Rows[i];
+                            strprscode = rowprscode[0].ToString();
+
+                         
+                        }
+                      
+                    }
+
+
+
+                    DataSet dsuserdetails = new DataSet();
+                      string sql = "MBL_ERP_PRS_SAVEDATA";
+                    SqlCommand cmd1 = new SqlCommand(sql, dbConn);
+
+
+                    cmd1.CommandType = CommandType.StoredProcedure;
+
+                    cmd1.Parameters.AddWithValue("@FUNCTION_ID", data.functionid);
+                    cmd1.Parameters.AddWithValue("@PRS_ID", strprsid);
+                    cmd1.Parameters.AddWithValue("@STATUS", data.status);
+                    cmd1.Parameters.AddWithValue("@CREATED_BY", data.createdby);
+                    cmd1.Parameters.AddWithValue("@IPADDRESS", data.ipaddress);
+                    cmd1.Parameters.AddWithValue("@REASON_PURCHASE", data.reasonpurchase);
+                    cmd1.Parameters.AddWithValue("@NETAMOUNT", data.netamount);
+                    cmd1.Parameters.AddWithValue("@CURRENCY", data.currency);
+                    cmd1.Parameters.AddWithValue("@REQUEST_COMMENTS", data.requestcomments);
+                    cmd1.Parameters.AddWithValue("@IS_BID", data.isbid);
+
+                    cmd1.Parameters.AddWithValue("@PRS_TYPE", data.prstype);
+                    cmd1.Parameters.AddWithValue("@BRANCH_ID", data.branchid);
+                    cmd1.Parameters.AddWithValue("@PRS_REF", data.prsref);
+                    cmd1.Parameters.AddWithValue("@PRS_CATEGORY", data.userid);
+
+                    cmd1.Parameters.AddWithValue("@PRS_CODE", strprscode);
+                    cmd1.Parameters.AddWithValue("@REQUESTED_BY", data.requestby);
+                    cmd1.Parameters.AddWithValue("@REQUESTED_DATE", "");
+
+                    cmd1.Parameters.AddWithValue("@REQUEST_TYPE", data.requettype);
+                    cmd1.Parameters.AddWithValue("@IS_SINGLE_VENDOR", data.issinglevendor);
+                    cmd1.Parameters.AddWithValue("@ORDER_PRIORITY", data.orderpriority);
+                    cmd1.ExecuteNonQuery();
+                    var reader1 = cmd1.ExecuteReader();
+                    System.Data.DataTable results1 = new System.Data.DataTable();
+                    results1.Load(reader1);
+                    //string outputval = cmd1.Parameters["@outputparam"].Value.ToString();
+                    for (int i = 0; i < results1.Rows.Count; i++)
+                    {
+                        DataRow row1 = results1.Rows[i];
+                        strprscode = row1[0].ToString();
+
+                        dbConn.Close();
+                    }
+                    if (strprscode!=string.Empty)
+                    {
+                        stroutput = "Inserted successfully";
+
+                    }
+                    var result = (new { logdata });
+                    return Ok(stroutput);
                 }
             }
             catch (Exception ex)
