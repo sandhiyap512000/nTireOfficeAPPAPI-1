@@ -679,11 +679,11 @@ namespace MobileAppAPI.Controllers
 
 
 
-        //PRS Insert
+        //PRS Insert and Update
 
         [HttpPost]
-        [Route("get_PRS_Insert")]
-        public async Task<ActionResult<ERP>> get_PRS_Insert(ERP data)
+        [Route("get_PRS_Insert_Update")]
+        public async Task<ActionResult<ERP>> get_PRS_Insert_Update(ERP data)
         {
             // string struser = data.user_lower;
 
@@ -730,7 +730,7 @@ namespace MobileAppAPI.Controllers
                     {
                         data.netamount = "0";
                     }
-                   
+
                     if (data.currency.ToString() == "0" || data.currency.ToString() == "" || data.currency.ToString() == string.Empty || data.currency.ToString() == null)
                     {
                         data.currency = "0";
@@ -828,62 +828,116 @@ namespace MobileAppAPI.Controllers
                             DataRow rowprscode = resultsprscode.Rows[i];
                             strprscode = rowprscode[0].ToString();
 
-                         
+
                         }
-                      
+
+
+
+
+
+                        DataSet dsuserdetails = new DataSet();
+                        string sql = "MBL_ERP_PRS_SAVEDATA";
+                        SqlCommand cmd1 = new SqlCommand(sql, dbConn);
+
+
+                        cmd1.CommandType = CommandType.StoredProcedure;
+
+                        cmd1.Parameters.AddWithValue("@FUNCTION_ID", data.functionid);
+                        cmd1.Parameters.AddWithValue("@PRS_ID", data.prsid);
+                        cmd1.Parameters.AddWithValue("@STATUS", data.status);
+                        cmd1.Parameters.AddWithValue("@CREATED_BY", data.createdby);
+                        cmd1.Parameters.AddWithValue("@IPADDRESS", data.ipaddress);
+                        cmd1.Parameters.AddWithValue("@REASON_PURCHASE", data.reasonpurchase);
+                        cmd1.Parameters.AddWithValue("@NETAMOUNT", data.netamount);
+                        cmd1.Parameters.AddWithValue("@CURRENCY", data.currency);
+                        cmd1.Parameters.AddWithValue("@REQUEST_COMMENTS", data.requestcomments);
+                        cmd1.Parameters.AddWithValue("@IS_BID", data.isbid);
+
+                        cmd1.Parameters.AddWithValue("@PRS_TYPE", data.prstype);
+                        cmd1.Parameters.AddWithValue("@BRANCH_ID", data.branchid);
+                        cmd1.Parameters.AddWithValue("@PRS_REF", data.prsref);
+                        cmd1.Parameters.AddWithValue("@PRS_CATEGORY", data.userid);
+
+                        cmd1.Parameters.AddWithValue("@PRS_CODE", data.prscode);
+                        cmd1.Parameters.AddWithValue("@REQUESTED_BY", data.requestby);
+                        cmd1.Parameters.AddWithValue("@REQUESTED_DATE", "");
+
+                        cmd1.Parameters.AddWithValue("@REQUEST_TYPE", data.requettype);
+                        cmd1.Parameters.AddWithValue("@IS_SINGLE_VENDOR", data.issinglevendor);
+                        cmd1.Parameters.AddWithValue("@ORDER_PRIORITY", data.orderpriority);
+                        cmd1.ExecuteNonQuery();
+                        var reader1 = cmd1.ExecuteReader();
+                        System.Data.DataTable results1 = new System.Data.DataTable();
+                        results1.Load(reader1);
+                        //string outputval = cmd1.Parameters["@outputparam"].Value.ToString();
+                        for (int i = 0; i < results1.Rows.Count; i++)
+                        {
+                            DataRow row1 = results1.Rows[i];
+                            strprscode = row1[0].ToString();
+
+                            dbConn.Close();
+                        }
+                        if (strprscode != string.Empty)
+                        {
+                            stroutput = "Inserted successfully";
+
+                        }
+                        var result = (new { logdata });
+                        return Ok(stroutput);
                     }
 
-
-
-                    DataSet dsuserdetails = new DataSet();
-                      string sql = "MBL_ERP_PRS_SAVEDATA";
-                    SqlCommand cmd1 = new SqlCommand(sql, dbConn);
-
-
-                    cmd1.CommandType = CommandType.StoredProcedure;
-
-                    cmd1.Parameters.AddWithValue("@FUNCTION_ID", data.functionid);
-                    cmd1.Parameters.AddWithValue("@PRS_ID", strprsid);
-                    cmd1.Parameters.AddWithValue("@STATUS", data.status);
-                    cmd1.Parameters.AddWithValue("@CREATED_BY", data.createdby);
-                    cmd1.Parameters.AddWithValue("@IPADDRESS", data.ipaddress);
-                    cmd1.Parameters.AddWithValue("@REASON_PURCHASE", data.reasonpurchase);
-                    cmd1.Parameters.AddWithValue("@NETAMOUNT", data.netamount);
-                    cmd1.Parameters.AddWithValue("@CURRENCY", data.currency);
-                    cmd1.Parameters.AddWithValue("@REQUEST_COMMENTS", data.requestcomments);
-                    cmd1.Parameters.AddWithValue("@IS_BID", data.isbid);
-
-                    cmd1.Parameters.AddWithValue("@PRS_TYPE", data.prstype);
-                    cmd1.Parameters.AddWithValue("@BRANCH_ID", data.branchid);
-                    cmd1.Parameters.AddWithValue("@PRS_REF", data.prsref);
-                    cmd1.Parameters.AddWithValue("@PRS_CATEGORY", data.userid);
-
-                    cmd1.Parameters.AddWithValue("@PRS_CODE", strprscode);
-                    cmd1.Parameters.AddWithValue("@REQUESTED_BY", data.requestby);
-                    cmd1.Parameters.AddWithValue("@REQUESTED_DATE", "");
-
-                    cmd1.Parameters.AddWithValue("@REQUEST_TYPE", data.requettype);
-                    cmd1.Parameters.AddWithValue("@IS_SINGLE_VENDOR", data.issinglevendor);
-                    cmd1.Parameters.AddWithValue("@ORDER_PRIORITY", data.orderpriority);
-                    cmd1.ExecuteNonQuery();
-                    var reader1 = cmd1.ExecuteReader();
-                    System.Data.DataTable results1 = new System.Data.DataTable();
-                    results1.Load(reader1);
-                    //string outputval = cmd1.Parameters["@outputparam"].Value.ToString();
-                    for (int i = 0; i < results1.Rows.Count; i++)
+                    else
                     {
-                        DataRow row1 = results1.Rows[i];
-                        strprscode = row1[0].ToString();
+                        DataSet dsuserdetails = new DataSet();
+                        string sql = "MBL_ERP_PRS_SAVEDATA";
+                        SqlCommand cmd1 = new SqlCommand(sql, dbConn);
 
-                        dbConn.Close();
-                    }
-                    if (strprscode!=string.Empty)
-                    {
-                        stroutput = "Inserted successfully";
 
+                        cmd1.CommandType = CommandType.StoredProcedure;
+
+                        cmd1.Parameters.AddWithValue("@FUNCTION_ID", data.functionid);
+                        cmd1.Parameters.AddWithValue("@PRS_ID", strprsid);
+                        cmd1.Parameters.AddWithValue("@STATUS", data.status);
+                        cmd1.Parameters.AddWithValue("@CREATED_BY", data.createdby);
+                        cmd1.Parameters.AddWithValue("@IPADDRESS", data.ipaddress);
+                        cmd1.Parameters.AddWithValue("@REASON_PURCHASE", data.reasonpurchase);
+                        cmd1.Parameters.AddWithValue("@NETAMOUNT", data.netamount);
+                        cmd1.Parameters.AddWithValue("@CURRENCY", data.currency);
+                        cmd1.Parameters.AddWithValue("@REQUEST_COMMENTS", data.requestcomments);
+                        cmd1.Parameters.AddWithValue("@IS_BID", data.isbid);
+
+                        cmd1.Parameters.AddWithValue("@PRS_TYPE", data.prstype);
+                        cmd1.Parameters.AddWithValue("@BRANCH_ID", data.branchid);
+                        cmd1.Parameters.AddWithValue("@PRS_REF", data.prsref);
+                        cmd1.Parameters.AddWithValue("@PRS_CATEGORY", data.userid);
+
+                        cmd1.Parameters.AddWithValue("@PRS_CODE", strprscode);
+                        cmd1.Parameters.AddWithValue("@REQUESTED_BY", data.requestby);
+                        cmd1.Parameters.AddWithValue("@REQUESTED_DATE", "");
+
+                        cmd1.Parameters.AddWithValue("@REQUEST_TYPE", data.requettype);
+                        cmd1.Parameters.AddWithValue("@IS_SINGLE_VENDOR", data.issinglevendor);
+                        cmd1.Parameters.AddWithValue("@ORDER_PRIORITY", data.orderpriority);
+                        cmd1.ExecuteNonQuery();
+                        var reader1 = cmd1.ExecuteReader();
+                        System.Data.DataTable results1 = new System.Data.DataTable();
+                        results1.Load(reader1);
+                        //string outputval = cmd1.Parameters["@outputparam"].Value.ToString();
+                        for (int i = 0; i < results1.Rows.Count; i++)
+                        {
+                            DataRow row1 = results1.Rows[i];
+                            strprscode = row1[0].ToString();
+
+                            dbConn.Close();
+                        }
+                        if (strprscode != string.Empty)
+                        {
+                            stroutput = "Inserted successfully";
+
+                        }
+                        var result = (new { logdata });
+                        return Ok(stroutput);
                     }
-                    var result = (new { logdata });
-                    return Ok(stroutput);
                 }
             }
             catch (Exception ex)
@@ -893,6 +947,11 @@ namespace MobileAppAPI.Controllers
                 return Ok(json);
             }
         }
+
+
+
+
+
 
 
 
