@@ -475,7 +475,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "SELECT ASSET_TYPE,ASSET_USER,ASSET_CATEGORY,ASSET_ID,BRANCH_ID,FUNCTION_ID FROM CAMS_ASSET_MASTER  where ASSET_CODE='" + data.assetcodeu + "' and BRANCH_ID='" + data.branchidu + "'";
+                query = "SELECT cam.ASSET_ID,cam.ASSET_USER,bp.val as dpid,cam.ASSET_CODE,bp.Text,cam.ASSET_DESCRIPTION FROM CAMS_ASSET_MASTER as cam inner join BO_PARAMETER as bp on bp.VAL=cam.ASSET_DEPARTMENT  where cam.ASSET_CODE='" + data.assetcodeu + "' and cam.BRANCH_ID='" + data.branchidu + "' and bp.TYPE='BO_TEAM' and bp.function_id='1' and bp.status='A'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -1438,31 +1438,31 @@ namespace MobileAppAPI.Controllers
                     }
                     if (fdate.ToString() == "0" || fdate.ToString() == "" || fdate.ToString() == string.Empty || fdate.ToString() == "null")
                     {
-                        fdate = "0";
+                        fdate = null;
                     }
                     if (tdate.ToString() == "0" || tdate.ToString() == "" || tdate.ToString() == string.Empty || tdate.ToString() == "null")
                     {
-                        tdate = "0";
+                        tdate = null;
                     }
                     if (Status.ToString() == "0" || Status.ToString() == "" || Status.ToString() == string.Empty || Status.ToString() == "null")
                     {
-                        Status = "0";
+                        Status = null;
                     }
                     if (drpcategory.ToString() == "0" || drpcategory.ToString() == "" || drpcategory.ToString() == string.Empty || drpcategory.ToString() == "null")
                     {
-                        drpcategory = "0";
+                        drpcategory = null;
                     }
                     if (drptype.ToString() == "0" || drptype.ToString() == "" || drptype.ToString() == string.Empty || drptype.ToString() == "null")
                     {
-                        drptype = "0";
+                        drptype =null;
                     }
                     if (TASKTYPE.ToString() == "0" || TASKTYPE.ToString() == "" || TASKTYPE.ToString() == string.Empty || TASKTYPE.ToString() == "null")
                     {
-                        TASKTYPE = "0";
+                        TASKTYPE = null;
                     }
                     if (AssetCode.ToString() == "0" || AssetCode.ToString() == "" || AssetCode.ToString() == string.Empty || AssetCode.ToString() == "null")
                     {
-                        AssetCode = "0";
+                        AssetCode = null;
                     }
 
                     string Logdata1 = string.Empty;
@@ -1533,29 +1533,29 @@ namespace MobileAppAPI.Controllers
                     {
                         branch = "0";
                     }
-                    if (fdate.ToString() == "0" || fdate.ToString() == "" || fdate.ToString() == string.Empty || fdate.ToString() == null)
+                    if (fdate.ToString() == "0" || fdate.ToString() == "" || fdate.ToString() == string.Empty || fdate.ToString() == "null")
                     {
-                        fdate = "0";
+                        fdate =null;
                     }
-                    if (tdate.ToString() == "0" || tdate.ToString() == "" || tdate.ToString() == string.Empty || tdate.ToString() == null)
+                    if (tdate.ToString() == "0" || tdate.ToString() == "" || tdate.ToString() == string.Empty || tdate.ToString() == "null")
                     {
-                        tdate = "0";
+                        tdate = null;
                     }
-                    if (Status.ToString() == "0" || Status.ToString() == "" || Status.ToString() == string.Empty || Status.ToString() == null)
+                    if (Status.ToString() == "0" || Status.ToString() == "" || Status.ToString() == string.Empty || Status.ToString() == "null")
                     {
-                        Status = "0";
+                        Status = null;
                     }
-                    if (drpcategory.ToString() == "0" || drpcategory.ToString() == "" || drpcategory.ToString() == string.Empty || drpcategory.ToString() == null)
+                    if (drpcategory.ToString() == "0" || drpcategory.ToString() == "" || drpcategory.ToString() == string.Empty || drpcategory.ToString() == "null")
                     {
-                        drpcategory = "0";
+                        drpcategory = null;
                     }
-                    if (drptype.ToString() == "0" || drptype.ToString() == "" || drptype.ToString() == string.Empty || drptype.ToString() == null)
+                    if (drptype.ToString() == "0" || drptype.ToString() == "" || drptype.ToString() == string.Empty || drptype.ToString() == "null")
                     {
-                        drptype = "0";
+                        drptype = null;
                     }
-                    if (TASKTYPE.ToString() == "0" || TASKTYPE.ToString() == "" || TASKTYPE.ToString() == string.Empty || TASKTYPE.ToString() == null)
+                    if (TASKTYPE.ToString() == "0" || TASKTYPE.ToString() == "" || TASKTYPE.ToString() == string.Empty || TASKTYPE.ToString() == "null")
                     {
-                        TASKTYPE = "0";
+                        TASKTYPE = null;
                     }
 
                     string Logdata1 = string.Empty;
