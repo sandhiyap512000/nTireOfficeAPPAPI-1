@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MobileAppAPI.Models;
+using Nancy.Json;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -586,7 +587,241 @@ namespace MobileAppAPI.Controllers
                 return Logdata1;
             }
         }
-        public string DataTableToJSONWithStringBuilder(DataTable table)
+
+        //insert lead shylaja
+        [HttpGet]
+        [Route("insertlead")]
+        public string insertlead(string functionid, string BRANCH_ID, string productcategoryid, string productid, string campaignid, string customerfname, string customerlname, string mobile, string OfficePhone, string ResidencePhone, string callpriorityid, string callratingid, string callnatureid, string leadsourceid, string callstageid, string customerresponse, string NextCallDate, string time, string remarks, string ExpectedClose, string ExpectedAmount, string Leadby, string UserID, string userType, string LocationId, string EmailId, string Currency)
+        {
+            try
+            {
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+                    if (functionid.ToString() == "0" || functionid.ToString() == "" || functionid.ToString() == string.Empty || functionid.ToString() == "null")
+                    {
+                        functionid =null;
+                    }
+
+
+                    if (BRANCH_ID.ToString() == "0" || BRANCH_ID.ToString() == "" || BRANCH_ID.ToString() == string.Empty || BRANCH_ID.ToString() == "null")
+                    {
+                        BRANCH_ID = null;
+                    }
+                    if (productcategoryid.ToString() == "0" || productcategoryid.ToString() == "" || productcategoryid.ToString() == string.Empty || productcategoryid.ToString() == "null")
+                    {
+                        productcategoryid = null;
+                    }
+
+                    if (productid.ToString() == "0" || productid.ToString() == "" || productid.ToString() == string.Empty || productid.ToString() == "null")
+                    {
+                        productid = null;
+                    }
+                    if (campaignid.ToString() == "0" || campaignid.ToString() == "" || campaignid.ToString() == string.Empty || campaignid.ToString() == "null")
+                    {
+                        campaignid = null;
+                    }
+
+                    if (customerfname.ToString() == "0" || customerfname.ToString() == "" || customerfname.ToString() == string.Empty || customerfname.ToString() == "null")
+                    {
+                        customerfname = null;
+                    }
+
+                    if (customerlname.ToString() == "0" || customerlname.ToString() == "" || customerlname.ToString() == string.Empty || customerlname.ToString() == "null")
+                    {
+                        customerlname = null;
+                    }
+
+                    if (mobile.ToString() == "0" || mobile.ToString() == "" || mobile.ToString() == string.Empty || mobile.ToString() == "null")
+                    {
+                        mobile = null;
+                    }
+
+                    if (OfficePhone.ToString() == "0" || OfficePhone.ToString() == "" || OfficePhone.ToString() == string.Empty || OfficePhone.ToString() == "null")
+                    {
+                        OfficePhone = null;
+                    }
+
+                    if (ResidencePhone.ToString() == "0" || ResidencePhone.ToString() == "" || ResidencePhone.ToString() == string.Empty || ResidencePhone.ToString() == "null")
+                    {
+                        ResidencePhone = null;
+                    }
+
+                    if (callpriorityid.ToString() == "0" || callpriorityid.ToString() == "" || callpriorityid.ToString() == string.Empty || callpriorityid.ToString() == "null")
+                    {
+                        callpriorityid = null;
+                    }
+
+                    if (callratingid.ToString() == "0" || callratingid.ToString() == "" || callratingid.ToString() == string.Empty || callratingid.ToString() == "null")
+                    {
+                        callratingid = null;
+                    }
+
+                    if (callnatureid.ToString() == "0" || callnatureid.ToString() == "" || callnatureid.ToString() == string.Empty || callnatureid.ToString() == "null")
+                    {
+                        callnatureid= null;
+                    }
+
+                    if (leadsourceid.ToString() == "0" || leadsourceid.ToString() == "" || leadsourceid.ToString() == string.Empty || leadsourceid.ToString() == "null")
+                    {
+                        leadsourceid = null;
+                    }
+
+                    if (callstageid.ToString() == "0" || callstageid.ToString() == "" || callstageid.ToString() == string.Empty || callstageid.ToString() == "null")
+                    {
+                        callstageid=null;
+                    }
+
+                    if (customerresponse.ToString() == "0" || customerresponse.ToString() == "" || customerresponse.ToString() == string.Empty || customerresponse.ToString() == "null")
+                    {
+                        customerresponse= null;
+                    }
+
+                    if (NextCallDate.ToString() == "0" || NextCallDate.ToString() == "" || NextCallDate.ToString() == string.Empty || NextCallDate.ToString() == "null")
+                    {
+                        NextCallDate = null;
+                    }
+
+                    if (time.ToString() == "0" || time.ToString() == "" || time.ToString() == string.Empty || time.ToString() == "null")
+                    {
+                        time = null;
+                    }
+
+                    if (remarks.ToString() == "0" || remarks.ToString() == "" || remarks.ToString() == string.Empty || remarks.ToString() == "null")
+                    {
+                        remarks = null;
+                    }
+                    if (ExpectedClose.ToString() == "0" || ExpectedClose.ToString() == "" || ExpectedClose.ToString() == string.Empty || ExpectedClose.ToString() == "null")
+                    {
+                        ExpectedClose = null;
+                    }
+
+                    if (ExpectedAmount.ToString() == "0" || ExpectedAmount.ToString() == "" || ExpectedAmount.ToString() == string.Empty || ExpectedAmount.ToString() == "null")
+                    {
+                        ExpectedAmount = "0";
+                    }
+
+                    if (Leadby.ToString() == "0" || Leadby.ToString() == "" || Leadby.ToString() == string.Empty || Leadby.ToString() == "null")
+                    {
+                        Leadby ="0";
+                    }
+                    if (UserID.ToString() == "0" || UserID.ToString() == "" || UserID.ToString() == string.Empty || UserID.ToString() == "null")
+                    {
+                        UserID = "0";
+                    }
+                    if (userType.ToString() == "0" || userType.ToString() == "" || userType.ToString() == string.Empty || userType.ToString() == "null")
+                    {
+                        userType="0";
+                    }
+                    if (LocationId.ToString() == "0" || LocationId.ToString() == "" || LocationId.ToString() == string.Empty || LocationId.ToString() == "null")
+                    {
+                        LocationId ="0";
+                    }
+                    if (EmailId.ToString() == "0" || EmailId.ToString() == "" || EmailId.ToString() == string.Empty || EmailId.ToString() == "null")
+                    {
+                        EmailId ="0";
+                    }
+                    if (Currency.ToString() == "0" || Currency.ToString() == "" || Currency.ToString() == string.Empty || Currency.ToString() == "null")
+                    {
+                        Currency="0";
+                    }
+                    string Logdata1 = string.Empty;
+
+
+
+
+
+
+
+
+
+                    dbConn.Open();
+                    string sql = "MBL_MOB_NewLeadInsert";
+                    SqlCommand cmd = new SqlCommand(sql, dbConn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@FUNCTION_ID", functionid);
+                    cmd.Parameters.AddWithValue("@BRANCH_ID", BRANCH_ID);
+                    cmd.Parameters.AddWithValue("@productcategoryid", productcategoryid);
+                    cmd.Parameters.AddWithValue("@productid", productid);
+                    cmd.Parameters.AddWithValue("@campaignid", campaignid);
+                    cmd.Parameters.AddWithValue("@customerfname", customerfname);
+                    cmd.Parameters.AddWithValue("@customerlname", customerlname);
+                    cmd.Parameters.AddWithValue("@mobile", mobile);
+                    cmd.Parameters.AddWithValue("@OfficePhone", OfficePhone);
+                    cmd.Parameters.AddWithValue("@ResidencePhone", ResidencePhone);
+                    cmd.Parameters.AddWithValue("@callpriorityid", callpriorityid);
+                    cmd.Parameters.AddWithValue("@callratingid", callratingid);
+                    cmd.Parameters.AddWithValue("@callnatureid", callnatureid);
+                    cmd.Parameters.AddWithValue("@leadsourceid", leadsourceid);
+                    cmd.Parameters.AddWithValue("@callstageid", callstageid);
+                    cmd.Parameters.AddWithValue("@customerresponse", customerresponse);
+                    cmd.Parameters.AddWithValue("@time", time);
+                    cmd.Parameters.AddWithValue("@NextCallDate", NextCallDate);
+                    cmd.Parameters.AddWithValue("@remarks", remarks);
+                    cmd.Parameters.AddWithValue("@ExpectedClose", ExpectedClose);
+                    cmd.Parameters.AddWithValue("@ExpectedAmount", ExpectedAmount);
+                    cmd.Parameters.AddWithValue("@Leadby", Leadby);
+                    cmd.Parameters.AddWithValue("@UserID", UserID);
+                    cmd.Parameters.AddWithValue("@userType", userType);
+                    cmd.Parameters.AddWithValue("@LocationId", LocationId);
+                    cmd.Parameters.AddWithValue("@Currency", Currency);
+                    cmd.Parameters.AddWithValue("@EmailId", EmailId);
+
+                    cmd.ExecuteNonQuery();
+
+                    var reader = cmd.ExecuteReader();
+                    System.Data.DataTable results = new System.Data.DataTable();
+                    results.Load(reader);
+                    //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    }
+                    return Logdata1;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return json;
+            }
+
+        }
+
+        //shylaja
+        [HttpGet]
+        [Route("Getcustomer/{EmpCode}")]
+        public string Getcustomer(string EmpCode)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select CUST_LNAME as Code,CUST_ID as ID from LMS_CUSTOMER_MASTER where CUST_LNAME ='" + EmpCode + "'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                //var result = (new { recordsets = Logdata1 });
+                return Logdata1;
+            }
+        }
+
+
+
+
+            public string DataTableToJSONWithStringBuilder(DataTable table)
         {
             var JSONString = new StringBuilder();
             if (table.Rows.Count > 0)
