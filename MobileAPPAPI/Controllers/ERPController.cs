@@ -950,6 +950,45 @@ namespace MobileAppAPI.Controllers
 
 
 
+        //PRS delete
+        [HttpPost]
+        [Route("get_PRS_Delete")]
+        public async Task<ActionResult<ERP>> get_PRS_Delete(ERP data)
+        {
+            // string struser = data.user_lower;
+
+           // List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            DataSet DS = new DataSet();
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string sql = "MBL_ERP_PRS_DELETE";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PRSID", data.prsid);
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                //for (int i = 0; i < results.Rows.Count; i++)
+                //{
+                //    DataRow row = results.Rows[i];
+                //    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                //}
+
+                Logdata1 = "Deleted Successfully";
+                return Ok(Logdata1);
+
+            }
+        }
 
 
 
