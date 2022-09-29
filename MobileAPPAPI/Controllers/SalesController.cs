@@ -124,6 +124,7 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        //deepak
        
         [HttpGet]
         [Route("getdashboard_sourcewise/{id}")]
@@ -157,7 +158,79 @@ namespace MobileAppAPI.Controllers
             return Logdata;
         }
 
+        //shylaja
 
+        [HttpPost]
+        [Route("getdashboard_sourcewise")]
+        public async Task<ActionResult<Sales>> getdashboard_sourcewise(Sales data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT COUNT(CASE WHEN VAL ='1' THEN (TCC_LEAD_SOURCE) END) AS  'Personal',COUNT(CASE WHEN VAL ='2' THEN (TCC_LEAD_SOURCE) END) AS  'Web Lead',COUNT(CASE WHEN VAL ='3' THEN (TCC_LEAD_SOURCE) END) AS  'Branch',COUNT(CASE WHEN VAL ='4' THEN (TCC_LEAD_SOURCE) END) AS  'Corporate Website',COUNT(CASE WHEN VAL ='5' THEN (TCC_LEAD_SOURCE) END) AS  'Mobile' FROM LMS_SALES_ANALYSIS WITH(NOLOCK) WHERE 1=1 and TCC_CALLER_ID = " + data.branchid + "";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+        //shylaja dashboard stagewise
+
+        [HttpPost]
+        [Route("getdashboard_stagewise")]
+        public async Task<ActionResult<Sales>> getdashboard_stagewise(Sales data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select COUNT(CASE WHEN VAL ='2' THEN (TCC_CUST_LEAD_ID) END) AS  'Qualified',COUNT(CASE WHEN VAL ='5' THEN (TCC_CUST_LEAD_ID) END) AS    'Negotiation',COUNT(CASE WHEN VAL ='4' THEN (TCC_CUST_LEAD_ID) END) AS 'Proposal',COUNT(CASE WHEN VAL ='1' THEN (TCC_CUST_LEAD_ID) END) AS 'Enquiry',COUNT(CASE WHEN VAL ='6' THEN (TCC_CUST_LEAD_ID) END) AS 'Demo',COUNT(CASE WHEN VAL ='8' THEN (TCC_CUST_LEAD_ID) END) AS 'Lost',COUNT(CASE WHEN VAL ='7' THEN (TCC_CUST_LEAD_ID) END) AS 'Quotes Given',COUNT(CASE WHEN VAL ='3' THEN (TCC_CUST_LEAD_ID) END) AS 'Quality Testing done'FROM LMS_SALES_ANALYSIS WITH(NOLOCK) WHERE 1=1 and   BRANCH_ID = " + data.branchid + "";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+        //deepak
         [HttpGet]
         [Route("BranchLocation/{id}")]
         public List<Sales> BranchLocation(int id)
@@ -167,7 +240,7 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 string query = "";
-                query = "select a.LOCATION_ID,a.LOCATION_CODE,a.LOCATION_DESC from BO_BRANCH_LOCATION_MASTER a inner join BO_BRANCH_MASTER b on a.branch_id=b.branch_id where a.branch_id="+id+"";
+                query = "select a.LOCATION_ID,a.LOCATION_CODE,a.LOCATION_DESC from BO_BRANCH_LOCATION_MASTER a inner join BO_BRANCH_MASTER b on a.branch_id=b.branch_id where a.branch_id=" + id + "";
 
                 dbConn.Open();
                 SqlCommand cmd = new SqlCommand(query, dbConn);
@@ -181,7 +254,7 @@ namespace MobileAppAPI.Controllers
                     log.locationID = Convert.ToInt32(row[0]);
                     log.Locationcode = row[1].ToString().Trim();
                     log.Locationname = row[2].ToString().Trim();
-                  
+
                     Logdata.Add(log);
                 }
                 dbConn.Close();
@@ -191,6 +264,35 @@ namespace MobileAppAPI.Controllers
 
 
 
+        ////shylaja
+        //[HttpGet]
+        //[Route("BranchLocation/{id}")]
+        //public string BranchLocation(int id)
+        //{
+        //    List<Sales> Logdata = new List<Sales>();
+        //    string Logdata1 = string.Empty;
+        //    using (SqlConnection dbConn = new SqlConnection(strconn))
+        //    {
+        //        string query = "";
+        //        query = "select a.LOCATION_ID,a.LOCATION_CODE,a.LOCATION_DESC from BO_BRANCH_LOCATION_MASTER a inner join BO_BRANCH_MASTER b on a.branch_id=b.branch_id where a.branch_id=" + id + "";
+
+        //        dbConn.Open();
+        //        SqlCommand cmd = new SqlCommand(query, dbConn);
+        //        var reader = cmd.ExecuteReader();
+        //        System.Data.DataTable results = new System.Data.DataTable();
+        //        results.Load(reader);
+        //        for (int i = 0; i < results.Rows.Count; i++)
+        //        {
+        //            DataRow row = results.Rows[i];
+        //            Logdata1 = DataTableToJSONWithStringBuilder(results);
+        //        }
+        //        dbConn.Close();
+        //        return Logdata1;
+        //    }
+        //}
+
+
+        //deepak
         [HttpGet]
         [Route("GetProduct")]
         public dynamic GetProduct()
@@ -211,7 +313,7 @@ namespace MobileAppAPI.Controllers
                 {
 
                     Sales log = new Sales();
-                    DataRow row = results.Rows[i];      
+                    DataRow row = results.Rows[i];
                     log.ProductName = row[0].ToString().Trim();
                     log.ProductID = Convert.ToInt32(row[1]);
                     log.ProductCatID = Convert.ToInt32(row[1]);
@@ -222,6 +324,40 @@ namespace MobileAppAPI.Controllers
             }
             return Logdata;
         }
+
+
+        ////shylaja
+        //[HttpGet]
+        //[Route("GetProduct")]
+        //public string GetProduct()
+        //{
+        //    List<Sales> Logdata = new List<Sales>();
+
+        //    using (SqlConnection dbConn = new SqlConnection(strconn))
+        //    {
+        //        string Logdata1 = string.Empty;
+        //        string query = "";
+        //        query = "select TCM_CAMPAIGN_SHORTDESC,TCM_CAMPAIGN_ID,PRODUCTTYPE from LMS_CAMPAIGN_MASTER";
+
+        //        dbConn.Open();
+        //        SqlCommand cmd = new SqlCommand(query, dbConn);
+        //        var reader = cmd.ExecuteReader();
+        //        System.Data.DataTable results = new System.Data.DataTable();
+        //        results.Load(reader);
+        //        for (int i = 0; i < results.Rows.Count; i++)
+        //        {
+        //            DataRow row = results.Rows[i];
+        //            Logdata1 = DataTableToJSONWithStringBuilder(results);
+
+
+        //        }
+        //         dbConn.Close();
+        //        return Logdata1;
+        //    }
+        //}
+
+
+
 
         [HttpGet]
         [Route("Nametitle")]
