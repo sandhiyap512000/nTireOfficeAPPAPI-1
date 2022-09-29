@@ -31,7 +31,8 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string sql = "dbo.HRMS_COMMON_DROPDOWN";
+               // string sql = "dbo.HRMS_COMMON_DROPDOWN";
+                string sql = "MBL_HRMS_COMMON_DROPDOWN";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Type", Type);
@@ -66,7 +67,7 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string sql = "DBO.EMPLOYEE_MASTER_SELECT";
+                string sql = "MBL_EMPLOYEE_MASTER_SELECT";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@EmployeeID", EmployeeId);
@@ -105,7 +106,8 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string sql = "BO_WORKFLOW_USERWISE_SUMMARY";
+                //string sql = "BO_WORKFLOW_USERWISE_SUMMARY";
+                string sql = "MBL_BO_WORKFLOW_USERWISE_SUMMARY";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@USERID", UserID);
@@ -138,7 +140,8 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string sql = "HRMS_My_Payslip";
+               // string sql = "HRMS_My_Payslip";
+                string sql = "MBL_HRMS_My_Payslip";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@EmployeeId", EmployeeId);
@@ -172,7 +175,8 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string sql = "HRMS_My_Approval";
+               // string sql = "HRMS_My_Approval";
+                string sql = "MBL_HRMS_My_Approval";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@EmployeeId", EmployeeId);
@@ -273,7 +277,8 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string sql = "HRMS_EMPLOYEE_UPDATE_BY_DETAILS";
+                //string sql = "HRMS_EMPLOYEE_UPDATE_BY_DETAILS";
+                string sql = "MBL_HRMS_EMPLOYEE_UPDATE_BY_DETAILS";
                 SqlCommand sqlCommand = new SqlCommand(sql, dbConn);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 if (EmployeeId != null && EmployeeId.Trim() != string.Empty)

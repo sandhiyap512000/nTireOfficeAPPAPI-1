@@ -32,7 +32,8 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string sql = "CAMS_BRANCHWISE_ASSETCOUNT";
+                //string sql = "CAMS_BRANCHWISE_ASSETCOUNT";
+                string sql = "MBL_CAMS_BRANCHWISE_ASSETCOUNT";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -62,7 +63,8 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string sql = "CAMS_ASSETCATEGORY_COUNT";
+               // string sql = "CAMS_ASSETCATEGORY_COUNT";
+                string sql = "MBL_CAMS_ASSETCATEGORY_COUNT";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@USERID", struserid);
@@ -95,7 +97,8 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string sql = "CAMS_CURRENT_MONTH_MAINTENANCE_CHART";
+               // string sql = "CAMS_CURRENT_MONTH_MAINTENANCE_CHART";
+                string sql = "MBL_CAMS_CURRENT_MONTH_MAINTENANCE_CHART";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@USERID", struserid);
@@ -286,7 +289,8 @@ namespace MobileAppAPI.Controllers
 
 
                 dbConn.Open();
-                string sql = "CAMS_ASSET_getAssetsforreplcaseasset";
+               // string sql = "CAMS_ASSET_getAssetsforreplcaseasset";
+                string sql = "MBL_CAMS_ASSET_getAssetsforreplcaseasset";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@strstatus","A");
@@ -612,7 +616,8 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                // string Logdata1 = string.Empty;
-                string sql = "CAMS_GETCAMSServiceDetails"; //"CAMS_PENDINGDETAIL_SEARCHS1";
+               // string sql = "CAMS_GETCAMSServiceDetails";
+                string sql = "MBL_CAMS_GETCAMSServiceDetails";//"CAMS_PENDINGDETAIL_SEARCHS1";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 SqlDataAdapter apd = new SqlDataAdapter(cmd);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1466,8 +1471,9 @@ namespace MobileAppAPI.Controllers
                     }
 
                     string Logdata1 = string.Empty;
-                string sql = "CAMS__SEARCHS_PENDINGDETAIL"; //"CAMS_PENDINGDETAIL_SEARCHS1";
-                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                //string sql = "CAMS__SEARCHS_PENDINGDETAIL";
+                    string sql = "MBL_CAMS__SEARCHS_PENDINGDETAIL";//"CAMS_PENDINGDETAIL_SEARCHS1";
+                    SqlCommand cmd = new SqlCommand(sql, dbConn);
                 SqlDataAdapter apd = new SqlDataAdapter(cmd);
                 cmd.CommandType = CommandType.StoredProcedure;
                 // cmd.Parameters.AddWithValue("@loginUserId", loginUserId);
@@ -1559,7 +1565,8 @@ namespace MobileAppAPI.Controllers
                     }
 
                     string Logdata1 = string.Empty;
-                    string sql = "CAMS_PENDINGDETAIL_COMPLETED_SEARCH"; //"CAMS_PENDINGDETAIL_SEARCHS1";
+                    //string sql = "CAMS_PENDINGDETAIL_COMPLETED_SEARCH";
+                    string sql = "MBL_CAMS_PENDINGDETAIL_COMPLETED_SEARCH";//"CAMS_PENDINGDETAIL_SEARCHS1";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
                     SqlDataAdapter apd = new SqlDataAdapter(cmd);
                     cmd.CommandType = CommandType.StoredProcedure;

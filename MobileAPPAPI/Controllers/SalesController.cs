@@ -564,7 +564,8 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string sql = "MOB_CustResponse";
+                //string sql = "MOB_CustResponse";
+                string sql = "MBL_Mob_AddContact";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@producttypeid", producttypeid);

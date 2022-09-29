@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MobileAppAPI.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using PayPal.Api;
 using System;
@@ -43,7 +44,9 @@ namespace JSIGamingAPI.Controllers
             string Logdata1 = string.Empty;
             var logdata = "";
             var strtoken = "";
-           // var result = "";
+            dynamic strdata;
+            // var result = "";
+            string outputjson = "";
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 UnicodeEncoding UE = new UnicodeEncoding();
@@ -52,7 +55,7 @@ namespace JSIGamingAPI.Controllers
                 hashedBytes = hashString.ComputeHash(UE.GetBytes(data.password));
                 DataSet dsuserdetails = new DataSet();
                 dbConn.Open();
-                string sql = "BO_MOB_USER_AUTHENCATION";
+                string sql = "MBL_BO_MOB_USER_AUTHENCATION";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
 
 
@@ -68,13 +71,14 @@ namespace JSIGamingAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
+                strdata = results;
                 //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
                 for (int i = 0; i < results.Rows.Count; i++)
                 {
                     DataRow row = results.Rows[i];
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
                     logdata= DataTableToJSONWithStringBuilder(results);
-
+                   
                     dbConn.Close();
                 }
                 //Token token = new Token();
@@ -86,10 +90,13 @@ namespace JSIGamingAPI.Controllers
                 var tokenString= GetAccessToken(Username, Password);
                // strtoken = token.ToString();
                 strtoken = tokenString;
-                
-                
+                outputjson = Logdata1.Replace("\\", "");
+
+              //  var resultJObj = JObject.Parse(Logdata1);
+               
+
             }
-            var result = (new { data=logdata, token= strtoken });
+            var result = (new { data= Logdata1.Replace("\\", ""), token= strtoken });
             return Ok(result);
 
         }
@@ -228,11 +235,14 @@ namespace JSIGamingAPI.Controllers
                     {
                         if (j < table.Columns.Count - 1)
                         {
+                            //JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\",");
                             JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\",");
                         }
                         else if (j == table.Columns.Count - 1)
                         {
-                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\"");
+                            // JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\",");
+
+                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\",");
                         }
                     }
                     if (i == table.Rows.Count - 1)
