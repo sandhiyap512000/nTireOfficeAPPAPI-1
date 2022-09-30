@@ -991,6 +991,73 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        [HttpPost]
+        [Route("letter_dropdown")]
+        public async Task<ActionResult<HRMS>> letter_dropdown(HRMS data)
+        {
+
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select BO_PARAMETER.TEXT,BO_PARAMETER.VAL FROM  BO_PARAMETER WHERE status ='A' and type like '%hrms letters%'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+        [HttpPost]
+        [Route("summaryletter_request")]
+        public async Task<ActionResult<HRMS>> summaryletter_request(HRMS data)
+        {
+
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select * from HRMS_LETTER_REQUEST_DETAILS order by REQ_ID desc";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
 
         public string DataTableToJSONWithStringBuilder(DataTable table)
         {
