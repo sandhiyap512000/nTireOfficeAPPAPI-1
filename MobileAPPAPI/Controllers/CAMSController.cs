@@ -495,39 +495,7 @@ namespace MobileAppAPI.Controllers
             }
         }
 
-
-        [HttpPost]
-        [Route("vendorcodelist")]
-        public async Task<ActionResult<CAMS>> vendorcodelist(CAMS data)
-        {
-            // string struser = data.user_lower;
-
-            List<CAMS> Logdata = new List<CAMS>();
-            string Logdata1 = string.Empty;
-            var logdata = "";
-            var strtoken = "";
-            // var result = "";
-            using (SqlConnection dbConn = new SqlConnection(strconn))
-            {
-
-
-                dbConn.Open();
-                string query = "";
-                query = "SELECT Vendor_Code,vendor_id,Vendor_Name FROM ERP_VENDOR_MASTER erpm WHERE  function_id='1'";
-
-                SqlCommand cmd = new SqlCommand(query, dbConn);
-                var reader = cmd.ExecuteReader();
-                System.Data.DataTable results = new System.Data.DataTable();
-                results.Load(reader);
-                Logdata1 = DataTableToJSONWithStringBuilder(results);
-                dbConn.Close();
-
-                var result = (new { recordsets = Logdata1 });
-                return Ok(Logdata1);
-
-
-            }
-        }
+       
 
 
 
@@ -565,38 +533,7 @@ namespace MobileAppAPI.Controllers
         }
 
 
-        [HttpPost]
-        [Route("assetcodereplace")]
-        public async Task<ActionResult<CAMS>> assetcodereplace(CAMS data)
-        {
-            // string struser = data.user_lower;
-
-            List<CAMS> Logdata = new List<CAMS>();
-            string Logdata1 = string.Empty;
-            var logdata = "";
-            var strtoken = "";
-            // var result = "";
-            using (SqlConnection dbConn = new SqlConnection(strconn))
-            {
-
-
-                dbConn.Open();
-                string query = "";
-                query = "SELECT ASSET_CODE FROM CAMS_ASSET_MASTER where ASSET_USER IS NULL";
-
-                SqlCommand cmd = new SqlCommand(query, dbConn);
-                var reader = cmd.ExecuteReader();
-                System.Data.DataTable results = new System.Data.DataTable();
-                results.Load(reader);
-                Logdata1 = DataTableToJSONWithStringBuilder(results);
-                dbConn.Close();
-
-                var result = (new { recordsets = Logdata1 });
-                return Ok(Logdata1);
-
-
-            }
-        }
+       
 
 
         [HttpPost]
@@ -1884,6 +1821,119 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        //sep30
+        //[HttpPost]
+        //[Route("assetserviceinsert")]
+        //public async Task<ActionResult<CAMS>> assetserviceinsert(CAMS data)
+        //{
+        //    // string struser = data.user_lower;
+
+        //    List<CAMS> Logdata = new List<CAMS>();
+        //    string Logdata1 = string.Empty;
+        //    var logdata = "";
+        //    var strtoken = "";
+        //    // var result = "";
+        //    int ASSET_USER;
+        //    int ASSET_CATEGORY;
+        //    int ASSET_ID;
+        //    int BRANCH_ID;
+        //    int FUNCTION_ID;
+        //    using (SqlConnection dbConn = new SqlConnection(strconn))
+        //    {
+
+
+        //        dbConn.Open();
+        //        string query = "";
+        //        query = "SET DATEFORMAT DMY;INSERT INTO CAMS_ASSET_SERVICE(FUNCTION_ID,BRANCH_ID,ASSET_CODE,ASSET_ID,VENDOR_ID,VENDOR_CODE,DATE_OF_SERVICE,EXPECTED_DATE_OF_DELIVERY,SERVICE_DESCRIPTION,EXPECTED_EXPENSES,RELEASE,CREATED_ON,CREATED_BY,STATUS,INSURANCECOMPANY,AMOUNTINSURED,WARRANTYDATE,REPLACEMENT_TYPE,REPLACEMENT_ASSET_ID,SERVICE_CATEGORY,MODE,REPL_TILL_DATE) VALUES(" + data.serfunctionid + "," + data.serbranchid + ",'" + data.serassetcode + "'," + data.serassetid + "," + data.servendorid + ",'" + data.servendorcode + "','" + data.serdateofservice + "','" + data.serexpdateofdelivery + "','" + data.serdescription + "'," + data.serexpexpense + ",'P','" + data.sercreatedon + "'," + data.sercreatedby + ",'P','" + data.serinsucompany + "'," + data.seramountinsu + ",'" + data.serwarrantydte + "','" + data.serreplacetype + "'," + data.serreplaceassetid + "," + data.servicecategory + ",'S','" + data.srvtilldate + "');SELECT SCOPE_IDENTITY() AS id ";
+
+        //        SqlCommand cmd = new SqlCommand(query, dbConn);
+        //        var reader = cmd.ExecuteReader();
+        //        System.Data.DataTable results = new System.Data.DataTable();
+        //        results.Load(reader);
+
+        //        for (int i = 0; i < results.Rows.Count; i++)
+        //        {
+
+        //            CAMS log = new CAMS();
+        //            DataRow row = results.Rows[i];
+        //            ASSET_USER = Convert.ToInt32(row[0]);
+        //            ASSET_CATEGORY = Convert.ToInt32(row[1]);
+        //            ASSET_ID = Convert.ToInt32(row[2]);
+        //            BRANCH_ID = Convert.ToInt32(row[2]);
+        //            FUNCTION_ID = Convert.ToInt32(row[3]);
+
+        //            string query1 = "";
+        //            query1 = "INSERT INTO CAMS_LAST_MAINTENANCE(BRANCH_ID,FUNCTION_ID,ASSET_ASSET_ID,   ASSET_STATUS,  ASSET_FREQUENCY_MODE,  ASSET_ACTIVITY_DESC,  priority,ASSET_ACTIVITY_ID,ASSET_NEXT_MAINTENANCE,ASSET_REF_NO,CREATED_ON) VALUES (" + BRANCH_ID + "," + FUNCTION_ID + ",'" + ASSET_ID + "', 'P',  'U',  '" + data.reqdetail + "',  " + data.priority + ",0,'" + data.reqdate1 + "','" + data.refmaxno + "'," + data.reqdate + ")";
+        //            SqlCommand cmd1 = new SqlCommand(query1, dbConn);
+        //            var reader1 = cmd1.ExecuteReader();
+        //            System.Data.DataTable results1 = new System.Data.DataTable();
+        //            results1.Load(reader1);
+
+        //        }
+
+        //        string query2 = "";
+        //        query2 = "select (prefix + '' + serial_no  + '' + isnull(suffix,'')) as wkno from BO_slno_parameter where type='URWorkOrderNumber' and slno_domain='1' ";
+
+        //        SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+        //        var reader2 = cmd2.ExecuteReader();
+        //        System.Data.DataTable results2 = new System.Data.DataTable();
+        //        results2.Load(reader2);
+        //        for (int i = 0; i < results2.Rows.Count; i++)
+        //        {
+
+        //            CAMS log = new CAMS();
+        //            DataRow row = results2.Rows[i];
+        //            int wkno = Convert.ToInt32(row[0]);
+        //            for (int i1 = 0; i1 < results.Rows.Count; i1++)
+        //            {
+
+
+        //                DataRow row1 = results.Rows[i];
+        //                ASSET_USER = Convert.ToInt32(row1[0]);
+        //                ASSET_CATEGORY = Convert.ToInt32(row1[1]);
+        //                ASSET_ID = Convert.ToInt32(row1[2]);
+        //                BRANCH_ID = Convert.ToInt32(row1[2]);
+        //                FUNCTION_ID = Convert.ToInt32(row1[3]);
+
+
+
+        //                string query3 = "";
+        //                query3 = "INSERT INTO CAMS_ASSET_REQUEST(BRANCH_ID,FUNCTION_ID,ASSET_ID,ASSET_ACTIVITY_ID,ASSET_DETAILS,ASSET_DUE_DATE,ASSET_STATUS,ASSET_USER_ID,ASSET_PMR_REFERENCE,ASSET_CATEGORY,ASSET_PM_TYPE,ASSET_REQUESTED_BY,ASSET_DURATION,ASSET_WORKORDNO) VALUES (" + BRANCH_ID + "," + FUNCTION_ID + ",'" + ASSET_ID + "',0,'" + data.reqdetail + "','" + data.reqdate1 + "','A'," + ASSET_USER + ",'" + data.refmaxno + "'," + ASSET_CATEGORY + ",'U','" + data.assetreqid + "','00:00','" + wkno + "')";
+        //                SqlCommand cmd3 = new SqlCommand(query3, dbConn);
+        //                var reader3 = cmd3.ExecuteReader();
+
+
+
+        //                string query4 = "";
+        //                query4 = "Update BO_SLNO_PARAMETER set serial_no = serial_no + 1 where type = N'URWorkOrderNumber'";
+        //                SqlCommand cmd4 = new SqlCommand(query4, dbConn);
+        //                var reader4 = cmd4.ExecuteReader();
+
+
+        //                string query5 = "";
+        //                query5 = "INSERT INTO CAMS_TASKS_ASSIGNED(FUNCTION_ID, CAMS_USER_ID, created_on) VALUES(" + FUNCTION_ID + ", " + ASSET_USER + ", '" + data.reqdate + "')";
+        //                SqlCommand cmd5 = new SqlCommand(query5, dbConn);
+        //                var reader5 = cmd5.ExecuteReader();
+
+
+        //            }
+        //        }
+
+
+        //        Logdata1 = DataTableToJSONWithStringBuilder(results);
+        //        dbConn.Close();
+
+        //        var result = (new { recordsets = Logdata1 });
+        //        return Ok(Logdata1);
+        //    }
+
+
+        //}
+
+
+
+
+
         [HttpPost]
         [Route("assetservicecategory")]
         public async Task<ActionResult<CAMS>> assetservicecategory(CAMS data)
@@ -1917,8 +1967,74 @@ namespace MobileAppAPI.Controllers
             }
         }
 
+        //dropdown datas POST method
+
+        [HttpPost]
+        [Route("assetcodereplace")]
+        public async Task<ActionResult<CAMS>> assetcodereplace(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
 
 
+                dbConn.Open();
+                string query = "";
+                query = "SELECT ASSET_CODE FROM CAMS_ASSET_MASTER where ASSET_USER IS NULL";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+       
+        [HttpPost]
+        [Route("vendorcodelist")]
+        public async Task<ActionResult<CAMS>> vendorcodelist(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT Vendor_Code,vendor_id,Vendor_Name FROM ERP_VENDOR_MASTER erpm WHERE  function_id='1'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
 
         public string DataTableToJSONWithStringBuilder(DataTable table)
         {

@@ -226,7 +226,7 @@ namespace JSIGamingAPI.Controllers
             var JSONString = new StringBuilder();
             if (table.Rows.Count > 0)
             {
-                // JSONString.Append("[");
+               
 
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
@@ -254,7 +254,7 @@ namespace JSIGamingAPI.Controllers
                         JSONString.Append("},");
                     }
                 }
-                // JSONString.Append("]");
+              
             }
             return JSONString.ToString();
         }
