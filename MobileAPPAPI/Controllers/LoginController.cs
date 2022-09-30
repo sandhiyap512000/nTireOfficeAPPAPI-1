@@ -32,7 +32,7 @@ namespace JSIGamingAPI.Controllers
         public static string strconn = objhelper.Connectionstring();
 
 
-     //login post
+        //login post
 
         [HttpPost]
         [Route("loginMobileLos")]
@@ -55,7 +55,7 @@ namespace JSIGamingAPI.Controllers
                 hashedBytes = hashString.ComputeHash(UE.GetBytes(data.password));
                 DataSet dsuserdetails = new DataSet();
                 dbConn.Open();
-                string sql = "MBL_BO_MOB_USER_AUTHENCATION";
+                string sql = "BO_MOB_USER_AUTHENCATION";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
 
 
@@ -66,7 +66,7 @@ namespace JSIGamingAPI.Controllers
                 cmd.Parameters.AddWithValue("@SessionID", data.sessionid);
                 cmd.Parameters.AddWithValue("@function", data.functionid);
                 cmd.Parameters.AddWithValue("@IP_ADDRESS", data.ip);
-               // cmd.Parameters.AddWithValue("@OldSessionID", "");
+                // cmd.Parameters.AddWithValue("@OldSessionID", "");
 
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
@@ -77,26 +77,25 @@ namespace JSIGamingAPI.Controllers
                 {
                     DataRow row = results.Rows[i];
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                    logdata= DataTableToJSONWithStringBuilder(results);
-                   
+                    // logdata= DataTableToJSONWithStringBuilder(results);
+
                     dbConn.Close();
                 }
                 //Token token = new Token();
-               string Username = data.user_lower;
-               string Password = data.password;
+                string Username = data.user_lower;
+                string Password = data.password;
 
-               // token = GetAccessToken(Username, Password);
+                // token = GetAccessToken(Username, Password);
 
-                var tokenString= GetAccessToken(Username, Password);
-               // strtoken = token.ToString();
+                var tokenString = GetAccessToken(Username, Password);
+                // strtoken = token.ToString();
                 strtoken = tokenString;
-                outputjson = Logdata1.Replace("\\", "");
 
-              //  var resultJObj = JObject.Parse(Logdata1);
-               
+                //  var resultJObj = JObject.Parse(Logdata1);
+
 
             }
-            var result = (new { data= Logdata1.Replace("\\", ""), token= strtoken });
+            var result = (new { data = Logdata1, token = strtoken });
             return Ok(result);
 
         }
@@ -210,7 +209,7 @@ namespace JSIGamingAPI.Controllers
 
 
 
-               
+
             }
             catch (Exception ex)
             {
@@ -227,7 +226,8 @@ namespace JSIGamingAPI.Controllers
             var JSONString = new StringBuilder();
             if (table.Rows.Count > 0)
             {
-                JSONString.Append("[");
+                // JSONString.Append("[");
+
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
                     JSONString.Append("{");
@@ -254,16 +254,16 @@ namespace JSIGamingAPI.Controllers
                         JSONString.Append("},");
                     }
                 }
-                JSONString.Append("]");
+                // JSONString.Append("]");
             }
             return JSONString.ToString();
         }
 
 
 
-     
+
         [HttpGet]
-      
+
         [Route("config/{sptoken}")]
         public IActionResult config(string sptoken)
         {
@@ -276,11 +276,11 @@ namespace JSIGamingAPI.Controllers
             return Ok(new { token = "" });
         }
 
-   
-       
-      
-   
-   
+
+
+
+
+
 
 
     }
