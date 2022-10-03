@@ -96,7 +96,7 @@ namespace JSIGamingAPI.Controllers
 
             }
             var result = (new { data = Logdata1, token = strtoken });
-            return Ok(result);
+            return Ok(Logdata1);
 
         }
         //public static Token GetAccessToken(string username, string password)
@@ -157,11 +157,45 @@ namespace JSIGamingAPI.Controllers
         //        return s;
         //    }
         //}
+        [HttpGet]
+        [Route("GetUserToken/{username}/{password}")]
+        public string GetUserToken(string username, string password)
+        {
+            try
+
+            {
+                var result = "";
+                var strtoken = "";
+                var outputtoken = "";
+                string s = "token";
+                var JSONString = new StringBuilder();
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+                    dbConn.Open();
+                    var tokenString = GetAccessToken(username, password);
+                    // strtoken = token.ToString();
+                    strtoken = tokenString;
+                    outputtoken = s + strtoken;
+                    JSONString.Append("{");
+                    JSONString.Append("\"" + s + "\":" + "\"" + strtoken + "\"");
+                    JSONString.Append("}");
 
 
+                }
+                return JSONString.ToString();
+            }
+            catch (Exception ex)
+            {
+
+                //return BadRequest(ex);
+                string s = ex.ToString();
+                return s;
+            }
+
+        }
 
 
-        public string GetAccessToken(string username, string password)
+                    public string GetAccessToken(string username, string password)
         {
             Token token = new Token();
             HttpClientHandler handler = new HttpClientHandler();
@@ -221,12 +255,16 @@ namespace JSIGamingAPI.Controllers
         }
 
 
+
+      
+
+
         public string DataTableToJSONWithStringBuilder(DataTable table)
         {
             var JSONString = new StringBuilder();
             if (table.Rows.Count > 0)
             {
-               
+                string strdata = "data";
 
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
@@ -235,14 +273,14 @@ namespace JSIGamingAPI.Controllers
                     {
                         if (j < table.Columns.Count - 1)
                         {
-                            //JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\",");
-                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\",");
+                           // JSONString.Append("\"" + strdata + "\":" );
+                            JSONString.Append( table.Columns[j].ColumnName.ToString() + ":" + "\"" + table.Rows[i][j].ToString() + "\",");
                         }
                         else if (j == table.Columns.Count - 1)
                         {
-                            // JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\",");
+                          
 
-                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\"");
+                            JSONString.Append( table.Columns[j].ColumnName.ToString() + ":" + "\"" + table.Rows[i][j].ToString() + "\"");
                         }
                     }
                     if (i == table.Rows.Count - 1)
