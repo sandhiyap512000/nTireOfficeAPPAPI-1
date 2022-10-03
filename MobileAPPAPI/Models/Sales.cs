@@ -9,6 +9,9 @@ namespace MobileAppAPI.Models
     {
         public int userid { get; set; }
 
+        public int functionid { get; set; }
+        public int usertype { get; set; }
+
         public int branchid { get; set; }
 
         public int Location { get; set; }
@@ -21,13 +24,29 @@ namespace MobileAppAPI.Models
         public int Corporateweb { get; set; }
         public int Mobile { get; set; }
         public int locationID { get; set; }
+        public int ID { get; set; }
+        public string CompanyName { get; set; }
         public string Locationcode { get; set; }
         public string Locationname { get; set; }
         public string ProductName { get; set; }
         public int ProductID { get; set; }
+        public int CUSTLEADID { get; set; }
         public int ProductCatID { get; set; }
         public int Value { get; set; }
         public string Text { get; set; }
+        public string Name { get; set; }
+        public string fdate { get; set; }
+        public string tdate { get; set; }
+        public string status { get; set; }
+        public string RESPONSE { get; set; }
+       
+        public string CAMPAIGNNAME { get; set; }
+        public string PRIORITY { get; set; }
+        public string RATING { get; set; }
+        public string LEADBY { get; set; }
+        public string TCM_CAMPAIGN_SHORTDESC { get; set; }
+        public string offset { get; set; }
+        public string limit { get; set; }
 
     }
 }

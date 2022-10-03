@@ -56,6 +56,40 @@ namespace MobileAppAPI.Controllers
         }
 
 
+
+        [HttpGet]
+        [Route("GetEmployees/{EmpCode}")]
+        public string GetEmployees(string EmpCode)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                // string sql = "dbo.HRMS_COMMON_DROPDOWN";
+                string sql = "MBL_HRMS_GETEMPLOYEES";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@EMPCODE", EmpCode);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
         [HttpGet]
         [Route("EmployeeSearch/{EmployeeId}/{Name}/{Code}/{Designation}/{Branch}/{Department}/{Top}/{Increament}/{appURL}")]
         public string EmployeeSearch(string EmployeeId = null, string Name = null, string Code = null, string Designation = null, string Branch = null, string Department = null, string Top = null, string Increament = null,string appURL = null)
@@ -497,6 +531,531 @@ namespace MobileAppAPI.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Route("EmployeeDailyAttendance/{EmployeeId}/{Year}/{Month}/{Type}")]
+        public string EmployeeDailyAttendance(string EmployeeId = null, string Year = null, string Month = null, string Type = null)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                //string sql = "HRMS_EMPLOYEE_UPDATE_BY_DETAILS";
+                string sql = "MBL_HRMS_DAILY_ATTENDANCE";
+                SqlCommand sqlCommand = new SqlCommand(sql, dbConn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                if (EmployeeId != null && EmployeeId.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@EMPLOYEEID", EmployeeId);
+                else
+                    sqlCommand.Parameters.AddWithValue("@EMPLOYEEID", 0);
+
+                if (Year != null && Year.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@YEAR", Year.Trim());
+                else
+                    sqlCommand.Parameters.AddWithValue("@YEAR", "0");
+
+                if (Month != null && Month.Trim() != "0" && Month.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@MONTH", Month.Trim());
+                else
+                    sqlCommand.Parameters.AddWithValue("@MONTH", "0");
+
+                if (Type != null && Type.Trim() != "0" && Type.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@TYPE", Type.Trim());
+                else
+                    sqlCommand.Parameters.AddWithValue("@TYPE", "0");
+
+
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+
+
+                var reader = sqlCommand.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("SearchCOFF/{Function}/{EmpID}/{FromDate}/{ToDate}")]
+        public string SearchCOFF(string Function, string EmpID, string FromDate, string ToDate)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                //string sql = "HRMS_EMPLOYEE_UPDATE_BY_DETAILS";
+                string sql = "MBL_HRMS_SEARCHCOFFREQUESTS";
+                SqlCommand sqlCommand = new SqlCommand(sql, dbConn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                if (Function != null && Function.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@FUNCTION", Function);
+                else
+                    sqlCommand.Parameters.AddWithValue("@FUNCTION", 0);
+
+                if (EmpID != null && EmpID.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@EMPID", EmpID.Trim());
+                else
+                    sqlCommand.Parameters.AddWithValue("@EMPID", "0");
+                    sqlCommand.Parameters.AddWithValue("@FROMDATE", FromDate.Trim());
+                    sqlCommand.Parameters.AddWithValue("@TODATE", ToDate.Trim());
+
+
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+
+
+                var reader = sqlCommand.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
+
+
+        [HttpGet]
+        [Route("SearchOD/{Function}/{EmpID}/{FromDate}/{ToDate}")]
+        public string SearchOD(string Function, string EmpID, string FromDate, string ToDate)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                //string sql = "HRMS_EMPLOYEE_UPDATE_BY_DETAILS";
+                string sql = "MBL_HRMS_SEARCHODREQUESTS";
+                SqlCommand sqlCommand = new SqlCommand(sql, dbConn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                if (Function != null && Function.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@FUNCTION", Function);
+                else
+                    sqlCommand.Parameters.AddWithValue("@FUNCTION", 0);
+
+                if (EmpID != null && EmpID.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@EMPID", EmpID.Trim());
+                else
+                    sqlCommand.Parameters.AddWithValue("@EMPID", "0");
+                sqlCommand.Parameters.AddWithValue("@FROMDATE", FromDate.Trim());
+                sqlCommand.Parameters.AddWithValue("@TODATE", ToDate.Trim());
+
+
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+
+
+                var reader = sqlCommand.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
+
+
+
+        [HttpGet]
+        [Route("LoadLeaveType/{Function}/{EmpID}")]
+        public string LoadLeaveType(string Function, string EmpID)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                //string sql = "HRMS_EMPLOYEE_UPDATE_BY_DETAILS";
+                string sql = "MBL_HRMS_LoadLeaveType";
+                SqlCommand sqlCommand = new SqlCommand(sql, dbConn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                if (Function != null && Function.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@FUNCTION", Function);
+                else
+                    sqlCommand.Parameters.AddWithValue("@FUNCTION", 0);
+
+                if (EmpID != null && EmpID.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@EMPID", EmpID.Trim());
+                else
+                    sqlCommand.Parameters.AddWithValue("@EMPID", "0");
+                
+
+
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+
+
+                var reader = sqlCommand.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
+        [HttpGet]
+        [Route("SearchLeave/{Function}/{EmpID}/{FromDate}/{ToDate}/{LEAVETYPE}")]
+        public string SearchLeave(string Function, string EmpID, string FromDate, string ToDate, string LEAVETYPE=null)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                //string sql = "HRMS_EMPLOYEE_UPDATE_BY_DETAILS";
+                string sql = "MBL_HRMS_SEARCHLEAVEREQUESTS";
+                SqlCommand sqlCommand = new SqlCommand(sql, dbConn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                if (Function != null && Function.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@FUNCTION", Function);
+                else
+                    sqlCommand.Parameters.AddWithValue("@FUNCTION", 0);
+
+                if (EmpID != null && EmpID.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@EMPID", EmpID.Trim());
+                else
+                    sqlCommand.Parameters.AddWithValue("@EMPID", "0");
+                sqlCommand.Parameters.AddWithValue("@FROMDATE", FromDate.Trim());
+                sqlCommand.Parameters.AddWithValue("@TODATE", ToDate.Trim());
+                sqlCommand.Parameters.AddWithValue("@LEAVETYPE", LEAVETYPE);
+
+
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+
+
+                var reader = sqlCommand.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
+        [HttpGet]
+        [Route("EmployeeLeaveConfig/{LeaveType}/{EmpID}")]
+        public string EmployeeLeaveConfig(string LeaveType, string EmpID)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                //string sql = "HRMS_EMPLOYEE_UPDATE_BY_DETAILS";
+                string sql = "MBL_HRMS_EMPLOYEELEAVETYPECONFIG";
+                SqlCommand sqlCommand = new SqlCommand(sql, dbConn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@LeaveType", LeaveType);
+                sqlCommand.Parameters.AddWithValue("@EMPID", EmpID);
+
+
+
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+
+
+                var reader = sqlCommand.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
+        [HttpPost]
+        [Route("getsummaryClaims")]
+        public async Task<ActionResult<HRMS>> getsummaryClaims(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string sql = "MBL_HRMS_CLAIMS_SUMMARY";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Function", data.functionid);
+                cmd.Parameters.AddWithValue("@Branch", data.branchid);
+                cmd.Parameters.AddWithValue("@EmpId", data.EmpId);
+                cmd.Parameters.AddWithValue("@ExpCategory", "0");
+                cmd.Parameters.AddWithValue("@Description", "");
+                cmd.Parameters.AddWithValue("@Status", data.assetcode);
+              
+
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Ok(Logdata1);
+
+
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("getRequestCategoryClaims")]
+        public async Task<ActionResult<HRMS>> getRequestCategoryClaims(HRMS data)
+        {
+            
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT TEXT,VAL FROM BO_PARAMETER WHERE TYPE ='RequestCategory' and FUNCTION_ID=" + data.functionid + "";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("getrequestReferencedata")]
+        public async Task<ActionResult<HRMS>> getrequestReferencedata(HRMS data)
+        {
+
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select TxnReference  from HRMS_ATTODREQUEST OD INNER JOIN HRMS_EMPLOYEE_MASTER EM WITH (NOLOCK) ON EM.em_emp_domain = convert(varchar,OD.CompanyID) AND convert(varchar,EM.em_emp_id) = OD.UserID where CurrentStatus='A' AND EM_EMP_ID ='" + data.EmpId + "'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("getExpensetypeClaims")]
+        public async Task<ActionResult<HRMS>> getExpensetypeClaims(HRMS data)
+        {
+
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT TEXT,VAL FROM BO_PARAMETER WHERE TYPE ='Expense Type'and FUNCTION_ID=" + data.functionid + "";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("hrmeducationcategory")]
+        public async Task<ActionResult<HRMS>> hrmeducationcategory(HRMS data)
+        {
+
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select * from BO_PARAMETER where FUNCTION_ID=" + data.functionid + " AND type LIKE '%HRMS Education%'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("letter_dropdown")]
+        public async Task<ActionResult<HRMS>> letter_dropdown(HRMS data)
+        {
+
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select BO_PARAMETER.TEXT,BO_PARAMETER.VAL FROM  BO_PARAMETER WHERE status ='A' and type like '%hrms letters%'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+        [HttpPost]
+        [Route("summaryletter_request")]
+        public async Task<ActionResult<HRMS>> summaryletter_request(HRMS data)
+        {
+
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select * from HRMS_LETTER_REQUEST_DETAILS order by REQ_ID desc";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
 
 
 
