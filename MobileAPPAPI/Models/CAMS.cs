@@ -14,7 +14,7 @@ namespace MobileAppAPI.Models
 
         public string functionidrec { get; set; }
         public string branchidu { get; set; }
-         public int assetidrec { get; set; }
+        public int assetidrec { get; set; }
 
 
         public int deprtid { get; set; }
@@ -96,6 +96,46 @@ namespace MobileAppAPI.Models
 
         public int locationidd { get; set; }
 
+        //sep30
+
+        public string serfunctionid { get; set; }
+
+        public string serbranchid { get; set; }
+
+        public string serassetcode  { get;set;}
+
+    public int serassetid  { get;set;}
+
+        public int servendorid { get;set;}
+
+public string servendorcode  { get; set; }
+
+public string serdateofservice{ get; set; }
+
+public string serexpdateofdelivery  { get; set; }
+
+public string serdescription { get; set; }
+
+public int serexpexpense { get; set; }
+
+public string sercreatedon { get; set; }
+
+public string sercreatedby { get; set; }
+
+public string serinsucompany { get; set; }
+
+public int seramountinsu { get; set; }
+
+public string serwarrantydte { get; set; }
+
+public string serreplacetype { get; set; }
+
+public int serreplaceassetid { get; set; }
+
+public int servicecategory { get; set; }
+
+public string srvtilldate { get; set; }
+        public string assetreqby { get; set; }
 
 
 

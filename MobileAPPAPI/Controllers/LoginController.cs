@@ -55,7 +55,7 @@ namespace JSIGamingAPI.Controllers
                 hashedBytes = hashString.ComputeHash(UE.GetBytes(data.password));
                 DataSet dsuserdetails = new DataSet();
                 dbConn.Open();
-                string sql = "BO_MOB_USER_AUTHENCATION";
+                string sql = "MBL_BO_MOB_USER_AUTHENCATION";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
 
 
