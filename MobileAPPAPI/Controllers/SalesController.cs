@@ -624,7 +624,7 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
                 for (int i = 0; i < results.Rows.Count; i++)
                 {
                     DataRow row = results.Rows[i];
