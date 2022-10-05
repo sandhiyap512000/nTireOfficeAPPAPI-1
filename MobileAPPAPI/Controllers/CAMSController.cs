@@ -875,26 +875,16 @@ namespace MobileAppAPI.Controllers
                 var pbranchid = data.fbranchid;
                 var passetcatid = data.fassetcatid;
                 var passetsubcatid = data.fassetsubcatid;
+                var flag = 0;
 
                 dbConn.Open();
                 string query = "";
                 query = "SELECT CAMS_ASSET_MASTER.FUNCTION_ID,BO_ZONE_MASTER.ZONE_ID,BO_ZONE_MASTER.ZONE_DESC AS 'Zone',BO_REGION_MASTER.region_id,BO_REGION_MASTER.region_desc as 'Region',CAMS_ASSET_MASTER.BRANCH_ID,BO_BRANCH_MASTER.BRANCH_DESC as 'Branch',CAMS_ASSET_MASTER.ASSET_CATEGORY,CAMS_ASSET_MASTER.ASSET_TYPE,BO_PARAMETER.TEXT as 'Category',CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_DESC as 'SubCategore',CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_ID,COUNT(CAMS_ASSET_MASTER.ASSET_ID) as Qty, CAMS_ASSET_MASTER.STATUS as 'Status' FROM CAMS_ASSET_MASTER WITH(NOLOCK) inner join BO_FUNCTION_MASTER with(nolock) on BO_FUNCTION_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID inner join BO_PARAMETER with(nolock) on BO_PARAMETER.TYPE='INFCATEGORY' and BO_PARAMETER.VAL=CAMS_ASSET_MASTER.ASSET_CATEGORY and BO_PARAMETER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID and BO_PARAMETER.STATUS='A' inner join CAMS_ASSET_SUBCATEGORY_MASTER with(nolock) on CAMS_ASSET_SUBCATEGORY_MASTER.CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_CATEGORY and CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_TYPE and CAMS_ASSET_SUBCATEGORY_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID INNER JOIN   BO_BRANCH_MASTER WITH (NOLOCK) ON BO_BRANCH_MASTER.BRANCH_ID=CAMS_ASSET_MASTER.BRANCH_ID   AND BO_BRANCH_MASTER.STATUS='A'   AND   BO_BRANCH_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID       INNER JOIN BO_ZONE_MASTER WITH (NOLOCK) ON BO_ZONE_MASTER.ZONE_ID=BO_BRANCH_MASTER.ZONE_ID AND BO_ZONE_MASTER.ZONE_STATUS='A'   AND   BO_ZONE_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID INNER JOIN BO_REGION_MASTER WITH(NOLOCK) ON BO_FUNCTION_MASTER.FUNCTION_ID=BO_REGION_MASTER.function_id AND BO_ZONE_MASTER.ZONE_ID=BO_REGION_MASTER.zone_id AND BO_BRANCH_MASTER.region_id=BO_REGION_MASTER.region_id  where 1=1 AND CAMS_ASSET_MASTER.FUNCTION_ID=" + data.functionidrep + "";
 
 
-                var flag = 0;
-                if (pzoneid != null && pregionid != null && pbranchid != null)
-                {
-                    if (flag == 0)
-                    {
-                         query = query + " AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " AND BO_REGION_MASTER.region_id=" + data.fregionid + "";
-                         flag = 1;
-                    }
-                    else
-                    {
-                         query = query + " AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " AND BO_REGION_MASTER.region_id=" + data.fregionid + "";
-                    }
-                }
-                if (pzoneid != null)
+                
+               
+                if (pzoneid != null && pzoneid!=0)
                 {
                     if (flag == 0)
                     {
@@ -906,7 +896,7 @@ namespace MobileAppAPI.Controllers
                          query = query + "  AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " ";
                     }
                 }
-                if (pregionid != null)
+                if (pregionid != null && pregionid!=0)
                 {
                     if (flag == 0)
                     {
@@ -918,7 +908,7 @@ namespace MobileAppAPI.Controllers
                          query = query + " AND BO_REGION_MASTER.region_id=" + data.fregionid + " ";
                     }
                 }
-                if (pbranchid != null)
+                if (pbranchid != null && pbranchid!=0)
                 {
                     if (flag == 0)
                     {
@@ -930,7 +920,7 @@ namespace MobileAppAPI.Controllers
                          query = query + " AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " ";
                     }
                 }
-                if (passetcatid != null)
+                if (passetcatid != null && passetcatid!=0)
                 {
                     if (flag == 0)
                     {
@@ -942,7 +932,7 @@ namespace MobileAppAPI.Controllers
                          query = query + " AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " ";
                     }
                 }
-                if (passetsubcatid != null)
+                if (passetsubcatid != null && passetsubcatid!=0)
                 {
                     if (flag == 0)
                     {
@@ -954,30 +944,8 @@ namespace MobileAppAPI.Controllers
                          query = query + " AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
                     }
                 }
-                if (passetcatid != null && passetsubcatid != null)
-                {
-                    if (flag == 0)
-                    {
-                         query = query + " AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
-                         flag = 1;
-                    }
-                    else
-                    {
-                         query = query + " AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
-                    }
-                }
-                if (pzoneid != null && pregionid != null && pbranchid != null && passetcatid != null && passetsubcatid != null)
-                {
-                    if (flag == 0)
-                    {
-                         query = query + " AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " AND BO_REGION_MASTER.region_id=" + data.fregionid + " AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
-                         flag = 1;
-                    }
-                    else
-                    {
-                         query = query + " AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " AND BO_REGION_MASTER.region_id=" + data.fregionid + " AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
-                    }
-                }
+           
+      
                 query = query + " group by  CAMS_ASSET_MASTER.FUNCTION_ID,BO_ZONE_MASTER.ZONE_DESC ,BO_REGION_MASTER.region_desc ,BO_BRANCH_MASTER.BRANCH_DESC,BO_PARAMETER.TEXT,CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_DESC ,CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_ID,CAMS_ASSET_MASTER.ASSET_MODE,BO_ZONE_MASTER.ZONE_ID,BO_REGION_MASTER.region_id,CAMS_ASSET_MASTER.BRANCH_ID,CAMS_ASSET_MASTER.ASSET_CATEGORY,CAMS_ASSET_MASTER.ASSET_TYPE,CAMS_ASSET_MASTER.STATUS ";
         // console.log(fserinslistf);
 
@@ -1073,14 +1041,16 @@ namespace MobileAppAPI.Controllers
 
                 if (results2.Rows.Count >= 1)
                 {
-                    Logdata1 = "This Asset Already Transferred";
-                    dbConn.Close();
 
+                    Logdata1 = DataTableToJSONWithStringBuilder(results2);
+                    dbConn.Close();
 
                 }
                 else
                 {
-                    Logdata1 = DataTableToJSONWithStringBuilder(results2);
+                  
+
+                    Logdata1 = "This Asset Already Transferred";
                     dbConn.Close();
                 }
 
@@ -1287,7 +1257,7 @@ namespace MobileAppAPI.Controllers
                 query = "select DISTINCT  BO_FUNCTION_MASTER.FUNCTION_DESC as 'Function', BRANCH_DESC Branch ,BO_PARAMETER1.TEXT Department,BO_PARAMETER.TEXT Location, count (Asset_id) AssetCount   from CAMS_ASSET_MASTER  Join BO_PARAMETER on BO_PARAMETER.TYPE ='BO_DEPTLOCATION'  and CAMS_ASSET_MASTER.FUNCTION_ID =BO_PARAMETER.FUNCTION_ID and BO_PARAMETER.VAL=ASSET_LocationId Join Bo_branch_master on Bo_branch_master.FUNCTION_ID=CAMS_ASSET_MASTER.Function_id and CAMS_ASSET_MASTER.BRANCH_ID=Bo_branch_master.BRANCH_ID left Join BO_PARAMETER as BO_PARAMETER1 on BO_PARAMETER1.TYPE='BO_TEAM' and BO_PARAMETER1.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID and CAMS_ASSET_MASTER.BRANCH_ID=Bo_branch_master.BRANCH_ID and BO_PARAMETER1.val=CAMS_ASSET_MASTER.ASSET_DEPARTMENT and BO_PARAMETER1.STATUS='A' inner join BO_FUNCTION_MASTER on BO_FUNCTION_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID INNER JOIN BO_ZONE_MASTER ON BO_ZONE_MASTER.ZONE_ID=BO_BRANCH_MASTER.ZONE_ID AND ZONE_STATUS='A'   AND   BO_ZONE_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.function_id where  CAMS_ASSET_MASTER.STATUS='A'";
 
                 var flag = 0;
-                if (pzoneid != null)
+                if (pzoneid != null && pzoneid !=0)
                 {
                     if (flag == 0)
                     {
@@ -1299,7 +1269,7 @@ namespace MobileAppAPI.Controllers
                         query = query + " AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " ";
                     }
                 }
-                if (pbranchid != null)
+                if (pbranchid != null && pbranchid != 0)
                 {
                     if (flag == 0)
                     {
@@ -1311,7 +1281,7 @@ namespace MobileAppAPI.Controllers
                         query = query + " AND Bo_branch_master.BRANCH_ID=" + data.fbranchid + "  ";
                     }
                 }
-                if (depatid != null )
+                if (depatid != null && depatid != 0  )
                 {
                     if (flag == 0)
                     {
@@ -1323,7 +1293,7 @@ namespace MobileAppAPI.Controllers
                         query = query + " AND ASSET_DEPARTMENT=" + data.depatmentid + "  ";
                     }
                 }
-                if (locatid != null )
+                if (locatid != null && locatid != 0 )
                 {
                     if (flag == 0)
                     {

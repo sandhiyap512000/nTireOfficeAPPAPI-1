@@ -231,15 +231,6 @@ namespace JSIGamingAPI.Controllers
 
 
 
-                //var tokenResponse = client.PostAsync("token", new FormUrlEncodedContent(RequestBody)).Result;
-
-                //if (tokenResponse.IsSuccessStatusCode)
-                //{
-
-                //    var JsonContent = tokenResponse.Content.ReadAsStringAsync().Result;
-                //    token = JsonConvert.DeserializeObject<Token>(JsonContent);
-                //}
-
 
 
 
