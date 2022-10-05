@@ -1546,16 +1546,23 @@ namespace MobileAppAPI.Controllers
 
                     cmd.ExecuteNonQuery();
 
-                    var reader = cmd.ExecuteReader();
-                    System.Data.DataTable results = new System.Data.DataTable();
-                    results.Load(reader);
-                    //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                    for (int i = 0; i < results.Rows.Count; i++)
-                    {
-                        DataRow row = results.Rows[i];
-                        Logdata1 = DataTableToJSONWithStringBuilder(results);
-                    }
-                    return Logdata1;
+                    //var reader = cmd.ExecuteReader();
+                    //System.Data.DataTable results = new System.Data.DataTable();
+                    //results.Load(reader);
+                    ////string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                    //for (int i = 0; i < results.Rows.Count; i++)
+                    //{
+                    //    DataRow row = results.Rows[i];
+                    //    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    //}
+                    //return Logdata1;
+
+                    cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+                    cmd.ExecuteNonQuery();
+                    string st = cmd.Parameters["@Result"].Value.ToString();
+
+                    var json = new JavaScriptSerializer().Serialize(st);
+                    return json;
                 }
             }
             catch (Exception ex)
