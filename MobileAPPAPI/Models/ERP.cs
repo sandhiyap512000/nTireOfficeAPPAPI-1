@@ -85,6 +85,13 @@ namespace MobileAppAPI.Models
 
 		public string prsid { get; set; }
 
+		//RFQ
+
+		public string strfun { get; set; }
+		public string rfqfromdate { get; set; }
+		public string rfqtodate { get; set; }
+
+
 
 
 	}
