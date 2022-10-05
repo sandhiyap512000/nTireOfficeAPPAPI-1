@@ -532,6 +532,7 @@ namespace MobileAppAPI.Controllers
 
         //PRS search
 
+        //PRS search
         [HttpPost]
         [Route("get_PRS_search")]
         public async Task<ActionResult<ERP>> get_PRS_search(ERP data)
@@ -692,7 +693,7 @@ namespace MobileAppAPI.Controllers
             var logdata = "";
             var stroutput = "";
             string strprscode = "";
-            var strprsid = "";
+            string strprsid = "";
             // var result = "";
 
             try
@@ -706,13 +707,13 @@ namespace MobileAppAPI.Controllers
                     {
                         data.functionid = "0";
                     }
-                    //if (data.prsid.ToString() == "0" || data.prsid.ToString() == "" || data.prsid.ToString() == string.Empty || data.prsid.ToString() == null)
-                    //{
-                    //    data.prsid = "0";
-                    //}
+                    if (data.prsid.ToString() == "0" || data.prsid.ToString() == "" || data.prsid.ToString() == string.Empty || data.prsid.ToString() == null)
+                    {
+                        data.prsid = null;
+                    }
                     if (data.status.ToString() == "0" || data.status.ToString() == "" || data.status.ToString() == string.Empty || data.status.ToString() == null)
                     {
-                        data.status = "0";
+                        data.status = null;
                     }
                     if (data.createdby.ToString() == "0" || data.createdby.ToString() == "" || data.createdby.ToString() == string.Empty || data.createdby.ToString() == null)
                     {
@@ -843,7 +844,7 @@ namespace MobileAppAPI.Controllers
                         cmd1.CommandType = CommandType.StoredProcedure;
 
                         cmd1.Parameters.AddWithValue("@FUNCTION_ID", data.functionid);
-                        cmd1.Parameters.AddWithValue("@PRS_ID", data.prsid);
+                        cmd1.Parameters.AddWithValue("@PRS_ID", strprsid);
                         cmd1.Parameters.AddWithValue("@STATUS", data.status);
                         cmd1.Parameters.AddWithValue("@CREATED_BY", data.createdby);
                         cmd1.Parameters.AddWithValue("@IPADDRESS", data.ipaddress);
@@ -858,9 +859,9 @@ namespace MobileAppAPI.Controllers
                         cmd1.Parameters.AddWithValue("@PRS_REF", data.prsref);
                         cmd1.Parameters.AddWithValue("@PRS_CATEGORY", data.userid);
 
-                        cmd1.Parameters.AddWithValue("@PRS_CODE", data.prscode);
+                        cmd1.Parameters.AddWithValue("@PRS_CODE", strprscode);
                         cmd1.Parameters.AddWithValue("@REQUESTED_BY", data.requestby);
-                        cmd1.Parameters.AddWithValue("@REQUESTED_DATE", "");
+                        cmd1.Parameters.AddWithValue("@REQUESTED_DATE",DateTime.Now.ToString());
 
                         cmd1.Parameters.AddWithValue("@REQUEST_TYPE", data.requettype);
                         cmd1.Parameters.AddWithValue("@IS_SINGLE_VENDOR", data.issinglevendor);
@@ -896,7 +897,7 @@ namespace MobileAppAPI.Controllers
                         cmd1.CommandType = CommandType.StoredProcedure;
 
                         cmd1.Parameters.AddWithValue("@FUNCTION_ID", data.functionid);
-                        cmd1.Parameters.AddWithValue("@PRS_ID", strprsid);
+                        cmd1.Parameters.AddWithValue("@PRS_ID", data.prsid);
                         cmd1.Parameters.AddWithValue("@STATUS", data.status);
                         cmd1.Parameters.AddWithValue("@CREATED_BY", data.createdby);
                         cmd1.Parameters.AddWithValue("@IPADDRESS", data.ipaddress);
@@ -911,7 +912,7 @@ namespace MobileAppAPI.Controllers
                         cmd1.Parameters.AddWithValue("@PRS_REF", data.prsref);
                         cmd1.Parameters.AddWithValue("@PRS_CATEGORY", data.userid);
 
-                        cmd1.Parameters.AddWithValue("@PRS_CODE", strprscode);
+                        cmd1.Parameters.AddWithValue("@PRS_CODE", data.prscode);
                         cmd1.Parameters.AddWithValue("@REQUESTED_BY", data.requestby);
                         cmd1.Parameters.AddWithValue("@REQUESTED_DATE", "");
 
@@ -987,6 +988,148 @@ namespace MobileAppAPI.Controllers
                 Logdata1 = "Deleted Successfully";
                 return Ok(Logdata1);
 
+            }
+        }
+
+
+
+
+        //RFQ search
+
+      
+        [HttpPost]
+        [Route("get_RFQ_search")]
+        public async Task<ActionResult<ERP>> get_RFQ_search(ERP data)
+        {
+            // string struser = data.user_lower;
+
+            List<ERP> Logdata = new List<ERP>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+
+            try
+            {
+
+
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+
+
+                    if (data.functionid.ToString() == "0" || data.functionid.ToString() == "" || data.functionid.ToString() == string.Empty || data.functionid.ToString() == null)
+                    {
+                        data.functionid = "0";
+                    }
+                   
+                    if (data.prscode.ToString() == "0" || data.prscode.ToString() == "" || data.prscode.ToString() == string.Empty || data.prscode.ToString() == null)
+                    {
+                        data.prscode = "0";
+                    }
+                    if (data.itemcode.ToString() == "0" || data.itemcode.ToString() == "" || data.itemcode.ToString() == string.Empty || data.itemcode.ToString() == null)
+                    {
+                        data.itemcode = "0";
+                    }
+
+                    if (data.reuestdate.ToString() == "0" || data.reuestdate.ToString() == "" || data.reuestdate.ToString() == string.Empty || data.reuestdate.ToString() == null)
+                    {
+                        data.reuestdate = "0";
+                    }
+
+
+                    if (data.rfqcode.ToString() == "0" || data.rfqcode.ToString() == "" || data.rfqcode.ToString() == string.Empty || data.rfqcode.ToString() == null)
+                    {
+                        data.rfqcode = "0";
+                    }
+
+                    if (data.fromdate.ToString() == "0" || data.fromdate.ToString() == "" || data.fromdate.ToString() == string.Empty || data.fromdate.ToString() == null)
+                    {
+                        data.fromdate = "0";
+                    }
+                    if (data.todate.ToString() == "0" || data.todate.ToString() == "" || data.todate.ToString() == string.Empty || data.todate.ToString() == null)
+                    {
+                        data.todate = "0";
+                    }
+                    if (data.rfqfromdate.ToString() == "0" || data.rfqfromdate.ToString() == "" || data.rfqfromdate.ToString() == string.Empty || data.rfqfromdate.ToString() == null)
+                    {
+                        data.rfqfromdate = "0";
+                    }
+                    if (data.rfqtodate.ToString() == "0" || data.rfqtodate.ToString() == "" || data.rfqtodate.ToString() == string.Empty || data.rfqtodate.ToString() == null)
+                    {
+                        data.rfqtodate = "0";
+                    }
+
+                    if (data.status.ToString() == "0" || data.status.ToString() == "" || data.status.ToString() == string.Empty || data.status.ToString() == null)
+                    {
+                        data.status = "0";
+                    }
+                  
+                    if (data.mode.ToString() == "0" || data.mode.ToString() == "" || data.mode.ToString() == string.Empty || data.mode.ToString() == null)
+                    {
+                        data.mode = "0";
+                    }
+                    if (data.pageindex1.ToString() == "0" || data.pageindex1.ToString() == "" || data.pageindex1.ToString() == string.Empty || data.pageindex1.ToString() == null)
+                    {
+                        data.pageindex1 = 0;
+                    }
+                    if (data.pagesize1.ToString() == "0" || data.pagesize1.ToString() == "" || data.pagesize1.ToString() == string.Empty || data.pagesize1.ToString() == null)
+                    {
+                        data.pagesize1 = 0;
+                    }
+                    if (data.alphaname.ToString() == "0" || data.alphaname.ToString() == "" || data.alphaname.ToString() == string.Empty || data.alphaname.ToString() == null)
+                    {
+                        data.alphaname = "0";
+                    }
+                
+
+
+                    DataSet dsuserdetails = new DataSet();
+                    dbConn.Open();
+                    string sql = "MBL_erp_prs_getdetails";
+                    SqlCommand cmd = new SqlCommand(sql, dbConn);
+
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@FUNCTIONID", data.functionid);
+                    cmd.Parameters.AddWithValue("@PRSCODE", data.prscode);
+                    cmd.Parameters.AddWithValue("@ITEMCODE", data.itemcode);
+                    cmd.Parameters.AddWithValue("@REQUESTED_DATE", data.reuestdate);
+                    cmd.Parameters.AddWithValue("@RFQCODE", data.rfqcode);
+                    cmd.Parameters.AddWithValue("@FROMDATE", data.fromdate);
+                    cmd.Parameters.AddWithValue("@TODATE", data.todate);
+                    cmd.Parameters.AddWithValue("@RFQFromDate", data.rfqfromdate);
+                    cmd.Parameters.AddWithValue("@RFQToDate", data.rfqtodate);
+                    cmd.Parameters.AddWithValue("@STATUS", data.status);
+                    cmd.Parameters.AddWithValue("@MODE", data.mode);
+                    cmd.Parameters.AddWithValue("@PAGEINDEX", data.pageindex1);
+                    cmd.Parameters.AddWithValue("@PAGESIZE", data.pagesize1);
+                    cmd.Parameters.AddWithValue("@SORTEXPRESSION", data.sortexpression);
+                    cmd.Parameters.AddWithValue("@ALPHANAME", data.alphaname);
+
+                                    
+                    cmd.ExecuteNonQuery();
+                    var reader = cmd.ExecuteReader();
+                    System.Data.DataTable results = new System.Data.DataTable();
+                    results.Load(reader);
+                    //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                        logdata = DataTableToJSONWithStringBuilder(results);
+
+                        dbConn.Close();
+                    }
+                    var result = (new { logdata });
+                    return Ok(Logdata1);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return Ok(json);
             }
         }
 
