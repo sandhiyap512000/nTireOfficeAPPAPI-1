@@ -274,13 +274,13 @@ namespace JSIGamingAPI.Controllers
                         if (j < table.Columns.Count - 1)
                         {
                            // JSONString.Append("\"" + strdata + "\":" );
-                            JSONString.Append( table.Columns[j].ColumnName.ToString() + ":" + "\"" + table.Rows[i][j].ToString() + "\",");
+                            JSONString.Append("\""+table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\",");
                         }
                         else if (j == table.Columns.Count - 1)
                         {
                           
 
-                            JSONString.Append( table.Columns[j].ColumnName.ToString() + ":" + "\"" + table.Rows[i][j].ToString() + "\"");
+                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\"");
                         }
                     }
                     if (i == table.Rows.Count - 1)
