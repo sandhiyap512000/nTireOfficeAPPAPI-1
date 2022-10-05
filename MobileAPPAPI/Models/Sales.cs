@@ -8,6 +8,7 @@ namespace MobileAppAPI.Models
     public class Sales
     {
         public int userid { get; set; }
+        public int CustId { get; set; }
 
         public int functionid { get; set; }
         public int usertype { get; set; }
@@ -18,16 +19,22 @@ namespace MobileAppAPI.Models
 
         public string usercode { get; set; }
 
+        public string ContactName { get; set; }
+
         public int Personal { get; set; }
         public int Web { get; set; }
         public int Branch { get; set; }
         public int Corporateweb { get; set; }
-        public int Mobile { get; set; }
+        public string Mobile { get; set; }
         public int locationID { get; set; }
         public int ID { get; set; }
         public string CompanyName { get; set; }
         public string Locationcode { get; set; }
         public string Locationname { get; set; }
+
+        public string Email { get; set; }
+
+        public string ResNo { get; set; }
         public string ProductName { get; set; }
         public int ProductID { get; set; }
         public int CUSTLEADID { get; set; }
