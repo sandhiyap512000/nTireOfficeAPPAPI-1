@@ -90,12 +90,9 @@ namespace MobileAppAPI.Controllers
         }
 
 
-
-
-
         [HttpGet]
         [Route("EmployeeSearch/{EmployeeId}/{Name}/{Code}/{Designation}/{Branch}/{Department}/{Top}/{Increament}/{appURL}")]
-        public string EmployeeSearch(string EmployeeId = null, string Name = null, string Code = null, string Designation = null, string Branch = null, string Department = null, string Top = null, string Increament = null,string appURL = null)
+        public string EmployeeSearch(string EmployeeId = null, string Name = null, string Code = null, string Designation = null, string Branch = null, string Department = null, string Top = null, string Increament = null, string appURL = null)
         {
             string Logdata1 = string.Empty;
             var logdata = "";
@@ -131,6 +128,79 @@ namespace MobileAppAPI.Controllers
                 return Logdata1;
             }
         }
+
+
+
+        [HttpGet]
+        [Route("EmployeeLeaveDetails/{EmployeeId}/{Year}/{Month}")]
+        public string EmployeeLeaveDetails(string EmployeeId = null, string Year = null, string Month = null)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string sql = "MBL_HRMS_Leave_Details";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@EmployeeId", EmployeeId);
+                cmd.Parameters.AddWithValue("@Year", Year);
+                cmd.Parameters.AddWithValue("@Month", Month);
+             
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
+        [HttpGet]
+        [Route("EmployeeSalaryRegularDeduction/{EmployeeId}/{Year}/{Month}")]
+        public string EmployeeSalaryRegularDeduction(string EmployeeId = null, string Year = null, string Month = null)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string sql = "MBL_HRMS_PAYROLL_SALARY_REGULAR_DEDUCTIONS";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@EmployeeId", EmployeeId);
+                cmd.Parameters.AddWithValue("@Year", Year);
+                cmd.Parameters.AddWithValue("@Month", Month);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
 
         [HttpGet]
         [Route("Boworkflowusersummary/{UserID}/{Functionid}")]
@@ -322,6 +392,42 @@ namespace MobileAppAPI.Controllers
                 dbConn.Open();
                 string query = "";
                 query = "select em_emp_name,em_emp_dob,em_emp_photo,(select distinct Description from BO_USER_TYPE_MASTER where TYPE_ID=HRMS_EMPLOYEE_MASTER.em_emp_designation) as Designation from HRMS_EMPLOYEE_MASTER where  MONTH(HRMS_EMPLOYEE_MASTER.em_emp_dob)='" + data.month + "' and em_emp_status='A' order by day(em_emp_dob)";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+
+        [HttpPost]
+        [Route("getCurrencyType")]
+        public async Task<ActionResult<HRMS>> getCurrencyType(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT TEXT,VAL  FROM BO_PARAMETER  WHERE BO_PARAMETER.FUNCTION_ID='"+data.functionid+"' AND  TYPE ='BASE_CURRENCY' ";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
