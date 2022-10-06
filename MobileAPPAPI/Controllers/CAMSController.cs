@@ -1974,6 +1974,81 @@ namespace MobileAppAPI.Controllers
             }
         }
 
+
+
+
+        //06oct
+
+        [HttpPost]
+        [Route("assetdepatmentwiselocationmodal")]
+        public async Task<ActionResult<CAMS>> assetdepatmentwiselocationmodal(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            int depid = 0;
+            int locid = 0;
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+
+                string query2 = "";
+                query2 = "select VAL from  BO_PARAMETER where TEXT ='" + data.depidm + "'  and FUNCTION_ID=1 and TYPE='bo_Team'";
+
+                SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                var reader2 = cmd2.ExecuteReader();
+                System.Data.DataTable results2 = new System.Data.DataTable();
+                results2.Load(reader2);
+                for (int i = 0; i < results2.Rows.Count; i++)
+                {
+
+
+                    DataRow row = results2.Rows[i];
+
+                    depid = Convert.ToInt32(row[0]);
+                }
+
+
+                string query3 = "";
+                query3 = "select VAL from  BO_PARAMETER where TEXT ='" + data.locidm + "'  and FUNCTION_ID=1 and TYPE='BO_DEPTLOCATION'";
+
+                SqlCommand cmd3 = new SqlCommand(query3, dbConn);
+                var reader3 = cmd3.ExecuteReader();
+                System.Data.DataTable results3 = new System.Data.DataTable();
+                results3.Load(reader3);
+                for (int i = 0; i < results3.Rows.Count; i++)
+                {
+
+
+                    DataRow row = results3.Rows[i];
+
+                    locid = Convert.ToInt32(row[0]);
+                }
+
+
+                
+                string query = "";
+                query = "Select BRANCH_DESC Branch,a.TEXT Department, BO_PARAMETER.TEXT Location,ASSET_CODE AssetCode,b.TEXT catgry,SUB_CATEGORY_DESC subcatry from CAMS_ASSET_MASTER Join Bo_branch_master on Bo_branch_master.FUNCTION_ID=CAMS_ASSET_MASTER.Function_id and CAMS_ASSET_MASTER.BRANCH_ID=Bo_branch_master.BRANCH_ID Join BO_PARAMETER on BO_PARAMETER.TYPE ='BO_DEPTLOCATION'  and CAMS_ASSET_MASTER.FUNCTION_ID =BO_PARAMETER.FUNCTION_ID and BO_PARAMETER.VAL=CAMS_ASSET_MASTER.ASSET_LocationId inner join BO_PARAMETER a with(nolock) on a.VAL=CAMS_ASSET_MASTER.ASSET_DEPARTMENT and a.TYPE='bo_Team' inner join BO_PARAMETER b with(nolock) on b.TYPE='INFCATEGORY' and b.VAL=CAMS_ASSET_MASTER.ASSET_CATEGORY and b.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID inner join CAMS_ASSET_SUBCATEGORY_MASTER with(nolock) on CAMS_ASSET_SUBCATEGORY_MASTER.CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_CATEGORY and CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_TYPE and CAMS_ASSET_SUBCATEGORY_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID AND  CAMS_ASSET_SUBCATEGORY_MASTER.STATUS='A' where a.VAL =" + depid + " and BO_PARAMETER.VAL=" + locid + " ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
         public string DataTableToJSONWithStringBuilder(DataTable table)
         {
             var JSONString = new StringBuilder();

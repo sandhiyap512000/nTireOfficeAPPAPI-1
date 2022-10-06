@@ -1640,10 +1640,103 @@ namespace MobileAppAPI.Controllers
             }
         }
 
-//end
+        //end
 
 
-            public string DataTableToJSONWithStringBuilder(DataTable table)
+        //06OCT shylaja
+
+        [HttpPost]
+        [Route("update_meeting_location")]
+        public async Task<ActionResult<CAMS>> update_meeting_location(Sales data)
+        {
+            // string struser = data.user_lower;
+
+   
+            string Logdata1 = string.Empty;
+       
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "update LMS_CALL_DETAILS set TCC_LOCATION_TO_MEET='" + data.LatLong + "' where TCC_CUST_LEAD_ID='" + data.LeadID + "' ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+               
+
+                string query2 = "";
+                query2 = "update LMS_CURRENT_CAMPAIGN set TCC_LOCATION_TO_MEET='" + data.LatLong + "' where TCC_CUST_ID='" + data.LeadID + "'";
+
+                SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                var reader2 = cmd2.ExecuteReader();
+                System.Data.DataTable results2 = new System.Data.DataTable();
+                results2.Load(reader2);
+             
+
+
+                Logdata1 = "updated Successfully";
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+            }
+
+
+        }
+
+
+
+        [HttpPost]
+        [Route("pass_current_loc")]
+        public async Task<ActionResult<CAMS>> pass_current_loc(Sales data)
+        {
+            // string struser = data.user_lower;
+
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "UPDATE LMS_CURRENT_CAMPAIGN SET CUSTOMER_LATLONG='" + data.LatLong + "' WHERE TCC_CUST_ID='" + data.custid + "' ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+
+
+                string query2 = "";
+                query2 = "UPDATE LMS_CALL_DETAILS SET CUSTOMER_LATLONG='" + data.LatLong + "' WHERE TCC_CUST_ID='" + data.custid + "'";
+
+                SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                var reader2 = cmd2.ExecuteReader();
+                System.Data.DataTable results2 = new System.Data.DataTable();
+                results2.Load(reader2);
+
+
+
+                Logdata1 = "updated Successfully";
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+            }
+
+
+        }
+
+
+        public string DataTableToJSONWithStringBuilder(DataTable table)
         {
             var JSONString = new StringBuilder();
             if (table.Rows.Count > 0)

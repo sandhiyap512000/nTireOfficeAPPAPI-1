@@ -137,6 +137,10 @@ public int servicecategory { get; set; }
 public string srvtilldate { get; set; }
         public string assetreqby { get; set; }
 
+        public string depidm { get; set; }
+
+        public string locidm { get; set; }
+
 
 
 

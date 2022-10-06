@@ -11,7 +11,7 @@ namespace MobileAppAPI.Models
         public string Connectionstring()
         {
 
-           // string Connectionstring = "Server=172.107.203.228;User ID=Developer;Password=Sqldb*2021;Database=mydesk20";
+           // string Connectionstring = "Server=172.107.203.228;User ID=Developer;Password=Sqldb*2021;Database=ssg";
 
 
             string Connectionstring = "Server=108.60.219.44;User ID=Developer;Password=D$e6ve8lo8per;Database=mydesk20";

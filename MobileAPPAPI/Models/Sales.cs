@@ -55,5 +55,10 @@ namespace MobileAppAPI.Models
         public string offset { get; set; }
         public string limit { get; set; }
 
+        public int LatLong { get; set; }
+        public int LeadID { get; set; }
+
+        public int custid { get; set; }
+
     }
 }
