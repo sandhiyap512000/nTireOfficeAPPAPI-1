@@ -17,5 +17,7 @@ namespace MobileAppAPI.Models
 
         public string assetcode { get; set; }
 
+        public string TxnReference { get; set; }
+
     }
 }
