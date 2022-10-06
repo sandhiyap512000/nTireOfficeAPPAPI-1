@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MobileAppAPI.Models;
+using Nancy.Json;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -203,6 +204,43 @@ namespace MobileAppAPI.Controllers
 
 
         [HttpGet]
+        [Route("EmployeeSalaryRegularEarnings/{EmployeeId}/{Year}/{Month}")]
+        public string EmployeeSalaryRegularEarnings(string EmployeeId = null, string Year = null, string Month = null)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string sql = "MBL_HRMS_EMPLOYEE_PAROLL_REGULAR_EARNINGS";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@EmployeeId", EmployeeId);
+                cmd.Parameters.AddWithValue("@Year", Year);
+                cmd.Parameters.AddWithValue("@Month", Month);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
+
+
+        [HttpGet]
         [Route("Boworkflowusersummary/{UserID}/{Functionid}")]
         public string Boworkflowusersummary(string UserID, string Functionid)
         {
@@ -235,6 +273,45 @@ namespace MobileAppAPI.Controllers
                 return Logdata1;
             }
         }
+
+
+        [HttpGet]
+        [Route("SaveLeave/{Function}/{UserID}/{EmpID}/{RequestID}/{LeaveType}/{FromDate}/{ToDate}/{NoDays}/{ContactPhone}/{LeaveReason}/{Status}")]
+        public string SaveLeave(string Function, string UserID, string EmpID, string RequestID, string LeaveType, string FromDate, string ToDate, string NoDays, string ContactPhone, string LeaveReason, string Status)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            string result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                //string sql = "BO_WORKFLOW_USERWISE_SUMMARY";
+                string sql = "MBL_HRMS_INSERTUPDATELEAVE";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FUNCTION", Function);
+                cmd.Parameters.AddWithValue("@UserID", UserID);
+                cmd.Parameters.AddWithValue("@EmpID", EmpID);
+                cmd.Parameters.AddWithValue("@RequestID", RequestID);
+                cmd.Parameters.AddWithValue("@LeaveType", LeaveType);
+                cmd.Parameters.AddWithValue("@FromDate", FromDate);
+                cmd.Parameters.AddWithValue("@ToDate", ToDate);
+                cmd.Parameters.AddWithValue("@NoDays", NoDays);
+                cmd.Parameters.AddWithValue("@ContactPhone", ContactPhone);
+                cmd.Parameters.AddWithValue("@LeaveReason", LeaveReason);
+                cmd.Parameters.AddWithValue("@Status", Status);
+                cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+
+                cmd.ExecuteNonQuery();
+                result = cmd.Parameters["@Result"].Value.ToString();
+                var json = new JavaScriptSerializer().Serialize(result);
+                return json;
+            }
+        }
+
+
 
         [HttpGet]
         [Route("EmployeePayslip/{EmployeeId}/{appURL}")]
@@ -442,6 +519,74 @@ namespace MobileAppAPI.Controllers
 
             }
         }
+
+        [HttpPost]
+        [Route("getrequestrefid")]
+        public async Task<ActionResult<HRMS>> getrequestrefid(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select ODRequestRef from hrms_attodrequest where TxnReference ='" + data.TxnReference + "' ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("getTravelMode")]
+        public async Task<ActionResult<HRMS>> getTravelMode(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT TEXT,VAL FROM BO_PARAMETER WHERE TYPE='TRAVEL MODE' and FUNCTION_ID=" + data.functionid + "";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
 
 
         [HttpGet]
@@ -980,6 +1125,45 @@ namespace MobileAppAPI.Controllers
               
 
 
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Ok(Logdata1);
+
+
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("gettravelDetailsClaims")]
+        public async Task<ActionResult<HRMS>> gettravelDetailsClaims(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string sql = "MBL_HRMS_CLAIMS_TRAVEL_DETAILS";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@TxnReference", data.TxnReference);
                 cmd.ExecuteNonQuery();
 
                 var reader = cmd.ExecuteReader();
