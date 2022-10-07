@@ -90,6 +90,35 @@ namespace MobileAppAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("EmployeeDetail/{usercode}")]
+        public string EmployeeDetail(string usercode)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select a.em_emp_id,a.em_emp_name,a.em_branch_id,a.em_emp_department,a.em_emp_designation from HRMS_EMPLOYEE_MASTER a left join BO_USER_MASTER b on a.tum_user_id = b.TUM_USER_ID where b.TUM_USER_CODE = '" + usercode + "'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                //var result = (new { recordsets = Logdata1 });
+                return Logdata1;
+            }
+        }
+
+
 
         [HttpGet]
         [Route("EmployeeSearch/{EmployeeId}/{Name}/{Code}/{Designation}/{Branch}/{Department}/{Top}/{Increament}/{appURL}")]
@@ -385,8 +414,8 @@ namespace MobileAppAPI.Controllers
 
 
         [HttpGet]
-        [Route("EmployeeDetail/{usercode}")]
-        public string EmployeeDetail(string usercode)
+        [Route("LoadAssetCategory")]
+        public string LoadAssetCategory()
         {
             string Logdata1 = string.Empty;
             var logdata = "";
@@ -398,7 +427,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "select a.em_emp_id,a.em_emp_name,a.em_branch_id,a.em_emp_department,a.em_emp_designation from HRMS_EMPLOYEE_MASTER a left join BO_USER_MASTER b on a.tum_user_id = b.TUM_USER_ID where b.TUM_USER_CODE = '" + usercode + "'";
+                query = "select VAL as id,TEXT as Text from BO_PARAMETER where type='INFCATEGORY' and status='A'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -484,6 +513,39 @@ namespace MobileAppAPI.Controllers
             }
         }
 
+
+        [HttpPost]
+        [Route("getdesignation")]
+        public async Task<ActionResult<HRMS>> getdesignation(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select distinct HRMS_EMPLOYEE_MASTER.*,BO_PARAMETER.*,BO_USER_TYPE_MASTER.* from ((HRMS_EMPLOYEE_MASTER inner join BO_PARAMETER on HRMS_EMPLOYEE_MASTER.em_emp_department = BO_PARAMETER.VAL) inner join BO_USER_TYPE_MASTER on HRMS_EMPLOYEE_MASTER.em_emp_designation = BO_USER_TYPE_MASTER.TYPE_ID) where HRMS_EMPLOYEE_MASTER.EM_EMP_CODE ='" + data.emp_code + "' and  BO_PARAMETER.TYPE='BO_TEAM' and BO_PARAMETER.STATUS = 'A' and BO_USER_TYPE_MASTER.Status='A' ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
 
 
 
@@ -1303,6 +1365,41 @@ namespace MobileAppAPI.Controllers
                 dbConn.Open();
                 string query = "";
                 query = "select * from BO_PARAMETER where FUNCTION_ID=" + data.functionid + " AND type LIKE '%HRMS Education%'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+        [HttpPost]
+        [Route("insertletter_request")]
+        public async Task<ActionResult<HRMS>> insertletter_request(HRMS data)
+        {
+
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "insert into HRMS_LETTER_REQUEST_DETAILS (FUNCTION_ID,BRANCH_ID,DEPARTMENT_ID,DESIGNATION_ID,EMP_CODE,LETTER_TYPE,REQ_DATE,REASON,STATUS,URL,UPDATED_ON,CREATED_BY,CREATED_ON,UPDATED_BY,IP_ADDRESS) VALUES('" + data.functionid + "', '" + data.branchid + "', '" + data.DEPARTMENT_ID + "', '" + data.DESIGNATION_ID + "', '" + data.emp_code + "', '" + data.LETTER_TYPE + "', GETDATE(), '" + data.REASON + "', '" + data.STATUS + "', NULL, NULL, '1', GETDATE(), NULL, '1');SELECT SCOPE_IDENTITY() AS inserted_id";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
