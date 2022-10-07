@@ -30,6 +30,36 @@ namespace MobileAppAPI.Models
 
         public string emp_code { get; set; }
 
+        public string DESIGNATION { get; set; }
+        //new
+        public string req_type { get; set; }
 
+        public string scheme_id { get; set; }
+
+        public string MonthLy_installment { get; set; }
+
+        public string Amount { get; set; }
+
+      
+
+        public string Monthly_deduct { get; set; }
+
+        public string Rev_loan { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        public string Createdon { get; set; }
+
+        public string Updatedon { get; set; }
+
+        public string ipaddress { get; set; }
+
+        public string isdeferral { get; set; }
+
+        public string deferralmode { get; set; }
+
+        public int usertype { get; set; }
+
+        public string ODRequestRef { get; set; }
     }
 }

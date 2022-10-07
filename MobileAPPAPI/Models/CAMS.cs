@@ -141,6 +141,17 @@ public string srvtilldate { get; set; }
 
         public string locidm { get; set; }
 
+        public string activityid { get; set; }
+
+        public string todaydte { get; set; }
+
+        public string createdby { get; set; }
+
+        public string pmrefre { get; set; }
+
+        public string typeid { get; set; }
+
+        public string actualhours { get; set; }
 
 
 

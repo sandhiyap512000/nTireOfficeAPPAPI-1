@@ -413,34 +413,6 @@ namespace MobileAppAPI.Controllers
 
 
 
-        [HttpGet]
-        [Route("LoadAssetCategory")]
-        public string LoadAssetCategory()
-        {
-            string Logdata1 = string.Empty;
-            var logdata = "";
-            DataSet dsbranchcount = new DataSet();
-
-            using (SqlConnection dbConn = new SqlConnection(strconn))
-            {
-
-
-                dbConn.Open();
-                string query = "";
-                query = "select VAL as id,TEXT as Text from BO_PARAMETER where type='INFCATEGORY' and status='A'";
-
-                SqlCommand cmd = new SqlCommand(query, dbConn);
-                var reader = cmd.ExecuteReader();
-                System.Data.DataTable results = new System.Data.DataTable();
-                results.Load(reader);
-                Logdata1 = DataTableToJSONWithStringBuilder(results);
-                dbConn.Close();
-
-                //var result = (new { recordsets = Logdata1 });
-                return Logdata1;
-            }
-        }
-        
 
 
 
@@ -1030,6 +1002,9 @@ namespace MobileAppAPI.Controllers
 
 
 
+      
+
+
 
 
         [HttpGet]
@@ -1481,6 +1456,554 @@ namespace MobileAppAPI.Controllers
 
             }
         }
+
+
+        //oct7 SHYLAJA
+
+        [HttpPost]
+        [Route("getloanscheme")]
+        public async Task<ActionResult<HRMS>> getloanscheme(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty; 
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string sql = "MBL_LOAN_GETSCHEME";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DESIGNATION", data.DESIGNATION);
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Ok(Logdata1);
+
+
+
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("LoadAssetCategory")]
+        public string LoadAssetCategory()
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select VAL as id,TEXT as Text from BO_PARAMETER where type='INFCATEGORY' and status='A'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                //var result = (new { recordsets = Logdata1 });
+                return Logdata1;
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("LoadAssetSubCategory/{Function}/{Category}")]
+        public string LoadAssetSubCategory(string Function, string Category)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select bp.SUB_CATEGORY_ID as id,bp.SUB_CATEGORY_DESC as TEXT from CAMS_ASSET_SUBCATEGORY_MASTER bp  where bp.CATEGORY_ID = "+ Category+" and bp.STATUS = 'A'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                //var result = (new { recordsets = Logdata1 });
+                return Logdata1;
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("SearchAssets/{EmpID}/{FromDate}/{ToDate}/{Category}/{SubCategory}")]
+        public string SearchAssets(string EmpID, string FromDate, string ToDate, string Category, string SubCategory)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                //string sql = "HRMS_EMPLOYEE_UPDATE_BY_DETAILS";
+                string sql = "MBL_HRMS_SEARCHASSETREQUESTS";
+                SqlCommand sqlCommand = new SqlCommand(sql, dbConn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                if (EmpID != null && EmpID.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@EMPID", EmpID.Trim());
+                else
+                    sqlCommand.Parameters.AddWithValue("@EMPID", "0");
+                sqlCommand.Parameters.AddWithValue("@FROMDATE", FromDate.Trim());
+                sqlCommand.Parameters.AddWithValue("@TODATE", ToDate.Trim());
+                sqlCommand.Parameters.AddWithValue("@Category", Category.Trim());
+                sqlCommand.Parameters.AddWithValue("@SubCategory", SubCategory.Trim());
+
+
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+
+
+                var reader = sqlCommand.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
+        [HttpPost]
+        [Route("insertloanadvancedetails")]
+        public async Task<ActionResult<HRMS>> insertloanadvancedetails(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+       
+            System.Data.DataTable results2 = new System.Data.DataTable();
+            string Logdata1 = string.Empty;
+            
+            int req_id;
+            string strreq_id = "";
+            string pk_column_name1="";
+            string pk_column_name2 = "";
+            string pk_column_name3 = "";
+            string pk_column_name4 = "";
+            string pk_column_name5 = "";
+            string STATUS_COLUMN = "";
+
+            string output = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                string sql = "MBL_HRMS_EMPLOYEE_LOAN_DETAILS_INSERT";
+                SqlCommand sqlCommand = new SqlCommand(sql, dbConn);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@EMPID", data.EmpId);
+                sqlCommand.Parameters.AddWithValue("@REQUESTTYPE",data.req_type);
+                sqlCommand.Parameters.AddWithValue("@SCHEMEID", data.scheme_id);
+                sqlCommand.Parameters.AddWithValue("@MAXINSTALL",data.MonthLy_installment);
+                sqlCommand.Parameters.AddWithValue("@AMOUNT", data.Amount);
+                sqlCommand.Parameters.AddWithValue("@STATUS", data.STATUS);
+                sqlCommand.Parameters.AddWithValue("@MONTHLYDEDUCTION", data.Monthly_deduct);
+                sqlCommand.Parameters.AddWithValue("@REVLOAN ", data.Rev_loan);
+                sqlCommand.Parameters.AddWithValue("@CREATEDBY ", data.CreatedBy);
+                sqlCommand.Parameters.AddWithValue("@USERID ", data.userid);
+                sqlCommand.Parameters.AddWithValue("@CREATEDON ", data.Createdon);
+                sqlCommand.Parameters.AddWithValue("@UPDATEDON ", data.Updatedon);
+                sqlCommand.Parameters.AddWithValue("@IPADDRESS", data.ipaddress);
+                sqlCommand.Parameters.AddWithValue("@ISDEFFERRAL ", data.isdeferral);
+                sqlCommand.Parameters.AddWithValue("@DEFMODE ", data.deferralmode);
+                sqlCommand.Parameters.AddWithValue("@FUNCTIONID ", data.functionid);
+
+
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+
+
+                var reader = sqlCommand.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+             
+
+                    string query1 = "";
+                    query1 = "select max(req_id) as reqid from HRMS_EMPLOYEE_LOAN_DETAILS";
+                    SqlCommand cmd1 = new SqlCommand(query1, dbConn);
+                    var reader1 = cmd1.ExecuteReader();
+                    System.Data.DataTable results1 = new System.Data.DataTable();
+                    results1.Load(reader1);
+                for (int i1 = 0; i1 < results1.Rows.Count; i1++)
+                {
+                    DataRow row1 = results1.Rows[i1];
+                    req_id = Convert.ToInt32(row1[0]);
+                    strreq_id = row1[0].ToString();
+
+                }
+
+
+                        string query2 = "";
+                        query2 = "select pk_column_name1,pk_column_name2,pk_column_name3,pk_column_name4,pk_column_name5,STATUS_COLUMN from BO_WORKFLOW_CONFIGURATIONS with (nolock) where WF_CONFIG_ID='13' ";
+
+                        SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                        var reader2 = cmd2.ExecuteReader();
+
+                        results2.Load(reader2);
+
+                for (int i2 = 0; i2 < results2.Rows.Count; i2++)
+                {
+                    DataRow row2 = results1.Rows[i2];
+                    pk_column_name1 = row2[0].ToString();
+
+                    pk_column_name2 = row2[0].ToString();
+                    pk_column_name3 = row2[0].ToString();
+                    pk_column_name4 = row2[0].ToString();
+                    pk_column_name5 = row2[0].ToString();
+                    STATUS_COLUMN = row2[0].ToString();
+                }
+
+
+                string sql2 = "MBL_usp_WF_ApprovalUsers";
+                SqlCommand sqlCommand2 = new SqlCommand(sql2, dbConn);
+                sqlCommand2.Parameters.AddWithValue("@TableName", "HRMS_EMPLOYEE_LOAN_DETAILS");
+                sqlCommand2.Parameters.AddWithValue("@PKColumnName1" ,pk_column_name1);
+                sqlCommand2.Parameters.AddWithValue("@PKColumnName2", pk_column_name2);
+                sqlCommand2.Parameters.AddWithValue("@PKColumnName3", pk_column_name3);
+                sqlCommand2.Parameters.AddWithValue("@PKColumnName4", pk_column_name4);
+                sqlCommand2.Parameters.AddWithValue("@PKColumnName5", pk_column_name5);
+                sqlCommand2.Parameters.AddWithValue("@PKColumnValue1", strreq_id);
+                sqlCommand2.Parameters.AddWithValue("@PKColumnValue2", "0");
+                sqlCommand2.Parameters.AddWithValue("@PKColumnValue3", "0");
+                sqlCommand2.Parameters.AddWithValue("@PKColumnValue4", "0");
+                sqlCommand2.Parameters.AddWithValue("@PKColumnValue5", "0");
+                sqlCommand2.Parameters.AddWithValue("@PKDomain", data.functionid);
+                sqlCommand2.Parameters.AddWithValue("@RequestedBy", data.userid);
+                sqlCommand2.Parameters.AddWithValue("@PKStatusColumn", STATUS_COLUMN);
+                sqlCommand2.Parameters.AddWithValue("@PKStatus", "P");
+                sqlCommand2.Parameters.AddWithValue("@ModuleId", "167");
+
+
+                SqlDataAdapter da1 = new SqlDataAdapter(sqlCommand);
+
+
+                var reader3 = sqlCommand.ExecuteReader();
+                System.Data.DataTable results3 = new System.Data.DataTable();
+                results3.Load(reader3);
+
+
+                for (int i3 = 0; i3 < results3.Rows.Count; i3++)
+                {
+                    DataRow row3 = results3.Rows[i3];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results3);
+                }
+               // return Logdata1;
+                return Ok(Logdata1);
+            }
+
+
+        }
+
+
+        [HttpPost]
+        [Route("loanrequestsummary")]
+        public async Task<ActionResult<HRMS>> loanrequestsummary(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+            string output = "";
+            string em_emp_id;
+            string Logdata1 = string.Empty;
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+
+                if (data.usertype == 1)
+                {
+
+                    string query = "";
+                    query = "select distinct HRMS_EMPLOYEE_LOAN_DETAILS.*,HRMS_LOAN_MASTER.scheme_code,case when (HRMS_LOAN_MASTER.scheme_desc is null and HRMS_EMPLOYEE_LOAN_DETAILS.scheme_id=0) then 'Advance' else HRMS_LOAN_MASTER.scheme_desc end as scheme_desc  from HRMS_EMPLOYEE_LOAN_DETAILS left join HRMS_LOAN_MASTER on HRMS_EMPLOYEE_LOAN_DETAILS.scheme_id = HRMS_LOAN_MASTER.scheme_id order by req_id desc";
+                    SqlCommand cmd1 = new SqlCommand(query, dbConn);
+                    var reader1 = cmd1.ExecuteReader();
+                    System.Data.DataTable results1 = new System.Data.DataTable();
+                    results1.Load(reader1);
+                    for (int i = 0; i < results1.Rows.Count; i++)
+                    {
+                        DataRow row3 = results1.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results1);
+                    }
+
+                }
+                else
+                {
+                    string query = "";
+                    query = "select em_emp_id from hrms_employee_master where EM_EMP_CODE='" + data.emp_code + "'";
+                    SqlCommand cmd1 = new SqlCommand(query, dbConn);
+                    var reader1 = cmd1.ExecuteReader();
+                    System.Data.DataTable results1 = new System.Data.DataTable();
+                    results1.Load(reader1);
+                    for (int i1 = 0; i1 < results1.Rows.Count; i1++)
+                    {
+                        DataRow row1 = results1.Rows[i1];
+                        em_emp_id = row1[0].ToString();
+
+
+
+                        string query1 = "";
+                        query1 = "select distinct HRMS_EMPLOYEE_LOAN_DETAILS.*,HRMS_LOAN_MASTER.scheme_code,case when(HRMS_LOAN_MASTER.scheme_desc is null and HRMS_EMPLOYEE_LOAN_DETAILS.scheme_id = 0) then 'Advance' else HRMS_LOAN_MASTER.scheme_desc end as scheme_desc  from HRMS_EMPLOYEE_LOAN_DETAILS left join HRMS_LOAN_MASTER on HRMS_EMPLOYEE_LOAN_DETAILS.scheme_id = HRMS_LOAN_MASTER.scheme_id where HRMS_EMPLOYEE_LOAN_DETAILS.empid = '" + em_emp_id + "' order by req_id desc";
+                        SqlCommand cmd2 = new SqlCommand(query1, dbConn);
+                        var reader2 = cmd2.ExecuteReader();
+                        System.Data.DataTable results2 = new System.Data.DataTable();
+                        results2.Load(reader2);
+
+                        for (int i3 = 0; i3 < results2.Rows.Count; i3++)
+                        {
+                            DataRow row3 = results2.Rows[i3];
+                            Logdata1 = DataTableToJSONWithStringBuilder(results2);
+                        }
+                    }
+
+                }
+                return Ok(Logdata1);
+            }
+        }
+
+        [HttpGet]
+        [Route("SaveOnDuty/{Function}/{EmpID}/{REQUESTID}/{FromDate}/{FromHours}/{ToDate}/{ToHours}/{NoDays}/{ContactPhone}/{ODReason}/{Status}/{istravelreq}/{isadvancereq}")]
+
+        public string SaveOnDuty(string Function, string EmpID, string REQUESTID, string FromDate, string FromHours, string ToDate, string ToHours, string NoDays, string ContactPhone, string ODReason, string Status, string istravelreq, string isadvancereq)
+        {
+            FromHours = FromHours.Replace("@", ":");
+            ToHours = ToHours.Replace("@", ":");
+            string result = "";
+             string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+                dbConn.Open();
+                string sql = "[dbo].[MBL_HRMS_INSERTUPDATEOD]";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FUNCTION", Function);
+                cmd.Parameters.AddWithValue("@EmpID", EmpID);
+                cmd.Parameters.AddWithValue("@REQUESTID", REQUESTID);
+                cmd.Parameters.AddWithValue("@FromDate", FromDate);
+                cmd.Parameters.AddWithValue("@FromHours", FromHours);
+                cmd.Parameters.AddWithValue("@ToDate", ToDate);
+                cmd.Parameters.AddWithValue("@ToHours", ToHours);
+                cmd.Parameters.AddWithValue("@NoDays", NoDays);
+                cmd.Parameters.AddWithValue("@ContactPhone", ContactPhone);
+                cmd.Parameters.AddWithValue("@ODReason", ODReason);
+                cmd.Parameters.AddWithValue("@STATUS", Status);
+                cmd.Parameters.AddWithValue("@IsTravelRequired", istravelreq);
+                cmd.Parameters.AddWithValue("@IsAdvanceRequired", isadvancereq);
+                cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
+        [HttpGet]
+        [Route("SavePermission/{Function}/{UserID}/{REQUESTID}/{ReqDate}/{FromDate}/{FromHours}/{ToHours}/{ContactPhone}/{Reason}/{CurrentStatus}")]
+
+        public string SavePermission(string Function, string UserID, string REQUESTID, string ReqDate, string FromDate, string FromHours, string ToHours, string ContactPhone, string Reason, string CurrentStatus)
+        {
+            FromHours = FromHours.Replace("@", ":");
+            ToHours = ToHours.Replace("@", ":");
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+                dbConn.Open();
+                string sql = "[dbo].[MBL_HRMS_INSERTUPDATEPERM]";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FUNCTION", Function);
+                cmd.Parameters.AddWithValue("@USERID", UserID);
+                cmd.Parameters.AddWithValue("@REQUESTID", REQUESTID);
+                cmd.Parameters.AddWithValue("@ReqDate", ReqDate);
+                cmd.Parameters.AddWithValue("@FromDate", FromDate);
+                cmd.Parameters.AddWithValue("@FromHours", FromHours);
+                cmd.Parameters.AddWithValue("@ToHours", ToHours);
+                cmd.Parameters.AddWithValue("@ContactPhone", ContactPhone);
+                cmd.Parameters.AddWithValue("@Reason", Reason);
+                cmd.Parameters.AddWithValue("@STATUS", CurrentStatus);
+                cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+            }
+
+
+
+        [HttpGet]
+        [Route("SearchPermission/{Function}/{EmpID}/{FromDate}/{ToDate}")]
+        public string SearchPermission(string Function, string EmpID, string FromDate, string ToDate)
+        {
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+                dbConn.Open();
+
+                string sql = "MBL_HRMS_SEARCHPERMREQUESTS";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                SqlDataAdapter apd = new SqlDataAdapter(cmd);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FUNCTION", Function);
+                cmd.Parameters.AddWithValue("@EMPID", EmpID);
+                cmd.Parameters.AddWithValue("@FROMDATE", FromDate);
+                cmd.Parameters.AddWithValue("@TODATE", ToDate);
+
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
+
+        [HttpPost]
+        [Route("getODRequestRef")]
+        public async Task<ActionResult<HRMS>> getODRequestRef(HRMS data)
+        {
+
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select * from HRMS_ATTODREQUEST where ODRequestRef='" + data.ODRequestRef + "'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+
+        public string DataTableToJSONWithStringBuilder1(DataTable table)
+        {
+            var JSONString = new StringBuilder();
+            if (table.Rows.Count > 0)
+            {
+                JSONString.Append("[");
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    JSONString.Append("{");
+                    for (int j = 0; j < table.Columns.Count; j++)
+                    {
+                        if (j < table.Columns.Count - 1)
+                        {
+                            JSONString.Append( table.Columns[j].ColumnName.ToString() + ":" + "\"" + table.Rows[i][j].ToString() + "\",");
+                        }
+                        else if (j == table.Columns.Count - 1)
+                        {
+                            JSONString.Append( table.Columns[j].ColumnName.ToString() + ":" + "\"" + table.Rows[i][j].ToString() + "\"");
+                        }
+                    }
+                    if (i == table.Rows.Count - 1)
+                    {
+                        JSONString.Append("}");
+                    }
+                    else
+                    {
+                        JSONString.Append("},");
+                    }
+                }
+                JSONString.Append("]");
+            }
+            return JSONString.ToString();
+        }
+
+
+
 
 
 

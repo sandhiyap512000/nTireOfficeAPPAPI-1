@@ -58,7 +58,6 @@ namespace MobileAppAPI.Models
         public int LatLong { get; set; }
         public int LeadID { get; set; }
 
-        //public int custid { get; set; }
 
     }
 }

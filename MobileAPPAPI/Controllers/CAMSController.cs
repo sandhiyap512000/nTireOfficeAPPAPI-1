@@ -2049,6 +2049,136 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        //new
+        [HttpGet]
+        [Route("CAMS_PENDING_REOPENED/{ASSETACTIVITYID}/{ASSET_ID}/{ASSETREFNO}/{STRFUNCTIONID}/{ASSETPMRREFERENCE}/{remarks}/{date}/{userid}/{branchid}/{workorderno}")]
+        public string CAMS_PENDING_REOPENED(string ASSETACTIVITYID, string ASSET_ID, string ASSETREFNO, string STRFUNCTIONID, string ASSETPMRREFERENCE, string remarks, string date, string userid, string branchid, string workorderno)
+        {
+            string Logdata1 = string.Empty;
+            var JSONString = new StringBuilder();
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+                dbConn.Open();
+                string sql = "MBL_CAMSMOBIAPI_CAMS_PENDING_REOPENED";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ASSETACTIVITYID", ASSETACTIVITYID);
+                cmd.Parameters.AddWithValue("@ASSET_ID", ASSET_ID);
+                cmd.Parameters.AddWithValue("@ASSETREFNO", ASSETREFNO);
+                cmd.Parameters.AddWithValue("@STRFUNCTIONID", STRFUNCTIONID);
+                cmd.Parameters.AddWithValue("@ASSETPMRREFERENCE", ASSETPMRREFERENCE);
+                cmd.Parameters.AddWithValue("@remarks", remarks);
+                cmd.Parameters.AddWithValue("@date", date);
+                cmd.Parameters.AddWithValue("@userid", userid);
+                cmd.Parameters.AddWithValue("@branchid", branchid);
+                cmd.Parameters.AddWithValue("@workorderno", workorderno);
+                cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                // string st = cmd.Parameters["@Result"].Value.ToString();
+                Logdata1 = "Successfully Reopend";
+                JSONString.Append("\"" + Logdata1 + "\"");
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return JSONString.ToString();
+            }
+        }
+
+
+
+        [HttpPost]
+        [Route("compltedjonclose")]
+        public async Task<ActionResult<CAMS>> compltedjonclose(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            int depid = 0;
+            int locid = 0;
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+
+                string query2 = "";
+                query2 = "update  CAMS_ASSET_REQUEST  set ASSET_STATUS='O',asset_start_status='O' where ASSET_ID='" + data.assetid + "' and ASSET_ACTIVITY_ID='" + data.activityid + "'";
+
+                SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                var reader2 = cmd2.ExecuteReader();
+                System.Data.DataTable results2 = new System.Data.DataTable();
+                results2.Load(reader2);
+               
+                string query3 = "";
+                query3 = "update CAMS_LAST_MAINTENANCE set ASSET_STATUS='O',UPDATED_ON=" + data.todaydte + " where  ASSET_ASSET_ID='" + data.assetid + "' and ASSET_ACTIVITY_ID='" + data.activityid + "'";
+
+                SqlCommand cmd3 = new SqlCommand(query3, dbConn);
+                var reader3 = cmd3.ExecuteReader();
+                System.Data.DataTable results3 = new System.Data.DataTable();
+                results3.Load(reader3);
+
+
+                string query4 = "";
+                query4 = "SET DATEFORMAT DMY;insert into CAMS_TASKS_ASSIGNED(CAMS_REF_NO,CAMS_USER_ID,Created_by,created_on,lst_updated_by,lst_updated_on,FUNCTION_ID) values('" + data.refmaxno + "','0','" + data.createdby + "'," + data.todaydte + ",'" + data.createdby + "'," + data.todaydte + ",'" + data.functionidrep + "')";
+
+                SqlCommand cmd4 = new SqlCommand(query4, dbConn);
+                var reader4 = cmd4.ExecuteReader();
+                System.Data.DataTable results4 = new System.Data.DataTable();
+                results4.Load(reader4);
+
+                string query5 = "";
+                query5 = "SET DATEFORMAT DMY;insert into CAMS_LAST_MAINTENANCE (FUNCTION_ID,BRANCH_ID,ASSET_ASSET_ID,ASSET_ACTIVITY_ID,ASSET_FREQUENCY_MODE,ASSET_FREQUENCY,ASSET_STATUS,CREATED_ON,UPDATED_ON,ASSET_REF_NO,ASSET_LAST_MAINTENANCE_TYPE,ASSET_TESTED_BY,ASSET_CERTIFICATE_ISSUED,ASSET_CERTIFICATE_DETAILS,ASSET_NEXT_MAINTENANCE) values(" + data.functionidrep + "," + data.branchid + ",'" + data.assetid + "','" + data.activityid + "','T','3','A'," + data.todaydte + "," + data.todaydte + ",'" + data.createdby + "','','',' ','','')";
+
+                SqlCommand cmd5 = new SqlCommand(query5, dbConn);
+                var reader5 = cmd5.ExecuteReader();
+                System.Data.DataTable results5 = new System.Data.DataTable();
+                results5.Load(reader5);
+
+
+                string query6 = "";
+                query6 = "SET DATEFORMAT DMY;INSERT INTO CAMS_MAINTENANCE_MANPOWER_ALLOCATION(FUNCTION_ID,BRANCH_ID,ASSET_ID,ASSET_ACTIVITY_ID,ASSET_PM_REFERENCE,ASSET_USER_TYPEID,ASSET_EMP_ID,ASSET_ACTUAL_HRS,WORKING_DATE,ASSET_STATUS,ipaddress,CREATED_ON,UPDATED_ON,CREATED_BY,UPDATED_BY,Assign_Status) VALUES('" + data.functionidrep + "','" + data.branchid + "','" + data.assetid + "','" + data.activityid + "','" + data.pmrefre + "','" + data.typeid + "','3','" + data.actualhours + "',convert(datetime,'" + data.todaydte + "'),'A','1'," + data.todaydte + "," + data.todaydte + ",'" + data.createdby + "','" + data.createdby + "','A')";
+
+                SqlCommand cmd6 = new SqlCommand(query6, dbConn);
+                var reader6 = cmd6.ExecuteReader();
+                System.Data.DataTable results6 = new System.Data.DataTable();
+                results6.Load(reader6);
+
+
+
+                string query = "";
+                query = "SELECT ASSET_CODE FROM CAMS_ASSET_MASTER";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+
+
+
+
+
         public string DataTableToJSONWithStringBuilder(DataTable table)
         {
             var JSONString = new StringBuilder();

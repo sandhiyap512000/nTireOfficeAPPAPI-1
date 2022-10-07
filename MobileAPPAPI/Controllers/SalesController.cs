@@ -149,13 +149,15 @@ namespace MobileAppAPI.Controllers
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
+
+             
                 return Ok(Logdata1);
 
 
             }
         }
 
-
+        //shylaja
 
         [HttpPost]
         [Route("allpendleadsdatabybranch")]
