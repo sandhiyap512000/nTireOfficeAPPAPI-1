@@ -30,6 +30,9 @@ namespace JSIGamingAPI.Controllers
     {
         public static Helper objhelper = new Helper();
         public static string strconn = objhelper.Connectionstring();
+        private object utf8Encoder;//new
+        System.Security.Cryptography.SHA256Managed sha256 = new System.Security.Cryptography.SHA256Managed();//new
+   
 
 
         //login post
@@ -49,10 +52,12 @@ namespace JSIGamingAPI.Controllers
             string outputjson = "";
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
+              //  UTF8Encoding utf8Encoder = new UTF8Encoding();//new
                 UnicodeEncoding UE = new UnicodeEncoding();
                 Byte[] hashedBytes = null;
                 SHA256Managed hashString = new SHA256Managed();
                 hashedBytes = hashString.ComputeHash(UE.GetBytes(data.password));
+                //hashedBytes= sha256.ComputeHash(utf8Encoder.GetBytes(data.password));//new added
                 DataSet dsuserdetails = new DataSet();
                 dbConn.Open();
                 string sql = "MBL_BO_MOB_USER_AUTHENCATION";

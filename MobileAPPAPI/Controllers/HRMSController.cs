@@ -1878,6 +1878,7 @@ namespace MobileAppAPI.Controllers
 
 
                 var reader = cmd.ExecuteReader();
+
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
                 //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
@@ -1964,6 +1965,57 @@ namespace MobileAppAPI.Controllers
 
             }
         }
+
+
+
+
+        [HttpGet]
+        [Route("SaveAssets/{Function}/{Branch}/{RequestID}/{EmpID}/{ReqDate}/{AssetCategory}/{AssetSubCategory}/{ReturnDate}/{Reason}/{Status}")]
+        public string SaveAssets(string Function, string Branch, string RequestID, string EmpID, string ReqDate, string AssetCategory, string AssetSubCategory,  string ReturnDate, string Reason, string Status)
+        {
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+                dbConn.Open();
+                string sql = "[dbo].[MBL_HRMS_INSERTUPDATEASSET]";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Function", Function);
+                cmd.Parameters.AddWithValue("@Branch", Branch);
+                cmd.Parameters.AddWithValue("@RequestID", RequestID);
+                cmd.Parameters.AddWithValue("@EmpID", EmpID);
+                cmd.Parameters.AddWithValue("@ReqDate", ReqDate);
+                cmd.Parameters.AddWithValue("@AssetCategory", AssetCategory);
+                cmd.Parameters.AddWithValue("@AssetSubCategory", AssetSubCategory);
+               // cmd.Parameters.AddWithValue("@RequiredBefore", Requiredbefore);
+                cmd.Parameters.AddWithValue("@ReturnDate", ReturnDate);
+                cmd.Parameters.AddWithValue("@Reason", Reason);
+                cmd.Parameters.AddWithValue("@Status", Status);
+                cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+
+
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+
+                var reader = cmd.ExecuteReader();
+                 string st = cmd.Parameters["@Result"].Value.ToString();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return st;
+            }
+        }
+
+
 
 
 
