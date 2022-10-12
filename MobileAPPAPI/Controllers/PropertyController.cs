@@ -503,142 +503,230 @@ namespace MobileAppAPI.Controllers
 
 
 
-        //[HttpPost]
-        //[Route("get_training_details")]
-        //public async Task<ActionResult<Property>> get_training_details(Property data)
-        //{
-        //    // string struser = data.user_lower;
+        [HttpPost]
+        [Route("get_training_details")]
+        public async Task<ActionResult<Property>> get_training_details(Property data)
+        {
+            // string struser = data.user_lower;
 
-        //    List<Property> Logdata = new List<Property>();
-        //    string Logdata1 = string.Empty;
-        //    var logdata = "";
-        //    var strtoken = "";
-        //    // var result = "";
+            List<Property> Logdata = new List<Property>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
 
-        //    int REF_ID;
-        //    int S_NO;
-        //    int wkno;    
-        //    using (SqlConnection dbConn = new SqlConnection(strconn))
-        //    {
-
-
-        //        dbConn.Open();
-        //        string query = "select cast(isnull(max(isnull(ASSET_REF_NO,0)),0)+1 as decimal) from CAMS_LAST_MAINTENANCE with (nolock) where 1=1  and FUNCTION_ID='"+data.functionid+"'  and BRANCH_ID='"+data.branchid + "'";
-
-        //        SqlCommand cmd = new SqlCommand(query, dbConn);
-        //        var reader = cmd.ExecuteReader();
-        //        System.Data.DataTable results = new System.Data.DataTable();
-        //        results.Load(reader);
-
-        //        for (int i = 0; i < results.Rows.Count; i++)
-        //        {
-        //            Property log = new Property();
-        //            DataRow row = results.Rows[i];
-                   
-        //            REF_ID = Convert.ToInt32(row[0]);
-        //            DataSet ds = new DataSet();
-        //            DataRow newrow = ds.Tables[0].NewRow();
-        //            newrow.BeginEdit();
-        //            int count = 1;
-        //            string controltext = "";
-
-        //            newrow["Approval_Required"] = "Y";
-        //            newrow["pmr_asset_reference"] = data.assetid;
-                    
-        //            newrow["pmr_reference"] = REF_ID;
-                   
-        //            newrow["Priority"] = data.Priority;
-                   
-        //            newrow["asset_activity_id"] = "0";
-        //            newrow["pm_due_date"] = data.pm_due_date;
-        //            newrow["pmr_requested_by"] = data.userid;
-        //            newrow["pmr_pm_type"] = data.drpPMType;
-        //            newrow["pmr_counter_reading"] = "0";
-        //            newrow["pmr_details"] = data.txtDetails;
-        //            newrow["division_cd"] = data.branchid;
-        //            newrow["category"] = "0";
-        //            newrow["act_desc"] = data.txtDetails;
-        //            newrow["amd_activity_id"] = "0";
-        //            newrow["ASSET_DURATION"] = "00:00";
-        //            newrow["ASSET_OWNER"] = data.assetownerid;
-        //            newrow["Created_by"] = data.userid;
-
-        //           string strIpAddress = "::1";
-        //            newrow["ipaddress"] = strIpAddress;
-                    
-        //                newrow["pmr_shutdown_request"] = "N";
-                    
-        //            newrow.EndEdit();
-        //            ds.Tables[0].Rows.Add(newrow);
+            int REF_ID;
+            int S_NO;
+            string wkno = string.Empty;
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
 
 
-        //            string query1 = "select serial_no+1 from BO_SLNO_PARAMETER where type='URWorkOrderNumber'";
+                dbConn.Open();
+                string query = "select cast(isnull(max(isnull(ASSET_REF_NO,0)),0)+1 as decimal) from CAMS_LAST_MAINTENANCE with (nolock) where 1=1  and FUNCTION_ID='" + data.functionid + "'  and BRANCH_ID='" + data.branchid + "'";
 
-        //            SqlCommand cmd1 = new SqlCommand(query1, dbConn);
-        //            var reader1 = cmd.ExecuteReader();
-        //            System.Data.DataTable results1 = new System.Data.DataTable();
-        //            results1.Load(reader1);
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
 
-        //            for (int j = 0; j < results1.Rows.Count; j++)
-        //            {
-        //                Property log1 = new Property();
-        //                DataRow row1 = results1.Rows[i];
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    Property log = new Property();
+                    DataRow row = results.Rows[i];
 
-        //                S_NO = Convert.ToInt32(row1[0]);
+                    REF_ID = Convert.ToInt32(row[0]);
+                    DataSet ds = new DataSet();
 
-        //                string query2 = "select serial_no+1 from BO_SLNO_PARAMETER where type='URWorkOrderNumber'";
+                    ds.Tables.Add("pm_request");
+                    ds.Tables[0].Columns.Add("company_cd");
+                    ds.Tables[0].Columns.Add("lang_cd");
+                    ds.Tables[0].Columns.Add("division_cd");
+                    ds.Tables[0].Columns.Add("pmr_asset_reference");
+                    ds.Tables[0].Columns.Add("Approval_Required");
+                    ds.Tables[0].Columns.Add("problemdescr");
+                    ds.Tables[0].Columns.Add("Priority");
+                    ds.Tables[0].Columns.Add("Problem_Type");
+                    ds.Tables[0].Columns.Add("Problem_Service_Type");
+                    ds.Tables[0].Columns.Add("asset_activity_id");
+                    ds.Tables[0].Columns.Add("pmr_reference");
+                    ds.Tables[0].Columns.Add("pmr_asset_cagtegory");
+                    ds.Tables[0].Columns.Add("pmr_pm_type");
+                    ds.Tables[0].Columns.Add("pmr_details");
+                    ds.Tables[0].Columns.Add("pm_due_date");
+                    ds.Tables[0].Columns.Add("pm_changed_due_date");
+                    ds.Tables[0].Columns.Add("pmr_counter_reading");
+                    ds.Tables[0].Columns.Add("pmr_requested_by");
+                    ds.Tables[0].Columns.Add("pmr_requesteddatetime");
+                    ds.Tables[0].Columns.Add("pm_approved_date");
+                    ds.Tables[0].Columns.Add("pm_completion_date");
+                    ds.Tables[0].Columns.Add("pm_done_by");
+                    ds.Tables[0].Columns.Add("pmr_planned_hrs");
+                    ds.Tables[0].Columns.Add("pmr_actual_hrs");
+                    ds.Tables[0].Columns.Add("pmr_deviation_reason");
+                    ds.Tables[0].Columns.Add("pmr_breakdown_desc");
+                    ds.Tables[0].Columns.Add("pmr_breakdown_reason");
+                    ds.Tables[0].Columns.Add("pmr_breakdown_remedy");
+                    ds.Tables[0].Columns.Add("pmr_tasks_carriedout");
+                    ds.Tables[0].Columns.Add("pmr_status");
+                    ds.Tables[0].Columns.Add("workflowstatus");
+                    ds.Tables[0].Columns.Add("rel_status");
+                    ds.Tables[0].Columns.Add("act_desc");
+                    ds.Tables[0].Columns.Add("pmm_asset_reference");
+                    ds.Tables[0].Columns.Add("amd_activity_id");
+                    ds.Tables[0].Columns.Add("pmm_asset_desc");
+                    ds.Tables[0].Columns.Add("pmm_asset_department");
+                    ds.Tables[0].Columns.Add("departText");
+                    ds.Tables[0].Columns.Add("equipmenttext");
+                    ds.Tables[0].Columns.Add("pmm_equipment_type");
+                    ds.Tables[0].Columns.Add("pmm_asset_sl_no");
+                    ds.Tables[0].Columns.Add("pmm_asset_location");
+                    ds.Tables[0].Columns.Add("pmr_shutdown_request");
+                    ds.Tables[0].Columns.Add("refno");
+                    ds.Tables[0].Columns.Add("category");
+                    ds.Tables[0].Columns.Add("ASSET_DURATION");
+                    ds.Tables[0].Columns.Add("ASSET_OWNER");
+                    ds.Tables[0].Columns.Add("DYNFIELD1");
+                    ds.Tables[0].Columns.Add("DYNFIELD2");
+                    ds.Tables[0].Columns.Add("DYNFIELD3");
+                    ds.Tables[0].Columns.Add("DYNFIELD4");
+                    ds.Tables[0].Columns.Add("DYNFIELD5");
+                    ds.Tables[0].Columns.Add("DYNFIELD6");
+                    ds.Tables[0].Columns.Add("DYNFIELD7");
+                    ds.Tables[0].Columns.Add("DYNFIELD8");
+                    ds.Tables[0].Columns.Add("DYNFIELD9");
+                    ds.Tables[0].Columns.Add("DYNFIELD10");
+                    ds.Tables[0].Columns.Add("controltext");
+                    ds.Tables[0].Columns.Add("Created_by");
+                    ds.Tables[0].Columns.Add("ipaddress");
 
-        //                SqlCommand cmd2 = new SqlCommand(query1, dbConn);
-        //                var reader2 = cmd.ExecuteReader();
-        //                System.Data.DataTable results2 = new System.Data.DataTable();
-        //                results2.Load(reader2);
 
-        //                for (int k = 0; k < results2.Rows.Count; k++)
-        //                {
-        //                    Property log2 = new Property();
-        //                    DataRow row2 = results2.Rows[i];
+                    DataRow newrow = ds.Tables[0].NewRow();
+                    newrow.BeginEdit();
+                    int count = 1;
+                    string controltext = "";
 
-        //                    S_NO = Convert.ToInt32(row2[0]);
+                    newrow["Approval_Required"] = "Y";
+                    newrow["pmr_asset_reference"] = data.assetid;
 
-        //                    string sql11 = "select prefix + '' + serial_no  + '' + isnull(suffix,'') from BO_slno_parameter where type='URWorkOrderNumber' and slno_domain='" + data.functionid + "'";
+                    newrow["pmr_reference"] = REF_ID;
 
-        //                    SqlCommand cmd3 = new SqlCommand(query1, dbConn);
-        //                    var reader3 = cmd.ExecuteReader();
-        //                    System.Data.DataTable results3 = new System.Data.DataTable();
-        //                    results3.Load(reader3);
+                    newrow["Priority"] = data.Priority;
 
+                    newrow["asset_activity_id"] = "0";
+                    newrow["pm_due_date"] = data.pm_due_date;
+                    newrow["pmr_requested_by"] = data.userid;
+                    newrow["pmr_pm_type"] = data.drpPMType;
+                    newrow["pmr_counter_reading"] = "0";
+                    newrow["pmr_details"] = data.txtDetails;
+                    newrow["division_cd"] = data.branchid;
+                    newrow["category"] = "0";
+                    newrow["act_desc"] = data.txtDetails;
+                    newrow["amd_activity_id"] = "0";
+                    newrow["ASSET_DURATION"] = "00:00";
+                    newrow["ASSET_OWNER"] = data.assetownerid;
+                    newrow["Created_by"] = data.userid;
 
-        //                    for (int a = 0; a < results3.Rows.Count; a++)
-        //                    {
-        //                        Property log3 = new Property();
-        //                        DataRow row3 = results3.Rows[i];
+                    string strIpAddress = "::1";
+                    newrow["ipaddress"] = strIpAddress;
 
-        //                        wkno = Convert.ToInt32(row3[0]);
+                    newrow["pmr_shutdown_request"] = "N";
 
-        //                        DataRow row4 = ds.Tables[0].Rows[0];
-
-        //                        string strQry = "Exec CAMS_UIR_Save " + branch + "," + Company + "," + row4["pmr_asset_reference"] + "," + row4["pmr_reference"] + "," + row4["amd_activity_id"] + ",'" + row4["pm_due_date"] + "','" + row4["pmr_pm_type"].ToString() + "','" + row4["pmr_details"].ToString() + "','" + row4["problemdescr"] + "','" + row4["Priority"] + "','" + row4["Problem_Type"] + "','" + row4["Problem_Service_Type"] + "','" + row4["Created_by"] + "','" + row4["ipaddress"] + "','" + workod + "','" + row4["ASSET_DURATION"] + "','" + row4["ASSET_OWNER"] + "','" + row4["pmr_requested_by"] + "','','','','A','Insert'";
-
-        //                    }
-
-
-        //                    }
-
+                    newrow.EndEdit();
+                    ds.Tables[0].Rows.Add(newrow);
 
 
+                    string query1 = "select serial_no+1 from BO_SLNO_PARAMETER where type='URWorkOrderNumber'";
 
-        //            }
+                    SqlCommand cmd1 = new SqlCommand(query1, dbConn);
+                    var reader1 = cmd1.ExecuteReader();
+                    System.Data.DataTable results1 = new System.Data.DataTable();
+                    results1.Load(reader1);
 
-        //            }
-        //            Logdata1 = DataTableToJSONWithStringBuilder(results);
-        //        dbConn.Close();
+                    for (int j = 0; j < results1.Rows.Count; j++)
+                    {
+                        Property log1 = new Property();
+                        DataRow row1 = results1.Rows[i];
 
-        //        var result = (new { recordsets = Logdata1 });
-        //        return Ok(Logdata1);
+                        S_NO = Convert.ToInt32(row1[0]);
+
+                        string query2 = "select serial_no+1 from BO_SLNO_PARAMETER where type='URWorkOrderNumber'";
+
+                        SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                        var reader2 = cmd2.ExecuteReader();
+                        System.Data.DataTable results2 = new System.Data.DataTable();
+                        results2.Load(reader2);
+
+                        for (int k = 0; k < results2.Rows.Count; k++)
+                        {
+                            Property log2 = new Property();
+                            DataRow row2 = results2.Rows[i];
+
+                            S_NO = Convert.ToInt32(row2[0]);
+
+                            string sql11 = "select prefix + '' + serial_no  + '' + isnull(suffix,'') from BO_slno_parameter where type='URWorkOrderNumber' and slno_domain='" + data.functionid + "'";
+
+                            SqlCommand cmd3 = new SqlCommand(sql11, dbConn);
+                            var reader3 = cmd3.ExecuteReader();
+                            System.Data.DataTable results3 = new System.Data.DataTable();
+                            results3.Load(reader3);
 
 
-        //    }
-        //}
+                            for (int a = 0; a < results3.Rows.Count; a++)
+                            {
+                                Property log3 = new Property();
+                                DataRow row3 = results3.Rows[i];
+
+                                wkno = Convert.ToString(row3[0]);
+
+                                DataRow row4 = ds.Tables[0].Rows[0];
+
+                                string strQry = "Exec CAMS_UIR_Save " + data.branchid + "," + data.functionid + "," + row4["pmr_asset_reference"] + "," + row4["pmr_reference"] + "," + row4["amd_activity_id"] + ",'" + row4["pm_due_date"] + "','" + row4["pmr_pm_type"].ToString() + "','" + row4["pmr_details"].ToString() + "','" + row4["problemdescr"] + "','" + row4["Priority"] + "','" + row4["Problem_Type"] + "','" + row4["Problem_Service_Type"] + "','" + row4["Created_by"] + "','" + row4["ipaddress"] + "','" + wkno + "','" + row4["ASSET_DURATION"] + "','" + row4["ASSET_OWNER"] + "','" + row4["pmr_requested_by"] + "','','','','A','Insert'";
+
+                                SqlCommand cmd4 = new SqlCommand(strQry, dbConn);
+                                var reader4 = cmd4.ExecuteReader();
+                                System.Data.DataTable results4 = new System.Data.DataTable();
+                                results4.Load(reader4);
+
+                                string strsql = "exec CAMS_Mail_Save '" + data.functionid + "','" + data.branchid + "','" + row4["pmr_asset_reference"] + "','" + row4["pmr_reference"] + "','" + row4["amd_activity_id"] + "','" + row4["Created_by"] + "',''";
+
+                                SqlCommand cmd5 = new SqlCommand(strsql, dbConn);
+                                var reader5 = cmd5.ExecuteReader();
+                                System.Data.DataTable results5 = new System.Data.DataTable();
+                                results5.Load(reader5);
+
+
+                                string strQry1 = "set dateformat dmy;INSERT INTO CAMS_EMAIL_NOTIFICATION (ASSET_ID,ASSET_CODE,STATUS,UPDATED_DATE,MAIL_DATE,FLAG) VALUES (" + data.assetid + ",'" + data.assetcode + "','P',getdate(),getdate(),'UR')";
+
+                                SqlCommand cmd6 = new SqlCommand(strQry1, dbConn);
+                                var reader6 = cmd6.ExecuteReader();
+                                System.Data.DataTable results6 = new System.Data.DataTable();
+                                results6.Load(reader6);
+
+
+
+
+                            }
+
+
+                        }
+
+
+
+
+                    }
+
+                }
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok("Issue raised successfully. Issue ref number :"+ result);
+
+
+
+            }
+        }
 
 
 
