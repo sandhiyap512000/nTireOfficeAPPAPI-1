@@ -158,7 +158,40 @@ namespace MobileAppAPI.Models
 
         public string duedate { get; set; }
 
+        public string wkno { get; set; }
 
+        public string usertype { get; set; }
+
+
+        public int assetactivityid { get; set; }
+
+        public int userskill { get; set; }
+
+        public int assetpmref { get; set; }
+
+        public int assetempid { get; set; }
+
+        public string assethrs { get; set; }
+
+
+        public string itemid { get; set; }
+
+        public string itemcode { get; set; }
+
+        public int spareqty { get; set; }
+
+        public string slno { get; set; }
+
+        public string instdte { get; set; }
+
+        public int cost { get; set; }
+
+        public int uniqueid { get; set; }
+
+        public int plannedqty { get; set; }
+        public int replaceqty { get; set; }
+        public int returnqty { get; set; }
+        public int scrapqty { get; set; }
 
 
 

@@ -2321,15 +2321,8 @@ namespace MobileAppAPI.Controllers
                 {
                      activityid = data.activityid.ToString();
                 }
-
-
-
-
-               
-                string ref1 = data.ref1.ToString();
+                     string ref1 = data.ref1.ToString();
                 string duedate = data.duedate.ToString();
-
-
                 dbConn.Open();
                 string sql = "MBL_CAMS_PENDING_UPDATESTARTDATE";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
@@ -2340,10 +2333,7 @@ namespace MobileAppAPI.Controllers
                 cmd.Parameters.AddWithValue("@ASSET_ACTIVITY_ID", activityid);
                 cmd.Parameters.AddWithValue("@ASSET_REFERENCE",ref1);
                 cmd.Parameters.AddWithValue("@ASSET_DUE_DATE",duedate);
-
-
-
-                cmd.ExecuteNonQuery();
+                                cmd.ExecuteNonQuery();
 
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
@@ -2453,42 +2443,36 @@ namespace MobileAppAPI.Controllers
                     activityid = data.activityid.ToString();
                 }
 
-
-
-
-
-                string ref1 = data.ref1.ToString();
-                string duedate = data.duedate.ToString();
-
-
                 dbConn.Open();
                 string sql = "MBL_CAMS_JC_GETTASK";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ASSET_ACTIVITY_ID", activityid);
-                cmd.Parameters.AddWithValue("@FUNCTION_ID", functionid);
-                cmd.Parameters.AddWithValue("@BRANCH_ID", branchid);
+                cmd.Parameters.AddWithValue("@FUNCTION", functionid);
+                cmd.Parameters.AddWithValue("@BRANCH", branchid);
                 cmd.Parameters.AddWithValue("@ASSET_ID", assetid);
-                cmd.Parameters.AddWithValue("@pageIndex", "0");
-                cmd.Parameters.AddWithValue("@pageSize", "20");
-                cmd.Parameters.AddWithValue("@sortExpression", "currentdate DESC");
-
-
-                cmd.ExecuteNonQuery();
+                cmd.Parameters.AddWithValue("@ALPHANAME", "");
+                cmd.Parameters.AddWithValue("@PAGEINDEX", "0");
+                cmd.Parameters.AddWithValue("@PAGESIZE", "10");
+                cmd.Parameters.AddWithValue("@SORTEXPRESSION", "points_to_be_checked");
+                 cmd.ExecuteNonQuery();
 
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                Logdata1 = "Updated successfully";
-                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                for (int i = 0; i < results.Rows.Count; i++)
+                if (results.Rows.Count == 0)
                 {
-                    DataRow row = results.Rows[i];
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    Logdata1 = "No Records Found";
+                }
+                else
+                {
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    }
                 }
                 return Ok(Logdata1);
-
-
 
             }
         }
@@ -2496,6 +2480,736 @@ namespace MobileAppAPI.Controllers
 
 
 
+        [HttpPost]
+        [Route("reopencomments")]
+        public async Task<ActionResult<CAMS>> reopencomments(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            int depid = 0;
+            int locid = 0;
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select * from cams_asset_reopen where FUNCTION_ID='" + data.functionid + "' AND BRANCH_ID='" + data.branchid + "' and ASSET_ID=" + data.assetid + " and ASSET_WORKORDNO='" + data.wkno + "' ORDER BY CREATED_ON DESC";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No data found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+               
+            }
+            return Ok(Logdata1);
+        }
+
+
+        [HttpPost]
+        [Route("manpoweskilldtl")]
+        public async Task<ActionResult<CAMS>> manpoweskilldtl(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            int depid = 0;
+            int locid = 0;
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "SELECT distinct TYPE_ID AS VAL,DESCRIPTION AS TEXT FROM BO_USER_TYPE_MASTER WITH(NOLOCK) WHERE STATUS='A'  AND FUNCTION_ID = '" + data.functionid + "' order by text asc";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No data found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return Ok(Logdata1);
+        }
+
+
+
+        [HttpPost]
+        [Route("manpowerrefdtl")]
+        public async Task<ActionResult<CAMS>> manpowerrefdtl(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            int depid = 0;
+            int locid = 0;
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "SELECT  * FROM (select  TOP 20 ROW_NUMBER() OVER (ORDER BY tum_user_code) as ROW_NUM,* from (select *, ROW_NUMBER() over (order by tum_user_code desc) as gridviewcount from( select distinct  tum_user_id,tum_user_code,tum_user_name,tum_user_type,BO_USER_TYPE_MASTER.description,isnull(tum_user_emailid,'') as Email FROM BO_USER_MASTER with(nolock) inner join BO_USER_TYPE_MASTER on cast(BO_USER_TYPE_MASTER.TYPE_ID as nvarchar)=BO_USER_MASTER.TUM_USER_TYPE and BO_USER_MASTER.function_id=BO_USER_TYPE_MASTER.function_id WHERE 1=1 and   BO_USER_MASTER.FUNCTION_ID='" + data.functionid + "' and BO_USER_MASTER.TUM_BRANCH_ID='" + data.branchid + "' and BO_USER_MASTER.tum_user_type='" + data.usertype + "')gridTempTable) tblname  ORDER BY ROW_NUM) innerSelect WHERE ROW_NUM > 0";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No data found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return Ok(Logdata1);
+        }
+
+
+
+        [HttpPost]
+        [Route("manpoweralldatadetail")]
+        public async Task<ActionResult<CAMS>> manpoweralldatadetail(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            int depid = 0;
+            int locid = 0;
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "SELECT distinct TUM_USER_ID AS VAL,TUM_USER_CODE +'-' +TUM_USER_NAME AS TEXT ,TYPE_ID,BO_USER_TYPE_MASTER.DESCRIPTION AS SKILL_TEXT,CAMS_MPP_USED.ASSET_EMP_ID AS EMP_ID,convert(varchar(10),ASSET_ACTUAL_HRS,108) as actual_hrs,tum_user_name as emp_name, FTP_UPLOAD_FLAG as flag,rowuniqueid as rowuniqueid,ASSET_COST FROM CAMS_MPP_USED WITH(NOLOCK) INNER JOIN BO_USER_TYPE_MASTER WITH(NOLOCK) ON  BO_USER_TYPE_MASTER.FUNCTION_ID = CAMS_MPP_USED.FUNCTION_ID AND BO_USER_TYPE_MASTER.TYPE_ID =CAMS_MPP_USED.ASSET_SKILL_SET INNER JOIN bo_user_master WITH(NOLOCK) ON  bo_user_master.FUNCTION_ID = CAMS_MPP_USED.FUNCTION_ID AND bo_user_master.TUM_BRANCH_ID = CAMS_MPP_USED.BRANCH_ID   AND bo_user_master.TUM_USER_TYPE=convert(nvarchar,CAMS_MPP_USED.ASSET_SKILL_SET)  and bo_user_master.TUM_USER_ID=CAMS_MPP_USED.ASSET_EMP_ID  where 1=1 AND CAMS_MPP_USED.FUNCTION_ID = '" + data.functionid + "'  AND CAMS_MPP_USED.BRANCH_ID = '" + data.branchid + "'  AND CAMS_MPP_USED.asset_id = '" + data.assetid + "' and ASSET_ACTIVITY_ID='" + data.assetactivityid + "'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No data found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return Ok(Logdata1);
+        }
+
+
+
+        [HttpPost]
+        [Route("manpowerinsertapp")]
+        public async Task<ActionResult<HRMS>> manpowerinsertapp(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+         
+            string Logdata1 = string.Empty;
+           // var lasttransfericeidvv = "";
+            string strcost = string.Empty;
+            System.Data.DataTable results = new System.Data.DataTable();
+
+            string assetactivityid = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                string functionid = data.functionid.ToString();
+                string branchid = data.branchid.ToString();
+                string userskill = data.userskill.ToString();
+                if (data.assetactivityid.ToString() == "")
+                {
+                    assetactivityid = null;
+                }
+                else
+                {
+                    assetactivityid = data.assetactivityid.ToString();
+                }
+                string assetid = data.assetid.ToString();
+                string assetpmref = data.assetpmref.ToString();
+                string assetempid = data.assetempid.ToString();
+                string assethrs = data.assethrs.ToString();
+
+                dbConn.Open();
+                string sql = "MBL_CAMS_JC_GETUSERCOST";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@USERTYPEID", userskill);
+                cmd.Parameters.AddWithValue("@FUNCTION", functionid);
+                cmd.Parameters.AddWithValue("@BRANCH", branchid);
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+               
+                results.Load(reader);
+
+                strcost= results.Rows[0]["cost"].ToString();
+                if (strcost==""|| strcost==null || strcost.Length==0)
+                {
+                    Logdata1 = "nocost";
+                }
+                else
+                {
+                   
+
+
+                    string sql1 = "MBL_CAMS_INSERT_MPP_USED";
+                    SqlCommand cmd1 = new SqlCommand(sql1, dbConn);
+                    cmd1.CommandType = CommandType.StoredProcedure;
+                    cmd1.Parameters.AddWithValue("@BRANCH_ID", branchid);
+                    cmd1.Parameters.AddWithValue("@FUNCTION_ID", functionid);
+                    cmd1.Parameters.AddWithValue("@ASSET_ID", assetid);
+                    cmd1.Parameters.AddWithValue("@ASSET_ACTIVITY_ID", assetactivityid);
+                    cmd1.Parameters.AddWithValue("@ASSET_PM_REFERENCE", assetpmref);
+                    cmd1.Parameters.AddWithValue("@ASSET_SKILL_SET", userskill);
+                    cmd1.Parameters.AddWithValue("@ASSET_EMP_ID", assetempid);
+                    cmd1.Parameters.AddWithValue("@ASSET_ACTUAL_HRS", assethrs);
+                    cmd1.Parameters.AddWithValue("@ASSET_STATUS", "A");
+                    cmd1.Parameters.AddWithValue("@ASSET_COST", strcost);
+                    cmd1.ExecuteNonQuery();
+
+                    var reader1 = cmd1.ExecuteReader();
+                    System.Data.DataTable results1 = new System.Data.DataTable();
+                    results1.Load(reader1);
+
+
+                    string query = "";
+                    query = "SELECT distinct TUM_USER_ID AS VAL,TUM_USER_CODE +'-' +TUM_USER_NAME AS TEXT ,TYPE_ID,BO_USER_TYPE_MASTER.DESCRIPTION AS SKILL_TEXT,CAMS_MPP_USED.ASSET_EMP_ID AS EMP_ID,convert(varchar(10),ASSET_ACTUAL_HRS,108) as actual_hrs,tum_user_name as emp_name, FTP_UPLOAD_FLAG as flag,rowuniqueid as rowuniqueid,ASSET_COST FROM CAMS_MPP_USED WITH(NOLOCK) INNER JOIN BO_USER_TYPE_MASTER WITH(NOLOCK) ON  BO_USER_TYPE_MASTER.FUNCTION_ID = CAMS_MPP_USED.FUNCTION_ID AND BO_USER_TYPE_MASTER.TYPE_ID =CAMS_MPP_USED.ASSET_SKILL_SET INNER JOIN bo_user_master WITH(NOLOCK) ON  bo_user_master.FUNCTION_ID = CAMS_MPP_USED.FUNCTION_ID AND bo_user_master.TUM_BRANCH_ID = CAMS_MPP_USED.BRANCH_ID   AND bo_user_master.TUM_USER_TYPE=convert(nvarchar,CAMS_MPP_USED.ASSET_SKILL_SET)  and bo_user_master.TUM_USER_ID=CAMS_MPP_USED.ASSET_EMP_ID  where 1=1 AND CAMS_MPP_USED.FUNCTION_ID = '" + data.functionid + "'  AND CAMS_MPP_USED.BRANCH_ID = '" + data.branchid + "'  AND CAMS_MPP_USED.asset_id = '" + data.assetid + "' and ASSET_ACTIVITY_ID='" + data.assetactivityid + "'";
+
+                    SqlCommand cmd2 = new SqlCommand(query, dbConn);
+                    var reader2 = cmd2.ExecuteReader();
+                    System.Data.DataTable results2 = new System.Data.DataTable();
+                    results2.Load(reader2);
+                    if (results2.Rows.Count == 0)
+                    {
+                        Logdata1 = "No data found";
+                    }
+                    else
+                    {
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    }
+
+                    dbConn.Close();
+                }
+                return Ok(Logdata1);
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("sparealldatadetail")]
+        public async Task<ActionResult<CAMS>> sparealldatadetail(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+          
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "SELECT distinct CAMS_SPARE_USED.rowuniqueid as rowuniqueid,ASSET_SPARE_SLNO as serialno,ASSET_SPARE_CODE as MaterialCode,CAMS_ITEM_MASTER.ITEM_DESCRIPTION as MaterialDescription,CAMS_ITEM_MASTER.ITEM_ID as MaterialID,  CAMS_SPARE_USED.ASSET_SPARE_QUANTITY as sparequantity,convert(numeric(18,2),ASSET_SPARECOST) as SPARECOST,convert(varchar(10),CAMS_SPARE_USED.CAMS_ASSET_INSTALLATION_DATE,103) as CAMS_ASSET_INSTALLATION_DATE  FROM CAMS_SPARE_USED WITH(NOLOCK)  Inner join CAMS_ITEM_MASTER WITH(NOLOCK)  on  CAMS_SPARE_USED.ASSET_SPARE_CODE=CAMS_ITEM_MASTER.ITEM_CODE and  CAMS_ITEM_MASTER.function_id=CAMS_SPARE_USED.function_id   where CAMS_SPARE_USED.ASSET_SPARE_FLAG = 'S' AND (CAMS_SPARE_USED.HISTORY_REF <> 'HR' OR CAMS_SPARE_USED.HISTORY_REF IS  NULL)  AND CAMS_SPARE_USED.FUNCTION_ID = '" + data.functionid + "' AND CAMS_SPARE_USED.BRANCH_ID = '" + data.branchid + "' and CAMS_SPARE_USED.ASSET_ACTIVITY_ID = '" + data.assetactivityid + "' and CAMS_SPARE_USED.ASSET_PMR_REFERENCE = '" + data.assetpmref + "'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No data found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return Ok(Logdata1);
+        }
+
+
+
+        [HttpPost]
+        [Route("spareitemdtl")]
+        public async Task<ActionResult<CAMS>> spareitemdtl(CAMS data)
+        {
+           
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select * from CAMS_ITEM_MASTER where function_id='" + data.functionid + "'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No data found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return Ok(Logdata1);
+        }
+
+        [HttpPost]
+        [Route("spareitemdtlval")]
+        public async Task<ActionResult<CAMS>> spareitemdtlval(CAMS data)
+        {
+
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select * from CAMS_ITEM_MASTER where function_id='" + data.functionid + "' and ITEM_CODE='" + data.itemid + "'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No data found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return Ok(Logdata1);
+        }
+
+
+
+        [HttpPost]
+        [Route("spareinsertapp")]
+        public async Task<ActionResult<HRMS>> spareinsertapp(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+
+            string Logdata1 = string.Empty;
+            // var lasttransfericeidvv = "";
+            string strcost = string.Empty;
+            string strITEM_COST = string.Empty;
+            System.Data.DataTable results = new System.Data.DataTable();
+            System.Data.DataTable results1 = new System.Data.DataTable();
+            int itemcost = 0;
+
+            string assetactivityid = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                string functionid = data.functionid.ToString();
+                string branchid = data.branchid.ToString();
+                string itemcode = data.itemcode.ToString();
+                if (data.assetactivityid.ToString() == "")
+                {
+                    assetactivityid = null;
+                }
+                else
+                {
+                    assetactivityid = data.assetactivityid.ToString();
+                }
+                string assetid = data.assetid.ToString();
+                string assetpmref = data.assetpmref.ToString();
+               
+                dbConn.Open();
+
+                string query = "";
+                query = "select count(*) as cosucount from CAMS_SPARE_USED with (nolock) where ASSET_ID = '" + data.assetid + "' and ASSET_SPARE_CODE='" + data.itemcode + "' and FUNCTION_ID='" + data.functionid + "' and BRANCH_ID='" + data.branchid + "'  AND ASSET_MSS_STATUS='A' and ASSET_SPARE_FLAG='F'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                results.Load(reader);
+                results.Load(reader);
+
+                strcost = results.Rows[0]["cosucount"].ToString();
+                if (strcost != "0")
+                {
+                    Logdata1 = "consume";
+                }
+                else
+                {
+
+                    string sql = "MBL_CAMS_JC_GETCITEMMASTER";
+                    SqlCommand cmd1 = new SqlCommand(sql, dbConn);
+                    cmd1.CommandType = CommandType.StoredProcedure;
+                    cmd1.Parameters.AddWithValue("@ITEM_CODE", itemcode);
+                    cmd1.Parameters.AddWithValue("@FUNCTION", functionid);
+                    cmd1.Parameters.AddWithValue("@TYPE", "GETCOST");
+                    cmd1.ExecuteNonQuery();
+                    var reader1 = cmd1.ExecuteReader();
+                    results1.Load(reader1);
+                    if (results1.Rows.Count > 0)
+                    {
+                        strITEM_COST = results1.Rows[0]["ITEM_COST"].ToString();
+                        itemcost = Convert.ToInt32(results1.Rows[0]["ITEM_COST"]);
+                    }
+                   
+                    int spareqty = data.spareqty;
+                    int hrscost = spareqty * itemcost;
+                   
+                    string query1 = "";
+                    query1 = "insert into CAMS_SPARE_USED(FUNCTION_ID,BRANCH_ID,ASSET_ID,ASSET_SPARE_CODE,ASSET_SPARE_SLNO,ASSET_SPARE_QUANTITY,ASSET_SPARECOST,ASSET_MSS_STATUS,ASSET_ACTIVITY_ID,ASSET_PMR_REFERENCE,ASSET_SPARE_FLAG,CAMS_ASSET_INSTALLATION_DATE) values(" + data.functionid + "," + data.branchid + ",'" + data.assetid + "', '" + data.itemcode + "','" + data.slno + "','" + data.spareqty + "','" + hrscost + "','A','" + data.assetactivityid + "','" + data.assetpmref + "','S','" + data.instdte + "')";
+
+                     SqlCommand cmd2 = new SqlCommand(query1, dbConn);
+                        var reader2 = cmd2.ExecuteReader();
+                        System.Data.DataTable results2 = new System.Data.DataTable();
+                        results2.Load(reader2);
+
+
+                    string query2 = "";
+                    query2 = "SELECT distinct CAMS_SPARE_USED.rowuniqueid as rowuniqueid,ASSET_SPARE_SLNO as serialno,ASSET_SPARE_CODE as MaterialCode,CAMS_ITEM_MASTER.ITEM_DESCRIPTION as MaterialDescription,CAMS_ITEM_MASTER.ITEM_ID as MaterialID,  CAMS_SPARE_USED.ASSET_SPARE_QUANTITY as sparequantity,convert(numeric(18,2),ASSET_SPARECOST) as SPARECOST,convert(varchar(10),CAMS_SPARE_USED.CAMS_ASSET_INSTALLATION_DATE,103) as CAMS_ASSET_INSTALLATION_DATE  FROM CAMS_SPARE_USED WITH(NOLOCK)  Inner join CAMS_ITEM_MASTER WITH(NOLOCK)  on  CAMS_SPARE_USED.ASSET_SPARE_CODE=CAMS_ITEM_MASTER.ITEM_CODE and  CAMS_ITEM_MASTER.function_id=CAMS_SPARE_USED.function_id   where CAMS_SPARE_USED.ASSET_SPARE_FLAG = 'S' AND (CAMS_SPARE_USED.HISTORY_REF <> 'HR' OR CAMS_SPARE_USED.HISTORY_REF IS  NULL)  AND CAMS_SPARE_USED.FUNCTION_ID = '" + data.functionid + "' AND CAMS_SPARE_USED.BRANCH_ID = '" + data.branchid + "' and CAMS_SPARE_USED.ASSET_ACTIVITY_ID = '" + data.assetactivityid + "' and CAMS_SPARE_USED.ASSET_PMR_REFERENCE = '" + data.assetpmref + "'";
+
+                    SqlCommand cmd3 = new SqlCommand(query2, dbConn);
+                    var reader3 = cmd3.ExecuteReader();
+                    System.Data.DataTable results3 = new System.Data.DataTable();
+                    results3.Load(reader3);
+
+
+                    if (results3.Rows.Count == 0)
+                        {
+                            Logdata1 = "No data found";
+                        }
+                        else
+                        {
+                            Logdata1 = DataTableToJSONWithStringBuilder(results3);
+                        }
+
+                        dbConn.Close();
+                    }
+                    return Ok(Logdata1);
+
+                }
+            }
+
+
+
+
+        [HttpPost]
+        [Route("spareupdateapp")]
+        public async Task<ActionResult<HRMS>> spareupdateapp(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+
+            string Logdata1 = string.Empty;
+            // var lasttransfericeidvv = "";
+            string strcost = string.Empty;
+            string strITEM_COST = string.Empty;
+            System.Data.DataTable results = new System.Data.DataTable();
+            System.Data.DataTable results1 = new System.Data.DataTable();
+            int itemcost = 0;
+
+            string assetactivityid = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                string functionid = data.functionid.ToString();
+                string branchid = data.branchid.ToString();
+                string itemcode = data.itemcode.ToString();
+                if (data.assetactivityid.ToString() == "")
+                {
+                    assetactivityid = null;
+                }
+                else
+                {
+                    assetactivityid = data.assetactivityid.ToString();
+                }
+                string assetid = data.assetid.ToString();
+                string assetpmref = data.assetpmref.ToString();
+
+                dbConn.Open();
+
+              
+
+                    string sql = "MBL_CAMS_JC_GETCITEMMASTER";
+                    SqlCommand cmd1 = new SqlCommand(sql, dbConn);
+                    cmd1.CommandType = CommandType.StoredProcedure;
+                    cmd1.Parameters.AddWithValue("@ITEM_CODE", itemcode);
+                    cmd1.Parameters.AddWithValue("@FUNCTION", functionid);
+                    cmd1.Parameters.AddWithValue("@TYPE", "GETCOST");
+                    cmd1.ExecuteNonQuery();
+                    var reader1 = cmd1.ExecuteReader();
+                    results1.Load(reader1);
+                    if (results1.Rows.Count > 0)
+                    {
+                        strITEM_COST = results1.Rows[0]["ITEM_COST"].ToString();
+                        itemcost = Convert.ToInt32(results1.Rows[0]["ITEM_COST"]);
+                    }
+
+                    int spareqty = data.spareqty;
+                    int hrscost = spareqty * itemcost;
+
+                    string query1 = "";
+                    query1 = "update CAMS_SPARE_USED set ASSET_SPARE_SLNO='" + data.slno + "', ASSET_SPARE_QUANTITY='" + data.spareqty + "',ASSET_SPARECOST='" + data.cost + "',CAMS_ASSET_INSTALLATION_DATE='" + data.instdte + "'  where ASSET_ID='" + data.assetid + "' and rowuniqueid='" + data.uniqueid + "' and function_id='" + data.functionid + "'";
+
+                    SqlCommand cmd2 = new SqlCommand(query1, dbConn);
+                    var reader2 = cmd2.ExecuteReader();
+                    System.Data.DataTable results2 = new System.Data.DataTable();
+                    results2.Load(reader2);
+
+
+                    string query2 = "";
+                    query2 = "SELECT distinct CAMS_SPARE_USED.rowuniqueid as rowuniqueid,ASSET_SPARE_SLNO as serialno,ASSET_SPARE_CODE as MaterialCode,CAMS_ITEM_MASTER.ITEM_DESCRIPTION as MaterialDescription,CAMS_ITEM_MASTER.ITEM_ID as MaterialID,  CAMS_SPARE_USED.ASSET_SPARE_QUANTITY as sparequantity,convert(numeric(18,2),ASSET_SPARECOST) as SPARECOST,convert(varchar(10),CAMS_SPARE_USED.CAMS_ASSET_INSTALLATION_DATE,103) as CAMS_ASSET_INSTALLATION_DATE  FROM CAMS_SPARE_USED WITH(NOLOCK)  Inner join CAMS_ITEM_MASTER WITH(NOLOCK)  on  CAMS_SPARE_USED.ASSET_SPARE_CODE=CAMS_ITEM_MASTER.ITEM_CODE and  CAMS_ITEM_MASTER.function_id=CAMS_SPARE_USED.function_id   where CAMS_SPARE_USED.ASSET_SPARE_FLAG = 'S' AND (CAMS_SPARE_USED.HISTORY_REF <> 'HR' OR CAMS_SPARE_USED.HISTORY_REF IS  NULL)  AND CAMS_SPARE_USED.FUNCTION_ID = '" + data.functionid + "' AND CAMS_SPARE_USED.BRANCH_ID = '" + data.branchid + "' and CAMS_SPARE_USED.ASSET_ACTIVITY_ID = '" + data.assetactivityid + "' and CAMS_SPARE_USED.ASSET_PMR_REFERENCE = '" + data.assetpmref + "'";
+
+                    SqlCommand cmd3 = new SqlCommand(query2, dbConn);
+                    var reader3 = cmd3.ExecuteReader();
+                    System.Data.DataTable results3 = new System.Data.DataTable();
+                    results3.Load(reader3);
+
+
+                    if (results3.Rows.Count == 0)
+                    {
+                        Logdata1 = "No data found";
+                    }
+                    else
+                    {
+                        Logdata1 = DataTableToJSONWithStringBuilder(results3);
+                    }
+
+                    dbConn.Close();
+                }
+                return Ok(Logdata1);
+
+            }
+
+
+
+        [HttpPost]
+        [Route("consumealldatadetail")]
+        public async Task<ActionResult<CAMS>> consumealldatadetail(CAMS data)
+        {
+
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select  distinct CAMS_SPARE_USED.ASSET_SPARE_CODE as spare_code,convert(numeric(18,2),ASSET_SPARECOST) as ASSET_SPARECOST,rowuniqueid as mmp_rowuniqueid1,CAMS_SPARE_USED.FTP_UPLOAD_FLAG as asm_flag,CAMS_ITEM_MASTER.ITEM_DESCRIPTION as itemdesc,CAMS_ITEM_MASTER.ITEM_ID as Materialid,CAMS_SPARE_USED.ASSET_SPARE_QUANTITY as asm_spare_qty,CAMS_SPARE_USED.ASSET_REPLACED_QTY as mss_replaced_qty,CAMS_SPARE_USED.ASSET_RETURNED_QTY as mss_returned_qty,convert(numeric(18,2),ASSET_SPARECOST) as SPARECOST,ASSET_SCRAP_QTY as mss_scrap_qty from CAMS_SPARE_USED WITH (NOLOCK)  inner join  CAMS_ITEM_MASTER  WITH (NOLOCK) on  CAMS_SPARE_USED.ASSET_SPARE_CODE=CAMS_ITEM_MASTER.item_code  where (CAMS_SPARE_USED.ASSET_SPARE_FLAG = 'C' or CAMS_SPARE_USED.ASSET_SPARE_FLAG='F') and CAMS_SPARE_USED.FUNCTION_ID=CAMS_ITEM_MASTER.function_id  and CAMS_SPARE_USED.FUNCTION_ID='" + data.functionid + "' and CAMS_SPARE_USED.BRANCH_ID='" + data.branchid + "' and  CAMS_SPARE_USED.ASSET_ID='" + data.assetid + "' and CAMS_SPARE_USED.ASSET_ACTIVITY_ID='" + data.assetactivityid + "'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No data found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return Ok(Logdata1);
+        }
+
+
+
+        [HttpPost]
+        [Route("consumableinsertapp")]
+        public async Task<ActionResult<HRMS>> consumableinsertapp(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+
+            string Logdata1 = string.Empty;
+            // var lasttransfericeidvv = "";
+            string strcost = string.Empty;
+            string strITEM_COST = string.Empty;
+            System.Data.DataTable results = new System.Data.DataTable();
+            System.Data.DataTable results1 = new System.Data.DataTable();
+            int itemcost = 0;
+
+            string assetactivityid = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                string functionid = data.functionid.ToString();
+                string branchid = data.branchid.ToString();
+                string itemcode = data.itemcode.ToString();
+                if (data.assetactivityid.ToString() == "")
+                {
+                    assetactivityid = null;
+                }
+                else
+                {
+                    assetactivityid = data.assetactivityid.ToString();
+                }
+                string assetid = data.assetid.ToString();
+                string assetpmref = data.assetpmref.ToString();
+
+                dbConn.Open();
+
+                string query = "";
+                query = "select count(*) as cosucount from CAMS_SPARE_USED with (nolock) where ASSET_ID = '" + data.assetid + "' and ASSET_SPARE_CODE='" + data.itemcode + "' and FUNCTION_ID='" + data.functionid + "' and BRANCH_ID='" + data.branchid + "'  AND ASSET_MSS_STATUS='A' and ASSET_SPARE_FLAG='S'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                results.Load(reader);
+                results.Load(reader);
+
+                strcost = results.Rows[0]["cosucount"].ToString();
+                if (strcost != "0")
+                {
+                    Logdata1 = "consume";
+                }
+                else
+                {
+
+                    string sql = "MBL_CAMS_JC_GETCITEMMASTER";
+                    SqlCommand cmd1 = new SqlCommand(sql, dbConn);
+                    cmd1.CommandType = CommandType.StoredProcedure;
+                    cmd1.Parameters.AddWithValue("@ITEM_CODE", itemcode);
+                    cmd1.Parameters.AddWithValue("@FUNCTION", functionid);
+                    cmd1.Parameters.AddWithValue("@TYPE", "GETCOST");
+                    cmd1.ExecuteNonQuery();
+                    var reader1 = cmd1.ExecuteReader();
+                    results1.Load(reader1);
+                    if (results1.Rows.Count > 0)
+                    {
+                        strITEM_COST = results1.Rows[0]["ITEM_COST"].ToString();
+                        itemcost = Convert.ToInt32(results1.Rows[0]["ITEM_COST"]);
+                    }
+
+                    int spareqty = data.spareqty;
+                    int hrscost = spareqty * itemcost;
+
+               
+
+                    string sql1 = "MBL_CAMS_INSERT_SPARE_USED";
+                    SqlCommand cmd2 = new SqlCommand(sql1, dbConn);
+                    cmd2.CommandType = CommandType.StoredProcedure;
+                    cmd2.Parameters.AddWithValue("@FUNCTION_ID", functionid);
+                    cmd2.Parameters.AddWithValue("@BRANCH_ID", branchid);
+                    cmd2.Parameters.AddWithValue("@ASSET_ID", assetid);
+                    cmd2.Parameters.AddWithValue("@ASSET_ACTIVITY_ID",assetactivityid);
+                    cmd2.Parameters.AddWithValue("@ASSET_PMR_REFERENCE", data.assetpmref.ToString());
+                    cmd2.Parameters.AddWithValue("@ASSET_SPARE_CODE", data.itemcode.ToString());
+                    cmd2.Parameters.AddWithValue("@ASSET_SPARE_SLNO","0");
+                    cmd2.Parameters.AddWithValue("@ASSET_SPARE_QUANTITY", data.plannedqty.ToString());
+                    cmd2.Parameters.AddWithValue("@ASSET_REPLACED_QTY", data.replaceqty.ToString());
+                    cmd2.Parameters.AddWithValue("@ASSET_RETURNED_QTY", data.returnqty.ToString());
+                    cmd2.Parameters.AddWithValue("@ASSET_SCRAP_QTY", data.scrapqty.ToString());
+                    cmd2.Parameters.AddWithValue("@ASSET_MSS_STATUS","A");
+                    cmd2.Parameters.AddWithValue("@ASSET_SPARECOST", hrscost);
+                    cmd2.Parameters.AddWithValue("@ASSET_SPARE_FLAG","F");
+                    cmd2.ExecuteNonQuery();
+              
+                    var reader2 = cmd2.ExecuteReader();
+                    System.Data.DataTable results2 = new System.Data.DataTable();
+                    results2.Load(reader2);
+
+
+                    string query2 = "";
+                    query2 = "select  distinct CAMS_SPARE_USED.ASSET_SPARE_CODE as spare_code,convert(numeric(18,2),ASSET_SPARECOST) as ASSET_SPARECOST,rowuniqueid as mmp_rowuniqueid1,CAMS_SPARE_USED.FTP_UPLOAD_FLAG as asm_flag,CAMS_ITEM_MASTER.ITEM_DESCRIPTION as itemdesc,CAMS_SPARE_USED.ASSET_SPARE_QUANTITY as asm_spare_qty,CAMS_SPARE_USED.ASSET_REPLACED_QTY as mss_replaced_qty,CAMS_SPARE_USED.ASSET_RETURNED_QTY as mss_returned_qty,convert(numeric(18,2),ASSET_SPARECOST) as SPARECOST,ASSET_SCRAP_QTY as mss_scrap_qty from CAMS_SPARE_USED WITH (NOLOCK)  inner join  CAMS_ITEM_MASTER  WITH (NOLOCK) on  CAMS_SPARE_USED.ASSET_SPARE_CODE=CAMS_ITEM_MASTER.item_code  where (CAMS_SPARE_USED.ASSET_SPARE_FLAG = 'C' or CAMS_SPARE_USED.ASSET_SPARE_FLAG='F') and CAMS_SPARE_USED.FUNCTION_ID=CAMS_ITEM_MASTER.function_id  and CAMS_SPARE_USED.FUNCTION_ID='" + data.functionid + "' and CAMS_SPARE_USED.BRANCH_ID='" + data.branchid + "' and  CAMS_SPARE_USED.ASSET_ID='" + data.assetid + "' and CAMS_SPARE_USED.ASSET_ACTIVITY_ID='"+ data.assetactivityid + "'";
+
+                    SqlCommand cmd3 = new SqlCommand(query2, dbConn);
+                    var reader3 = cmd3.ExecuteReader();
+                    System.Data.DataTable results3 = new System.Data.DataTable();
+                    results3.Load(reader3);
+
+
+                    if (results3.Rows.Count == 0)
+                    {
+                        Logdata1 = "No data found";
+                    }
+                    else
+                    {
+                        Logdata1 = DataTableToJSONWithStringBuilder(results3);
+                    }
+
+                    dbConn.Close();
+                }
+                return Ok(Logdata1);
+
+            }
+        }
+
+
+        //json convertion method
         public string DataTableToJSONWithStringBuilder(DataTable table)
         {
             var JSONString = new StringBuilder();
