@@ -7,6 +7,20 @@ namespace MobileAppAPI.Models
 {
     public class Property
     {
-        
+        public int userid { get; set; }
+        public int functionid { get; set; }
+
+        public int branchid { get; set; }
+
+        public string Priority { get; set; }
+
+        public string pm_due_date { get; set; }
+
+        public string drpPMType { get; set; }
+
+        public string txtDetails { get; set; }
+
+        public string assetownerid { get; set; }
+        public string assetid { get; set; }
     }
 }
