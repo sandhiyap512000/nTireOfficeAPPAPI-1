@@ -58,6 +58,89 @@ namespace MobileAppAPI.Models
         public int LatLong { get; set; }
         public int LeadID { get; set; }
 
+        public string callid { get; set; }
+
+
+        public int TCC_CUST_ID { get; set; }
+
+        public string TCC_CUST_LEAD_ID { get; set; }
+
+        public int TCC_CAMPAIGN_ID { get; set; }
+
+        public string TCC_NEXT_CALL_DATE { get; set; }
+
+        public string callratingval { get; set; }
+
+        public string Remarks { get; set; }
+    public string callnatureval  { get; set; }
+
+        public int callstageval { get; set; }
+
+        public string ActReq { get; set; }
+
+        public int LeadSource { get; set; }
+
+        public string nextactionval { get; set; }
+
+        public int TCC_CUSTOMER_ID { get; set; }
+
+        public int customer_lead_id { get; set; }
+
+       // public string CALL_ID { get; set; }
+
+
+        public int CALL_ID { get; set; }
+
+        public string leadstatusval { get; set; }
+
+        public string ClosedDate { get; set; }
+
+        public string ExpctedAmount { get; set; }
+
+        public string TCC_LOCATION_TO_MEET { get; set; }
+
+
+        public string Meeting_address { get; set; }
+
+        public string CUSTOMER_ID { get; set; }
+
+        public string CUSTOMER_NAME { get; set; }
+
+      //  public string PRODUCT { get; set; }
+
+
+        public int PRODUCT { get; set; }
+
+        public string PRODUCT_DESC { get; set; }
+
+       // public string CAMPAIGN { get; set;
+
+            public int CAMPAIGN { get; set; }
+
+        public string CAMPAIGN_DESC { get; set; }
+
+       // public string createdby { get; set; }
+
+        public int createdby { get; set; }
+
+       // public string updatedby { get; set;
+
+             public int updatedby { get; set; }
+
+        public string expense_cost { get; set; }
+
+        public string expense_type { get; set; }
+
+        public string document_remarks { get; set; }
+
+        public string document_desc { get; set; }
+
+        public string file_array { get; set; }
+
+        public string CUSTOMER_REF { get; set; }
+
+        public string expense_id { get; set; }
+
 
     }
 }

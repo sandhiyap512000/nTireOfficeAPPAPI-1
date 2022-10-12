@@ -1137,8 +1137,15 @@ namespace MobileAppAPI.Controllers
 
                     }
 
-               
-                Logdata1 = DataTableToJSONWithStringBuilder(results2);
+
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No Records Found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1217,7 +1224,14 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No Records Found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1314,7 +1328,14 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No Records Found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1405,10 +1426,17 @@ namespace MobileAppAPI.Controllers
                     System.Data.DataTable results = new System.Data.DataTable();
                     results.Load(reader);
                     //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                    for (int i = 0; i < results.Rows.Count; i++)
+                    if (results.Rows.Count == 0)
                     {
-                        DataRow row = results.Rows[i];
-                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                        Logdata1 = "No Records Found";
+                    }
+                    else
+                    {
+                        for (int i = 0; i < results.Rows.Count; i++)
+                        {
+                            DataRow row = results.Rows[i];
+                            Logdata1 = DataTableToJSONWithStringBuilder(results);
+                        }
                     }
                     return Logdata1;
 
@@ -1499,11 +1527,19 @@ namespace MobileAppAPI.Controllers
                     System.Data.DataTable results = new System.Data.DataTable();
                     results.Load(reader);
                     //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                    for (int i = 0; i < results.Rows.Count; i++)
+                    if (results.Rows.Count == 0)
                     {
-                        DataRow row = results.Rows[i];
-                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                        Logdata1 = "No Records Found";
                     }
+                    else
+                    {
+                        for (int i = 0; i < results.Rows.Count; i++)
+                        {
+                            DataRow row = results.Rows[i];
+                            Logdata1 = DataTableToJSONWithStringBuilder(results);
+                        }
+                    }
+                   
                     return Logdata1;
 
 
@@ -1545,7 +1581,14 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No Records Found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1580,7 +1623,14 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No Records Found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1615,7 +1665,14 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No Records Found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1667,11 +1724,17 @@ namespace MobileAppAPI.Controllers
                     results1.Load(reader1);
                 }
 
-
-
-
-
+                if (results1.Rows.Count==0)
+                {
+                    Logdata1 = "No Records Found";
+                }
+                else
+                {
                     Logdata1 = DataTableToJSONWithStringBuilder(results1);
+                }
+
+
+                   
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1855,11 +1918,19 @@ namespace MobileAppAPI.Controllers
 
                         System.Data.DataTable results3 = new System.Data.DataTable();
                         results3.Load(reader3);
+                    if (results.Rows.Count == 0)
+                    {
+                        Logdata1 = "No Record Found";
+                    }
+                    else
+                    {
                         for (int i2 = 0; i2 < results3.Rows.Count; i2++)
                         {
-                            Logdata1 = DataTableToJSONWithStringBuilder(results);
+                            Logdata1 = DataTableToJSONWithStringBuilder(results3);
                             dbConn.Close();
                         }
+                    }
+                   
                 }
               
             }
@@ -1896,6 +1967,14 @@ namespace MobileAppAPI.Controllers
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
                 Logdata1 = DataTableToJSONWithStringBuilder(results);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No Record Found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1931,6 +2010,14 @@ namespace MobileAppAPI.Controllers
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
                 Logdata1 = DataTableToJSONWithStringBuilder(results);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No Record Found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1965,6 +2052,14 @@ namespace MobileAppAPI.Controllers
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
                 Logdata1 = DataTableToJSONWithStringBuilder(results);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "No Record Found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2038,7 +2133,15 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                if (results.Rows.Count==0)
+                {
+                    Logdata1 = "No Record Found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+           
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2083,11 +2186,21 @@ namespace MobileAppAPI.Controllers
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
                 //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                for (int i = 0; i < results.Rows.Count; i++)
+
+                if (results.Rows.Count==0)
                 {
-                    DataRow row = results.Rows[i];
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    Logdata1 = "No Record Found";
                 }
+                else
+                {
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    }
+                }
+                        
+               
                 return JSONString.ToString();
             }
         }
@@ -2162,7 +2275,15 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                if (results.Rows.Count==0)
+                {
+                    Logdata1 = "No data found";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+               
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2175,6 +2296,202 @@ namespace MobileAppAPI.Controllers
 
 
 
+        [HttpPost]
+        [Route("updatecamsstatus")]
+        public async Task<ActionResult<HRMS>> updatecamsstatus(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            string activityid = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                string functionid = data.functionid.ToString();
+                string branchid = data.branchid.ToString();
+                string assetid = data.assetid.ToString();
+                if (data.activityid.ToString()=="")
+                {
+                    activityid  = null;
+                }
+                else
+                {
+                     activityid = data.activityid.ToString();
+                }
+
+
+
+
+               
+                string ref1 = data.ref1.ToString();
+                string duedate = data.duedate.ToString();
+
+
+                dbConn.Open();
+                string sql = "MBL_CAMS_PENDING_UPDATESTARTDATE";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FUNCTION_ID", functionid);
+                cmd.Parameters.AddWithValue("@BRANCH_ID", branchid);
+                cmd.Parameters.AddWithValue("@ASSET_ID", assetid);
+                cmd.Parameters.AddWithValue("@ASSET_ACTIVITY_ID", activityid);
+                cmd.Parameters.AddWithValue("@ASSET_REFERENCE",ref1);
+                cmd.Parameters.AddWithValue("@ASSET_DUE_DATE",duedate);
+
+
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = "Updated successfully";
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Ok(Logdata1);
+
+
+
+            }
+        }
+
+
+        [HttpGet]
+        [Route("CAMS_PENDING_COMPLETED/{ASSETCOMPLETIONDATE}/{ASSETPLANNEDHRS}/{ASSETACTUALHRS}/{ASSETTESTEDBY}/{ASSETBREAKDOWNREASON}/{ASSETBREAKDOWNREMEDY}/{ASSETBREAKDOWNCOST}/{ASSETSHUTDOWNREQUEST}/{ASSETSHUTDOWNREMEDY}/{ASSETSHUTDOWNCOST}/{ASSETSHUTDOWNSTARTDATE}/{ASSETSHUTDOWN_ENDDATE}/{ASSETTASKSCARRIEDOUT}/{ASSETDONENY}/{ASSETPERMITNO}/{ASSETCOST}/{ASSETPMRREFERENCE}/{ASSETID}/{ASSETACTIVITYID}/{ASSETCERTIFICATEISSUED}/{ASSETCERTIFICATEDETAILS}/{status}")]
+        public string CAMS_PENDING_COMPLETED(string ASSETCOMPLETIONDATE, string ASSETPLANNEDHRS, string ASSETACTUALHRS, string ASSETTESTEDBY, string ASSETBREAKDOWNREASON, string ASSETBREAKDOWNREMEDY, string ASSETBREAKDOWNCOST, string ASSETSHUTDOWNREQUEST, string ASSETSHUTDOWNREMEDY, string ASSETSHUTDOWNCOST,
+       string ASSETSHUTDOWNSTARTDATE, string ASSETSHUTDOWN_ENDDATE, string ASSETTASKSCARRIEDOUT, string ASSETDONENY, string ASSETPERMITNO, string ASSETCOST, string ASSETPMRREFERENCE, string ASSETID, string ASSETACTIVITYID, string ASSETCERTIFICATEISSUED, string ASSETCERTIFICATEDETAILS, string status)
+        {
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+
+                string sql = "CAMSMOBIAPI_CAMS_PENDING_COMPLETED";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ASSETCOMPLETIONDATE", ASSETCOMPLETIONDATE);
+                cmd.Parameters.AddWithValue("@ASSETPLANNEDHRS", ASSETPLANNEDHRS);
+                cmd.Parameters.AddWithValue("@ASSETACTUALHRS", ASSETACTUALHRS);
+                cmd.Parameters.AddWithValue("@ASSETTESTEDBY", ASSETTESTEDBY);
+                cmd.Parameters.AddWithValue("@ASSETBREAKDOWNREASON", ASSETBREAKDOWNREASON);
+                cmd.Parameters.AddWithValue("@ASSETBREAKDOWNREMEDY", ASSETBREAKDOWNREMEDY);
+                cmd.Parameters.AddWithValue("@ASSETBREAKDOWNCOST", ASSETBREAKDOWNCOST);
+                cmd.Parameters.AddWithValue("@ASSETSHUTDOWNREQUEST", ASSETSHUTDOWNREQUEST);
+                cmd.Parameters.AddWithValue("@ASSETSHUTDOWNREMEDY", ASSETSHUTDOWNREMEDY);
+                cmd.Parameters.AddWithValue("@ASSETSHUTDOWNCOST", ASSETSHUTDOWNCOST);
+                cmd.Parameters.AddWithValue("@ASSETSHUTDOWNSTARTDATE", ASSETSHUTDOWNSTARTDATE);
+                cmd.Parameters.AddWithValue("@ASSETSHUTDOWN_ENDDATE", ASSETSHUTDOWN_ENDDATE);
+                cmd.Parameters.AddWithValue("@ASSETTASKSCARRIEDOUT", ASSETTASKSCARRIEDOUT);
+                cmd.Parameters.AddWithValue("@ASSETDONENY", ASSETDONENY);
+                cmd.Parameters.AddWithValue("@ASSETPERMITNO", ASSETPERMITNO);
+                cmd.Parameters.AddWithValue("@ASSETCOST", ASSETCOST);
+                cmd.Parameters.AddWithValue("@ASSETPMRREFERENCE", ASSETPMRREFERENCE);
+                cmd.Parameters.AddWithValue("@ASSETID", ASSETID);
+                cmd.Parameters.AddWithValue("@ASSETACTIVITYID", ASSETACTIVITYID);
+                cmd.Parameters.AddWithValue("@ASSETCERTIFICATEISSUED", ASSETCERTIFICATEISSUED);
+                cmd.Parameters.AddWithValue("@ASSETCERTIFICATEDETAILS", ASSETCERTIFICATEDETAILS);
+                cmd.Parameters.AddWithValue("@status", status);
+
+                cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "Successfully Completed";
+                }
+                else
+                {
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    }
+                }
+
+                return Logdata1;
+
+            }
+        }
+
+
+
+        [HttpPost]
+        [Route("pendingtaskdetail")]
+        public async Task<ActionResult<HRMS>> pendingtaskdetail(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            string activityid = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                string functionid = data.functionid.ToString();
+                string branchid = data.branchid.ToString();
+                string assetid = data.assetid.ToString();
+                if (data.activityid.ToString() == "")
+                {
+                    activityid = null;
+                }
+                else
+                {
+                    activityid = data.activityid.ToString();
+                }
+
+
+
+
+
+                string ref1 = data.ref1.ToString();
+                string duedate = data.duedate.ToString();
+
+
+                dbConn.Open();
+                string sql = "MBL_CAMS_JC_GETTASK";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ASSET_ACTIVITY_ID", activityid);
+                cmd.Parameters.AddWithValue("@FUNCTION_ID", functionid);
+                cmd.Parameters.AddWithValue("@BRANCH_ID", branchid);
+                cmd.Parameters.AddWithValue("@ASSET_ID", assetid);
+                cmd.Parameters.AddWithValue("@pageIndex", "0");
+                cmd.Parameters.AddWithValue("@pageSize", "20");
+                cmd.Parameters.AddWithValue("@sortExpression", "currentdate DESC");
+
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = "Updated successfully";
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Ok(Logdata1);
+
+
+
+            }
+        }
 
 
 

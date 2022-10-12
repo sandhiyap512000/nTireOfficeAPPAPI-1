@@ -615,7 +615,7 @@ namespace MobileAppAPI.Controllers
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@NAME", data.Name);
-                cmd.Parameters.AddWithValue("@CUSTLEADID", data.CUSTLEADID);
+                cmd.Parameters.AddWithValue("@CUSTLEADID", data.TCC_CUST_LEAD_ID);
                 cmd.Parameters.AddWithValue("@BRANCHID", data.branchid);
                 cmd.Parameters.AddWithValue("@USERID", data.userid);
                 cmd.Parameters.AddWithValue("@RESPONSE", data.RESPONSE);
@@ -1746,6 +1746,475 @@ namespace MobileAppAPI.Controllers
 
 
 
+
+
+
+        [HttpPost]
+        [Route("get_image_name")]
+        public async Task<ActionResult<CAMS>> get_image_name(Sales data)
+        {
+            // string struser = data.user_lower;
+
+
+            string Logdata1 = string.Empty;
+            var custid = "";
+            var custlat = "";
+            var locttomeet = "";
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select TCC_CUST_LEAD_ID,TCC_CUST_ID,CUSTOMER_LATLONG,TCC_LOCATION_TO_MEET from LMS_CURRENT_CAMPAIGN where TCC_CALL_ID= '" + data.callid + "' ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+             
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    custid = results.Rows[i]["TCC_CUST_ID"].ToString();
+                    custlat = results.Rows[i]["CUSTOMER_LATLONG"].ToString();
+                    locttomeet = results.Rows[i]["TCC_LOCATION_TO_MEET"].ToString();
+
+
+                }
+
+                string query2 = "";
+                query2 = "select doc_id,doc_name from BO_DOCS_UPLOAD where pk1='" + custid + "'";
+
+                SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                var reader2 = cmd2.ExecuteReader();
+                System.Data.DataTable results2 = new System.Data.DataTable();
+                results2.Load(reader2);
+
+                for (int i1 = 0; i1 < results2.Rows.Count;i1++)
+                {
+                   // DataRow row=results.Rows[i1];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results2);
+                }
+
+
+
+                dbConn.Close();
+
+                var result = (new { circularid = Logdata1, circode= custid, latlong= custlat, meetaddr= locttomeet });
+                return Ok(result);
+            }
+
+
+        }
+
+
+
+
+
+        [HttpPost]
+        [Route("gethistorydata")]
+        public async Task<ActionResult<CAMS>> gethistorydata(Sales data)
+        {
+            // string struser = data.user_lower;
+
+
+            string Logdata1 = string.Empty;
+            var TCC_CUST_ID =data.TCC_CUST_ID.ToString();
+            var TCC_CUST_LEAD_ID =data.TCC_CUST_LEAD_ID.ToString();
+            var TCC_CAMPAIGN_ID = data.TCC_CAMPAIGN_ID.ToString();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT BO_USER_MASTER.TUM_USER_CODE+'-'+BO_USER_MASTER.tum_user_name as leadby,uam.TUM_USER_CODE+'-'+uam.tum_user_name as updatedby, LMS_CUSTOMER_MASTER.cust_lname+cust_fname as Name,LMS_CUSTOMER_MASTER.MOBILE,LMS_CUSTOMER_MASTER.OFFPHONE,LMS_CUSTOMER_MASTER.RESPHONE,LMS_CUSTOMER_MASTER.EMAIL_ID,LMS_CUSTOMER_MASTER.CUR_ADD,LMS_CUSTOMER_MASTER.OFFICE_ADD,CUR_CITY,OFFICE_CITY,lC.FUNCTION_ID,lC.BRANCH_ID,TCC_CUST_LEAD_ID,TCC_CALL_ID,TCC_CUST_ID,TCC_CAMP_ID,TCC_CAMP_DESC,TCC_CALLER_ID,TCC_CALL_DATE,TCC_RESPONSE_ID,TCC_AGENT_REMARKS,TCC_LEAD_STATUS,TCC_LEAD_PRIORITY,TCC_LEAD_ID,TCC_LEAD_BY,TCC_LEAD_STAGE,TCC_LEAD_RATING,TCC_LEAD_MODE,lC.CREATED_BY,lC.CREATED_ON,lC.LST_UPD_BY,lC.LST_UPD_ON,lC.IP_ADD,TCC_SUBRESPONSE_ID,CALL_TYPE,TCC_CALL_FLAG,lC.IsCollateralReq,CollateralSend,CollateralRemarks,CollateralUserId,CollateralStatus,TCC_COMPETITOR_DESC,TCC_LOST_REASON,TCC_COMPETITOR_NAME,OTHERS1,OTHERS2,OTHERS3,AC_NO,OPEN_DATE,Is_Return_Back,Vertical_Type,TCC_CALL_DURATION,CAMPAIGN_LOCATION,is_cross_sell, CASE WHEN CONVERT(VARCHAR(10),lC.EXPECTEDCLOSEDDATE,103)='01/01/1900' THEN '' ELSE CONVERT(VARCHAR(10),lC.EXPECTEDCLOSEDDATE,103) END AS EXPECTEDCLOSEDDATE,lC.ExpctedAmount,TCC_LEAD_NATURE,SpentTime,FeedbackDoc,TCC_LEAD_SOURCE,TCC_DEMO_CALL_DATE,TCC_DEMO_SOURCE,TOTAL_SPENT_TIME,START_TIME,END_TIME,lC.LOCATION_ID,PRODUCT_ID,COMMON_USER_TYPE,CUSTOMER_LATLONG,Meeting_address,TCC_LOCATION_TO_MEET,Actual_Meeting_Location ,BO_DOCS_UPLOAD.doc_id,BO_DOCS_UPLOAD.doc_name, BO_DOCS_UPLOAD.doc_desc, BO_DOCS_UPLOAD.doc_path,BO_DOCS_UPLOAD.uploaded_by, BO_DOCS_UPLOAD.uploaded_on FROM LMS_CALL_DETAILS lC LEFT JOIN BO_DOCS_UPLOAD ON cast(lC.TCC_CALL_ID as varchar) = BO_DOCS_UPLOAD.pk2 inner join LMS_CUSTOMER_MASTER on LMS_CUSTOMER_MASTER.CUST_ID=lC.TCC_CUST_ID left join BO_USER_MASTER on lC.TCC_LEAD_ID=BO_USER_MASTER.TUM_USER_ID left join BO_USER_MASTER uam on lC.lst_upd_BY=uam.TUM_USER_ID where lC.TCC_CUST_ID='"+TCC_CUST_ID+"' and lC.TCC_CUST_LEAD_ID='"+TCC_CUST_LEAD_ID+"' and lC.TCC_CAMP_ID ='"+TCC_CAMPAIGN_ID+"' ORDER BY TCC_CALL_ID DESC ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+
+                }
+
+           
+
+                dbConn.Close();
+
+               // var result = (new { circularid = Logdata1, circode = custid, latlong = custlat, meetaddr = locttomeet });
+                return Ok(Logdata1);
+            }
+
+
+        }
+
+
+
+
+
+        [HttpPost]
+        [Route("getAllExpenseDetail")]
+        public async Task<ActionResult<CAMS>> getAllExpenseDetail(Sales data)
+        {
+            // string struser = data.user_lower;
+
+
+            string Logdata1 = string.Empty;
+            var custid = data.CustId;
+            var Expenceid = "";
+            var locttomeet = "";
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select * from LMS_EXPENSES_DETAILS where CUSTOMER_ID='" + custid + "' ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+
+
+                    string query2 = "";
+                    Expenceid = results.Rows[i]["EXPENSE_ID"].ToString();
+                    query2 = "select LMS_EXPENSES_COST_DETAILS.*,BO_PARAMETER.TEXT from LMS_EXPENSES_COST_DETAILS INNER    join  BO_PARAMETER on LMS_EXPENSES_COST_DETAILS.expense_type=BO_PARAMETER.VAL AND TYPE='LMS_ACTIVITY_EXPENSE_TYPE' where EXPENSE_ID='" + Expenceid + "'";
+
+                    SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                    var reader2 = cmd2.ExecuteReader();
+                    System.Data.DataTable results2 = new System.Data.DataTable();
+                    results2.Load(reader2);
+
+                    for (int i1 = 0; i1 < results2.Rows.Count; i1++)
+                    {
+                        // DataRow row=results.Rows[i1];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results2);
+                    }
+
+                }
+
+
+                dbConn.Close();
+
+                var result = (new { Logdata1 });
+                return Ok(Logdata1);
+            }
+
+
+        }
+
+
+        [HttpPost]
+        [Route("getexpdetails")]
+        public async Task<ActionResult<CAMS>> getexpdetails(Sales data)
+        {
+            // string struser = data.user_lower;
+
+
+            string Logdata1 = string.Empty;
+            var custid = data.CustId;
+           
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select * from BO_PARAMETER where TYPE='LMS_ACTIVITY_EXPENSE_TYPE' and FUNCTION_ID ="+ data.functionid +" and STATUS ='"+ data.status +"'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+
+                      Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    
+
+                }
+
+
+                dbConn.Close();
+
+                var result = (new { Logdata1 });
+                return Ok(Logdata1);
+            }
+
+
+        }
+
+
+
+
+
+
+        [HttpPost]
+        [Route("updpendleadsdata")]
+        public async Task<ActionResult<CAMS>> updpendleadsdata(Sales data)
+        {
+            // string struser = data.user_lower;
+
+
+            string Logdata1 = string.Empty;
+            var custid = data.CustId;
+
+
+
+            var TCC_NEXT_CALL_DATE = data.TCC_NEXT_CALL_DATE.ToString();
+            var callratingval = data.callratingval.ToString();
+            var callnatureval = data.callnatureval.ToString();
+            var Remarks = data.Remarks.ToString();
+            var callstageval = data.callstageval.ToString();
+            var ActReq = data.ActReq.ToString();
+            var LeadSource = data.LeadSource.ToString();
+             var nextactionval = data.nextactionval.ToString();
+            var TCC_CUSTOMER_ID = data.TCC_CUSTOMER_ID.ToString();
+            var customer_lead_id = data.customer_lead_id.ToString();
+            var CALL_ID = data.CALL_ID.ToString();
+            var TCC_PRIORITY = data.leadstatusval.ToString();
+            var CloseDate = data.ClosedDate.ToString();
+            var ExpAmount = data.ExpctedAmount.ToString();
+            var TCC_LOCATION_TO_MEET = data.TCC_LOCATION_TO_MEET.ToString();
+            var Meeting_address = data.Meeting_address.ToString();
+
+
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "set dateformat ymd;update LMS_CURRENT_CAMPAIGN SET TCC_PRIORITY= '" + TCC_PRIORITY + "',TCC_NEXT_CALL_DATE = '" + TCC_NEXT_CALL_DATE + "',ExpectedClosedDate='" + CloseDate + "',ExpctedAmount='" + ExpAmount + "',TCC_LEAD_RATING= '" + callratingval + "',TCC_LEAD_NATURE= '" + callnatureval + "',TCC_REMARKS= '" + Remarks + "',TCC_LEAD_STAGE = '" + callstageval + "',Action_Req= '" + ActReq + "',TCC_LEAD_SOURCE= '" + LeadSource + "',TCC_LOCATION_TO_MEET= '" + TCC_LOCATION_TO_MEET + "',TCC_RESPONSE='" + nextactionval + "', Meeting_address= '" + Meeting_address + "' where TCC_CUST_ID='" + TCC_CUSTOMER_ID + "' and TCC_CUST_LEAD_ID= '" + customer_lead_id + "' and TCC_CALL_ID= '" + CALL_ID+"'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+
+
+
+                string query1 = "";
+                query1 = "INSERT INTO LMS_CALL_DETAILS (FUNCTION_ID,BRANCH_ID,TCC_CUST_LEAD_ID,TCC_CUST_ID,TCC_CAMP_ID,TCC_CALLER_ID,TCC_RESPONSE_ID,TCC_AGENT_REMARKS,TCC_LEAD_STATUS,TCC_LEAD_PRIORITY,TCC_LEAD_ID,TCC_LEAD_BY,TCC_LEAD_STAGE,TCC_LEAD_RATING,TCC_LEAD_MODE,TCC_LOCATION_TO_MEET,CREATED_BY,CREATED_ON,LST_UPD_BY,LST_UPD_ON,IP_ADD,TCC_SUBRESPONSE_ID,TCC_CALL_FLAG,CAMPAIGN_LOCATION,is_cross_sell,Action_Req,TCC_SHARED_ID,tcc_acted_by,TCC_REMARKS_PRIVATE,ExpectedClosedDate,ExpctedAmount,TCC_LEAD_NATURE,TCC_LEAD_SOURCE,TCC_DEMO_CALL_DATE,TCC_DEMO_SOURCE,TOTAL_SPENT_TIME,START_TIME,END_TIME,LOCATION_ID,PRODUCT_ID,Meeting_address,TCC_CALL_DATE) select FUNCTION_ID,BRANCH_ID,TCC_CUST_LEAD_ID,TCC_CUST_ID,TCC_CAMP_ID,TCC_CALLER_ID,TCC_RESPONSE,TCC_REMARKS,TCC_LEAD_STATUS,TCC_PRIORITY,TCC_LEAD_ID,TCC_LEAD_BY,TCC_LEAD_STAGE,TCC_LEAD_RATING,LEAD_MODE,TCC_LOCATION_TO_MEET,CREATED_BY,CREATED_ON,LST_UPD_BY,LST_UPD_ON,IP_ADD,TCC_SUBRESPONSE,TCC_CALL_FLAG,TCC_CAMP_LOC,TCC_CROSS_SELL,Action_Req,TCC_SHARED_ID,tcc_acted_by,TCC_REMARKS_PRIVATE,ExpectedClosedDate,ExpctedAmount,TCC_LEAD_NATURE,TCC_LEAD_SOURCE,TCC_DEMO_CALL_DATE,TCC_DEMO_SOURCE,TOTAL_SPENT_TIME,START_TIME,END_TIME,LOCATION_ID,PRODUCT_ID,Meeting_address,TCC_NEXT_CALL_DATE from LMS_CURRENT_CAMPAIGN where TCC_CUST_ID= '" + TCC_CUSTOMER_ID + "' and TCC_CUST_LEAD_ID= '" + customer_lead_id + "'and TCC_CALL_ID= '" + CALL_ID + "'";
+
+                SqlCommand cmd1 = new SqlCommand(query1, dbConn);
+                var reader1 = cmd1.ExecuteReader();
+                System.Data.DataTable results1 = new System.Data.DataTable();
+                results1.Load(reader1);
+
+
+
+
+                string query2 = "";
+                query2 = "INSERT INTO LMS_CLOSED_CALLS(FUNCTION_ID, BRANCH_ID, TCC_CUST_LEAD_ID, TCC_CUST_ID, TCC_CAMP_ID, TCC_CALLER_ID, TCC_RESPONSE_ID, TCC_LEAD_ID, TCC_LEAD_BY, TCC_LEAD_STAGE, TCC_LEAD_RATING, IP_ADD, TCC_SUBRESPONSE_ID, ExpectedClosedDate, ExpctedAmount, LOCATION_ID, PRODUCT_ID) select FUNCTION_ID, BRANCH_ID, TCC_CUST_LEAD_ID, TCC_CUST_ID, TCC_CAMP_ID, TCC_CALLER_ID, TCC_RESPONSE, TCC_LEAD_ID, TCC_LEAD_BY, TCC_LEAD_STAGE, TCC_LEAD_RATING, IP_ADD, TCC_SUBRESPONSE, ExpectedClosedDate, ExpctedAmount, LOCATION_ID, PRODUCT_ID from LMS_CURRENT_CAMPAIGN where TCC_CUST_ID = '"+TCC_CUSTOMER_ID+"' and TCC_CUST_LEAD_ID = '"+customer_lead_id+"' and TCC_CALL_ID = '"+CALL_ID+"'";
+
+                SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                var reader2 = cmd2.ExecuteReader();
+                System.Data.DataTable results2 = new System.Data.DataTable();
+                results2.Load(reader2);
+
+                Logdata1 = "Updated Successfully";
+
+
+
+
+
+                dbConn.Close();
+
+                var result = (new { Logdata1 });
+                return Ok(Logdata1);
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+        [HttpPost]
+        [Route("insert_expense_details")]
+        public async Task<ActionResult<CAMS>> insert_expense_details(Sales data)
+        {
+            // string struser = data.user_lower;
+
+
+            string Logdata1 = string.Empty;
+            var custid = data.CustId;
+
+
+
+            var CUSTOMER_ID = data.CUSTOMER_ID.ToString();
+            var CUSTOMER_NAME = data.CUSTOMER_NAME.ToString();
+            var CALL_ID = data.CALL_ID.ToString();
+            var PRODUCT = data.PRODUCT.ToString();
+            var PRODUCT_DESC = data.PRODUCT_DESC.ToString();
+            var CAMPAIGN = data.CAMPAIGN.ToString();
+            var CAMPAIGN_DESC = data.CAMPAIGN_DESC.ToString();
+            var REMARKS = data.Remarks.ToString();
+            var STATUS = data.status.ToString();
+            var createdby = data.createdby.ToString();
+            var updatedby = data.updatedby.ToString();
+            var BRANCH_ID = data.branchid.ToString();
+            var expense_cost = data.expense_cost.ToString();
+            var expense_type = data.expense_type.ToString();
+            var document_remarks = data.document_remarks.ToString();
+            var document_desc = data.document_desc.ToString();
+            var inserted_id = "";
+            var documentid = "";
+            var ImageUrl1 = data.file_array.ToString();
+            var CUSTOMER_REF = data.CUSTOMER_REF.ToString();
+
+
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "insert into LMS_EXPENSES_DETAILS(FUNCTION_ID,DATE,CUSTOMER_ID,CUSTOMER_NAME,CUSTOMER_REF,CALL_ID,PRODUCT,PRODUCT_DESC,CAMPAIGN,CAMPAIGN_DESC,TRAVEL_TYPE,TRAVEL_COST,REMARKS,STATUS,category,createdby,updatedby,createdon,updatedon,ipaddress,BRANCH_ID) VALUES('1',GETDATE(),'"+CUSTOMER_ID+"', '"+CUSTOMER_NAME+ "','" + CUSTOMER_REF + "','" + CALL_ID +"','"+PRODUCT+"','"+PRODUCT_DESC+"','"+CAMPAIGN+"','"+CAMPAIGN_DESC +"',null ,null,'"+REMARKS+"' ,'"+STATUS+"' ,'L' ,"+createdby+" ,"+updatedby+" ,GETDATE(),GETDATE(),null,'"+BRANCH_ID+"');SELECT SCOPE_IDENTITY() AS inserted_id;";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                       inserted_id = results.Rows[i]["inserted_id"].ToString();
+                 
+                }
+
+
+                string query1 = "";
+                query1 = "select MAX(document_id) +1 as documentid FROM LMS_EXPENSE_DETAIL_DOCUMENTS";
+
+                SqlCommand cmd1 = new SqlCommand(query1, dbConn);
+                var reader1 = cmd1.ExecuteReader();
+                System.Data.DataTable results1 = new System.Data.DataTable();
+                results1.Load(reader1);
+
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    // documentid = results.Rows[i]["documentid"].ToString();
+                    documentid = row[0].ToString();
+
+                }
+
+
+                string query2 = "";
+                query2 = "Insert into LMS_EXPENSE_DETAIL_DOCUMENTS(function_id,expense_id,document_id,document_desc,document,document_remarks,status,created_by,created_on,lst_upd_by,lst_upd_on,ipaddress) values('1','" + inserted_id + "','" + documentid + "','" + document_desc + "','" + ImageUrl1 + "','" + document_remarks + "','A',1,getdate(),1,getdate(),'')";
+
+                SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                var reader2 = cmd2.ExecuteReader();
+                System.Data.DataTable results2 = new System.Data.DataTable();
+                results2.Load(reader2);
+
+
+                string query3 = "";
+                query3 = "insert into LMS_EXPENSES_COST_DETAILS(function_id,expense_id,expense_type,expense_cost,remarks,createdby,updatedby,createdon,updatedon,ipaddress,cost_id) values('1','" + inserted_id + "','"+expense_type+"','"+expense_cost+"','"+ REMARKS + "','"+createdby+"','"+updatedby+"',getdate(),getdate(),'',0)";
+
+                SqlCommand cmd3 = new SqlCommand(query3, dbConn);
+                var reader3 = cmd3.ExecuteReader();
+                System.Data.DataTable results3 = new System.Data.DataTable();
+                results3.Load(reader3);
+
+
+
+
+
+
+
+                Logdata1 = "inserted";
+
+
+
+
+
+                dbConn.Close();
+
+                var result = (new { Logdata1 });
+                return Ok(Logdata1);
+            }
+
+
+        }
+
+
+
+
+
+        [HttpPost]
+        [Route("getExpenseDoc")]
+        public async Task<ActionResult<CAMS>> getExpenseDoc(Sales data)
+        {
+            // string struser = data.user_lower;
+
+
+            string Logdata1 = string.Empty;
+            var custid = data.CustId;
+
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select * from LMS_EXPENSE_DETAIL_DOCUMENTS where expense_id='"+data.expense_id+"'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+
+
+                }
+
+
+                dbConn.Close();
+
+                var result = (new { Logdata1 });
+                return Ok(Logdata1);
+            }
+
+
+        }
 
 
 
