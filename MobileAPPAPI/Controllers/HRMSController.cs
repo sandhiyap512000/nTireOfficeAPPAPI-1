@@ -367,10 +367,17 @@ namespace MobileAppAPI.Controllers
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
                 //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                for (int i = 0; i < results.Rows.Count; i++)
+                if (results.Rows.Count == 0)
                 {
-                    DataRow row = results.Rows[i];
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    Logdata1 = "No data found";
+                }
+                else
+                {
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    }
                 }
                 return Logdata1;
             }

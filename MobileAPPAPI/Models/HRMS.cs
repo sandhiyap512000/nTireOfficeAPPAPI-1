@@ -61,5 +61,7 @@ namespace MobileAppAPI.Models
         public int usertype { get; set; }
 
         public string ODRequestRef { get; set; }
+
+        //end
     }
 }
