@@ -377,7 +377,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "SELECT ASSET_CODE FROM CAMS_ASSET_MASTER";
+                query = "SELECT ASSET_CODE FROM CAMS_ASSET_MASTER where ASSET_CODE like '%"+data.assetcode+"%'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -704,7 +704,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "SELECT DISTINCT ZONE_ID,ZONE_DESC from BO_ZONE_MASTER WHERE FUNCTION_ID=" + data.functionidrep + "";
+                query = "SELECT DISTINCT ZONE_ID,ZONE_DESC from BO_ZONE_MASTER WHERE FUNCTION_ID=" + data.functionidrep + " and ZONE_STATUS='A'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -771,7 +771,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "SELECT region_id,region_desc from BO_REGION_MASTER WHERE FUNCTION_ID=" + data.functionidrep + " AND zone_id=" + data.zoneid + "";
+                query = "SELECT region_id,region_desc from BO_REGION_MASTER WHERE Status='A' and FUNCTION_ID=" + data.functionidrep + " AND zone_id=" + data.zoneid + "";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -838,7 +838,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "SELECT BRANCH_ID,BRANCH_DESC from BO_BRANCH_MASTER WHERE FUNCTION_ID=" + data.functionidrep + " AND ZONE_ID=" +data.zoneid + " AND region_id=" + data.regionid + "";
+                query = "SELECT BRANCH_ID,BRANCH_DESC from BO_BRANCH_MASTER WHERE STATUS='A' and FUNCTION_ID=" + data.functionidrep + " AND ZONE_ID=" +data.zoneid + " AND region_id=" + data.regionid + "";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -1348,7 +1348,7 @@ namespace MobileAppAPI.Controllers
 
 
         [HttpGet]
-        [Route("Pendingsearchs11")]
+        [Route("Pendingsearchs11/{strfunction}/{branch}/{fdate}/{tdate}/{Status}/{strUserId}/{UserType}/{drpcategory}/{drptype}/{TASKTYPE}/{AssetCode}")]
         public string Pendingsearchs11(string strfunction, string branch, string fdate, string tdate, string Status, string strUserId, string UserType, string drpcategory, string drptype, string TASKTYPE, string AssetCode)//, string PrDesc, string PrCode string loginUserId,, string UserType
         {
             try
@@ -2045,7 +2045,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "SELECT Vendor_Code,vendor_id,Vendor_Name FROM ERP_VENDOR_MASTER erpm WHERE  function_id='1'";
+                query = "SELECT Vendor_Code,vendor_id,Vendor_Name FROM ERP_VENDOR_MASTER erpm WHERE  function_id='1' and Vendor_Code like '%"+ data.vendorcode +"%' ";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -2127,7 +2127,7 @@ namespace MobileAppAPI.Controllers
 
                 
                 string query = "";
-                query = "Select BRANCH_DESC Branch,a.TEXT Department, BO_PARAMETER.TEXT Location,ASSET_CODE AssetCode,b.TEXT catgry,SUB_CATEGORY_DESC subcatry from CAMS_ASSET_MASTER Join Bo_branch_master on Bo_branch_master.FUNCTION_ID=CAMS_ASSET_MASTER.Function_id and CAMS_ASSET_MASTER.BRANCH_ID=Bo_branch_master.BRANCH_ID Join BO_PARAMETER on BO_PARAMETER.TYPE ='BO_DEPTLOCATION'  and CAMS_ASSET_MASTER.FUNCTION_ID =BO_PARAMETER.FUNCTION_ID and BO_PARAMETER.VAL=CAMS_ASSET_MASTER.ASSET_LocationId inner join BO_PARAMETER a with(nolock) on a.VAL=CAMS_ASSET_MASTER.ASSET_DEPARTMENT and a.TYPE='bo_Team' inner join BO_PARAMETER b with(nolock) on b.TYPE='INFCATEGORY' and b.VAL=CAMS_ASSET_MASTER.ASSET_CATEGORY and b.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID inner join CAMS_ASSET_SUBCATEGORY_MASTER with(nolock) on CAMS_ASSET_SUBCATEGORY_MASTER.CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_CATEGORY and CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_TYPE and CAMS_ASSET_SUBCATEGORY_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID AND  CAMS_ASSET_SUBCATEGORY_MASTER.STATUS='A' where a.VAL =" + depid + " and BO_PARAMETER.VAL=" + locid + " ";
+                query = "Select BRANCH_DESC Branch,a.TEXT Department, BO_PARAMETER.TEXT Location,ASSET_CODE AssetCode,b.TEXT catgry,SUB_CATEGORY_DESC subcatry from CAMS_ASSET_MASTER Join Bo_branch_master on Bo_branch_master.FUNCTION_ID=CAMS_ASSET_MASTER.Function_id and CAMS_ASSET_MASTER.BRANCH_ID=Bo_branch_master.BRANCH_ID Join BO_PARAMETER on BO_PARAMETER.TYPE ='BO_DEPTLOCATION'  and CAMS_ASSET_MASTER.FUNCTION_ID =BO_PARAMETER.FUNCTION_ID and BO_PARAMETER.VAL=CAMS_ASSET_MASTER.ASSET_LocationId inner join BO_PARAMETER a with(nolock) on a.VAL=CAMS_ASSET_MASTER.ASSET_DEPARTMENT and a.TYPE='bo_Team' and a.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID inner join BO_PARAMETER b with(nolock) on b.TYPE='INFCATEGORY' and b.VAL=CAMS_ASSET_MASTER.ASSET_CATEGORY and b.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID inner join CAMS_ASSET_SUBCATEGORY_MASTER with(nolock) on CAMS_ASSET_SUBCATEGORY_MASTER.CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_CATEGORY and CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_TYPE and CAMS_ASSET_SUBCATEGORY_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID AND  CAMS_ASSET_SUBCATEGORY_MASTER.STATUS='A' where a.VAL =" + depid + " and BO_PARAMETER.VAL=" + locid + " ";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
