@@ -1940,6 +1940,63 @@ namespace MobileAppAPI.Controllers
 
 
 
+        [HttpGet]
+        [Route("EmployeeDetailsDelete/{EmployeeId}/{Type}/{Parameter1}/{Parameter2}")]
+        public string EmployeeDetailsDelete(string EmployeeId = null, string Type = null, string Parameter1 = null, string Parameter2 = null)
+        {
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+                dbConn.Open();
+
+                string sql = "DBO.HRMS_EMPLOYEE_DETAILS_DELETE";
+                SqlCommand sqlCommand = new SqlCommand(sql, dbConn);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                if (EmployeeId != null && EmployeeId.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@EmployeeId", EmployeeId);
+                else
+                    sqlCommand.Parameters.AddWithValue("@EmployeeId", 0);
+
+                if (Type != null && Type.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@Type", Type.Trim());
+                else
+                    sqlCommand.Parameters.AddWithValue("@Type", null);
+
+                if (Parameter1 != null && Parameter1.Trim() != "0" && Parameter1.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@Parameter1", Parameter1.Trim());
+                else
+                    sqlCommand.Parameters.AddWithValue("@Parameter1", null);
+
+                if (Parameter2 != null && Parameter2.Trim() != "0" && Parameter2.Trim() != string.Empty)
+                    sqlCommand.Parameters.AddWithValue("@Parameter2", Parameter2.Trim());
+                else
+                    sqlCommand.Parameters.AddWithValue("@Parameter2", null);
+
+
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+
+
+                var reader = sqlCommand.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                return Logdata1;
+            }
+        }
+
+
+
+
         [HttpPost]
         [Route("getODRequestRef")]
         public async Task<ActionResult<HRMS>> getODRequestRef(HRMS data)
