@@ -1188,7 +1188,7 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string sql = "[dbo].[HRMS_CancelRequest]";
+                string sql = "MBL_HRMS_CancelRequest";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@RequestID", RequestID);
