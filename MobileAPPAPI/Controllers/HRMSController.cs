@@ -160,6 +160,79 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        [HttpGet]
+        [Route("WorkFlowAuth/{PK1}/{PK2}/{PK3}/{PK4}/{User}/{Function}/{WorkFlowTable}")]
+        public string WorkFlowAuth(string PK1, string PK2, string PK3, string PK4, string User, string Function, string WorkFlowTable)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+              
+                SqlCommand cmd = new SqlCommand("", dbConn);
+                cmd.CommandType = CommandType.Text;
+                
+                int wfId = 0;
+
+                if (PK2.ToLower() == "null")
+                {
+                    PK2 = "";
+                }
+                if (PK3.ToLower() == "null")
+                {
+                    PK3 = "";
+                }
+                if (PK4.ToLower() == "null")
+                {
+                    PK4 = "";
+                }
+
+                try
+                {
+                    cmd.CommandText = "select count(*) from BO_WORKFLOW_CONFIGURATIONS where table_name like '%" + WorkFlowTable + "%' and FUNCTION_ID=" + Function + " and status='A'";
+
+                    int _count = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    if (_count > 0)
+                    {
+                        cmd.CommandText = "select WF_CONFIG_ID from BO_WORKFLOW_CONFIGURATIONS where table_name like '%" + WorkFlowTable + "%' and status='A' and Function_ID='" + Function + "'";
+
+
+                        wfId = Convert.ToInt32(cmd.ExecuteScalar());
+
+                        cmd.CommandText = "select pk_column_name1,pk_column_name2,pk_column_name3,pk_column_name4,pk_column_name5,STATUS_COLUMN from BO_WORKFLOW_CONFIGURATIONS with (nolock) where WF_CONFIG_ID='" + wfId + "'";
+                        DataSet ds = new DataSet();
+
+                        SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                        adp.Fill(ds);
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+                            if (ds.Tables[0].Rows[0]["pk_column_name1"].ToString() != "" && ds.Tables[0].Rows[0]["STATUS_COLUMN"].ToString() != "")
+                            {
+                                string strsql = "exec usp_WF_ApprovalUsers '" + WorkFlowTable + "','" + ds.Tables[0].Rows[0]["pk_column_name1"] + "','" + ds.Tables[0].Rows[0]["pk_column_name2"] + "','" + ds.Tables[0].Rows[0]["pk_column_name3"] + "','" + ds.Tables[0].Rows[0]["pk_column_name4"] + "','" + ds.Tables[0].Rows[0]["pk_column_name5"] + "','" + PK1 + "','" + PK2 + "','" + PK3 + "' ,'" + PK4 + "',' ' ,'" + Function + "' ,'" + User + "' ,'" + ds.Tables[0].Rows[0]["STATUS_COLUMN"] + "','P' ,'" + wfId + "'";
+                                cmd.CommandText = strsql;
+
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                    return "1";
+                }
+                catch (Exception ex)
+                {
+
+                    return ex.Message;
+                }
+
+            }
+        }
+
+
+
+
 
         [HttpGet]
         [Route("EmployeeLeaveDetails/{EmployeeId}/{Year}/{Month}")]
@@ -1105,6 +1178,34 @@ namespace MobileAppAPI.Controllers
 
 
         [HttpGet]
+        [Route("CancelRequest/{RequestID}/{RequestType}")]
+        public string CancelRequest(string RequestID, string RequestType)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string sql = "MBL_HRMS_CancelRequest";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@RequestID", RequestID);
+                cmd.Parameters.AddWithValue("@RequestType", RequestType);
+                cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+                cmd.ExecuteNonQuery();
+                string st = cmd.Parameters["@Result"].Value.ToString();
+                var json = new JavaScriptSerializer().Serialize(st);
+                return json;
+
+
+                
+            }
+        }
+
+
+        [HttpGet]
         [Route("EmployeeLeaveConfig/{LeaveType}/{EmpID}")]
         public string EmployeeLeaveConfig(string LeaveType, string EmpID)
         {
@@ -1952,7 +2053,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
 
-                string sql = "DBO.HRMS_EMPLOYEE_DETAILS_DELETE";
+                string sql = "MBL_HRMS_EMPLOYEE_DETAILS_DELETE";
                 SqlCommand sqlCommand = new SqlCommand(sql, dbConn);
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
