@@ -1010,10 +1010,11 @@ namespace MobileAppAPI.Controllers
                     CAMS log = new CAMS();
                     DataRow row = results.Rows[i];
                     //ASSET_USER = Convert.ToInt32(row[0]);
-                   // ASSET_CATEGORY = Convert.ToInt32(row[1]);
+                    // ASSET_CATEGORY = Convert.ToInt32(row[1]);
                     ASSET_ID = Convert.ToInt32(row[4]);
-                   // BRANCH_ID = Convert.ToInt32(row[2]);
-                   // FUNCTION_ID = Convert.ToInt32(row[3]);
+                    // BRANCH_ID = Convert.ToInt32(row[2]);
+                    // FUNCTION_ID = Convert.ToInt32(row[3]);
+
 
                     string query1 = "";
                     query1 = "SELECT  TOP(1) CAT_HISTORY_ID FROM CAMS_ASSET_TRANSFER_Detail WHERE CAT_ASSET_ID='" + ASSET_ID + "' ORDER BY CAT_HISTORY_ID DESC";
@@ -1021,39 +1022,50 @@ namespace MobileAppAPI.Controllers
                     var reader1 = cmd1.ExecuteReader();
                     System.Data.DataTable results1 = new System.Data.DataTable();
                     results1.Load(reader1);
-                    for (int i1 = 0; i < results1.Rows.Count; i++)
+                    if (results1.Rows.Count > 0)
                     {
-                        DataRow row1 = results1.Rows[i];
-                        CAT_HISTORY_ID = Convert.ToInt32(row1[0]);
-                        string query2 = "";
-                        query2 = "SELECT  *  FROM CAMS_ASSET_TRANSFER_MASTER WHERE CAT_HISTORY_ID='" + CAT_HISTORY_ID + "' and STATUS IN('A','P') ";
 
-                        SqlCommand cmd2 = new SqlCommand(query2, dbConn);
-                        var reader2 = cmd2.ExecuteReader();
-                       
-                        results2.Load(reader2);
-                        
 
+                        for (int i1 = 0; i < results1.Rows.Count; i++)
+                        {
+                            DataRow row1 = results1.Rows[i];
+                            CAT_HISTORY_ID = Convert.ToInt32(row1[0]);
+                            string query2 = "";
+                            query2 = "SELECT  *  FROM CAMS_ASSET_TRANSFER_MASTER WHERE CAT_HISTORY_ID='" + CAT_HISTORY_ID + "' and STATUS IN('A','P') ";
+
+                            SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                            var reader2 = cmd2.ExecuteReader();
+
+                            results2.Load(reader2);
+
+
+                        }
+
+
+
+
+                        if (results2.Rows.Count >= 1)
+                        {
+
+                            Logdata1 = DataTableToJSONWithStringBuilder(results2);
+                            dbConn.Close();
+
+                        }
+                        else
+                        {
+
+
+                            Logdata1 = "This Asset Already Transferred";
+                            dbConn.Close();
+                        }
                     }
 
-                           
+                    else
+                    {
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+
+                    }
                 }
-
-                if (results2.Rows.Count >= 1)
-                {
-
-                    Logdata1 = DataTableToJSONWithStringBuilder(results2);
-                    dbConn.Close();
-
-                }
-                else
-                {
-                  
-
-                    Logdata1 = "This Asset Already Transferred";
-                    dbConn.Close();
-                }
-
                 //Logdata1 = DataTableToJSONWithStringBuilder(results2);
                 //dbConn.Close();
 
@@ -1348,7 +1360,7 @@ namespace MobileAppAPI.Controllers
 
 
         [HttpGet]
-        [Route("Pendingsearchs11/{strfunction}/{branch}/{fdate}/{tdate}/{Status}/{strUserId}/{UserType}/{drpcategory}/{drptype}/{TASKTYPE}/{AssetCode}")]
+        [Route("Pendingsearchs11")]
         public string Pendingsearchs11(string strfunction, string branch, string fdate, string tdate, string Status, string strUserId, string UserType, string drpcategory, string drptype, string TASKTYPE, string AssetCode)//, string PrDesc, string PrCode string loginUserId,, string UserType
         {
             try
@@ -3208,6 +3220,50 @@ namespace MobileAppAPI.Controllers
             }
         }
 
+
+
+
+
+        [HttpPost]
+        [Route("uploadimage")]
+        public async Task<ActionResult<CAMS>> uploadimage(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "update CAMS_ASSET_MASTER SET ImageUrl='" + data.doc_path + "' where ASSET_CODE='" + data.assetcode + "' AND BRANCH_ID=" + data.branchid + " AND FUNCTION_ID=" + data.functionid + "";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    Logdata1 = "updated successfully";
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+               // Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
 
         //json convertion method
         public string DataTableToJSONWithStringBuilder(DataTable table)

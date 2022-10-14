@@ -193,6 +193,8 @@ namespace MobileAppAPI.Models
         public int returnqty { get; set; }
         public int scrapqty { get; set; }
 
+        public string doc_path { get; set; }
+
 
 
     }
