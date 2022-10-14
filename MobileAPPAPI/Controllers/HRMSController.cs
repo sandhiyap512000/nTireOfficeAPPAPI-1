@@ -1178,6 +1178,34 @@ namespace MobileAppAPI.Controllers
 
 
         [HttpGet]
+        [Route("CancelRequest/{RequestID}/{RequestType}")]
+        public string CancelRequest(string RequestID, string RequestType)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string sql = "[dbo].[HRMS_CancelRequest]";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@RequestID", RequestID);
+                cmd.Parameters.AddWithValue("@RequestType", RequestType);
+                cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+                cmd.ExecuteNonQuery();
+                string st = cmd.Parameters["@Result"].Value.ToString();
+                var json = new JavaScriptSerializer().Serialize(st);
+                return json;
+
+
+                
+            }
+        }
+
+
+        [HttpGet]
         [Route("EmployeeLeaveConfig/{LeaveType}/{EmpID}")]
         public string EmployeeLeaveConfig(string LeaveType, string EmpID)
         {
@@ -2025,7 +2053,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
 
-                string sql = "DBO.HRMS_EMPLOYEE_DETAILS_DELETE";
+                string sql = "MBL_HRMS_EMPLOYEE_DETAILS_DELETE";
                 SqlCommand sqlCommand = new SqlCommand(sql, dbConn);
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
