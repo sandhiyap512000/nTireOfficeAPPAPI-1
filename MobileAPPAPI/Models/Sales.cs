@@ -113,9 +113,9 @@ namespace MobileAppAPI.Models
 
         public string PRODUCT_DESC { get; set; }
 
-       // public string CAMPAIGN { get; set;
+        public string CAMPAIGN { get; set; }
 
-            public int CAMPAIGN { get; set; }
+       //     public int CAMPAIGN { get; set; }
 
         public string CAMPAIGN_DESC { get; set; }
 

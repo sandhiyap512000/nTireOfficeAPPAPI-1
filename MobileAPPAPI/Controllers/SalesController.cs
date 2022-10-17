@@ -1609,6 +1609,8 @@ namespace MobileAppAPI.Controllers
 
                     var json = new JavaScriptSerializer().Serialize(st);
                     return json;
+
+
                 }
             }
             catch (Exception ex)
@@ -1944,13 +1946,20 @@ namespace MobileAppAPI.Controllers
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
 
-
-                for (int i = 0; i < results.Rows.Count; i++)
+                if (results.Rows.Count == 0)
                 {
+                    string st = "No data found";
 
-                      Logdata1 = DataTableToJSONWithStringBuilder(results);
-                    
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
 
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+
+                    }
                 }
 
 
@@ -2197,13 +2206,21 @@ namespace MobileAppAPI.Controllers
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
 
-
-                for (int i = 0; i < results.Rows.Count; i++)
+                if (results.Rows.Count == 0)
                 {
+                    string st = "No data found";
 
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
 
 
+                    }
                 }
 
 

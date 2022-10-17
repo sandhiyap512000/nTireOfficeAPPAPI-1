@@ -1054,8 +1054,10 @@ namespace MobileAppAPI.Controllers
                         else
                         {
 
+                            string st = "This Asset Already Transferred";
 
-                            Logdata1 = "This Asset Already Transferred";
+                            Logdata1 = new JavaScriptSerializer().Serialize(st);
+                          
                             dbConn.Close();
                         }
                     }
@@ -1152,7 +1154,9 @@ namespace MobileAppAPI.Controllers
 
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No Records Found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -1238,7 +1242,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No Records Found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -1342,7 +1348,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No Records Found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -1440,7 +1448,9 @@ namespace MobileAppAPI.Controllers
                     //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
                     if (results.Rows.Count == 0)
                     {
-                        Logdata1 = "No Records Found";
+                        string st = "No data found";
+
+                        Logdata1 = new JavaScriptSerializer().Serialize(st);
                     }
                     else
                     {
@@ -1541,7 +1551,9 @@ namespace MobileAppAPI.Controllers
                     //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
                     if (results.Rows.Count == 0)
                     {
-                        Logdata1 = "No Records Found";
+                        string st = "No data found";
+
+                        Logdata1 = new JavaScriptSerializer().Serialize(st);
                     }
                     else
                     {
@@ -1595,7 +1607,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No Records Found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -1637,7 +1651,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No Records Found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -1679,7 +1695,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No Records Found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -1738,7 +1756,9 @@ namespace MobileAppAPI.Controllers
 
                 if (results1.Rows.Count==0)
                 {
-                    Logdata1 = "No Records Found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -1932,7 +1952,9 @@ namespace MobileAppAPI.Controllers
                         results3.Load(reader3);
                     if (results.Rows.Count == 0)
                     {
-                        Logdata1 = "No Record Found";
+                        string st = "No data found";
+
+                        Logdata1 = new JavaScriptSerializer().Serialize(st);
                     }
                     else
                     {
@@ -1981,7 +2003,9 @@ namespace MobileAppAPI.Controllers
                 Logdata1 = DataTableToJSONWithStringBuilder(results);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No Record Found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2024,7 +2048,9 @@ namespace MobileAppAPI.Controllers
                 Logdata1 = DataTableToJSONWithStringBuilder(results);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No Record Found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2066,7 +2092,9 @@ namespace MobileAppAPI.Controllers
                 Logdata1 = DataTableToJSONWithStringBuilder(results);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No Record Found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2147,7 +2175,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count==0)
                 {
-                    Logdata1 = "No Record Found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2201,7 +2231,9 @@ namespace MobileAppAPI.Controllers
 
                 if (results.Rows.Count==0)
                 {
-                    Logdata1 = "No Record Found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2289,7 +2321,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count==0)
                 {
-                    Logdata1 = "No data found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2325,9 +2359,9 @@ namespace MobileAppAPI.Controllers
                 string functionid = data.functionid.ToString();
                 string branchid = data.branchid.ToString();
                 string assetid = data.assetid.ToString();
-                if (data.activityid.ToString()=="")
+                if (data.activityid.ToString()=="" || data.activityid.ToString() == "null")
                 {
-                    activityid  = null;
+                    activityid  = "";
                 }
                 else
                 {
@@ -2350,7 +2384,10 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                Logdata1 = "Updated successfully";
+              //  Logdata1 = "Updated successfully";
+                string st = "Updated successfully";
+                string output = JsonConvert.SerializeObject(st);
+                Logdata1 = output;
                 //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
                 for (int i = 0; i < results.Rows.Count; i++)
                 {
@@ -2411,7 +2448,11 @@ namespace MobileAppAPI.Controllers
                 //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "Successfully Completed";
+                   // Logdata1 = "Successfully Completed";
+
+                    string st = "Successfully Completed";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2474,7 +2515,10 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No Records Found";
+                   // Logdata1 = "No Records Found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2517,7 +2561,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No data found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2558,7 +2604,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No data found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2600,7 +2648,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No data found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2642,7 +2692,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No data found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2706,7 +2758,11 @@ namespace MobileAppAPI.Controllers
                 strcost= results.Rows[0]["cost"].ToString();
                 if (strcost==""|| strcost==null || strcost.Length==0)
                 {
-                    Logdata1 = "nocost";
+                   // Logdata1 = "nocost";
+
+                    string st = "nocost";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2742,7 +2798,9 @@ namespace MobileAppAPI.Controllers
                     results2.Load(reader2);
                     if (results2.Rows.Count == 0)
                     {
-                        Logdata1 = "No data found";
+                        string st = "No data found";
+
+                        Logdata1 = new JavaScriptSerializer().Serialize(st);
                     }
                     else
                     {
@@ -2778,7 +2836,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No data found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2816,7 +2876,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No data found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2852,7 +2914,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No data found";
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -2914,7 +2978,12 @@ namespace MobileAppAPI.Controllers
                 strcost = results.Rows[0]["cosucount"].ToString();
                 if (strcost != "0")
                 {
-                    Logdata1 = "consume";
+                   // Logdata1 = "consume";
+
+
+                    string st1 = "consume";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st1);
                 }
                 else
                 {
@@ -2957,8 +3026,11 @@ namespace MobileAppAPI.Controllers
 
                     if (results3.Rows.Count == 0)
                         {
-                            Logdata1 = "No data found";
-                        }
+
+                        string st = "No data found";
+
+                        Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    }
                         else
                         {
                             Logdata1 = DataTableToJSONWithStringBuilder(results3);
@@ -3048,8 +3120,11 @@ namespace MobileAppAPI.Controllers
 
                     if (results3.Rows.Count == 0)
                     {
-                        Logdata1 = "No data found";
-                    }
+
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
                     else
                     {
                         Logdata1 = DataTableToJSONWithStringBuilder(results3);
@@ -3084,7 +3159,10 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "No data found";
+
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
@@ -3206,7 +3284,10 @@ namespace MobileAppAPI.Controllers
 
                     if (results3.Rows.Count == 0)
                     {
-                        Logdata1 = "No data found";
+                        
+                        string st = "No data found";
+
+                        Logdata1 = new JavaScriptSerializer().Serialize(st);
                     }
                     else
                     {
@@ -3249,7 +3330,9 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    Logdata1 = "updated successfully";
+                    string st = "updated successfully";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
                 }
                 else
                 {
