@@ -141,6 +141,18 @@ namespace MobileAppAPI.Models
 
         public string expense_id { get; set; }
 
+        public int BRANCH_ID { get; set; }
+
+        public string START_TIME { get; set; }
+
+        public string Location_Desc { get; set; }
+
+        public string TCC_CALL_ID { get; set; }
+
+        public string END_TIME { get; set; }
+
+        public int OBJ_ID { get; set; }
+
 
     }
 }

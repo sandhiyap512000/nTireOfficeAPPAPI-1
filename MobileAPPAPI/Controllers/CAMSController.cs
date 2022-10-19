@@ -989,7 +989,7 @@ namespace MobileAppAPI.Controllers
 
             //int BRANCH_ID;
             //int FUNCTION_ID;
-
+            var JSONString = new StringBuilder();
             string output = "";
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
@@ -1053,10 +1053,13 @@ namespace MobileAppAPI.Controllers
                         }
                         else
                         {
-
                             string st = "This Asset Already Transferred";
 
-                            Logdata1 = new JavaScriptSerializer().Serialize(st);
+                            JSONString.Append("{");
+                            JSONString.Append("\"" + st + "\"");
+                            JSONString.Append("}");
+                           
+                            Logdata1 = JSONString.ToString();
                           
                             dbConn.Close();
                         }
@@ -1094,7 +1097,7 @@ namespace MobileAppAPI.Controllers
             int CAT_HISTORY_ID;
             int lasttransfericeidvv;
             int WF_CONFIG_ID;
-
+            var JSONString = new StringBuilder();
 
 
             string output = "";
@@ -1155,8 +1158,11 @@ namespace MobileAppAPI.Controllers
                 if (results.Rows.Count == 0)
                 {
                     string st = "No data found";
+                    JSONString.Append("{");
+                    JSONString.Append("\"" + st + "\"");
+                    JSONString.Append("}");
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    Logdata1 = JSONString.ToString();
                 }
                 else
                 {
@@ -1186,7 +1192,8 @@ namespace MobileAppAPI.Controllers
             var logdata = "";
             var strtoken = "";
             // var result = "";
-           
+            var JSONString = new StringBuilder();
+
             var functionidrep = data.functionidrep;
             var rfdate = data.rfdate;
             var rtdate = data.rtdate;
@@ -1243,8 +1250,11 @@ namespace MobileAppAPI.Controllers
                 if (results.Rows.Count == 0)
                 {
                     string st = "No data found";
+                    JSONString.Append("{");
+                    JSONString.Append("\"" + st + "\"");
+                    JSONString.Append("}");
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    Logdata1 = JSONString.ToString();
                 }
                 else
                 {
@@ -1271,6 +1281,7 @@ namespace MobileAppAPI.Controllers
 
             List<CAMS> Logdata = new List<CAMS>();
             string Logdata1 = string.Empty;
+            var JSONString = new StringBuilder();
             var logdata = "";
             var strtoken = "";
             // var result = "";
@@ -1349,8 +1360,11 @@ namespace MobileAppAPI.Controllers
                 if (results.Rows.Count == 0)
                 {
                     string st = "No data found";
+                    JSONString.Append("{");
+                    JSONString.Append("\"" + st + "\"");
+                    JSONString.Append("}");
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    Logdata1 = JSONString.ToString();
                 }
                 else
                 {
@@ -1375,6 +1389,7 @@ namespace MobileAppAPI.Controllers
             {
                 using (SqlConnection dbConn = new SqlConnection(strconn))
                {
+                    var JSONString = new StringBuilder();
                     dbConn.Open();
 
                     if (strfunction.ToString() == "0" || strfunction.ToString() == "" || strfunction.ToString() == string.Empty || strfunction.ToString() == null)
@@ -1449,8 +1464,11 @@ namespace MobileAppAPI.Controllers
                     if (results.Rows.Count == 0)
                     {
                         string st = "No data found";
+                        JSONString.Append("{");
+                        JSONString.Append("\"" + st + "\"");
+                        JSONString.Append("}");
 
-                        Logdata1 = new JavaScriptSerializer().Serialize(st);
+                        Logdata1 = JSONString.ToString();
                     }
                     else
                     {
@@ -1486,6 +1504,7 @@ namespace MobileAppAPI.Controllers
             {
                 using (SqlConnection dbConn = new SqlConnection(strconn))
                 {
+                    var JSONString = new StringBuilder();
                     dbConn.Open();
 
                     if (strfunction.ToString() == "0" || strfunction.ToString() == "" || strfunction.ToString() == string.Empty || strfunction.ToString() == null)
@@ -1551,9 +1570,13 @@ namespace MobileAppAPI.Controllers
                     //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
                     if (results.Rows.Count == 0)
                     {
-                        string st = "No data found";
 
-                        Logdata1 = new JavaScriptSerializer().Serialize(st);
+                        string st = "No data found";
+                        JSONString.Append("{");
+                        JSONString.Append("\"" + st + "\"");
+                        JSONString.Append("}");
+
+                        Logdata1 = JSONString.ToString();
                     }
                     else
                     {
@@ -1587,7 +1610,7 @@ namespace MobileAppAPI.Controllers
         public async Task<ActionResult<CAMS>> assetlocationcategory(CAMS data)
         {
             // string struser = data.user_lower;
-
+            var JSONString = new StringBuilder();
             List<CAMS> Logdata = new List<CAMS>();
             string Logdata1 = string.Empty;
             var logdata = "";
@@ -1607,9 +1630,13 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    string st = "No data found";
+                    JSONString.Append("{");
+                    JSONString.Append("\"" + st + "\"");
+                    JSONString.Append("}");
+
+                    Logdata1 = JSONString.ToString();
                 }
                 else
                 {
@@ -1631,7 +1658,7 @@ namespace MobileAppAPI.Controllers
         public async Task<ActionResult<CAMS>> assetlocationsubcategory(CAMS data)
         {
             // string struser = data.user_lower;
-
+            var JSONString = new StringBuilder();
             List<CAMS> Logdata = new List<CAMS>();
             string Logdata1 = string.Empty;
             var logdata = "";
@@ -1651,9 +1678,13 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 if (results.Rows.Count == 0)
                 {
-                    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    string st = "No data found";
+                    JSONString.Append("{");
+                    JSONString.Append("\"" + st + "\"");
+                    JSONString.Append("}");
+
+                    Logdata1 = JSONString.ToString();
                 }
                 else
                 {
@@ -1681,6 +1712,7 @@ namespace MobileAppAPI.Controllers
             var logdata = "";
             var strtoken = "";
             // var result = "";
+            var JSONString = new StringBuilder();
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
 
@@ -1696,8 +1728,11 @@ namespace MobileAppAPI.Controllers
                 if (results.Rows.Count == 0)
                 {
                     string st = "No data found";
+                    JSONString.Append("{");
+                    JSONString.Append("\"" + st + "\"");
+                    JSONString.Append("}");
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    Logdata1 = JSONString.ToString();
                 }
                 else
                 {
@@ -1725,6 +1760,7 @@ namespace MobileAppAPI.Controllers
             var logdata = "";
             var strtoken = "";
             // var result = "";
+            var JSONString = new StringBuilder();
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
 
@@ -1757,8 +1793,11 @@ namespace MobileAppAPI.Controllers
                 if (results1.Rows.Count==0)
                 {
                     string st = "No data found";
+                    JSONString.Append("{");
+                    JSONString.Append("\"" + st + "\"");
+                    JSONString.Append("}");
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    Logdata1 = JSONString.ToString();
                 }
                 else
                 {
@@ -1900,6 +1939,7 @@ namespace MobileAppAPI.Controllers
             // var result = "";
             int lastserviceid = 0;
             int WF_CONFIG_ID;
+            var JSONString = new StringBuilder();
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
 
@@ -1953,8 +1993,11 @@ namespace MobileAppAPI.Controllers
                     if (results.Rows.Count == 0)
                     {
                         string st = "No data found";
+                        JSONString.Append("{");
+                        JSONString.Append("\"" + st + "\"");
+                        JSONString.Append("}");
 
-                        Logdata1 = new JavaScriptSerializer().Serialize(st);
+                        Logdata1 = JSONString.ToString();
                     }
                     else
                     {
@@ -1988,6 +2031,7 @@ namespace MobileAppAPI.Controllers
             var logdata = "";
             var strtoken = "";
             // var result = "";
+            var JSONString = new StringBuilder();
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
 
@@ -2004,8 +2048,11 @@ namespace MobileAppAPI.Controllers
                 if (results.Rows.Count == 0)
                 {
                     string st = "No data found";
+                    JSONString.Append("{");
+                    JSONString.Append("\"" + st + "\"");
+                    JSONString.Append("}");
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    Logdata1 = JSONString.ToString();
                 }
                 else
                 {
@@ -2033,6 +2080,7 @@ namespace MobileAppAPI.Controllers
             var logdata = "";
             var strtoken = "";
             // var result = "";
+            var JSONString = new StringBuilder();
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
 
@@ -2049,8 +2097,11 @@ namespace MobileAppAPI.Controllers
                 if (results.Rows.Count == 0)
                 {
                     string st = "No data found";
+                    JSONString.Append("{");
+                    JSONString.Append("\"" + st + "\"");
+                    JSONString.Append("}");
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    Logdata1 = JSONString.ToString();
                 }
                 else
                 {
@@ -2077,6 +2128,7 @@ namespace MobileAppAPI.Controllers
             var logdata = "";
             var strtoken = "";
             // var result = "";
+            var JSONString = new StringBuilder();
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
 
@@ -2092,9 +2144,16 @@ namespace MobileAppAPI.Controllers
                 Logdata1 = DataTableToJSONWithStringBuilder(results);
                 if (results.Rows.Count == 0)
                 {
-                    string st = "No data found";
+                    //string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    //Logdata1 = new JavaScriptSerializer().Serialize(st);
+
+                    string st = "No data found";
+                    JSONString.Append("{");
+                    JSONString.Append("\"" + st + "\"");
+                    JSONString.Append("}");
+
+                    Logdata1 = JSONString.ToString();
                 }
                 else
                 {
@@ -2303,7 +2362,7 @@ namespace MobileAppAPI.Controllers
 
 
                 string query6 = "";
-                query6 = "SET DATEFORMAT DMY;INSERT INTO CAMS_MAINTENANCE_MANPOWER_ALLOCATION(FUNCTION_ID,BRANCH_ID,ASSET_ID,ASSET_ACTIVITY_ID,ASSET_PM_REFERENCE,ASSET_USER_TYPEID,ASSET_EMP_ID,ASSET_ACTUAL_HRS,WORKING_DATE,ASSET_STATUS,ipaddress,CREATED_ON,UPDATED_ON,CREATED_BY,UPDATED_BY,Assign_Status) VALUES('" + data.functionidrep + "','" + data.branchid + "','" + data.assetid + "','" + data.activityid + "','" + data.pmrefre + "','" + data.typeid + "','3','" + data.actualhours + "',convert(datetime,'" + data.todaydte + "'),'A','1'," + data.todaydte + "," + data.todaydte + ",'" + data.createdby + "','" + data.createdby + "','A')";
+                query6 = "SET DATEFORMAT DMY;INSERT INTO CAMS_MAINTENANCE_MANPOWER_ALLOCATION(FUNCTION_ID,BRANCH_ID,ASSET_ID,ASSET_ACTIVITY_ID,ASSET_PM_REFERENCE,ASSET_USER_TYPEID,ASSET_EMP_ID,ASSET_ACTUAL_HRS,WORKING_DATE,ASSET_STATUS,ipaddress,CREATED_ON,UPDATED_ON,CREATED_BY,UPDATED_BY,Assign_Status) VALUES('" + data.functionidrep + "','" + data.branchid + "','" + data.assetid + "','" + data.activityid + "','" + data.pmrefre + "','" + data.typeid + "','3','" + data.actualhours + "'," + data.todaydte + ",'A','1'," + data.todaydte + "," + data.todaydte + ",'" + data.createdby + "','" + data.createdby + "','A')";
 
                 SqlCommand cmd6 = new SqlCommand(query6, dbConn);
                 var reader6 = cmd6.ExecuteReader();
@@ -2354,6 +2413,7 @@ namespace MobileAppAPI.Controllers
             var strtoken = "";
             // var result = "";
             string activityid = "";
+            var JSONString = new StringBuilder();
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 string functionid = data.functionid.ToString();
@@ -2385,7 +2445,7 @@ namespace MobileAppAPI.Controllers
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
               //  Logdata1 = "Updated successfully";
-                string st = "Updated successfully";
+                string st = "Started successfully";
                 string output = JsonConvert.SerializeObject(st);
                 Logdata1 = output;
                 //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
@@ -2394,7 +2454,16 @@ namespace MobileAppAPI.Controllers
                     DataRow row = results.Rows[i];
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
                 }
-                return Ok(Logdata1);
+
+                JSONString.Append("{");
+                JSONString.Append("\"" + st + "\"");
+                JSONString.Append("}");
+
+
+
+
+                return Ok(JSONString);
+
 
 
 
@@ -2716,8 +2785,8 @@ namespace MobileAppAPI.Controllers
         public async Task<ActionResult<HRMS>> manpowerinsertapp(CAMS data)
         {
             // string struser = data.user_lower;
+            var JSONString = new StringBuilder();
 
-         
             string Logdata1 = string.Empty;
            // var lasttransfericeidvv = "";
             string strcost = string.Empty;
@@ -2754,15 +2823,25 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                
                 results.Load(reader);
-
-                strcost= results.Rows[0]["cost"].ToString();
+                if (results.Rows.Count>0)
+                {
+                    strcost = results.Rows[0]["cost"].ToString();
+                }
+                else
+                {
+                    strcost = "";
+                }
+              
                 if (strcost==""|| strcost==null || strcost.Length==0)
                 {
-                   // Logdata1 = "nocost";
-
+                    // Logdata1 = "nocost";
                     string st = "nocost";
+                    JSONString.Append("{");
+                    JSONString.Append("\"" + st + "\"");
+                    JSONString.Append("}");
+                   
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    Logdata1 = JSONString.ToString();
                 }
                 else
                 {

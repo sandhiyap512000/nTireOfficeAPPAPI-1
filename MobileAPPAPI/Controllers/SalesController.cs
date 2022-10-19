@@ -523,7 +523,28 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "select distinct LMS_CURRENT_CAMPAIGN.TCC_CALL_ID as CALL_ID,LMS_CURRENT_CAMPAIGN.TCC_LOCATION_TO_MEET as TCC_LOCATION_TO_MEET,LMS_CURRENT_CAMPAIGN.START_TIME as START_TIME,LMS_CURRENT_CAMPAIGN.END_TIME as END_TIME,LMS_CURRENT_CAMPAIGN.TCC_CUST_LEAD_ID as customer_lead_id,LMS_CURRENT_CAMPAIGN.TCC_RESPONSE,LMS_CURRENT_CAMPAIGN.FUNCTION_ID,LMS_CUSTOMER_MASTER.SKYPENAME,LMS_CURRENT_CAMPAIGN.TCC_CALLER_ID,LMS_CURRENT_CAMPAIGN.TCC_CUST_ID as TCC_CUSTOMER_ID,LMS_CURRENT_CAMPAIGN.TCC_CAMP_ID as TCC_CAMPAIGN_ID,  CONVERT(VARCHAR(20),LMS_CURRENT_CAMPAIGN.TCC_LAST_CALL_DATE) as TCC_LAST_CALLED, case when cast(CONVERT(VARCHAR(20),LMS_CURRENT_CAMPAIGN.TCC_NEXT_CALL_DATE)as datetime) = cast(CONVERT(VARCHAR(10),'01/01/1900') as datetime) then null else LMS_CURRENT_CAMPAIGN.TCC_NEXT_CALL_DATE end AS TCC_NEXT_CALL_DATE,  CAST(CONVERT(varchar(10), LMS_CURRENT_CAMPAIGN.TCC_CUST_ID) as varchar ) +'-'+isnull(LMS_CUSTOMER_MASTER.CUST_FNAME,'') + ' ' +   LMS_CUSTOMER_MASTER.CUST_LNAME +'-'+LMS_CUSTOMER_CONTACT_DETAILS.contact_name as CUSTOMER_NAME,  LMS_CUSTOMER_MASTER.CUST_FNAME as 'CUSTOMER_FNAME', LMS_CUSTOMER_MASTER.CUST_LNAME  as 'CUSTOMER_LNAME',concat(LMS_CUSTOMER_MASTER.CUST_FNAME,' ',LMS_CUSTOMER_MASTER.CUST_LNAME) CustFullName,   concat(isnull(LMS_CUSTOMER_MASTER.ResSTDCODE,''), isnull(LMS_CUSTOMER_MASTER.RESPHONE,'')) RESPHONE , concat(isnull(LMS_CUSTOMER_MASTER.OffSTDCODE,'') ,  isnull(LMS_CUSTOMER_MASTER.OFFPHONE,'')) OFFPHONE,isnull(LMS_CUSTOMER_MASTER.EMAIL_ID,'') AS EMAIL_ID,isnull(LMS_CUSTOMER_MASTER.MOBILE,'') AS MOBILE, ISNULL(LMS_CUSTOMER_MASTER.DNC_Continue,'U') as DNC_Continue, LMS_CURRENT_CAMPAIGN.TCC_NEXT_CALL_DATE AS NEXT_CALL_DATE, LMS_CAMPAIGN_MASTER.PRODUCTTYPE,  LMS_CAMPAIGN_MASTER.TCM_PRODUCT_DESC,LMS_CAMPAIGN_MASTER.TCM_CAMPAIGN_SHORTDESC,LMS_CAMPAIGN_MASTER.TCM_PRODUCT_DESC+'-'+LMS_CAMPAIGN_MASTER.TCM_CAMPAIGN_SHORTDESC as ProdAndCamp, LMS_CAMPAIGN_MASTER.TCM_CAMPAIGN_SHORTDESC as Campaign,LMS_CAMPAIGN_MASTER.TCM_PRODUCT_CODE,convert(varchar(20),LMS_CUSTOMER_MASTER.CUST_CREATION_DATE) as CreatedOn,LMS_CUSTOMER_MASTER.CUST_CREATION_DATE as CreatedOn1,LMS_CURRENT_CAMPAIGN.TCC_LEAD_ID as LEAD_id,LMS_CURRENT_CAMPAIGN.TCC_LEAD_BY as LeadBy,BO_BRANCH_MASTER.BRANCH_CODE+'-'+BO_BRANCH_MASTER.BRANCH_DESC as BRANCH_DESC,BO_BRANCH_MASTER.BRANCH_ID,BLM.LOCATION_DESC as LOCATION_DESC,BLM.LOCATION_ID,CASE WHEN  LMS_CAMPAIGN_MASTER.PRODUCT_MODE =N'M' then 'MultiProduct' else 'SingleProduct' end as PRODUCT_MODE,convert (varbinary(255),Rating.IMAGE)as IMAGE,Rating.text as Ratingtext,Rating.Val as RatingVal,CUST_REF+'-'+CUST_ACC_NO as CUSTACCNO,LMS_CURRENT_CAMPAIGN.TCC_PRIORITY as priority,LMS_CURRENT_CAMPAIGN.TCC_LEAD_RATING,LMS_CURRENT_CAMPAIGN.TCC_LEAD_STAGE,LMS_CURRENT_CAMPAIGN.TCC_LEAD_NATURE,LMS_CUSTOMER_CAMPAIGN.CUST_LEAD_ID,LMS_CURRENT_CAMPAIGN.TCC_REMARKS as Remarks,LMS_CURRENT_CAMPAIGN.Action_Req as Action_req  , CASE WHEN ISNULL(LMS_CURRENT_CAMPAIGN.TCC_SHARED_ID,0)=0 THEN '' ELSE 'SHARED' END AS LEADSTATUS ,BO_USER_MASTER.TUM_USER_CODE +'-'+BO_USER_MASTER.TUM_USER_NAME as Current_Caller,ISNULL(LMS_CUSTOMER_CAMPAIGN.CORP_CONT_PER_ID,'0') as CUST_CONT_PER, case when ISNULL(Convert(varchar(20),LMS_CURRENT_CAMPAIGN.ExpectedClosedDate),'')=N'01/01/1900' then '' when  ISNULL(Convert(varchar(20),LMS_CURRENT_CAMPAIGN.ExpectedClosedDate),'')<> '01/01/1900'  then Convert(varchar(20),LMS_CURRENT_CAMPAIGN.ExpectedClosedDate)  end as ClosedDate,LMS_CURRENT_CAMPAIGN.ExpectedClosedDate as ClosedDate1,LMS_CURRENT_CAMPAIGN.Currency,LMS_CURRENT_CAMPAIGN.ExpctedAmount,Stage.TEXT as Stage,Nature.TEXT as Nature,Priority.TEXT as PriorityText,LMS_CURRENT_CAMPAIGN.TCC_LEAD_SOURCE,LMS_PRODUCT_GROUP.ProductType_Id GroupId,LMS_CAMPAIGN_MASTER.PRODUCTTYPE,producttype.TEXT producttypeTEXT FROM LMS_CURRENT_CAMPAIGN INNER JOIN LMS_CUSTOMER_MASTER ON  LMS_CURRENT_CAMPAIGN.TCC_CUST_ID=LMS_CUSTOMER_MASTER.CUST_ID and  LMS_CURRENT_CAMPAIGN.FUNCTION_ID=LMS_CUSTOMER_MASTER.FUNCTION_ID inner join LMS_CUSTOMER_CAMPAIGN on LMS_CUSTOMER_MASTER.CUST_ID=LMS_CUSTOMER_CAMPAIGN.CUST_ID and LMS_CUSTOMER_CAMPAIGN.CUST_ID=LMS_CURRENT_CAMPAIGN.TCC_CUST_ID and LMS_CUSTOMER_CAMPAIGN.CUST_LEAD_ID=LMS_CURRENT_CAMPAIGN.TCC_CUST_LEAD_ID and  LMS_CUSTOMER_CAMPAIGN.FUNCTION_ID=LMS_CURRENT_CAMPAIGN.FUNCTION_ID  INNER JOIN LMS_CAMPAIGN_MASTER ON  LMS_CAMPAIGN_MASTER.TCM_CAMPAIGN_ID=LMS_CURRENT_CAMPAIGN.TCC_CAMP_ID and LMS_CAMPAIGN_MASTER.FUNCTION_ID= LMS_CURRENT_CAMPAIGN.FUNCTION_ID join LMS_PRODUCT_GROUP on LMS_CAMPAIGN_MASTER.TCM_PRODUCT_GROUP=LMS_PRODUCT_GROUP.ProductType_Id left JOIN LMS_CUSTOMER_CONTACT_DETAILS ON LMS_CUSTOMER_CONTACT_DETAILS.Customer_id=LMS_CUSTOMER_MASTER.CUST_ID AND Convert(varchar,LMS_CUSTOMER_CONTACT_DETAILS.ROW_ID)=LMS_CUSTOMER_CAMPAIGN.CORP_CONT_PER_ID inner join BO_PARAMETER as producttype on producttype.VAL=LMS_CAMPAIGN_MASTER.PRODUCTTYPE  and producttype.TYPE=N'LMS_PRODUCTTYPE'  and producttype.FUNCTION_ID=LMS_CAMPAIGN_MASTER.FUNCTION_ID  left outer join BO_BRANCH_LOCATION_MASTER BLM on BLM.LOCATION_ID=LMS_CURRENT_CAMPAIGN.LOCATION_ID left outer  JOIN BO_PARAMETER  Rating ON  LMS_CURRENT_CAMPAIGN.FUNCTION_ID=Rating.FUNCTION_ID AND  LMS_CURRENT_CAMPAIGN.TCC_LEAD_RATING=Rating.VAL AND Rating.TYPE=N'LMS_CALLRATING'  and Rating.status=N'A' LEFT OUTER  JOIN BO_PARAMETER  Stage ON  LMS_CURRENT_CAMPAIGN.FUNCTION_ID=Stage.FUNCTION_ID AND  LMS_CURRENT_CAMPAIGN.TCC_LEAD_STAGE=Stage.VAL AND Stage.TYPE=N'LMS_CALLSTAGE'  and Stage.status=N'A' LEFT OUTER  JOIN BO_PARAMETER  Nature ON  LMS_CURRENT_CAMPAIGN.FUNCTION_ID=Nature.FUNCTION_ID AND  LMS_CURRENT_CAMPAIGN.TCC_LEAD_NATURE=Nature.VAL AND Nature.TYPE=N'LMS_CALLNATURE'  and Nature.status=N'A' INNER JOIN BO_PARAMETER  Priority ON  LMS_CURRENT_CAMPAIGN.FUNCTION_ID=Priority.FUNCTION_ID AND  LMS_CURRENT_CAMPAIGN.TCC_PRIORITY=Priority.VAL AND Priority.TYPE=N'LMS_CALLPRIORITY'  and Priority.status=N'A'   join BO_BRANCH_MASTER on BO_BRANCH_MASTER.BRANCH_ID=LMS_CURRENT_CAMPAIGN.BRANCH_ID and LMS_CURRENT_CAMPAIGN.FUNCTION_ID = BO_BRANCH_MASTER.FUNCTION_ID inner join BO_USER_MASTER on BO_USER_MASTER.TUM_USER_ID=LMS_CURRENT_CAMPAIGN .TCC_CALLER_ID and BO_USER_MASTER.FUNCTION_ID =LMS_CURRENT_CAMPAIGN.FUNCTION_ID AND BO_USER_MASTER.TUM_USER_STATUS=N'A'  where 1=1  and LMS_CUSTOMER_MASTER.CUST_STATUS=N'A' and LMS_CURRENT_CAMPAIGN.TCC_CALLER_ID ='"+data.userid+"' and LMS_CURRENT_CAMPAIGN.TCC_RESPONSE='"+data.RESPONSE+"'  and BO_BRANCH_MASTER.BRANCH_ID='"+data.branchid+"' ";
+                query = "select distinct LMS_CURRENT_CAMPAIGN.TCC_CALL_ID as CALL_ID,LMS_CURRENT_CAMPAIGN.TCC_LOCATION_TO_MEET as TCC_LOCATION_TO_MEET,LMS_CURRENT_CAMPAIGN.START_TIME as START_TIME,LMS_CURRENT_CAMPAIGN.END_TIME as END_TIME,LMS_CURRENT_CAMPAIGN.TCC_CUST_LEAD_ID as customer_lead_id,LMS_CURRENT_CAMPAIGN.TCC_RESPONSE,LMS_CURRENT_CAMPAIGN.FUNCTION_ID,LMS_CUSTOMER_MASTER.SKYPENAME,LMS_CURRENT_CAMPAIGN.TCC_CALLER_ID,LMS_CURRENT_CAMPAIGN.TCC_CUST_ID as TCC_CUSTOMER_ID,LMS_CURRENT_CAMPAIGN.TCC_CAMP_ID as TCC_CAMPAIGN_ID,  CONVERT(VARCHAR(20),LMS_CURRENT_CAMPAIGN.TCC_LAST_CALL_DATE) as TCC_LAST_CALLED, case when cast(CONVERT(VARCHAR(20),LMS_CURRENT_CAMPAIGN.TCC_NEXT_CALL_DATE)as datetime) = cast(CONVERT(VARCHAR(10),'01/01/1900') as datetime) then null else LMS_CURRENT_CAMPAIGN.TCC_NEXT_CALL_DATE end AS TCC_NEXT_CALL_DATE,  CAST(CONVERT(varchar(10), LMS_CURRENT_CAMPAIGN.TCC_CUST_ID) as varchar ) +'-'+isnull(LMS_CUSTOMER_MASTER.CUST_FNAME,'') + ' ' +   LMS_CUSTOMER_MASTER.CUST_LNAME +'-'+LMS_CUSTOMER_CONTACT_DETAILS.contact_name as CUSTOMER_NAME,  LMS_CUSTOMER_MASTER.CUST_FNAME as 'CUSTOMER_FNAME', LMS_CUSTOMER_MASTER.CUST_LNAME  as 'CUSTOMER_LNAME',concat(LMS_CUSTOMER_MASTER.CUST_FNAME,' ',LMS_CUSTOMER_MASTER.CUST_LNAME) CustFullName,   concat(isnull(LMS_CUSTOMER_MASTER.ResSTDCODE,''), isnull(LMS_CUSTOMER_MASTER.RESPHONE,'')) RESPHONE , concat(isnull(LMS_CUSTOMER_MASTER.OffSTDCODE,'') ,  isnull(LMS_CUSTOMER_MASTER.OFFPHONE,'')) OFFPHONE,isnull(LMS_CUSTOMER_MASTER.EMAIL_ID,'') AS EMAIL_ID,isnull(LMS_CUSTOMER_MASTER.MOBILE,'') AS MOBILE, ISNULL(LMS_CUSTOMER_MASTER.DNC_Continue,'U') as DNC_Continue, LMS_CURRENT_CAMPAIGN.TCC_NEXT_CALL_DATE AS NEXT_CALL_DATE, LMS_CAMPAIGN_MASTER.PRODUCTTYPE,  LMS_CAMPAIGN_MASTER.TCM_PRODUCT_DESC,LMS_CAMPAIGN_MASTER.TCM_CAMPAIGN_SHORTDESC,LMS_CAMPAIGN_MASTER.TCM_PRODUCT_DESC+'-'+LMS_CAMPAIGN_MASTER.TCM_CAMPAIGN_SHORTDESC as ProdAndCamp, LMS_CAMPAIGN_MASTER.TCM_CAMPAIGN_SHORTDESC as Campaign,LMS_CAMPAIGN_MASTER.TCM_PRODUCT_CODE,convert(varchar(20),LMS_CUSTOMER_MASTER.CUST_CREATION_DATE) as CreatedOn,LMS_CUSTOMER_MASTER.CUST_CREATION_DATE as CreatedOn1,LMS_CURRENT_CAMPAIGN.TCC_LEAD_ID as LEAD_id,LMS_CURRENT_CAMPAIGN.TCC_LEAD_BY as LeadBy,BO_BRANCH_MASTER.BRANCH_CODE+'-'+BO_BRANCH_MASTER.BRANCH_DESC as BRANCH_DESC,BO_BRANCH_MASTER.BRANCH_ID,BLM.LOCATION_DESC as LOCATION_DESC,BLM.LOCATION_ID,CASE WHEN  LMS_CAMPAIGN_MASTER.PRODUCT_MODE =N'M' then 'MultiProduct' else 'SingleProduct' end as PRODUCT_MODE,convert (varbinary(255),Rating.IMAGE)as IMAGE,Rating.text as Ratingtext,Rating.Val as RatingVal,CUST_REF+'-'+CUST_ACC_NO as CUSTACCNO,LMS_CURRENT_CAMPAIGN.TCC_PRIORITY as priority,LMS_CURRENT_CAMPAIGN.TCC_LEAD_RATING,LMS_CURRENT_CAMPAIGN.TCC_LEAD_STAGE,LMS_CURRENT_CAMPAIGN.TCC_LEAD_NATURE,LMS_CUSTOMER_CAMPAIGN.CUST_LEAD_ID,LMS_CURRENT_CAMPAIGN.TCC_REMARKS as Remarks,LMS_CURRENT_CAMPAIGN.Action_Req as Action_req  , CASE WHEN ISNULL(LMS_CURRENT_CAMPAIGN.TCC_SHARED_ID,0)=0 THEN '' ELSE 'SHARED' END AS LEADSTATUS ,BO_USER_MASTER.TUM_USER_CODE +'-'+BO_USER_MASTER.TUM_USER_NAME as Current_Caller,ISNULL(LMS_CUSTOMER_CAMPAIGN.CORP_CONT_PER_ID,'0') as CUST_CONT_PER, case when ISNULL(Convert(varchar(20),LMS_CURRENT_CAMPAIGN.ExpectedClosedDate),'')=N'01/01/1900' then '' when  ISNULL(Convert(varchar(20),LMS_CURRENT_CAMPAIGN.ExpectedClosedDate),'')<> '01/01/1900'  then Convert(varchar(20),LMS_CURRENT_CAMPAIGN.ExpectedClosedDate)  end as ClosedDate,LMS_CURRENT_CAMPAIGN.ExpectedClosedDate as ClosedDate1,LMS_CURRENT_CAMPAIGN.Currency,LMS_CURRENT_CAMPAIGN.ExpctedAmount,Stage.TEXT as Stage,Nature.TEXT as Nature,Priority.TEXT as PriorityText,LMS_CURRENT_CAMPAIGN.TCC_LEAD_SOURCE,LMS_PRODUCT_GROUP.ProductType_Id GroupId,LMS_CAMPAIGN_MASTER.PRODUCTTYPE,producttype.TEXT producttypeTEXT FROM LMS_CURRENT_CAMPAIGN INNER JOIN LMS_CUSTOMER_MASTER ON  LMS_CURRENT_CAMPAIGN.TCC_CUST_ID=LMS_CUSTOMER_MASTER.CUST_ID and  LMS_CURRENT_CAMPAIGN.FUNCTION_ID=LMS_CUSTOMER_MASTER.FUNCTION_ID inner join LMS_CUSTOMER_CAMPAIGN on LMS_CUSTOMER_MASTER.CUST_ID=LMS_CUSTOMER_CAMPAIGN.CUST_ID and LMS_CUSTOMER_CAMPAIGN.CUST_ID=LMS_CURRENT_CAMPAIGN.TCC_CUST_ID and LMS_CUSTOMER_CAMPAIGN.CUST_LEAD_ID=LMS_CURRENT_CAMPAIGN.TCC_CUST_LEAD_ID and  LMS_CUSTOMER_CAMPAIGN.FUNCTION_ID=LMS_CURRENT_CAMPAIGN.FUNCTION_ID  INNER JOIN LMS_CAMPAIGN_MASTER ON  LMS_CAMPAIGN_MASTER.TCM_CAMPAIGN_ID=LMS_CURRENT_CAMPAIGN.TCC_CAMP_ID and LMS_CAMPAIGN_MASTER.FUNCTION_ID= LMS_CURRENT_CAMPAIGN.FUNCTION_ID join LMS_PRODUCT_GROUP on LMS_CAMPAIGN_MASTER.TCM_PRODUCT_GROUP=LMS_PRODUCT_GROUP.ProductType_Id left JOIN LMS_CUSTOMER_CONTACT_DETAILS ON LMS_CUSTOMER_CONTACT_DETAILS.Customer_id=LMS_CUSTOMER_MASTER.CUST_ID AND Convert(varchar,LMS_CUSTOMER_CONTACT_DETAILS.ROW_ID)=LMS_CUSTOMER_CAMPAIGN.CORP_CONT_PER_ID inner join BO_PARAMETER as producttype on producttype.VAL=LMS_CAMPAIGN_MASTER.PRODUCTTYPE  and producttype.TYPE=N'LMS_PRODUCTTYPE'  and producttype.FUNCTION_ID=LMS_CAMPAIGN_MASTER.FUNCTION_ID  left outer join BO_BRANCH_LOCATION_MASTER BLM on BLM.LOCATION_ID=LMS_CURRENT_CAMPAIGN.LOCATION_ID left outer  JOIN BO_PARAMETER  Rating ON  LMS_CURRENT_CAMPAIGN.FUNCTION_ID=Rating.FUNCTION_ID AND  LMS_CURRENT_CAMPAIGN.TCC_LEAD_RATING=Rating.VAL AND Rating.TYPE=N'LMS_CALLRATING'  and Rating.status=N'A' LEFT OUTER  JOIN BO_PARAMETER  Stage ON  LMS_CURRENT_CAMPAIGN.FUNCTION_ID=Stage.FUNCTION_ID AND  LMS_CURRENT_CAMPAIGN.TCC_LEAD_STAGE=Stage.VAL AND Stage.TYPE=N'LMS_CALLSTAGE'  and Stage.status=N'A' LEFT OUTER  JOIN BO_PARAMETER  Nature ON  LMS_CURRENT_CAMPAIGN.FUNCTION_ID=Nature.FUNCTION_ID AND  LMS_CURRENT_CAMPAIGN.TCC_LEAD_NATURE=Nature.VAL AND Nature.TYPE=N'LMS_CALLNATURE'  and Nature.status=N'A' INNER JOIN BO_PARAMETER  Priority ON  LMS_CURRENT_CAMPAIGN.FUNCTION_ID=Priority.FUNCTION_ID AND  LMS_CURRENT_CAMPAIGN.TCC_PRIORITY=Priority.VAL AND Priority.TYPE=N'LMS_CALLPRIORITY'  and Priority.status=N'A'   join BO_BRANCH_MASTER on BO_BRANCH_MASTER.BRANCH_ID=LMS_CURRENT_CAMPAIGN.BRANCH_ID and LMS_CURRENT_CAMPAIGN.FUNCTION_ID = BO_BRANCH_MASTER.FUNCTION_ID inner join BO_USER_MASTER on BO_USER_MASTER.TUM_USER_ID=LMS_CURRENT_CAMPAIGN .TCC_CALLER_ID and BO_USER_MASTER.FUNCTION_ID =LMS_CURRENT_CAMPAIGN.FUNCTION_ID AND BO_USER_MASTER.TUM_USER_STATUS=N'A'  where 1=1  and LMS_CUSTOMER_MASTER.CUST_STATUS=N'A' ";
+
+                if (data.userid != null && data.userid != 0)
+                {
+
+                    query = query + "and LMS_CURRENT_CAMPAIGN.TCC_CALLER_ID ='" + data.userid + "' ";
+
+                }
+
+                if (data.RESPONSE != null && data.RESPONSE != "0" && data.RESPONSE !="")
+                {
+
+                    query = query + " and LMS_CURRENT_CAMPAIGN.TCC_RESPONSE='" + data.RESPONSE + "' ";
+
+                }
+
+                if (data.BRANCH_ID != null && data.BRANCH_ID != 0)
+                {
+
+                    query = query + " and BO_BRANCH_MASTER.BRANCH_ID='" + data.BRANCH_ID + "' ";
+
+                }
 
                 if (data.CUSTLEADID !=null && data.CUSTLEADID !=0 )
                 {
@@ -584,7 +605,16 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -616,7 +646,7 @@ namespace MobileAppAPI.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@NAME", data.Name);
                 cmd.Parameters.AddWithValue("@CUSTLEADID", data.TCC_CUST_LEAD_ID);
-                cmd.Parameters.AddWithValue("@BRANCHID", data.branchid);
+                cmd.Parameters.AddWithValue("@BRANCHID", data.BRANCH_ID);
                 cmd.Parameters.AddWithValue("@USERID", data.userid);
                 cmd.Parameters.AddWithValue("@RESPONSE", data.RESPONSE);
                 cmd.Parameters.AddWithValue("@MOBILE", data.Mobile);
@@ -1562,35 +1592,36 @@ namespace MobileAppAPI.Controllers
                     string sql = "MBL_MOB_NewLeadInsert";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@FUNCTION_ID", functionid);
-                    cmd.Parameters.AddWithValue("@BRANCH_ID", BRANCH_ID);
-                    cmd.Parameters.AddWithValue("@productcategoryid", productcategoryid);
-                    cmd.Parameters.AddWithValue("@productid", productid);
-                    cmd.Parameters.AddWithValue("@campaignid", campaignid);
-                    cmd.Parameters.AddWithValue("@customerfname", customerfname);
-                    cmd.Parameters.AddWithValue("@customerlname", customerlname);
-                    cmd.Parameters.AddWithValue("@mobile", mobile);
-                    cmd.Parameters.AddWithValue("@OfficePhone", OfficePhone);
-                    cmd.Parameters.AddWithValue("@ResidencePhone", ResidencePhone);
-                    cmd.Parameters.AddWithValue("@callpriorityid", callpriorityid);
-                    cmd.Parameters.AddWithValue("@callratingid", callratingid);
-                    cmd.Parameters.AddWithValue("@callnatureid", callnatureid);
-                    cmd.Parameters.AddWithValue("@leadsourceid", leadsourceid);
-                    cmd.Parameters.AddWithValue("@callstageid", callstageid);
-                    cmd.Parameters.AddWithValue("@customerresponse", customerresponse);
-                    cmd.Parameters.AddWithValue("@time", time);
-                    cmd.Parameters.AddWithValue("@NextCallDate", NextCallDate);
-                    cmd.Parameters.AddWithValue("@remarks", remarks);
-                    cmd.Parameters.AddWithValue("@ExpectedClose", ExpectedClose);
-                    cmd.Parameters.AddWithValue("@ExpectedAmount", ExpectedAmount);
-                    cmd.Parameters.AddWithValue("@Leadby", Leadby);
-                    cmd.Parameters.AddWithValue("@UserID", UserID);
-                    cmd.Parameters.AddWithValue("@userType", userType);
-                    cmd.Parameters.AddWithValue("@LocationId", LocationId);
-                    cmd.Parameters.AddWithValue("@Currency", Currency);
-                    cmd.Parameters.AddWithValue("@EmailId", EmailId);
+                    cmd.Parameters.AddWithValue("@FUNCTION_ID",functionid.Trim());
+                    cmd.Parameters.AddWithValue("@BRANCH_ID", BRANCH_ID.Trim());
+                    cmd.Parameters.AddWithValue("@productcategoryid", productcategoryid.Trim());
+                    cmd.Parameters.AddWithValue("@productid", productid.Trim());
+                    cmd.Parameters.AddWithValue("@campaignid", campaignid.Trim());
+                    cmd.Parameters.AddWithValue("@customerfname", customerfname.Trim());
+                    cmd.Parameters.AddWithValue("@customerlname", customerlname.Trim());
+                    cmd.Parameters.AddWithValue("@mobile", mobile.Trim());
+                    cmd.Parameters.AddWithValue("@OfficePhone", OfficePhone.Trim());
+                    cmd.Parameters.AddWithValue("@ResidencePhone", ResidencePhone.Trim());
+                    cmd.Parameters.AddWithValue("@callpriorityid", callpriorityid.Trim());
+                    cmd.Parameters.AddWithValue("@callratingid", callratingid.Trim());
+                    cmd.Parameters.AddWithValue("@callnatureid", callnatureid.Trim());
+                    cmd.Parameters.AddWithValue("@leadsourceid", leadsourceid.Trim());
+                    cmd.Parameters.AddWithValue("@callstageid", callstageid.Trim());
+                    cmd.Parameters.AddWithValue("@customerresponse", customerresponse.Trim());
+                    cmd.Parameters.AddWithValue("@NextCallDate", NextCallDate.Trim());
+                    cmd.Parameters.AddWithValue("@time", time.Trim());
+                    cmd.Parameters.AddWithValue("@remarks", remarks.Trim());
+                    cmd.Parameters.AddWithValue("@ExpectedClose", ExpectedClose.Trim());
+                    cmd.Parameters.AddWithValue("@ExpectedAmount", ExpectedAmount.Trim());
+                    cmd.Parameters.AddWithValue("@Leadby", Leadby.Trim());
+                    cmd.Parameters.AddWithValue("@UserID", UserID.Trim());
+                    cmd.Parameters.AddWithValue("@userType", userType.Trim());
+                    cmd.Parameters.AddWithValue("@LocationId", LocationId.Trim());
+                    cmd.Parameters.AddWithValue("@Currency", Currency.Trim());
+                    cmd.Parameters.AddWithValue("@EmailId", EmailId.Trim());
+                  
 
-                    cmd.ExecuteNonQuery();
+                   // cmd.ExecuteNonQuery();
 
                     //var reader = cmd.ExecuteReader();
                     //System.Data.DataTable results = new System.Data.DataTable();
@@ -1604,6 +1635,7 @@ namespace MobileAppAPI.Controllers
                     //return Logdata1;
 
                     cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+                   
                     cmd.ExecuteNonQuery();
                     string st = cmd.Parameters["@Result"].Value.ToString();
 
@@ -2069,7 +2101,7 @@ namespace MobileAppAPI.Controllers
 
         [HttpPost]
         [Route("insert_expense_details")]
-        public async Task<ActionResult<CAMS>> insert_expense_details(Sales data)
+        public async Task<ActionResult<Sales>> insert_expense_details(Sales data)
         {
             // string struser = data.user_lower;
 
@@ -2232,6 +2264,84 @@ namespace MobileAppAPI.Controllers
 
 
         }
+
+
+
+
+
+
+        [HttpPost]
+        [Route("updstendtime")]
+        public async Task<ActionResult<Sales>> updstendtime(Sales data)
+        {
+            // string struser = data.user_lower;
+
+            var JSONString = new StringBuilder();
+            string Logdata1 = string.Empty;
+            var custid = data.CustId;
+            var value = "";
+
+
+            var START_TIME = data.START_TIME.ToString();
+            var Location_Desc = data.Location_Desc.ToString();
+            var TCC_CUST_ID = data.TCC_CUST_ID.ToString();
+            var TCC_CUST_LEAD_ID = data.TCC_CUST_LEAD_ID.ToString();
+            var TCC_CALL_ID = data.TCC_CALL_ID.ToString();
+            var END_TIME = data.END_TIME.ToString();
+            var CALL_ID = data.CALL_ID.ToString();
+           
+
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+
+                if (data.OBJ_ID==1)
+                {
+                    string query = "";
+                    query = "update LMS_CURRENT_CAMPAIGN set START_TIME= '"+START_TIME+"',Actual_Meeting_Location= '"+Location_Desc+"' where TCC_CUST_ID= '"+TCC_CUST_ID+"' and TCC_CUST_LEAD_ID= '"+TCC_CUST_LEAD_ID+"' and TCC_CALL_ID= '"+TCC_CALL_ID+"'";
+
+                    SqlCommand cmd = new SqlCommand(query, dbConn);
+                    var reader = cmd.ExecuteReader();
+                    System.Data.DataTable results = new System.Data.DataTable();
+                    results.Load(reader);
+                     value = "Start time";
+                }
+
+
+                if (data.OBJ_ID == 2)
+                {
+                    string query = "";
+                    query = "update LMS_CURRENT_CAMPAIGN set END_TIME= '"+END_TIME+"',Actual_Meeting_Location= '"+Location_Desc+"' where TCC_CUST_ID= '"+TCC_CUST_ID+"' and TCC_CUST_LEAD_ID= '"+TCC_CUST_LEAD_ID+"' and TCC_CALL_ID= '"+TCC_CALL_ID+"'";
+
+                    SqlCommand cmd = new SqlCommand(query, dbConn);
+                    var reader = cmd.ExecuteReader();
+                    System.Data.DataTable results = new System.Data.DataTable();
+                    results.Load(reader);
+                     value = "End time";
+                }
+
+                Logdata1 = value + " updated";
+
+                JSONString.Append("{");
+                JSONString.Append("\"" + Logdata1 + "\"");
+                JSONString.Append("}");
+
+
+
+
+
+                dbConn.Close();
+
+                var result = (new { Logdata1 });
+                return Ok(JSONString);
+            }
+
+
+        }
+
 
 
 

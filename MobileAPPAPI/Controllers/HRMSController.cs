@@ -1453,6 +1453,7 @@ namespace MobileAppAPI.Controllers
             var logdata = "";
             var strtoken = "";
             // var result = "";
+            var JsonString = new StringBuilder();
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
 
