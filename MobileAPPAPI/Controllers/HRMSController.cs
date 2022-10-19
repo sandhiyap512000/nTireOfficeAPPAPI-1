@@ -840,6 +840,92 @@ namespace MobileAppAPI.Controllers
         }
 
 
+
+
+        [HttpPost]
+        [Route("getreportingto")]
+        public async Task<ActionResult<HRMS>> getreportingto(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select *,TUM_USER_NAME as requestor from BO_USER_MASTER where TUM_USER_ID = '"+data.userid+"'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    Property log = new Property();
+                    DataRow row = results.Rows[i];
+
+                   string  query1 = "select Device_Token from BO_USER_MASTER where TUM_USER_ID = '" + row["TUM_REPORTING_TO"] + "'";
+
+                    SqlCommand cmd1 = new SqlCommand(query1, dbConn);
+                    var reader1 = cmd.ExecuteReader();
+                    System.Data.DataTable results1 = new System.Data.DataTable();
+                    results1.Load(reader);
+
+                    if (data.typerequest== "Permission Request")
+                    {
+                        string st =row["requestor"].ToString()+ " has raised a request from"+data.from+" to "+data.to+" on "+data.perdate;
+                        Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    }
+                   else if (data.typerequest == "Coff Request")
+                    {
+                        string st = row["requestor"].ToString() + " has raised a request for coff date" + data.to + " on working date " + data.from ;
+                        Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    }
+                    else if (data.typerequest == "Loan Request")
+                    {
+                        string st = row["requestor"].ToString() + " has raised a"  + data.perdate + "request";
+                        Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    }
+                    else
+                    {
+                        string st = row["requestor"].ToString() + " has raised a request from" + data.from + " to " + data.to;
+                        Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    }
+                    
+
+                }
+
+
+                //    if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
+
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
+                //    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                //}
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+
+
         [HttpPost]
         [Route("getTravelMode")]
         public async Task<ActionResult<HRMS>> getTravelMode(HRMS data)

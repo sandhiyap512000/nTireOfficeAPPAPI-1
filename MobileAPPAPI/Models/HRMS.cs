@@ -61,6 +61,12 @@ namespace MobileAppAPI.Models
         public int usertype { get; set; }
 
         public string ODRequestRef { get; set; }
+        public string typerequest { get; set; }
+        public string from { get; set; }
+
+        public string to { get; set; }
+
+        public string perdate { get; set; }
 
         //end
     }
