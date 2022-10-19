@@ -1055,11 +1055,11 @@ namespace MobileAppAPI.Controllers
                         {
                             string st = "This Asset Already Transferred";
 
-                            JSONString.Append("{");
-                            JSONString.Append("\"" + st + "\"");
-                            JSONString.Append("}");
-                           
-                            Logdata1 = JSONString.ToString();
+                            //JSONString.Append("{");
+                            //JSONString.Append("\"" + st + "\"");
+                            //JSONString.Append("}");
+
+                            Logdata1 = st;
                           
                             dbConn.Close();
                         }
@@ -1155,19 +1155,19 @@ namespace MobileAppAPI.Controllers
                     }
 
 
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
-                    JSONString.Append("{");
-                    JSONString.Append("\"" + st + "\"");
-                    JSONString.Append("}");
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
+                //    JSONString.Append("{");
+                //    JSONString.Append("\"" + st + "\"");
+                //    JSONString.Append("}");
 
-                    Logdata1 = JSONString.ToString();
-                }
-                else
-                {
+                //    Logdata1 = JSONString.ToString();
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+                //}
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1247,19 +1247,19 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
-                    JSONString.Append("{");
-                    JSONString.Append("\"" + st + "\"");
-                    JSONString.Append("}");
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
+                //    JSONString.Append("{");
+                //    JSONString.Append("\"" + st + "\"");
+                //    JSONString.Append("}");
 
-                    Logdata1 = JSONString.ToString();
-                }
-                else
-                {
+                //    Logdata1 = JSONString.ToString();
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+                //}
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1357,19 +1357,19 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
-                    JSONString.Append("{");
-                    JSONString.Append("\"" + st + "\"");
-                    JSONString.Append("}");
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
+                //    JSONString.Append("{");
+                //    JSONString.Append("\"" + st + "\"");
+                //    JSONString.Append("}");
 
-                    Logdata1 = JSONString.ToString();
-                }
-                else
-                {
+                //    Logdata1 = JSONString.ToString();
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+                //}
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1461,23 +1461,23 @@ namespace MobileAppAPI.Controllers
                     System.Data.DataTable results = new System.Data.DataTable();
                     results.Load(reader);
                     //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                    if (results.Rows.Count == 0)
-                    {
-                        string st = "No data found";
-                        JSONString.Append("{");
-                        JSONString.Append("\"" + st + "\"");
-                        JSONString.Append("}");
+                    //if (results.Rows.Count == 0)
+                    //{
+                    //    string st = "No data found";
+                    //    JSONString.Append("{");
+                    //    JSONString.Append("\"" + st + "\"");
+                    //    JSONString.Append("}");
 
-                        Logdata1 = JSONString.ToString();
-                    }
-                    else
-                    {
+                    //    Logdata1 = JSONString.ToString();
+                    //}
+                    //else
+                    //{
                         for (int i = 0; i < results.Rows.Count; i++)
                         {
                             DataRow row = results.Rows[i];
                             Logdata1 = DataTableToJSONWithStringBuilder(results);
                         }
-                    }
+                    //}
                     return Logdata1;
 
 
@@ -1568,24 +1568,24 @@ namespace MobileAppAPI.Controllers
                     System.Data.DataTable results = new System.Data.DataTable();
                     results.Load(reader);
                     //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                    if (results.Rows.Count == 0)
-                    {
+                    //if (results.Rows.Count == 0)
+                    //{
 
-                        string st = "No data found";
-                        JSONString.Append("{");
-                        JSONString.Append("\"" + st + "\"");
-                        JSONString.Append("}");
+                    //    string st = "No data found";
+                    //    JSONString.Append("{");
+                    //    JSONString.Append("\"" + st + "\"");
+                    //    JSONString.Append("}");
 
-                        Logdata1 = JSONString.ToString();
-                    }
-                    else
-                    {
+                    //    Logdata1 = JSONString.ToString();
+                    //}
+                    //else
+                    //{
                         for (int i = 0; i < results.Rows.Count; i++)
                         {
                             DataRow row = results.Rows[i];
                             Logdata1 = DataTableToJSONWithStringBuilder(results);
                         }
-                    }
+                    //}
                    
                     return Logdata1;
 
@@ -1628,20 +1628,20 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
+                //if (results.Rows.Count == 0)
+                //{
 
-                    string st = "No data found";
-                    JSONString.Append("{");
-                    JSONString.Append("\"" + st + "\"");
-                    JSONString.Append("}");
+                //    string st = "No data found";
+                //    JSONString.Append("{");
+                //    JSONString.Append("\"" + st + "\"");
+                //    JSONString.Append("}");
 
-                    Logdata1 = JSONString.ToString();
-                }
-                else
-                {
+                //    Logdata1 = JSONString.ToString();
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+               // }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1676,20 +1676,20 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
+                //if (results.Rows.Count == 0)
+                //{
 
-                    string st = "No data found";
-                    JSONString.Append("{");
-                    JSONString.Append("\"" + st + "\"");
-                    JSONString.Append("}");
+                //    string st = "No data found";
+                //    JSONString.Append("{");
+                //    JSONString.Append("\"" + st + "\"");
+                //    JSONString.Append("}");
 
-                    Logdata1 = JSONString.ToString();
-                }
-                else
-                {
+                //    Logdata1 = JSONString.ToString();
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+               // }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1725,19 +1725,19 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
-                    JSONString.Append("{");
-                    JSONString.Append("\"" + st + "\"");
-                    JSONString.Append("}");
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
+                //    JSONString.Append("{");
+                //    JSONString.Append("\"" + st + "\"");
+                //    JSONString.Append("}");
 
-                    Logdata1 = JSONString.ToString();
-                }
-                else
-                {
+                //    Logdata1 = JSONString.ToString();
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+               // }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1790,19 +1790,19 @@ namespace MobileAppAPI.Controllers
                     results1.Load(reader1);
                 }
 
-                if (results1.Rows.Count==0)
-                {
-                    string st = "No data found";
-                    JSONString.Append("{");
-                    JSONString.Append("\"" + st + "\"");
-                    JSONString.Append("}");
+                //if (results1.Rows.Count==0)
+                //{
+                //    string st = "No data found";
+                //    JSONString.Append("{");
+                //    JSONString.Append("\"" + st + "\"");
+                //    JSONString.Append("}");
 
-                    Logdata1 = JSONString.ToString();
-                }
-                else
-                {
+                //    Logdata1 = JSONString.ToString();
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results1);
-                }
+                //}
 
 
                    
@@ -1990,23 +1990,23 @@ namespace MobileAppAPI.Controllers
 
                         System.Data.DataTable results3 = new System.Data.DataTable();
                         results3.Load(reader3);
-                    if (results.Rows.Count == 0)
-                    {
-                        string st = "No data found";
-                        JSONString.Append("{");
-                        JSONString.Append("\"" + st + "\"");
-                        JSONString.Append("}");
+                    //if (results.Rows.Count == 0)
+                    //{
+                    //    string st = "No data found";
+                    //    JSONString.Append("{");
+                    //    JSONString.Append("\"" + st + "\"");
+                    //    JSONString.Append("}");
 
-                        Logdata1 = JSONString.ToString();
-                    }
-                    else
-                    {
+                    //    Logdata1 = JSONString.ToString();
+                    //}
+                    //else
+                    //{
                         for (int i2 = 0; i2 < results3.Rows.Count; i2++)
                         {
                             Logdata1 = DataTableToJSONWithStringBuilder(results3);
                             dbConn.Close();
                         }
-                    }
+                    //}
                    
                 }
               
@@ -2045,19 +2045,19 @@ namespace MobileAppAPI.Controllers
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
                 Logdata1 = DataTableToJSONWithStringBuilder(results);
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
-                    JSONString.Append("{");
-                    JSONString.Append("\"" + st + "\"");
-                    JSONString.Append("}");
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
+                //    JSONString.Append("{");
+                //    JSONString.Append("\"" + st + "\"");
+                //    JSONString.Append("}");
 
-                    Logdata1 = JSONString.ToString();
-                }
-                else
-                {
+                //    Logdata1 = JSONString.ToString();
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+                //}
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2094,19 +2094,19 @@ namespace MobileAppAPI.Controllers
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
                 Logdata1 = DataTableToJSONWithStringBuilder(results);
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
-                    JSONString.Append("{");
-                    JSONString.Append("\"" + st + "\"");
-                    JSONString.Append("}");
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
+                //    JSONString.Append("{");
+                //    JSONString.Append("\"" + st + "\"");
+                //    JSONString.Append("}");
 
-                    Logdata1 = JSONString.ToString();
-                }
-                else
-                {
+                //    Logdata1 = JSONString.ToString();
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+               // }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2142,23 +2142,23 @@ namespace MobileAppAPI.Controllers
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
                 Logdata1 = DataTableToJSONWithStringBuilder(results);
-                if (results.Rows.Count == 0)
-                {
-                    //string st = "No data found";
+                //if (results.Rows.Count == 0)
+                //{
+                //    //string st = "No data found";
 
-                    //Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //    //Logdata1 = new JavaScriptSerializer().Serialize(st);
 
-                    string st = "No data found";
-                    JSONString.Append("{");
-                    JSONString.Append("\"" + st + "\"");
-                    JSONString.Append("}");
+                //    string st = "No data found";
+                //    JSONString.Append("{");
+                //    JSONString.Append("\"" + st + "\"");
+                //    JSONString.Append("}");
 
-                    Logdata1 = JSONString.ToString();
-                }
-                else
-                {
+                //    Logdata1 = JSONString.ToString();
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+               // }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2232,16 +2232,16 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count==0)
-                {
-                    string st = "No data found";
+                //if (results.Rows.Count==0)
+                //{
+                //    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+                //}
            
                 dbConn.Close();
 
@@ -2288,20 +2288,20 @@ namespace MobileAppAPI.Controllers
                 results.Load(reader);
                 //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
 
-                if (results.Rows.Count==0)
-                {
-                    string st = "No data found";
+                //if (results.Rows.Count==0)
+                //{
+                //    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     for (int i = 0; i < results.Rows.Count; i++)
                     {
                         DataRow row = results.Rows[i];
                         Logdata1 = DataTableToJSONWithStringBuilder(results);
                     }
-                }
+              //  }
                         
                
                 return JSONString.ToString();
@@ -2378,16 +2378,16 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count==0)
-                {
-                    string st = "No data found";
+                //if (results.Rows.Count==0)
+                //{
+                //    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+              //  }
                
                 dbConn.Close();
 
@@ -2449,20 +2449,20 @@ namespace MobileAppAPI.Controllers
                 string output = JsonConvert.SerializeObject(st);
                 Logdata1 = output;
                 //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                for (int i = 0; i < results.Rows.Count; i++)
-                {
-                    DataRow row = results.Rows[i];
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+                //for (int i = 0; i < results.Rows.Count; i++)
+                //{
+                //    DataRow row = results.Rows[i];
+                //    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                //}
 
                 JSONString.Append("{");
-                JSONString.Append("\"" + st + "\"");
+                JSONString.Append("\"" + output + "\"");
                 JSONString.Append("}");
 
 
 
 
-                return Ok(JSONString);
+                return Ok(output);
 
 
 
@@ -2515,22 +2515,22 @@ namespace MobileAppAPI.Controllers
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
                 //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                if (results.Rows.Count == 0)
-                {
-                   // Logdata1 = "Successfully Completed";
+                //if (results.Rows.Count == 0)
+                //{
+                //   // Logdata1 = "Successfully Completed";
 
-                    string st = "Successfully Completed";
+                //    string st = "Successfully Completed";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     for (int i = 0; i < results.Rows.Count; i++)
                     {
                         DataRow row = results.Rows[i];
                         Logdata1 = DataTableToJSONWithStringBuilder(results);
                     }
-                }
+               // }
 
                 return Logdata1;
 
@@ -2582,21 +2582,21 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
-                   // Logdata1 = "No Records Found";
-                    string st = "No data found";
+                //if (results.Rows.Count == 0)
+                //{
+                //   // Logdata1 = "No Records Found";
+                //    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     for (int i = 0; i < results.Rows.Count; i++)
                     {
                         DataRow row = results.Rows[i];
                         Logdata1 = DataTableToJSONWithStringBuilder(results);
                     }
-                }
+               // }
                 return Ok(Logdata1);
 
             }
@@ -2628,16 +2628,16 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+               // }
 
                 dbConn.Close();
 
@@ -2671,16 +2671,16 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+               // }
 
                 dbConn.Close();
 
@@ -2715,16 +2715,16 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+               // }
 
                 dbConn.Close();
 
@@ -2759,16 +2759,16 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+               // }
 
                 dbConn.Close();
 
@@ -2875,16 +2875,16 @@ namespace MobileAppAPI.Controllers
                     var reader2 = cmd2.ExecuteReader();
                     System.Data.DataTable results2 = new System.Data.DataTable();
                     results2.Load(reader2);
-                    if (results2.Rows.Count == 0)
-                    {
-                        string st = "No data found";
+                    //if (results2.Rows.Count == 0)
+                    //{
+                    //    string st = "No data found";
 
-                        Logdata1 = new JavaScriptSerializer().Serialize(st);
-                    }
-                    else
-                    {
+                    //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    //}
+                    //else
+                    //{
                         Logdata1 = DataTableToJSONWithStringBuilder(results);
-                    }
+                    //}
 
                     dbConn.Close();
                 }
@@ -2913,16 +2913,16 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+                //}
 
                 dbConn.Close();
 
@@ -2953,16 +2953,16 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+               // }
 
                 dbConn.Close();
 
@@ -2991,16 +2991,16 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+                //}
 
                 dbConn.Close();
 
@@ -3103,17 +3103,17 @@ namespace MobileAppAPI.Controllers
                     results3.Load(reader3);
 
 
-                    if (results3.Rows.Count == 0)
-                        {
+                    //if (results3.Rows.Count == 0)
+                    //    {
 
-                        string st = "No data found";
+                    //    string st = "No data found";
 
-                        Logdata1 = new JavaScriptSerializer().Serialize(st);
-                    }
-                        else
-                        {
+                    //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    //}
+                    //    else
+                    //    {
                             Logdata1 = DataTableToJSONWithStringBuilder(results3);
-                        }
+                      //  }
 
                         dbConn.Close();
                     }
@@ -3197,17 +3197,17 @@ namespace MobileAppAPI.Controllers
                     results3.Load(reader3);
 
 
-                    if (results3.Rows.Count == 0)
-                    {
+                //    if (results3.Rows.Count == 0)
+                //    {
 
-                    string st = "No data found";
+                //    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                    else
-                    {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //    else
+                //    {
                         Logdata1 = DataTableToJSONWithStringBuilder(results3);
-                    }
+                 //   }
 
                     dbConn.Close();
                 }
@@ -3236,17 +3236,17 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
+                //if (results.Rows.Count == 0)
+                //{
 
-                    string st = "No data found";
+                //    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+               // }
 
                 dbConn.Close();
 
@@ -3361,17 +3361,17 @@ namespace MobileAppAPI.Controllers
                     results3.Load(reader3);
 
 
-                    if (results3.Rows.Count == 0)
-                    {
+                    //if (results3.Rows.Count == 0)
+                    //{
                         
-                        string st = "No data found";
+                    //    string st = "No data found";
 
-                        Logdata1 = new JavaScriptSerializer().Serialize(st);
-                    }
-                    else
-                    {
+                    //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    //}
+                    //else
+                   // {
                         Logdata1 = DataTableToJSONWithStringBuilder(results3);
-                    }
+                    //}
 
                     dbConn.Close();
                 }
@@ -3407,16 +3407,16 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                if (results.Rows.Count == 0)
-                {
-                    string st = "updated successfully";
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "updated successfully";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
+               // }
                // Logdata1 = DataTableToJSONWithStringBuilder(results);
                 dbConn.Close();
 

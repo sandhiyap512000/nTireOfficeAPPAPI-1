@@ -153,6 +153,10 @@ namespace MobileAppAPI.Models
 
         public int OBJ_ID { get; set; }
 
+        public string TCC_LEAD_RATING { get; set; }
+
+        public string TCC_LEAD_PRIORITY { get; set; }
+
 
     }
 }

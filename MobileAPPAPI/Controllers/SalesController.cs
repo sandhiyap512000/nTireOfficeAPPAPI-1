@@ -545,6 +545,19 @@ namespace MobileAppAPI.Controllers
                     query = query + " and BO_BRANCH_MASTER.BRANCH_ID='" + data.BRANCH_ID + "' ";
 
                 }
+                if (data.TCC_LEAD_PRIORITY != null && data.TCC_LEAD_PRIORITY != "" &&  data.TCC_LEAD_PRIORITY != "0")
+                {
+                    query = query + " and LMS_CURRENT_CAMPAIGN.TCC_PRIORITY ='" + data.TCC_LEAD_PRIORITY + "' ";
+                }
+
+                if (data.TCC_LEAD_RATING != null && data.TCC_LEAD_RATING != "" && data.TCC_LEAD_RATING != "0")
+                {
+                    query = query + " and LMS_CURRENT_CAMPAIGN.TCC_LEAD_RATING ='" + data.TCC_LEAD_RATING + "' ";
+                }
+                //if (data.TCM_CAMPAIGN_SHORTDESC != null && data.TCM_CAMPAIGN_SHORTDESC != "" && data.TCM_CAMPAIGN_SHORTDESC != "0")
+                //{
+                //    query = query + " LMS_CAMPAIGN_MASTER.TCM_CAMPAIGN_SHORTDESC ='" + data.TCM_CAMPAIGN_SHORTDESC + "' ";
+                //}
 
                 if (data.CUSTLEADID !=null && data.CUSTLEADID !=0 )
                 {
@@ -601,7 +614,7 @@ namespace MobileAppAPI.Controllers
 
 
 
-                SqlCommand cmd = new SqlCommand(query, dbConn);
+                    SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
@@ -2336,7 +2349,7 @@ namespace MobileAppAPI.Controllers
                 dbConn.Close();
 
                 var result = (new { Logdata1 });
-                return Ok(JSONString);
+                return Ok(Logdata1);
             }
 
 
