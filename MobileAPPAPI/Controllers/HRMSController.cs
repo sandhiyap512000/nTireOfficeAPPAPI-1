@@ -668,6 +668,50 @@ namespace MobileAppAPI.Controllers
 
 
         [HttpPost]
+        [Route("getlastinsertedexpense")]
+        public async Task<ActionResult<HRMS>> getlastinsertedexpense(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select MAX(EXPSEP_ID) as expenseid,MAX(EXP_ID) AS EXP_id,MAX(EXPREF_ID) AS EXPREF_ID from HRMS_EXPENSE_DETAILS";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+        [HttpPost]
         [Route("getdesignation")]
         public async Task<ActionResult<HRMS>> getdesignation(HRMS data)
         {
