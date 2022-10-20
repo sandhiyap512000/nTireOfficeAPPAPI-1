@@ -2394,21 +2394,25 @@ namespace MobileAppAPI.Controllers
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
                 //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                if (results.Rows.Count == 0)
-                {
-                    string st = "No data found";
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                }
-                else
-                {
-                    for (int i = 0; i < results.Rows.Count; i++)
-                    {
-                        DataRow row = results.Rows[i];
-                        Logdata1 = DataTableToJSONWithStringBuilder(results);
-                    }
-                }
-                return Logdata1;
+                string st = cmd.Parameters["@Result"].Value.ToString();
+                var json = new JavaScriptSerializer().Serialize(st);
+                return json;
+                //if (results.Rows.Count == 0)
+                //{
+                //    string st = "No data found";
+
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //else
+                //{
+                //    for (int i = 0; i < results.Rows.Count; i++)
+                //    {
+                //        DataRow row = results.Rows[i];
+                //        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                //    }
+                //}
+                //return Logdata1;
             }
         }
 
