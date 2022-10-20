@@ -157,6 +157,19 @@ namespace MobileAppAPI.Models
 
         public string TCC_LEAD_PRIORITY { get; set; }
 
+        //new oct20
+        public int pk1 { get; set; }
+
+        public string doc_name { get; set; }
+
+        public string doc_desc { get; set; }
+
+        public string doc_path { get; set; }
+
+        public string uploaded_by { get; set; }
+
+        public int file_size { get; set; }
+
 
     }
 }

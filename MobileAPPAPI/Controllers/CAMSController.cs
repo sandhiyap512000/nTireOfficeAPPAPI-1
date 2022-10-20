@@ -1455,7 +1455,7 @@ namespace MobileAppAPI.Controllers
                 cmd.Parameters.AddWithValue("@TASKTYPE", TASKTYPE);
                
                 cmd.Parameters.AddWithValue("@AssetCode", AssetCode);
-                    cmd.ExecuteNonQuery();
+                  //  cmd.ExecuteNonQuery();
 
                     var reader = cmd.ExecuteReader();
                     System.Data.DataTable results = new System.Data.DataTable();

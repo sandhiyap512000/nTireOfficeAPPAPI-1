@@ -762,6 +762,135 @@ namespace MobileAppAPI.Controllers
         #endregion
 
 
+
+        #region sowmi
+
+
+        [HttpGet]
+        [Route("getbranchid")]
+        public string getbranchid()
+
+
+        {
+
+
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = " select BRANCH_ID,BRANCH_CODE,BRANCH_DESC,FUNCTION_ID,ZONE_ID,STATUS from Bo_branch_master where STATUS = 'A' and FUNCTION_ID=1 ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
+
+
+        [HttpGet]
+        [Route("getlocation")]
+        public string getlocation()
+
+
+        {
+
+
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = " select FUNCTION_ID,BRANCH_ID,LOCATION_ID,LOCATION_CODE,LOCATION_DESC,STATUS from BO_BRANCH_LOCATION_MASTER where STATUS='A' and FUNCTION_ID=1";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
+
+        [HttpGet]
+        [Route("getProperty")]
+        public string getProperty()
+
+
+        {
+
+
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = " select function_id,Branch_id,location_id,property_id,property_code,property_desc from fm_property_master";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
+        #endregion
+
+
+
+
         public string DataTableToJSONWithStringBuilder(DataTable table)
         {
             var JSONString = new StringBuilder();

@@ -1941,7 +1941,7 @@ namespace MobileAppAPI.Controllers
 
                     string query2 = "";
                     Expenceid = results.Rows[i]["EXPENSE_ID"].ToString();
-                    query2 = "select LMS_EXPENSES_COST_DETAILS.*,BO_PARAMETER.TEXT from LMS_EXPENSES_COST_DETAILS INNER    join  BO_PARAMETER on LMS_EXPENSES_COST_DETAILS.expense_type=BO_PARAMETER.VAL AND TYPE='LMS_ACTIVITY_EXPENSE_TYPE' where EXPENSE_ID='" + Expenceid + "'";
+                    query2 = "select LMS_EXPENSES_COST_DETAILS.*,BO_PARAMETER.TEXT from LMS_EXPENSES_COST_DETAILS INNER    join  BO_PARAMETER on LMS_EXPENSES_COST_DETAILS.expense_type=BO_PARAMETER.VAL AND TYPE='LMS_ACTIVITY_EXPENSE_TYPE' where EXPENSE_ID='" + Expenceid + "' and BO_PARAMETER.FUNCTION_ID=1 ";
 
                     SqlCommand cmd2 = new SqlCommand(query2, dbConn);
                     var reader2 = cmd2.ExecuteReader();
@@ -2356,6 +2356,65 @@ namespace MobileAppAPI.Controllers
         }
 
 
+
+        [HttpPost]
+        [Route("uploadimageforsales")]
+        public async Task<ActionResult<Sales>> uploadimageforsales(Sales data)
+        {
+
+
+      
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            // var documentid = "";
+            int documentid = 0;
+            int doc_id = 0;
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+
+
+                string query1 = "";
+                query1 = "select max(doc_id) as doc_id from BO_DOCS_UPLOAD";
+
+                SqlCommand cmd1 = new SqlCommand(query1, dbConn);
+                var reader1 = cmd1.ExecuteReader();
+                System.Data.DataTable results1 = new System.Data.DataTable();
+                results1.Load(reader1);
+
+                for (int i = 0; i < results1.Rows.Count; i++)
+                {
+                    DataRow row = results1.Rows[i];
+                    // documentid = results.Rows[i]["documentid"].ToString();
+                    documentid =Convert.ToInt32(row[0].ToString());
+                    doc_id = documentid + 1;
+                }
+
+
+
+
+                string query = "";
+                query = "INSERT INTO BO_DOCS_UPLOAD(module_id,pk1,doc_id,doc_name,doc_desc,doc_path,uploaded_by,uploaded_on,file_size,FUNCTION_ID) VALUES('8041',"+data.pk1+"," + doc_id + ",'"+data.doc_name+"','"+data.doc_desc+"','"+data.doc_path+"','"+data.uploaded_by+"',getdate(),"+data.file_size+",1)";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                
+                    Logdata1 = "sucess";
+                
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
 
 
 
