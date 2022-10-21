@@ -970,6 +970,51 @@ namespace MobileAppAPI.Controllers
 
 
 
+
+        [HttpPost]
+        [Route("saveExpenseClaimsDetail")]
+        public async Task<ActionResult<HRMS>> saveExpenseClaimsDetail(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "EXEC MBL_HRMS_CLAIMS_EXPENSE_DETAILS_SAVE @Functionid ='" + data.functionid + "',@Branchid ='" + data.branchid + "',@Expenseid  ='" + data.Expenseid + "',@Exp_id ='" + data.Exp_id + "',@ExpensesType ='" + data.ExpensesType + "',@ExpensesAmount   ='" + data.ExpensesAmount + "',@Remarks ='" + data.Remarks + "',@UserId   ='" + data.userid + "',@RequestRef='" + data.RequestRef + "'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
         [HttpGet]
         [Route("EmployeeUpdate/{EmployeeId}/{Type}/{Parameter1}/{Parameter2}/{Parameter3}/{Parameter4}/{Parameter5}/{Parameter6}/{Parameter7}/{Parameter8}")]
         public string EmployeeUpdate(string EmployeeId = null, string Type = null, string Parameter1 = null, string Parameter2 = null, string Parameter3 = null, string Parameter4 = null, string Parameter5 = null, string Parameter6 = null, string Parameter7 = null, string Parameter8 = null)

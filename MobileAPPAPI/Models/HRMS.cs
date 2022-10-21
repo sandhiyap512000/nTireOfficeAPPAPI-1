@@ -68,6 +68,16 @@ namespace MobileAppAPI.Models
 
         public string perdate { get; set; }
 
+        public string Expenseid { get; set; }
+
+        public string Exp_id { get; set; }
+
+        public string ExpensesType { get; set; }
+
+        public string ExpensesAmount { get; set; }
+
+        public string Remarks { get; set; }
+        public string RequestRef { get; set; }
         //end
     }
 }
