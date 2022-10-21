@@ -848,8 +848,8 @@ namespace MobileAppAPI.Controllers
         }
 
         [HttpGet]
-        [Route("getProperty")]
-        public string getProperty()
+        [Route("getProperty1")]
+        public string getProperty1()
 
 
         {
@@ -887,6 +887,88 @@ namespace MobileAppAPI.Controllers
             return (Logdata1);
         }
         #endregion
+
+
+
+        [HttpGet]
+        [Route("getProperty")]
+        public string getProperty()
+
+
+        {
+
+
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select function_id,Branch_id,location_id,property_id,property_code,property_desc from fm_property_master";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
+
+
+
+        [HttpGet]
+        [Route("getPropertycode/{code}")]
+        public string getPropertycode(string code)
+        {
+
+
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select * from fm_property_master where property_code like '%"+ code + "%'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
 
 
 
