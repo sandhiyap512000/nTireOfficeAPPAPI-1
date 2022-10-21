@@ -809,7 +809,7 @@ namespace MobileAppAPI.Controllers
 
         [HttpGet]
         [Route("getlocation")]
-        public string getlocation()
+        public string getlocation(string functionid, string branchid)
 
 
         {
@@ -822,7 +822,7 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string query = "";
-                query = " select FUNCTION_ID,BRANCH_ID,LOCATION_ID,LOCATION_CODE,LOCATION_DESC,STATUS from BO_BRANCH_LOCATION_MASTER where STATUS='A' and FUNCTION_ID=1";
+                query = " select FUNCTION_ID,BRANCH_ID,LOCATION_ID,LOCATION_CODE,LOCATION_DESC,STATUS from BO_BRANCH_LOCATION_MASTER where STATUS='A' and FUNCTION_ID='"+ functionid + "' and branch_id='"+ branchid + "'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
