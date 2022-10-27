@@ -755,8 +755,344 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        [HttpGet]
+        [Route("getpaymentdetailsreports/{functionid}/{branchid}/{locationid}/{propertycode}/{customer}/{fromdate}/{todate}/{status}/{paymentmode}/{chequeno}")]
+        public string getpaymentdetailsreports(string functionid,string branchid,string locationid,string propertycode,string customer,string fromdate,string todate,string status,string paymentmode,string chequeno)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
 
 
+                dbConn.Open();
+                string query = "";
+                query = "SELECT Branch,Location,Propertycode,Customer,Description,Currency,Amount,PayMode,Bank,Reference,ChequeDate,Status FROM FMPAYMENTDETAILS where 1=1";
+
+                if (functionid !="" && functionid!="0")
+                {
+                    query = query + " and FUNCTION_ID='"+ functionid + "'";
+                }
+                if (branchid != "" && branchid != "0")
+                {
+                    query = query + " and BRANCH_ID='" + branchid + "'";
+                }
+                if (locationid != "" && locationid != "0")
+                {
+                    query = query + " and LOCATION_ID='" + locationid + "'";
+                }
+                if (propertycode != "" && propertycode != "0")
+                {
+                    query = query + " and PropertyCode='" + propertycode + "'";
+                }
+                if (customer != "" && customer != "0")
+                {
+                    query = query + " and Customer='" + customer + "'";
+                }
+                if (fromdate != "" && fromdate != "0")
+                {
+                    query = query + " and ChequeDate>='" + fromdate + "'";
+                }
+                if (todate != "" && todate != "0")
+                {
+                    query = query + " and ChequeDate<='" + todate + "'";
+                }
+                if (status != "" && status != "0")
+                {
+                    query = query + " and status='" + status + "'";
+                }
+                if (paymentmode != "" && paymentmode != "0")
+                {
+                    query = query + " and PAYMODE='" + paymentmode + "'";
+                }
+                if (chequeno != "" && chequeno != "0")
+                {
+                    query = query + " and Reference='" + chequeno + "'";
+                }
+
+
+
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                //var result = (new { recordsets = Logdata1 });
+                return Logdata1;
+            }
+        }
+
+
+        [HttpGet]
+        [Route("getpropertylistreports/{functionid}/{branchid}/{locationid}/{propertycode}/{Propertydesc}/{fromdate}/{todate}/{status}/{PropertyType}/{PropertyOwner}/{PropertyNature}")]
+        public string getpropertylistreports(string functionid, string branchid, string locationid, string propertycode, string Propertydesc, string fromdate, string todate, string status, string PropertyType, string PropertyOwner,string PropertyNature)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select [Function],Branch,Location,Code,  Description,[Property Type],status,[Property Owner],[Total Floor],[Property On Floor],PropertyNature,CustomerName,Fromdate,Todate from FMPropertylist where 1=1";
+
+                if (functionid != "" && functionid != "0")
+                {
+                    query = query + " and function_id='" + functionid + "'";
+                }
+                if (branchid != "" && branchid != "0")
+                {
+                    query = query + " and BRANCH_id='" + branchid + "'";
+                }
+                if (locationid != "" && locationid != "0")
+                {
+                    query = query + " and LOCATION_id='" + locationid + "'";
+                }
+                if (propertycode != "" && propertycode != "0")
+                {
+                    query = query + " and Code='" + propertycode + "'";
+                }
+                if (Propertydesc != "" && Propertydesc != "0")
+                {
+                    query = query + " and Description='" + Propertydesc + "'";
+                }
+                if (fromdate != "" && fromdate != "0")
+                {
+                    query = query + " and FromDate>='" + fromdate + "'";
+                }
+                if (todate != "" && todate != "0")
+                {
+                    query = query + " and Todate<='" + todate + "'";
+                }
+                if (status != "" && status != "0")
+                {
+                    query = query + " and status='" + status + "'";
+                }
+                if (PropertyType != "" && PropertyType != "0")
+                {
+                    query = query + " and [Property Type]='" + PropertyType + "'";
+                }
+                if (PropertyOwner != "" && PropertyOwner != "0")
+                {
+                    query = query + " and [Property Owner]='" + PropertyOwner + "'";
+                }
+                if (PropertyNature != "" && PropertyNature != "0")
+                {
+                    query = query + " and PropertyNature='" + PropertyNature + "'";
+                }
+
+
+
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                //var result = (new { recordsets = Logdata1 });
+                return Logdata1;
+            }
+        }
+
+
+        [HttpGet]
+        [Route("getpropertyissueledger/{functionid}/{branchid}/{locationid}/{propertycode}/{Propertydesc}/{fromdate}/{todate}/{status}/{Customer}/{AssignedTo}")]
+        public string getpropertyissueledger(string functionid, string branchid, string locationid, string propertycode, string Propertydesc, string fromdate, string todate, string status, string Customer, string AssignedTo)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select Branch,Location,[Property Code] as PropertyCode,[Property Desc] as Description,Customer,PMR_REference as [Issue Ref],IssueDesc,Criticality,AssignedTo,TargetDate,CompletionDateTime,Status from fmissueledger where 1=1";
+
+                if (functionid != "" && functionid != "0")
+                {
+                    query = query + " and FUNCTION_ID='" + functionid + "'";
+                }
+                if (branchid != "" && branchid != "0")
+                {
+                    query = query + " and branch_ID='" + branchid + "'";
+                }
+                if (locationid != "" && locationid != "0")
+                {
+                    query = query + " and LOCATION_id='" + locationid + "'";
+                }
+                if (propertycode != "" && propertycode != "0")
+                {
+                    query = query + " and [Property Code]='" + propertycode + "'";
+                }
+                if (Propertydesc != "" && Propertydesc != "0")
+                {
+                    query = query + " and [Property Desc]='" + Propertydesc + "'";
+                }
+                if (fromdate != "" && fromdate != "0")
+                {
+                    query = query + " and TargetDate>='" + fromdate + "'";
+                }
+                if (todate != "" && todate != "0")
+                {
+                    query = query + " and TargetDate<='" + todate + "'";
+                }
+                if (status != "" && status != "0")
+                {
+                    query = query + " and status='" + status + "'";
+                }
+                if (Customer != "" && Customer != "0")
+                {
+                    query = query + " and Customer='" + Customer + "'";
+                }
+                if (AssignedTo != "" && AssignedTo != "0")
+                {
+                    query = query + " and AssignedTo='" + AssignedTo + "'";
+                }
+               
+
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                //var result = (new { recordsets = Logdata1 });
+                return Logdata1;
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("getdocumentexpiryreport/{functionid}/{branchid}/{propertycode}/{issuedate}/{expirydate}/{clientcode}/{clientname}")]
+        public string getdocumentexpiryreport(string functionid, string branchid, string propertycode, string issuedate, string expirydate, string clientcode, string clientname)
+
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT Branch,Location,[Property Code],PropertyDesc,ClientCode,CustomerName AS ClientName,[From Date],[To Date], [Document Type],[Issuing Autority],Reference,[Issue Date],[Expiry Date],[Expiry Days] FROM [FMDocumentExpiry] where 1=1";
+
+                if (functionid != "" && functionid != "0")
+                {
+                    query = query + " and Function_id='" + functionid + "'";
+                }
+                if (branchid != "" && branchid != "0")
+                {
+                    query = query + " and BRANCH_ID='" + branchid + "'";
+                }
+               
+                if (propertycode != "" && propertycode != "0")
+                {
+                    query = query + " and [Property Code]='" + propertycode + "'";
+                }
+               
+                if (issuedate != "" && issuedate != "0")
+                {
+                    query = query + " and [Issue Date]='" + issuedate + "'";
+                }
+                if (expirydate != "" && expirydate != "0")
+                {
+                    query = query + " and [Expiry Date]='" + expirydate + "'";
+                }
+                if (clientcode != "" && clientcode != "0")
+                {
+                    query = query + " and ClientCode='" + clientcode + "'";
+                }
+                if (clientname != "" && clientname != "0")
+                {
+                    query = query + " and CustomerName='" + clientname + "'";
+                }
+               
+
+
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                //var result = (new { recordsets = Logdata1 });
+                return Logdata1;
+            }
+        }
+
+
+        [HttpGet]
+        [Route("getpropertycontactlistreport/{functionid}/{branchid}/{propertycode}/{Propertydesc}")]
+        public string getpropertycontactlistreport(string functionid, string branchid, string propertycode, string Propertydesc)
+
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select  function_desc as 'Function',branch_desc as 'Branch',unique_ref as 'Unique Ref',property_code as 'Property Code',property_desc as 'Property Desc', BO_PARAMETER.text as ContactCategory,Name,Address,Res_Phone,   Off_Phone,Email, Others1,Others2,Others3 from FM_PROPERTY_CONTACT_DETAILS   inner join BO_PARAMETER   on FM_PROPERTY_CONTACT_DETAILS.category_code=BO_PARAMETER.code  and BO_PARAMETER.type='PropertyContactCategory' and FM_PROPERTY_CONTACT_DETAILS.function_id=BO_PARAMETER.FUNCTION_ID inner join FM_PROPERTY_MASTER on FM_PROPERTY_CONTACT_DETAILS.property_id=FM_PROPERTY_MASTER.property_id  inner join BO_FUNCTION_MASTER on  FM_PROPERTY_CONTACT_DETAILS.function_id=BO_FUNCTION_MASTER.function_id  inner join BO_BRANCH_MASTER on  FM_PROPERTY_CONTACT_DETAILS.branch_id=BO_BRANCH_MASTER.branch_id where 1 = 1";
+
+                if (functionid != "" && functionid != "0")
+                {
+                    query = query + " and FM_PROPERTY_CONTACT_DETAILS.function_id='" + functionid + "'";
+                }
+                if (branchid != "" && branchid != "0")
+                {
+                    query = query + " and FM_PROPERTY_CONTACT_DETAILS.branch_id='" + branchid + "'";
+                }
+
+                if (propertycode != "" && propertycode != "0")
+                {
+                    query = query + " and FM_PROPERTY_MASTER.property_code='" + propertycode + "'";
+                }
+
+                if (Propertydesc != "" && Propertydesc != "0")
+                {
+                    query = query + " and FM_PROPERTY_MASTER.property_desc='" + Propertydesc + "'";
+                }
+                
+
+
+
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                //var result = (new { recordsets = Logdata1 });
+                return Logdata1;
+            }
+        }
 
 
 
