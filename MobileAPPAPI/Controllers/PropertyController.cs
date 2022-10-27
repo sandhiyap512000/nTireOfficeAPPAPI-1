@@ -643,6 +643,123 @@ namespace MobileAppAPI.Controllers
 
 
 
+        [HttpGet]
+        [Route("getreceiptdetails/{propertyid}/{rentalid}")]
+        public string getreceiptdetails(string propertyid, string rentalid)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT BO_FUNCTION_MASTER.FUNCTION_DESC,BO_BRANCH_MASTER.BRANCH_DESC,BO_BRANCH_LOCATION_MASTER.LOCATION_DESC, FM_PROPERTY_MASTER.PROPERTY_CODE,BO_BRANCH_LOCATION_MASTER.LOCATION_ID,FM_PROPERTY_MASTER.PROPERTY_DESC,FM_PROPERTY_MASTER.PROPERTY_CURRENCY, FM_PROPERTY_RENTAL_MASTER.RENTAL_ID,FM_PROPERTY_RENTAL_MASTER.RENTAL_CODE FROM FM_PROPERTY_MASTER WITH (NOLOCK) INNER JOIN BO_FUNCTION_MASTER WITH (NOLOCK) ON BO_FUNCTION_MASTER.FUNCTION_ID =FM_PROPERTY_MASTER.FUNCTION_ID   INNER JOIN BO_BRANCH_MASTER WITH (NOLOCK) ON BO_BRANCH_MASTER.FUNCTION_ID=FM_PROPERTY_MASTER.FUNCTION_ID  AND BO_BRANCH_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID    INNER JOIN BO_BRANCH_LOCATION_MASTER WITH (NOLOCK) ON BO_BRANCH_LOCATION_MASTER.FUNCTION_ID=FM_PROPERTY_MASTER.FUNCTION_ID  AND BO_BRANCH_LOCATION_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID AND BO_BRANCH_LOCATION_MASTER.LOCATION_ID=FM_PROPERTY_MASTER.LOCATION_ID  INNER JOIN FM_PROPERTY_RENTAL_MASTER WITH (NOLOCK) ON FM_PROPERTY_RENTAL_MASTER.FUNCTION_ID =FM_PROPERTY_MASTER.FUNCTION_ID  AND FM_PROPERTY_RENTAL_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID AND FM_PROPERTY_RENTAL_MASTER.LOCATION_ID =FM_PROPERTY_MASTER.LOCATION_ID  AND FM_PROPERTY_RENTAL_MASTER.PROPERTY_ID=FM_PROPERTY_MASTER.PROPERTY_ID WHERE FM_PROPERTY_RENTAL_MASTER.STATUS='A' AND FM_PROPERTY_RENTAL_MASTER.RENTAL_ID='"+ rentalid + "' AND FM_PROPERTY_MASTER.PROPERTY_ID='"+ propertyid + "' ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                //var result = (new { recordsets = Logdata1 });
+                return Logdata1;
+            }
+        }
+
+
+        [HttpGet]
+        [Route("getreceiptdetailsgrid/{propertyid}/{rentalid}")]
+        public string getreceiptdetailsgrid(string propertyid, string rentalid)
+        {
+            try
+            {
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+                    dbConn.Open();
+
+                    if (propertyid.ToString() == "0" || propertyid.ToString() == "" || propertyid.ToString() == string.Empty || propertyid.ToString() == null)
+                    {
+                        propertyid = "0";
+                    }
+                    if (rentalid.ToString() == "0" || rentalid.ToString() == "" || rentalid.ToString() == string.Empty || rentalid.ToString() == null)
+                    {
+                        rentalid = "0";
+                    }
+                   
+
+                    string Logdata1 = string.Empty;
+                    string sql = "MBL_SP_Recipt_summary_FM"; //"CAMS_PENDINGDETAIL_SEARCHS1";
+                    SqlCommand cmd = new SqlCommand(sql, dbConn);
+                    SqlDataAdapter apd = new SqlDataAdapter(cmd);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PropertyID", propertyid);
+                    cmd.Parameters.AddWithValue("@RENTID", rentalid);
+                    
+
+                    cmd.ExecuteNonQuery();
+
+                    var reader = cmd.ExecuteReader();
+                    System.Data.DataTable results = new System.Data.DataTable();
+                    results.Load(reader);
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    }
+                    return Logdata1;
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return json;
+            }
+        }
+
+
+        [HttpGet]
+        [Route("getpaymenthistorydetailsgrid/{propertyid}")]
+        public string getpaymenthistorydetailsgrid(string propertyid)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select FMP.property_id ,case when FMP.BANK_NAME is null or  FMP.BANK_NAME = '' then 'CASH' ELSE  FMP.BANK_NAME END AS 'BANKNAME' ,case when FMP.CHEQUE_NO is null or  FMP.CHEQUE_NO = '' then 'CASH' ELSE  FMP.CHEQUE_NO END AS 'CHEQUENO' ,case when convert(varchar(10),FMP.CHEQUE_Date, 103) is null or  convert(varchar(10),FMP.CHEQUE_Date, 103) = '' then 'CASH' ELSE  convert(varchar(10),FMP.CHEQUE_Date, 103) END AS 'CHEQUEDate' ,case when FMP.PAYMODE = 'C' then 'CASH' when FMP.PAYMODE = 'Q' then 'CHEQUE' when FMP.PAYMODE = 'R' then 'RTGS' when FMP.PAYMODE = 'N' then 'NEFT'  END AS 'PAYMODE' ,case FMP.STATUS when 'C' then 'Cleared' when 'P' then 'Pending' when 'R' then 'Returned' else FMP.STATUS end as status,0 AS transaction_id,FMP.Remarks, 0 AS 'payment_id','R' AS 'Flag',FMP.amount,FMPR.PAYMENT_DESC +'-'+ convert(varchar,year(FMP.Pay_date)) as 'PAYMENT_DESC',FMPO.exp_month + '-' +FMPO.exp_description +'-'+ convert(varchar,year(FMP.Pay_date)) as Descr  into #Temp from FM_PROPERTY_TRANSACTIONS_INFO  FMP LEFT join FM_PROPERTY_RENT_PAYMENT_SCHEDULE FMPR on FMP.property_id = FMPR.property_id and FMP.payment_id = FMPR.payment_id LEFT join FM_PROPERTY_OTHER_EXPENSE_SCHEDULE FMPO on FMP.property_id = FMPO.property_id and FMPO.opex_id = FMP.payment_id where 1=1 and FMP.property_id='" + propertyid + "' AND FMP.AMOUNT >= 0   SELECT distinct e.property_id,e.BANKNAME,e.CHEQUENO,sum(e.amount) AS 'Amount',sum(e.amount) AS 'pay_amount',status,CHEQUEDate,payment_id,PAYMODE,Remarks,transaction_id,Flag, r.[payment_desc] FROM  #Temp e   CROSS APPLY  (  SELECT isnull(r.PAYMENT_DESC,'') + '  ' + isnull( r.DESCR,'') FROM #Temp r where  e.property_id = r.property_id and e.BANKNAME = r.BANKNAME and e.chequeno = r.chequeno    FOR XML PATH('')	   ) r ([payment_desc]) group by e.property_id,e.BANKNAME,e.chequeno,r.[payment_desc],CHEQUEDate,PAYMODE,transaction_id,Flag,payment_id,Remarks,status";
+
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                //var result = (new { recordsets = Logdata1 });
+                return Logdata1;
+            }
+        }
+
+
+
+
+
+
+
         [HttpPost]
         [Route("get_training_details")]
         public async Task<ActionResult<Property>> get_training_details(Property data)
@@ -940,12 +1057,7 @@ namespace MobileAppAPI.Controllers
         [HttpGet]
         [Route("getbranchid")]
         public string getbranchid()
-
-
         {
-
-
-
             string Logdata1 = string.Empty;
 
             using (SqlConnection dbConn = new SqlConnection(strconn))
