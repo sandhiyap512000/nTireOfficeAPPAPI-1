@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MobileAppAPI.Models
 {
-    public class ERP
-    {
+	public class ERP
+	{
 		public string branchid { get; set; }
 		public string functionid { get; set; }
 
@@ -101,13 +101,18 @@ namespace MobileAppAPI.Models
 		public string rfqfromdate { get; set; }
 		public string rfqtodate { get; set; }
 
+		//[Column(TypeName = "jsonb")]
+		//public string customfield { get; set; }
 		public string item_deatils { get; set; }
+		
+		public List<ERPItems> Itemsdetail { get; set; }
 
+		//[Column(TypeName = "jsonb")]
+		//public ERPItems1 Itemsdetail { get; set; }
 
-		//[NotMapped]
-		public virtual ICollection<ERPItems> Itemsdetail { get; set; }
+		public List<ERPItems1> ERPItems { get; set; }
 
-
+	}
 		public class RootObject
 		{
 			public DataTable Itemstable;
@@ -115,5 +120,78 @@ namespace MobileAppAPI.Models
 			public List<ERPItems> ERPItems { get; set; }
 		}
 
+
+	public class ERPItems1
+	{
+		public string prsid { get; set; }
+
+		public string itemid { get; set; }
+
+		public string function_id { get; set; }
+
+		public string required_qty { get; set; }
+
+		public string UOM { get; set; }
+
+		public string expected_cost { get; set; }
+
+		public string exp_date { get; set; }
+
+		public string status { get; set; }
+
+		public string created_by { get; set; }
+
+		public string ipaddress { get; set; }
+
+		public string unit_price { get; set; }
+
+		public string Limit { get; set; }
+
+		public string Availlimit { get; set; }
+
+		public string BalanceLimit { get; set; }
+
+		public string CATEGORY { get; set; }
+
+		public string TAX1 { get; set; }
+
+		public string TAX2 { get; set; }
+
+		public string TAX1DESC { get; set; }
+
+		public string TAX2DESC { get; set; }
+
+		public string OTHERCHARGES { get; set; }
+
+		public string item_short_desc { get; set; }
+
+		public string REMARKS { get; set; }
+
+		public string CategoryID { get; set; }
+
+		public string SubCategoryID { get; set; }
+
+		public string prsDetailID { get; set; }
+
+		public string FreightVALUE { get; set; }
+
+		public string FreightID { get; set; }
+
+		public string RecoveryVALUE { get; set; }
+
+		public string RecoveryID { get; set; }
+
+		public string BDC { get; set; }
+
+		public string PTM { get; set; }
+
+		public string ACC { get; set; }
+
+		public string CPC { get; set; }
+
+		public string flag { get; set; }
 	}
+
+
+
 }
