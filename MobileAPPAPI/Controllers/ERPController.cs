@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MobileAppAPI.Models;
 using Nancy.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -694,6 +696,10 @@ namespace MobileAppAPI.Controllers
             var stroutput = "";
             string strprscode = "";
             string strprsid = "";
+            string prsid = string.Empty;
+            string currency = string.Empty;
+            string prs_detailID = string.Empty;
+            string wfno = string.Empty;
             // var result = "";
 
             try
@@ -703,244 +709,424 @@ namespace MobileAppAPI.Controllers
                 using (SqlConnection dbConn = new SqlConnection(strconn))
                 {
 
-                    if (data.functionid.ToString() == "0" || data.functionid.ToString() == "" || data.functionid.ToString() == string.Empty || data.functionid.ToString() == null)
-                    {
-                        data.functionid = "0";
-                    }
-                    if (data.prsid.ToString() == "0" || data.prsid.ToString() == "" || data.prsid.ToString() == string.Empty || data.prsid.ToString() == null)
-                    {
-                        data.prsid = null;
-                    }
-                    if (data.status.ToString() == "0" || data.status.ToString() == "" || data.status.ToString() == string.Empty || data.status.ToString() == null)
-                    {
-                        data.status = null;
-                    }
-                    if (data.createdby.ToString() == "0" || data.createdby.ToString() == "" || data.createdby.ToString() == string.Empty || data.createdby.ToString() == null)
-                    {
-                        data.createdby = "0";
-                    }
-                    if (data.ipaddress.ToString() == "0" || data.ipaddress.ToString() == "" || data.ipaddress.ToString() == string.Empty || data.ipaddress.ToString() == null)
-                    {
-                        data.ipaddress = "0";
-                    }
-                    if (data.reasonpurchase.ToString() == "0" || data.reasonpurchase.ToString() == "" || data.reasonpurchase.ToString() == string.Empty || data.reasonpurchase.ToString() == null)
-                    {
-                        data.reasonpurchase = "0";
-                    }
-                    if (data.netamount.ToString() == "0" || data.netamount.ToString() == "" || data.netamount.ToString() == string.Empty || data.netamount.ToString() == null)
-                    {
-                        data.netamount = "0";
-                    }
+                    //if (data.functionid.ToString() == "0" || data.functionid.ToString() == "" || data.functionid.ToString() == string.Empty || data.functionid.ToString() == null)
+                    //{
+                    //    data.functionid = "0";
+                    //}
+                    //if (data.prsid.ToString() == "0" || data.prsid.ToString() == "" || data.prsid.ToString() == string.Empty || data.prsid.ToString() == null)
+                    //{
+                    //    data.prsid = null;
+                    //}
+                    //if (data.status.ToString() == "0" || data.status.ToString() == "" || data.status.ToString() == string.Empty || data.status.ToString() == null)
+                    //{
+                    //    data.status = null;
+                    //}
+                    //if (data.createdby.ToString() == "0" || data.createdby.ToString() == "" || data.createdby.ToString() == string.Empty || data.createdby.ToString() == null)
+                    //{
+                    //    data.createdby = "0";
+                    //}
+                    //if (data.ipaddress.ToString() == "0" || data.ipaddress.ToString() == "" || data.ipaddress.ToString() == string.Empty || data.ipaddress.ToString() == null)
+                    //{
+                    //    data.ipaddress = "0";
+                    //}
+                    //if (data.reasonpurchase.ToString() == "0" || data.reasonpurchase.ToString() == "" || data.reasonpurchase.ToString() == string.Empty || data.reasonpurchase.ToString() == null)
+                    //{
+                    //    data.reasonpurchase = "0";
+                    //}
+                    //if (data.netamount.ToString() == "0" || data.netamount.ToString() == "" || data.netamount.ToString() == string.Empty || data.netamount.ToString() == null)
+                    //{
+                    //    data.netamount = "0";
+                    //}
 
-                    if (data.currency.ToString() == "0" || data.currency.ToString() == "" || data.currency.ToString() == string.Empty || data.currency.ToString() == null)
-                    {
-                        data.currency = "0";
-                    }
-                    if (data.requestcomments.ToString() == "0" || data.requestcomments.ToString() == "" || data.requestcomments.ToString() == string.Empty || data.requestcomments.ToString() == null)
-                    {
-                        data.requestcomments = "0";
-                    }
-                    if (data.isbid.ToString() == "0" || data.isbid.ToString() == "" || data.isbid.ToString() == string.Empty || data.isbid.ToString() == null)
-                    {
-                        data.isbid = "0";
-                    }
-                    if (data.prstype.ToString() == "0" || data.prstype.ToString() == "" || data.prstype.ToString() == string.Empty || data.prstype.ToString() == null)
-                    {
-                        data.prstype = "0";
-                    }
-                    if (data.branchid.ToString() == "0" || data.branchid.ToString() == "" || data.branchid.ToString() == string.Empty || data.branchid.ToString() == null)
-                    {
-                        data.branchid = "0";
-                    }
-                    if (data.prsref.ToString() == "0" || data.prsref.ToString() == "" || data.prsref.ToString() == string.Empty || data.prsref.ToString() == null)
-                    {
-                        data.prsref = "0";
-                    }
-                    if (data.userid.ToString() == "0" || data.userid.ToString() == "" || data.userid.ToString() == string.Empty || data.userid.ToString() == null)
-                    {
-                        data.userid = "0";
-                    }
-                    if (data.requestby.ToString() == "0" || data.requestby.ToString() == "" || data.requestby.ToString() == string.Empty || data.requestby.ToString() == null)
-                    {
-                        data.requestby = "0";
-                    }
-                    if (data.requestdate.ToString() == "0" || data.requestdate.ToString() == "" || data.requestdate.ToString() == string.Empty || data.requestdate.ToString() == null)
-                    {
-                        data.requestdate = "0";
-                    }
+                    //if (data.currency.ToString() == "0" || data.currency.ToString() == "" || data.currency.ToString() == string.Empty || data.currency.ToString() == null)
+                    //{
+                    //    data.currency = "0";
+                    //}
+                    //if (data.requestcomments.ToString() == "0" || data.requestcomments.ToString() == "" || data.requestcomments.ToString() == string.Empty || data.requestcomments.ToString() == null)
+                    //{
+                    //    data.requestcomments = "0";
+                    //}
+                    //if (data.isbid.ToString() == "0" || data.isbid.ToString() == "" || data.isbid.ToString() == string.Empty || data.isbid.ToString() == null)
+                    //{
+                    //    data.isbid = "0";
+                    //}
+                    //if (data.prstype.ToString() == "0" || data.prstype.ToString() == "" || data.prstype.ToString() == string.Empty || data.prstype.ToString() == null)
+                    //{
+                    //    data.prstype = "0";
+                    //}
+                    //if (data.branchid.ToString() == "0" || data.branchid.ToString() == "" || data.branchid.ToString() == string.Empty || data.branchid.ToString() == null)
+                    //{
+                    //    data.branchid = "0";
+                    //}
+                    //if (data.prsref.ToString() == "0" || data.prsref.ToString() == "" || data.prsref.ToString() == string.Empty || data.prsref.ToString() == null)
+                    //{
+                    //    data.prsref = "0";
+                    //}
+                    //if (data.userid.ToString() == "0" || data.userid.ToString() == "" || data.userid.ToString() == string.Empty || data.userid.ToString() == null)
+                    //{
+                    //    data.userid = "0";
+                    //}
+                    //if (data.requestby.ToString() == "0" || data.requestby.ToString() == "" || data.requestby.ToString() == string.Empty || data.requestby.ToString() == null)
+                    //{
+                    //    data.requestby = "0";
+                    //}
+                    //if (data.requestdate.ToString() == "0" || data.requestdate.ToString() == "" || data.requestdate.ToString() == string.Empty || data.requestdate.ToString() == null)
+                    //{
+                    //    data.requestdate = "0";
+                    //}
 
-                    if (data.requettype.ToString() == "0" || data.requettype.ToString() == "" || data.requettype.ToString() == string.Empty || data.requettype.ToString() == null)
-                    {
-                        data.requettype = "0";
-                    }
+                    //if (data.requettype.ToString() == "0" || data.requettype.ToString() == "" || data.requettype.ToString() == string.Empty || data.requettype.ToString() == null)
+                    //{
+                    //    data.requettype = "0";
+                    //}
 
 
-                    if (data.issinglevendor.ToString() == "0" || data.issinglevendor.ToString() == "" || data.issinglevendor.ToString() == string.Empty || data.issinglevendor.ToString() == null)
-                    {
-                        data.issinglevendor = "0";
-                    }
+                    //if (data.issinglevendor.ToString() == "0" || data.issinglevendor.ToString() == "" || data.issinglevendor.ToString() == string.Empty || data.issinglevendor.ToString() == null)
+                    //{
+                    //    data.issinglevendor = "0";
+                    //}
 
-                    if (data.orderpriority.ToString() == "0" || data.orderpriority.ToString() == "" || data.orderpriority.ToString() == string.Empty || data.orderpriority.ToString() == null)
-                    {
-                        data.orderpriority = "0";
-                    }
+                    //if (data.orderpriority.ToString() == "0" || data.orderpriority.ToString() == "" || data.orderpriority.ToString() == string.Empty || data.orderpriority.ToString() == null)
+                    //{
+                    //    data.orderpriority = "0";
+                    //}
 
                     dbConn.Open();
-                    if (data.prsid == "" || data.prsid == null)
+
+
+
+
+
+                    if (data.prscategory == "I")
                     {
 
-                        string query = "";
-                        query = "select max(prs_id) as maxid from ERP_PRS_MASTER";
 
-                        SqlCommand cmd = new SqlCommand(query, dbConn);
-                        var reader = cmd.ExecuteReader();
-                        System.Data.DataTable results = new System.Data.DataTable();
-                        results.Load(reader);
 
-                        for (int i = 0; i < results.Rows.Count; i++)
+                        if (data.prsid == "" || data.prsid == null)
                         {
-                            DataRow row = results.Rows[i];
-                            strprsid = row[0].ToString() + 1;
-                        }
-                    }
 
+                            string query = "";
+                            query = "select max(prs_id) as maxid from ERP_PRS_MASTER";
 
+                            SqlCommand cmd = new SqlCommand(query, dbConn);
+                            var reader = cmd.ExecuteReader();
+                            System.Data.DataTable results = new System.Data.DataTable();
+                            results.Load(reader);
 
-                    if (data.prscode == "" || data.prscode == null)
-                    {
-
-                        DataSet dsprscode = new DataSet();
-                        string sqlprscode = "ERP_PRS_ISCONFIG";
-                        SqlCommand cmdprscode = new SqlCommand(sqlprscode, dbConn);
-
-
-                        cmdprscode.CommandType = CommandType.StoredProcedure;
-
-                        cmdprscode.Parameters.AddWithValue("@FUNCTIONID", data.functionid);
-                        cmdprscode.Parameters.AddWithValue("@TYPE", "Purchaserequisition");
-
-                        cmdprscode.ExecuteNonQuery();
-                        var prscodereader = cmdprscode.ExecuteReader();
-                        System.Data.DataTable resultsprscode = new System.Data.DataTable();
-                        resultsprscode.Load(prscodereader);
-                        //string outputval = cmd1.Parameters["@outputparam"].Value.ToString();
-                        for (int i = 0; i < resultsprscode.Rows.Count; i++)
-                        {
-                            DataRow rowprscode = resultsprscode.Rows[i];
-                            strprscode = rowprscode[0].ToString();
-
-
+                            for (int i = 0; i < results.Rows.Count; i++)
+                            {
+                                DataRow row = results.Rows[i];
+                                strprsid = row[0].ToString() + 1;
+                            }
                         }
 
 
 
-
-
-                        DataSet dsuserdetails = new DataSet();
-                        string sql = "MBL_ERP_PRS_SAVEDATA";
-                        SqlCommand cmd1 = new SqlCommand(sql, dbConn);
-
-
-                        cmd1.CommandType = CommandType.StoredProcedure;
-
-                        cmd1.Parameters.AddWithValue("@FUNCTION_ID", data.functionid);
-                        cmd1.Parameters.AddWithValue("@PRS_ID", strprsid);
-                        cmd1.Parameters.AddWithValue("@STATUS", data.status);
-                        cmd1.Parameters.AddWithValue("@CREATED_BY", data.createdby);
-                        cmd1.Parameters.AddWithValue("@IPADDRESS", data.ipaddress);
-                        cmd1.Parameters.AddWithValue("@REASON_PURCHASE", data.reasonpurchase);
-                        cmd1.Parameters.AddWithValue("@NETAMOUNT", data.netamount);
-                        cmd1.Parameters.AddWithValue("@CURRENCY", data.currency);
-                        cmd1.Parameters.AddWithValue("@REQUEST_COMMENTS", data.requestcomments);
-                        cmd1.Parameters.AddWithValue("@IS_BID", data.isbid);
-
-                        cmd1.Parameters.AddWithValue("@PRS_TYPE", data.prstype);
-                        cmd1.Parameters.AddWithValue("@BRANCH_ID", data.branchid);
-                        cmd1.Parameters.AddWithValue("@PRS_REF", data.prsref);
-                        cmd1.Parameters.AddWithValue("@PRS_CATEGORY", data.userid);
-
-                        cmd1.Parameters.AddWithValue("@PRS_CODE", strprscode);
-                        cmd1.Parameters.AddWithValue("@REQUESTED_BY", data.requestby);
-                        cmd1.Parameters.AddWithValue("@REQUESTED_DATE",DateTime.Now.ToString());
-
-                        cmd1.Parameters.AddWithValue("@REQUEST_TYPE", data.requettype);
-                        cmd1.Parameters.AddWithValue("@IS_SINGLE_VENDOR", data.issinglevendor);
-                        cmd1.Parameters.AddWithValue("@ORDER_PRIORITY", data.orderpriority);
-                        cmd1.ExecuteNonQuery();
-                        var reader1 = cmd1.ExecuteReader();
-                        System.Data.DataTable results1 = new System.Data.DataTable();
-                        results1.Load(reader1);
-                        //string outputval = cmd1.Parameters["@outputparam"].Value.ToString();
-                        for (int i = 0; i < results1.Rows.Count; i++)
+                        if (data.prscode == "" || data.prscode == null)
                         {
-                            DataRow row1 = results1.Rows[i];
-                            strprscode = row1[0].ToString();
 
+                            DataSet dsprscode = new DataSet();
+                            string sqlprscode = "ERP_PRS_ISCONFIG";
+                            SqlCommand cmdprscode = new SqlCommand(sqlprscode, dbConn);
+
+
+                            cmdprscode.CommandType = CommandType.StoredProcedure;
+
+                            cmdprscode.Parameters.AddWithValue("@FUNCTIONID", data.functionid);
+                            cmdprscode.Parameters.AddWithValue("@TYPE", "Purchaserequisition");
+
+                            cmdprscode.ExecuteNonQuery();
+                            var prscodereader = cmdprscode.ExecuteReader();
+                            System.Data.DataTable resultsprscode = new System.Data.DataTable();
+                            resultsprscode.Load(prscodereader);
+                            //string outputval = cmd1.Parameters["@outputparam"].Value.ToString();
+                            for (int i = 0; i < resultsprscode.Rows.Count; i++)
+                            {
+                                DataRow rowprscode = resultsprscode.Rows[i];
+                                strprscode = rowprscode[0].ToString();
+
+
+                            }
+
+
+                            if (string.IsNullOrEmpty(data.currency.ToString()))
+                            {
+                                if (data.itemid.ToString() == "0")
+                                {
+                                    currency = data.currency.ToString();
+                                }
+                                else
+                                {
+                                    string query = "";
+                                    query = "select currency from ERP_ITEM_MASTER INNER JOIN USERACCESS WITH (NOLOCK) ON USERACCESS.FUNCTION_ID=ERP_ITEM_MASTER.FUNCTION_ID and USERACCESS.TUM_USER_ID = ERP_ITEM_MASTER.CREATED_BY where item_id='" + data.itemid + "'";
+
+                                    SqlCommand cmd = new SqlCommand(query, dbConn);
+                                    var reader = cmd.ExecuteReader();
+                                    System.Data.DataTable results = new System.Data.DataTable();
+                                    results.Load(reader);
+
+                                    for (int i = 0; i < results.Rows.Count; i++)
+                                    {
+                                        DataRow row = results.Rows[i];
+                                        currency = row[0].ToString() + 1;
+                                    }
+
+
+                                }
+                            }
+                            else
+                            {
+                                currency = data.currency.ToString();
+                            }
+
+
+                            DataSet dsuserdetails = new DataSet();
+                            string sql = "MBL_ERP_PRS_SAVEDATA";
+                            SqlCommand cmd1 = new SqlCommand(sql, dbConn);
+                            cmd1.CommandType = CommandType.StoredProcedure;
+                                                  
+                            cmd1.Parameters.AddWithValue("@FUNCTION_ID", data.functionid.ToString());
+                            cmd1.Parameters.AddWithValue("@PRS_ID", strprsid.ToString());
+                            cmd1.Parameters.AddWithValue("@CREATED_BY", data.createdby.ToString());
+                            cmd1.Parameters.AddWithValue("@REASON_PURCHASE", data.reasonpurchase.ToString());
+                            cmd1.Parameters.AddWithValue("@STATUS", data.status.ToString());
+                            cmd1.Parameters.AddWithValue("@NETAMOUNT", data.netamount.ToString());
+                            cmd1.Parameters.AddWithValue("@REQUEST_COMMENTS", data.requestcomments.ToString());
+                            cmd1.Parameters.AddWithValue("@IS_BID", data.isbid.ToString());
+                            cmd1.Parameters.AddWithValue("@PRS_TYPE", data.prstype.ToString());
+                            cmd1.Parameters.AddWithValue("@BRANCH_ID", data.branchid.ToString());
+                            cmd1.Parameters.AddWithValue("@PRS_REF", data.prsref.ToString());
+                            cmd1.Parameters.AddWithValue("@PRS_CATEGORY", data.prscategory.ToString());
+                            cmd1.Parameters.AddWithValue("@PRS_CODE", strprscode.ToString());
+                            cmd1.Parameters.AddWithValue("@REQUESTED_BY", data.requestby.ToString());
+                            cmd1.Parameters.AddWithValue("@REQUESTED_DATE",data.requestdate.ToString());
+                            cmd1.Parameters.AddWithValue("@REQUEST_TYPE", data.requettype.ToString());
+                            cmd1.Parameters.AddWithValue("@CURRENCY", currency);
+                            cmd1.Parameters.AddWithValue("@IPADDRESS", data.ipaddress.ToString());
+                            cmd1.Parameters.AddWithValue("@IS_SINGLE_VENDOR", data.issinglevendor.ToString());
+                            cmd1.Parameters.AddWithValue("@ORDER_PRIORITY", data.orderpriority.ToString());
+                            
+                            //cmd1.ExecuteNonQuery();
+                            var reader1 = cmd1.ExecuteReader();
+                            System.Data.DataTable results1 = new System.Data.DataTable();
+                            results1.Load(reader1);
+                            //string outputval = cmd1.Parameters["@outputparam"].Value.ToString();
+                            for (int i = 0; i < results1.Rows.Count; i++)
+                            {
+                                DataRow row1 = results1.Rows[i];
+                                prsid = row1[0].ToString();
+
+                                dbConn.Close();
+                            }
+                            if (strprscode != string.Empty)
+                            {
+                                stroutput = "Inserted successfully";
+
+                            }
+                            //var result = (new { logdata });
+                            //return Ok(stroutput);
+                        }
+
+
+
+                        foreach (var item in data.Itemsdetail)
+                        {
+                            if (item != null)
+                            {
+                                string itemid = item.itemid;
+                                // string prs_id = item.prsid;
+                                if (itemid != null)
+                                {
+                                    dbConn.Open();
+                                    string query = "";
+                                    query = "delete erp_prs_details where item_id = '" + itemid + "' and prs_id='" + prsid + "'";
+
+                                    SqlCommand cmd = new SqlCommand(query, dbConn);
+                                    var reader = cmd.ExecuteReader();
+                                    System.Data.DataTable results = new System.Data.DataTable();
+                                    results.Load(reader);
+                                }
+                            }
+                        }
+
+
+
+                   
+
+
+                        //string json = data.Itemsdetail.ToString();
+                        //DataTable dt = (DataTable)JsonConvert.DeserializeObject(data.Itemsdetail.ToString(), (typeof(DataTable)));
+
+                        if (prsid != null && prsid != string.Empty && prsid != "-1")
+                        {
+                            foreach (var item in data.Itemsdetail)
+                            {
+                                
+                                if (item.flag.ToString() != "D")
+                                {
+                                    DataSet dsuserdetails = new DataSet();
+                                    string sql = "MBL_ERP_PRS_DETAILS_INSERT_UPDATE";
+                                    SqlCommand objcommand1 = new SqlCommand(sql, dbConn);
+
+
+                                    objcommand1.CommandType = CommandType.StoredProcedure;
+                                    objcommand1.CommandType = CommandType.StoredProcedure;
+                                    objcommand1.Parameters.AddWithValue("@FUNCTION_ID", item.function_id.ToString());
+                                    objcommand1.Parameters.AddWithValue("@PRS_ID", prsid);
+                                    objcommand1.Parameters.AddWithValue("@ITEM_ID", item.itemid.ToString());
+                                    objcommand1.Parameters.AddWithValue("@REQUIRED_QTY", item.required_qty.ToString());
+                                    objcommand1.Parameters.AddWithValue("@UOM", item.UOM.ToString());
+                                    objcommand1.Parameters.AddWithValue("@EXPECTED_COST", item.expected_cost.ToString());
+                                    objcommand1.Parameters.AddWithValue("@EXP_DATE", item.exp_date.ToString());
+                                    objcommand1.Parameters.AddWithValue("@STATUS", item.status.ToString());
+                                    objcommand1.Parameters.AddWithValue("@CREATED_BY", item.created_by.ToString());
+                                    objcommand1.Parameters.AddWithValue("@IPADDRESS", item.ipaddress.ToString());
+                                    objcommand1.Parameters.AddWithValue("@UNIT_PRICE", item.unit_price.ToString());
+                                    objcommand1.Parameters.AddWithValue("@LIMIT", item.Limit.ToString());
+                                    objcommand1.Parameters.AddWithValue("@AVAILED", item.Availlimit.ToString());
+                                    objcommand1.Parameters.AddWithValue("@BALANCE_LIMIT", item.BalanceLimit.ToString());
+                                    objcommand1.Parameters.AddWithValue("@CURRENCY", currency);
+                                    objcommand1.Parameters.AddWithValue("@CATEGORY", item.CATEGORY.ToString());
+                                    objcommand1.Parameters.AddWithValue("@TAX1", item.TAX1.ToString());
+                                    objcommand1.Parameters.AddWithValue("@TAX2", item.TAX2.ToString());
+                                    objcommand1.Parameters.AddWithValue("@TAX1DESC", item.TAX1DESC.ToString());
+                                    objcommand1.Parameters.AddWithValue("@TAX2DESC", item.TAX2DESC.ToString());
+                                    objcommand1.Parameters.AddWithValue("@OTHERCHARGES", item.OTHERCHARGES.ToString());
+                                    objcommand1.Parameters.AddWithValue("@ITEMDESC", item.item_short_desc.ToString());
+                                    objcommand1.Parameters.AddWithValue("@REMARKS", item.REMARKS.ToString());
+                                    objcommand1.Parameters.AddWithValue("@CategoryID", item.CategoryID.ToString());
+                                    objcommand1.Parameters.AddWithValue("@SubCategoryID", item.SubCategoryID.ToString());
+                                    if (item.prsDetailID.ToString() != null && item.prsDetailID.ToString() != string.Empty)
+                                        objcommand1.Parameters.AddWithValue("@prsDetailID", item.prsDetailID.ToString());
+                                    else
+                                        objcommand1.Parameters.AddWithValue("@prsDetailID", "0");
+
+                                    objcommand1.Parameters.AddWithValue("@FreightVALUE", item.FreightVALUE.ToString());
+                                    objcommand1.Parameters.AddWithValue("@FreightID", item.FreightID.ToString());
+                                    objcommand1.Parameters.AddWithValue("@RecoveryVALUE", item.RecoveryVALUE.ToString());
+                                    objcommand1.Parameters.AddWithValue("@RecoveryID", item.RecoveryID.ToString());
+                                    objcommand1.Parameters.AddWithValue("@BDC", item.BDC.ToString());
+                                    objcommand1.Parameters.AddWithValue("@PTM", item.PTM.ToString());
+                                    objcommand1.Parameters.AddWithValue("@ACC", item.ACC.ToString());
+                                    objcommand1.Parameters.AddWithValue("@CPC", item.CPC.ToString());
+                                    objcommand1.Parameters.AddWithValue("@PRS_Mode", data.PRS_Mode.ToString());
+                                    // objcommand.Parameters.AddWithValue("@TAX3","0.00" );
+                                    // objcommand.Parameters.AddWithValue("@TAX4","0.00");
+
+
+                                    dbConn.Open();
+                                    SqlDataReader dr1 = objcommand1.ExecuteReader();
+                                    while (dr1.Read())
+                                    {
+                                        prs_detailID = dr1[0].ToString();
+                                    }
+
+                                }
+                            }
+                        }
+                        if (prs_detailID != "")
+                        {
+                            DataSet ds1 = new DataSet();
+                            string netbasecurrency = "update ERP_PRS_MASTER set netamount_baseCurr=" + data.netamount + " WHERE PRS_ID='" + prs_detailID + "' and function_id='" + data.functionid + "'";
+                            SqlCommand cmd = new SqlCommand(netbasecurrency, dbConn);
+                            var reader = cmd.ExecuteReader();
+                            System.Data.DataTable results = new System.Data.DataTable();
+                            results.Load(reader);
+                            if (data.release.ToString() == "true")
+                            {
+                                string wf_config_id = "select wf_config_id from BO_workflow_configurations where table_name like '%ERP_PRS_MASTER%' and status='A' and function_id='" + data.functionid + "'";
+                                SqlCommand cmd2 = new SqlCommand(wf_config_id, dbConn);
+                                var reader2 = cmd2.ExecuteReader();
+                                System.Data.DataTable results2 = new System.Data.DataTable();
+                                results2.Load(reader2);
+
+                                for (int i = 0; i < results2.Rows.Count; i++)
+                                {
+                                    DataRow row = results2.Rows[i];
+                                    wf_config_id = row[0].ToString();
+                                }
+
+                                // wf_config_id = objSql.getString(wf_config_id);
+                                if (wf_config_id != null && wf_config_id != "")
+                                {
+
+
+                                    //WF_Test.Function = strFunction;
+                                    //WF_Test.WorkFlowTable = "ERP_PRS_MASTER";
+                                    //WF_Test.PK1 = proid;
+                                    //WF_Test.PK2 = null;
+                                    //WF_Test.PK3 = null;
+                                    //WF_Test.PK4 = null;
+                                    //WF_Test.PK5 = null;
+                                    //WF_Test.User = strUserId;
+
+                                    //WF_Test.WorkFlowinsert();
+                                    //Btnsave.Enabled = false;
+                                    //Btnsave.Attributes.Add("style", "background-color:#a09393");
+
+
+
+                                    string wfno_sql = "select workflow_no from bo_workflow_details where module_id='260' and pk_value1='" + prs_detailID + "' ";
+                                    SqlCommand cmd3 = new SqlCommand(wfno_sql, dbConn);
+                                    var reader3 = cmd3.ExecuteReader();
+                                    System.Data.DataTable results3 = new System.Data.DataTable();
+                                    results3.Load(reader3);
+                                    for (int i = 0; i < results3.Rows.Count; i++)
+                                    {
+                                        DataRow row = results3.Rows[i];
+                                        wfno = row[0].ToString();
+                                    }
+
+                                    if (wfno != "")
+                                    {
+
+                                        string sql2 = "select *,BO_USER_MASTER.tum_user_name,ERP_ITEM_MASTER.item_short_Desc,bo_parameter.TEXT as UOMdesc,cur.code as currencydesc,ERP_PRS_MASTER.prs_code,convert(varchar, erp_prs_details.created_on, 103) as rfpdate from erp_prs_details inner join ERP_PRS_MASTER on ERP_PRS_MASTER.prs_id=erp_prs_details.prs_id  inner join BO_USER_MASTER on BO_USER_MASTER.tum_user_id=erp_prs_details.created_by and BO_USER_MASTER.FUNCTION_ID='1' inner join ERP_ITEM_MASTER on ERP_ITEM_MASTER.item_id = erp_prs_details.item_id inner join bo_parameter on bo_parameter.val = erp_prs_details.UOM and bo_parameter.type = 'UOM' and bo_parameter.FUNCTION_ID = '1' inner join bo_parameter cur on cur.val = erp_prs_details.currency and cur.type = 'currency' and cur.function_id = '1' where erp_prs_details.prs_id ='" + prs_detailID + "' ";
+                                        SqlCommand cmd4 = new SqlCommand(sql2, dbConn);
+                                        var reader4 = cmd4.ExecuteReader();
+                                        System.Data.DataTable results4 = new System.Data.DataTable();
+                                        // ds1.Load(reader4);
+                                        results4.Load(reader4);
+
+
+
+
+                                    }
+
+
+
+                                }
+                                else
+                                {
+                                    string wfno_sql = "update ERP_PRS_MASTER set status='A' WHERE PRS_ID='" + prs_detailID + "' and function_id='" + data.functionid + "'";
+                                    SqlCommand cmd3 = new SqlCommand(wfno_sql, dbConn);
+                                    var reader3 = cmd3.ExecuteReader();
+                                    System.Data.DataTable results3 = new System.Data.DataTable();
+                                    results3.Load(reader3);
+
+
+                                }
+
+
+
+                            }
                             dbConn.Close();
                         }
-                        if (strprscode != string.Empty)
-                        {
-                            stroutput = "Inserted successfully";
-
-                        }
-                        var result = (new { logdata });
-                        return Ok(stroutput);
-                    }
-
-                    else
-                    {
-                        DataSet dsuserdetails = new DataSet();
-                        string sql = "MBL_ERP_PRS_SAVEDATA";
-                        SqlCommand cmd1 = new SqlCommand(sql, dbConn);
 
 
-                        cmd1.CommandType = CommandType.StoredProcedure;
 
-                        cmd1.Parameters.AddWithValue("@FUNCTION_ID", data.functionid);
-                        cmd1.Parameters.AddWithValue("@PRS_ID", data.prsid);
-                        cmd1.Parameters.AddWithValue("@STATUS", data.status);
-                        cmd1.Parameters.AddWithValue("@CREATED_BY", data.createdby);
-                        cmd1.Parameters.AddWithValue("@IPADDRESS", data.ipaddress);
-                        cmd1.Parameters.AddWithValue("@REASON_PURCHASE", data.reasonpurchase);
-                        cmd1.Parameters.AddWithValue("@NETAMOUNT", data.netamount);
-                        cmd1.Parameters.AddWithValue("@CURRENCY", data.currency);
-                        cmd1.Parameters.AddWithValue("@REQUEST_COMMENTS", data.requestcomments);
-                        cmd1.Parameters.AddWithValue("@IS_BID", data.isbid);
 
-                        cmd1.Parameters.AddWithValue("@PRS_TYPE", data.prstype);
-                        cmd1.Parameters.AddWithValue("@BRANCH_ID", data.branchid);
-                        cmd1.Parameters.AddWithValue("@PRS_REF", data.prsref);
-                        cmd1.Parameters.AddWithValue("@PRS_CATEGORY", data.userid);
 
-                        cmd1.Parameters.AddWithValue("@PRS_CODE", data.prscode);
-                        cmd1.Parameters.AddWithValue("@REQUESTED_BY", data.requestby);
-                        cmd1.Parameters.AddWithValue("@REQUESTED_DATE", "");
 
-                        cmd1.Parameters.AddWithValue("@REQUEST_TYPE", data.requettype);
-                        cmd1.Parameters.AddWithValue("@IS_SINGLE_VENDOR", data.issinglevendor);
-                        cmd1.Parameters.AddWithValue("@ORDER_PRIORITY", data.orderpriority);
-                        cmd1.ExecuteNonQuery();
-                        var reader1 = cmd1.ExecuteReader();
-                        System.Data.DataTable results1 = new System.Data.DataTable();
-                        results1.Load(reader1);
-                        //string outputval = cmd1.Parameters["@outputparam"].Value.ToString();
-                        for (int i = 0; i < results1.Rows.Count; i++)
-                        {
-                            DataRow row1 = results1.Rows[i];
-                            strprscode = row1[0].ToString();
 
-                            dbConn.Close();
-                        }
-                        if (strprscode != string.Empty)
-                        {
-                            stroutput = "Inserted successfully";
 
-                        }
-                        var result = (new { logdata });
-                        return Ok(stroutput);
+
                     }
                 }
+
+                var result = (new { logdata });
+                return Ok(stroutput);
             }
+
             catch (Exception ex)
             {
 
@@ -1134,6 +1320,126 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        //get Item code auto filling details
+
+        [HttpGet]
+        [Route("getItemcode/{code}")]
+        public string getItemcode(string code)
+        {
+
+
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select item_id,item_Code from ERP_ITEM_MASTER where item_code like  '%" + code + "%'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
+
+
+        //get Item detials
+
+        [HttpGet]
+        [Route("getItemDetail/{code}")]
+        public string getItemDetail(string code)
+        {
+
+
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select * from ERP_ITEM_MASTER where item_code = '" + code + "' and function_id=1 and Status='A'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
+
+
+        //order priority dropdown
+        [HttpGet]
+        [Route("getOrderPriority")]
+        public string getOrderPriority()
+        {
+
+
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select type,text,val,sequence from bo_parameter where TYPE='Order Priority' and FUNCTION_ID=1 and status='A'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
 
 
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -85,14 +87,33 @@ namespace MobileAppAPI.Models
 
 		public string prsid { get; set; }
 
+		public string items { get; set; }
+
+		public string itemid { get; set; }
+
+		public string PRS_Mode { get; set; }
+
+		public string release { get; set; }
+
 		//RFQ
 
 		public string strfun { get; set; }
 		public string rfqfromdate { get; set; }
 		public string rfqtodate { get; set; }
 
+		public string item_deatils { get; set; }
 
 
+		//[NotMapped]
+		public virtual ICollection<ERPItems> Itemsdetail { get; set; }
+
+
+		public class RootObject
+		{
+			public DataTable Itemstable;
+
+			public List<ERPItems> ERPItems { get; set; }
+		}
 
 	}
 }
