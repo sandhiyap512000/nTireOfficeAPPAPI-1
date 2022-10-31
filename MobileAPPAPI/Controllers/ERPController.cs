@@ -5,7 +5,7 @@ using Nancy.Json;
 using Nancy.Json.Simple;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NPOI.SS.Formula.Functions;
+//using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -1690,6 +1690,210 @@ namespace MobileAppAPI.Controllers
 
             }
             return (Logdata1);
+        }
+
+
+
+        [HttpPost]
+        [Route("searchRFQLists")]
+        public async Task<ActionResult<ERP>> searchRFQLists(ERP data)
+        {
+            // string struser = data.user_lower;
+
+            List<ERP> Logdata = new List<ERP>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+
+            try
+            {
+
+
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+
+
+                    DataSet dsuserdetails = new DataSet();
+                    dbConn.Open();
+                    string sql = "ERP_RFQ_getvendorevaluationRFQ";
+                    SqlCommand cmd = new SqlCommand(sql, dbConn);
+
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@FUNCTIONID", data.functionid);
+                    cmd.Parameters.AddWithValue("@PRSCODE", data.prscode);
+                    cmd.Parameters.AddWithValue("@ITEMCODE", data.itemcode);
+                    cmd.Parameters.AddWithValue("@REQUESTED_DATE", data.reuestdate);
+                    cmd.Parameters.AddWithValue("@RFQCODE", data.rfqcode);
+                    cmd.Parameters.AddWithValue("@FROMDATE", data.fromdate);
+                    cmd.Parameters.AddWithValue("@TODATE", data.todate);
+                    cmd.Parameters.AddWithValue("@RFQFromDate", data.rfqfromdate);
+                    cmd.Parameters.AddWithValue("@RFQToDate", data.rfqtodate);
+                    cmd.Parameters.AddWithValue("@STATUS", data.status);
+                    cmd.Parameters.AddWithValue("@MODE", data.mode);
+                    cmd.Parameters.AddWithValue("@PAGEINDEX", data.pageindex1);
+                    cmd.Parameters.AddWithValue("@PAGESIZE", data.pagesize1);
+                    cmd.Parameters.AddWithValue("@SORTEXPRESSION", data.sortexpression);
+                    cmd.Parameters.AddWithValue("@ALPHANAME", data.alphaname);
+
+
+                    cmd.ExecuteNonQuery();
+                    var reader = cmd.ExecuteReader();
+                    System.Data.DataTable results = new System.Data.DataTable();
+                    results.Load(reader);
+                    //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                        logdata = DataTableToJSONWithStringBuilder(results);
+
+                        dbConn.Close();
+                    }
+                    var result = (new { logdata });
+                    return Ok(Logdata1);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return Ok(json);
+            }
+        }
+
+
+        //Pending Qoutation Search Sankari
+
+        [HttpPost]
+        [Route("get_pending_quotation_search")]
+        public async Task<ActionResult<ERP>> get_pending_quotation_search(ERP data)
+        {
+            // string struser = data.user_lower;
+
+            List<ERP> Logdata = new List<ERP>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+
+            try
+            {
+
+
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+
+
+                    if (data.FUNCTIONIDP.ToString() == "0" || data.FUNCTIONIDP.ToString() == "" || data.FUNCTIONIDP.ToString() == string.Empty || data.FUNCTIONIDP.ToString() == null)
+                    {
+                        data.FUNCTIONIDP = "0";
+                    }
+                    if (data.BRANCHIDP.ToString() == "0" || data.BRANCHIDP.ToString() == "" || data.BRANCHIDP.ToString() == string.Empty || data.BRANCHIDP.ToString() == null)
+                    {
+                        data.BRANCHIDP = "0";
+                    }
+                    if (data.RFQCODEP.ToString() == "0" || data.RFQCODEP.ToString() == "" || data.RFQCODEP.ToString() == string.Empty || data.RFQCODEP.ToString() == null)
+                    {
+                        data.RFQCODEP = "0";
+                    }
+                    if (data.FROMDATEP.ToString() == "0" || data.FROMDATEP.ToString() == "" || data.FROMDATEP.ToString() == string.Empty || data.FROMDATEP.ToString() == null)
+                    {
+                        data.FROMDATEP = "0";
+                    }
+                    if (data.TODATEP.ToString() == "0" || data.TODATEP.ToString() == "" || data.TODATEP.ToString() == string.Empty || data.TODATEP.ToString() == null)
+                    {
+                        data.TODATEP = "0";
+                    }
+                    if (data.ITEMCODEP.ToString() == "0" || data.ITEMCODEP.ToString() == "" || data.ITEMCODEP.ToString() == string.Empty || data.ITEMCODEP.ToString() == null)
+                    {
+                        data.ITEMCODEP = "0";
+                    }
+                    if (data.VENDORIDP.ToString() == "0" || data.VENDORIDP.ToString() == "" || data.VENDORIDP.ToString() == string.Empty || data.VENDORIDP.ToString() == null)
+                    {
+                        data.VENDORIDP = "0";
+                    }
+                    if (data.STATUSP.ToString() == "0" || data.STATUSP.ToString() == "" || data.STATUSP.ToString() == string.Empty || data.STATUSP.ToString() == null)
+                    {
+                        data.STATUSP = "0";
+                    }
+                    if (data.PAGEINDEXP.ToString() == "0" || data.PAGEINDEXP.ToString() == "" || data.PAGEINDEXP.ToString() == string.Empty || data.PAGEINDEXP.ToString() == null)
+                    {
+                        data.PAGEINDEXP = 0;
+                    }
+                    if (data.PAGESIZEP.ToString() == "0" || data.PAGESIZEP.ToString() == "" || data.PAGESIZEP.ToString() == string.Empty || data.PAGESIZEP.ToString() == null)
+                    {
+                        data.PAGESIZEP = 0;
+                    }
+                    if (data.SORTEXPRESSIONP.ToString() == "0" || data.SORTEXPRESSIONP.ToString() == "" || data.SORTEXPRESSIONP.ToString() == string.Empty || data.SORTEXPRESSIONP.ToString() == null)
+                    {
+                        data.SORTEXPRESSIONP = "0";
+                    }
+                    if (data.ALPHANAMEP.ToString() == "0" || data.ALPHANAMEP.ToString() == "" || data.ALPHANAMEP.ToString() == string.Empty || data.ALPHANAMEP.ToString() == null)
+                    {
+                        data.ALPHANAMEP = "0";
+                    }
+                    if (data.modep.ToString() == "0" || data.modep.ToString() == "" || data.modep.ToString() == string.Empty || data.modep.ToString() == null)
+                    {
+                        data.modep = "0";
+                    }
+
+
+
+                    DataSet dsuserdetails = new DataSet();
+                    dbConn.Open();
+                    string sql = "ERP_VENDORQUOTATION_SUMMARY";
+                    SqlCommand cmd = new SqlCommand(sql, dbConn);
+                    //EXEC ERP_VENDORQUOTATION_SUMMARY '1','1','','','','','','','0','0','20','item_id','','2',''
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@FUNCTIONID", data.FUNCTIONIDP);
+                    cmd.Parameters.AddWithValue("@BRANCHID", data.BRANCHIDP);
+                    cmd.Parameters.AddWithValue("@RFQCODE", data.RFQCODEP);
+                    cmd.Parameters.AddWithValue("@FROMDATE", data.FROMDATEP);
+                    cmd.Parameters.AddWithValue("@TODATE", data.TODATEP);
+                    cmd.Parameters.AddWithValue("@ITEMCODE", data.ITEMCODEP);
+                    cmd.Parameters.AddWithValue("@VENDORID", data.VENDORIDP);
+                    cmd.Parameters.AddWithValue("@QUOTEREF", data.QUOTEREFP);
+
+                    cmd.Parameters.AddWithValue("@STATUS", data.STATUSP);
+                    cmd.Parameters.AddWithValue("@PAGEINDEX", data.PAGEINDEXP);
+
+                    cmd.Parameters.AddWithValue("@PAGESIZE", data.PAGESIZEP);
+                    cmd.Parameters.AddWithValue("@SORTEXPRESSION", data.SORTEXPRESSIONP);
+                    cmd.Parameters.AddWithValue("@ALPHANAME", data.ALPHANAMEP);
+                    cmd.Parameters.AddWithValue("@MODE", data.modep);
+                    cmd.Parameters.AddWithValue("@VENDORCODE", data.VENDORCODEP);
+
+
+
+
+                    cmd.ExecuteNonQuery();
+                    var reader = cmd.ExecuteReader();
+                    System.Data.DataTable results = new System.Data.DataTable();
+                    results.Load(reader);
+                    //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                        logdata = DataTableToJSONWithStringBuilder(results);
+
+                        dbConn.Close();
+                    }
+                    var result = (new { logdata });
+                    return Ok(Logdata1);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return Ok(json);
+            }
         }
 
 

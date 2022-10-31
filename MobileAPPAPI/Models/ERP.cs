@@ -9,6 +9,26 @@ namespace MobileAppAPI.Models
 {
 	public class ERP
 	{
+
+		public string FUNCTIONIDP { get; set; }
+		public string BRANCHIDP { get; set; }
+		public string RFQCODEP { get; set; }
+
+		public string FROMDATEP { get; set; }
+		public string TODATEP { get; set; }
+		public string ITEMCODEP { get; set; }
+		public string VENDORIDP { get; set; }
+
+		public string QUOTEREFP { get; set; }
+		public string STATUSP { get; set; }
+		public int PAGEINDEXP { get; set; }
+		public int PAGESIZEP { get; set; }
+		public string SORTEXPRESSIONP { get; set; }
+
+		public string ALPHANAMEP { get; set; }
+		public string modep { get; set; }
+
+		public string VENDORCODEP { get; set; }
 		public string branchid { get; set; }
 		public string functionid { get; set; }
 

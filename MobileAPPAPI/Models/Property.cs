@@ -23,5 +23,8 @@ namespace MobileAppAPI.Models
         public string assetownerid { get; set; }
         public string assetid { get; set; }
         public string assetcode { get; set; }
+
+        public string status { get; set; }
+        public string pmr_reference { get; set; }
     }
 }

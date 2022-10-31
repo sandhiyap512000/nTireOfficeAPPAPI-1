@@ -1766,6 +1766,54 @@ namespace MobileAppAPI.Controllers
         }
 
 
+
+
+        [HttpPost]
+        [Route("getTravelDetails")]
+        public async Task<ActionResult<HRMS>> getTravelDetails(HRMS data)
+        {
+
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "select HRMS_ATTTRAVELDETAILS.*,(SELECT TEXT FROM BO_PARAMETER WHERE TYPE='TRAVEL MODE' and BO_PARAMETER.VAL = HRMS_ATTTRAVELDETAILS.TravelMode and BO_PARAMETER.FUNCTION_ID=HRMS_ATTTRAVELDETAILS.CompanyID ) as TravelMode,HRMS_EMP_TRAVEL_PROCESS_DETAILS.*,(select doc_name from BO_DOCS_UPLOAD with (nolock) where MODULE_ID='2000003' AND PK1=HRMS_EMP_TRAVEL_PROCESS_DETAILS.PROCESS_ID AND PK2='508' AND PK3='' AND PK4='') as Doc_Name from HRMS_ATTTRAVELDETAILS  left outer JOIN HRMS_EMP_TRAVEL_PROCESS_DETAILS On HRMS_ATTTRAVELDETAILS.RequestRef = HRMS_EMP_TRAVEL_PROCESS_DETAILS.leaveref where HRMS_ATTTRAVELDETAILS.UserID=" + data.userid + " and HRMS_ATTTRAVELDETAILS.RequestRef='" + data.RequestRef + "'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+
+
+
         [HttpPost]
         [Route("getrequestReferencedata")]
         public async Task<ActionResult<HRMS>> getrequestReferencedata(HRMS data)
@@ -1784,6 +1832,49 @@ namespace MobileAppAPI.Controllers
                 dbConn.Open();
                 string query = "";
                 query = "select TxnReference  from HRMS_ATTODREQUEST OD INNER JOIN HRMS_EMPLOYEE_MASTER EM WITH (NOLOCK) ON EM.em_emp_domain = convert(varchar,OD.CompanyID) AND convert(varchar,EM.em_emp_id) = OD.UserID where CurrentStatus='A' AND EM_EMP_ID ='" + data.EmpId + "'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("getODUpdateDate")]
+        public async Task<ActionResult<HRMS>> getODUpdateDate(HRMS data)
+        {
+
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "update HRMS_ATTODREQUEST set CurrentStatus='" + data.currentstatus + "',FromDate='" + data.Fromdate + "',ToDate='" + data.todate + "',NoDays='" + data.nodays + "',FromHours='" + data.fromhours + "',ToHours='" + data.tohours + "',ODReason='" + data.REASON + "' where ODRequestRef='" + data.RequestRef + "'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
