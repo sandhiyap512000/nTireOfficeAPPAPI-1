@@ -78,6 +78,15 @@ namespace MobileAppAPI.Models
 
         public string Remarks { get; set; }
         public string RequestRef { get; set; }
+        public string currentstatus { get; set; }
+        public string Fromdate { get; set; }
+        public string todate { get; set; }
+        public string nodays { get; set; }
+
+        public string fromhours { get; set; }
+        public string tohours { get; set; }
+
+      
         //end
     }
 }
