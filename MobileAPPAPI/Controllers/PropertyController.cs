@@ -503,6 +503,7 @@ namespace MobileAppAPI.Controllers
 
         [HttpGet]
         [Route("getpaymentdetails/{strFunctionId}/{strBranchId}/{strLocationId}/{strPropertyId}/{strPropertyDesc}/{rentelCode}/{strStatus}/{pageIndex}/{pageSize}/{sortExpression}/{alphaname}/{Split_ID}/{strusertype}/{userid}")]
+
         public string getpaymentdetails(string strFunctionId = null, string strBranchId = null, string strLocationId = null, string strPropertyId = null, string strPropertyDesc = null, string rentelCode = null, string strStatus = null, string pageIndex = null, string pageSize = null, string sortExpression = null, string alphaname = null, String Split_ID = null, string strusertype = null, string userid = null)
         {
             string Logdata1 = string.Empty;
@@ -655,7 +656,7 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string query = "";
-                //query = " select *,BO_PARAMETER.TEXT as Department from CAMS_ASSET_MASTER inner join BO_PARAMETER on BO_PARAMETER.val=CAMS_ASSET_MASTER.ASSET_DEPARTMENT and BO_PARAMETER.type='bo_team'   where CAMS_ASSET_MASTER.function_id='"+ function_id + "' and CAMS_ASSET_MASTER.Branch_id='"+ branch_id + "' and CAMS_ASSET_MASTER.asset_code like'%"+ propertycode + "%'";
+               
 
                 query = " select  a.STATUS,	a.FUNCTION_ID,	a.BRANCH_ID,	a.ASSET_DEPARTMENT,	a.ASSET_ID	,a.ASSET_CODE	,a.ASSET_DESCRIPTION	,a.ASSET_CATEGORY	,a.ASSET_TYPE	,a.ASSET_VALUE,	a.ASSET_SBS_NO	,a.ASSET_SERIAL_NO,	a.ASSET_BRAND,	a.ASSET_MODE,	a.ASSET_PURCHASE_DATE,	a.ASSET_WARRANTY_TILL,	a.ASSET_OWNER_ID,	a.ASSET_PRODUCTION_LOSS	,a.ASSET_TOTAL_ITEMS,	a.ASSET_CAPACITY,	a.ASSET_CAPACITY_UOM,	a.ASSET_COUNTER_ENABLED	,a.ASSET_RUNNING_HOURSDAYS,a.ASSET_REMARKS	,a.ASSET_INSURANCE_ENABLED	,a.ASSET_INSURANCE_FROMDATE,	a.ASSET_INSURANCE_TODATE	,a.ASSET_INSURANCE_DETAILS	,a.TYPE,	a.ASSET_SUM_INSURED	,a.ASSET_PREMIUM_AMOUNT,	a.ASSET_TASK_DESCRIPTION,	a.ASSET_DEPRECIATION_TYPE	,a.ASSET_DEPRECIATION_PERCENTAGE,	a.ASSET_OBSOLETE_ENABLED,	a.ASSET_OBSOLETE_DATE,	a.ASSET_OBSOLETE_REMARKS,	a.ASSET_INSTALLATION_DATE	,a.ASSET_INSTALLED_BY	,a.ASSET_CERTIFICATE_ISSUED,	a.ASSET_WORKING_CONDITION	,a.ASSET_INSTALLATION_DETAILS,	a.ASSET_PRODUCTIONLOSS_UOM	,a.ASSET_OBSOLETE_AMOUNT,	a.ASSET_RESIDUAL_VALUE,	a.ASSET_BAR_CODE,	a.ASSET_APPREQ_USERINITIATED,	a.ASSET_LIFE_DATE	,a.CAMS_ASSET_MANUFACTURER,	a.CREATED_ON	,a.UPDATED_ON,	a.CREATED_BY,a.UPDATED_BY,	a.IPADDRESS,	a.ASSET_IMAGES,	a.RENT_LEASE,	a.ASSET_USER	,	a.REPLACE_ASSETCODE,	a.ASSET_REPLACEASSET,	a.ASSET_REPLACESCRAP_DATE,	a.ASSET_REPLACESCRAP_REMARKS,	a.Asset_Class,	a.OBSOLETE_USER,	a.Asset_Inspectiondays	,a.Asset_Inspection,	a.ASSET_LocationId	,a.asset_latitude,	a.asset_longitude,bo.FUNCTION_ID   ,bo.TYPE    ,bo.TEXT as Department,	bo.CODE ,bo.VAL ,bo.SEQUENCE    ,bo.ISLOCK  ,bo.rowid,	bo.CREATED_BY,	bo.UPDATED_BY,bo.LST_UPD_DATE   ,bo.IPADDRESS,	bo.STATUS,	bo.COLOR    ,bo.orderby,	bo.Test,	bo.IMAGE    ,bo.id  ,bo.Compliance_category,	bo.Product_category,	bo.Product_subcategory from CAMS_ASSET_MASTER a inner join BO_PARAMETER bo on bo.val = a.ASSET_DEPARTMENT and bo.type = 'bo_team'   where a.function_id = '" + function_id + "' and a.Branch_id = '" + branch_id + "' and a.asset_code like'%" + propertycode + "%'";
 
@@ -820,7 +821,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "update CAMS_ASSET_REQUEST set asset_start_status='"+data.status+"' where ASSET_PMR_REFERENCE='"+data.pmr_reference + "'  ";
-                query = "";
+              
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -839,8 +840,66 @@ namespace MobileAppAPI.Controllers
 
 
 
+        [HttpPost]
+        [Route("insertadditionalcharges")]
+        public async Task<ActionResult<Property>> insertadditionalcharges(Property data)
+        {
 
-       
+
+            List<Property> Logdata = new List<Property>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "INSERT INTO FM_PROPERTY_DAMAGE_DETAILS (PROPERTY_ID,DAMAGE_DESCRIPTION,AMOUNT,STATUS,FLAG,DUE_DATE)VALUES ('"+data.propertyid + "','"+data.DAMAGE_DESCRIPTION+ "','" + data.AMOUNT + "','" + data.status + "','" + data.FLAG + "',convert(varchar, convert(datetime, '" + data.DUE_DATE + "', 103), 23)) SELECT SCOPE_IDENTITY()";
+
+                int REF_ID;
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    Property log = new Property();
+                    DataRow row = results.Rows[i];
+
+                    REF_ID = Convert.ToInt32(row[0]);
+
+                    string query1 = "declare @RentalPay varchar(50);select @RentalPay=prefix + '' + serial_no+''+suffix   from BO_SLNO_PARAMETER where type='RentalPayment' and slno_domain='" + data.functionid + "'; set dateformat dmy;insert into FM_PROPERTY_RENT_PAYMENT_SCHEDULE ( function_id,branch_id,location_id, property_id,rent_id, payment_flag,payment_desc,pay_amount, pay_date,status,created_by, created_on,lst_upd_by,lst_upd_on,ipaddress,PROPERTY_SPLIT_ID,FLAG,Damage_ID) values( '" + data.functionid + "','" + data.branchid + "','" + data.locationid + "', '" + data.propertyid + "','" + data.rentid + "', '" +data.FLAG + "', '" + data.DAMAGE_DESCRIPTION + "' , '" + data.AMOUNT + "', '"+ data.DUE_DATE + "','" + data.status + "','" + data.userid + "',getdate(), '" + data.userid + "',getdate(),'" + ":11" + "','" + data.PROPERTYSPLITID + "','S', " + REF_ID + ")";
+
+
+                    SqlCommand cmd1 = new SqlCommand(query1, dbConn);
+                    var reader1 = cmd1.ExecuteReader();
+                    System.Data.DataTable results1 = new System.Data.DataTable();
+                    results1.Load(reader1);
+
+                }
+
+
+
+                    dbConn.Close();
+
+
+                return Ok("Saved successfully");
+
+
+            }
+        }
+
+
+
+
+
+
+
+
         //sowmi-31/10/22
 
         [HttpGet]
@@ -888,6 +947,47 @@ namespace MobileAppAPI.Controllers
             }
             return (Logdata1);
         }
+
+
+        [HttpGet]
+        [Route("getadditionalchargegrid/{property}")]
+        public string getadditionalchargegrid(string property)
+        {
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select Distinct DAMAGE_ID,PROPERTY_ID,DAMAGE_DESCRIPTION,AMOUNT,case when PAYMODE=N'C' then 'CASH' when PAYMODE=N'Q' then 'CHEQUE' END AS PAYMODE,BANK_NAME,case when CHEQUE_NO=N'0' then ''  when CHEQUE_NO!=N'0' then convert(varchar(10),CHEQUE_NO) end as CHEQUE_NO,case convert(varchar(10),CHEQUE_DATE,103)when '01/01/1900' then ''else convert(varchar(10),CHEQUE_DATE,103)  end as CHEQUE_DATE,AMOUNT,REMARKS,case when  STATUS =N'P' then 'Pending' when STATUS =N'C'  then 'Cleared'  end as STATUS,ACTIONTAKEN,case when  TRANSACTION_STATUS=N'P' then 'Pending'  when  TRANSACTION_STATUS=N'C' then 'Cleared'  when  TRANSACTION_STATUS=N'R' then 'Return' end as  TRANSACTION_STATUS,balance_pay,CONVERT(VARCHAR(10),DUE_DATE,103) AS DUE_DATE  from FM_PROPERTY_DAMAGE_DETAILS where  PROPERTY_ID='"+ property + "' AND FLAG='P'";
+
+               
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
+
+
+
         [HttpGet]
         [Route("bindcategory/{cat}/{subcat}")]
         public string bindcategory(string cat, string subcat)
@@ -1620,6 +1720,14 @@ namespace MobileAppAPI.Controllers
                                 System.Data.DataTable results4 = new System.Data.DataTable();
                                 results4.Load(reader4);
 
+                                string strsqlupdate = "update BO_slno_parameter set serial_no='"+ S_NO + "' where type='URWorkOrderNumber'";
+
+                                SqlCommand cmd7 = new SqlCommand(strsqlupdate, dbConn);
+                                var reader7 = cmd7.ExecuteReader();
+                                System.Data.DataTable results7 = new System.Data.DataTable();
+                                results7.Load(reader7);
+
+
                                 string strsql = "exec CAMS_Mail_Save '" + data.functionid + "','" + data.branchid + "','" + row4["pmr_asset_reference"] + "','" + row4["pmr_reference"] + "','" + row4["amd_activity_id"] + "','" + row4["Created_by"] + "',''";
 
                                 SqlCommand cmd5 = new SqlCommand(strsql, dbConn);
@@ -1889,6 +1997,45 @@ namespace MobileAppAPI.Controllers
             return (Logdata1);
         }
 
+        [HttpGet]
+        [Route("getPropertyrent")]
+        public string getPropertyrent()
+
+
+        {
+
+
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select fm_property_master.function_id,fm_property_master.Branch_id,fm_property_master.location_id,fm_property_master.property_id,fm_property_master.property_code,fm_property_master.property_desc,FM_PROPERTY_RENTAL_MASTER.rental_id,FM_PROPERTY_RENTAL_MASTER.rental_code  from fm_property_master inner join FM_PROPERTY_RENTAL_MASTER on FM_PROPERTY_RENTAL_MASTER.property_id=fm_property_master.property_id";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
 
 
         [HttpGet]
@@ -1967,6 +2114,59 @@ namespace MobileAppAPI.Controllers
             }
             return (Logdata1);
         }
+
+
+
+        [HttpGet]
+        [Route("getadditionalcharges/{strfunction}/{strbranch}/{locationid}/{propertyid}/{rentid}")]
+        public string getadditionalcharges(string strfunction, string strbranch, string locationid,string propertyid,string rentid)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT BO_FUNCTION_MASTER.FUNCTION_DESC,BO_BRANCH_MASTER.BRANCH_DESC,BO_BRANCH_LOCATION_MASTER.LOCATION_DESC, FM_PROPERTY_MASTER.PROPERTY_CODE,BO_BRANCH_LOCATION_MASTER.LOCATION_ID,FM_PROPERTY_MASTER.PROPERTY_ID,FM_PROPERTY_MASTER.PROPERTY_DESC,FM_PROPERTY_MASTER.PROPERTY_CURRENCY, FM_PROPERTY_RENTAL_MASTER.RENTAL_ID,FM_PROPERTY_RENTAL_MASTER.RENTAL_CODE FROM FM_PROPERTY_MASTER WITH (NOLOCK) INNER JOIN BO_FUNCTION_MASTER WITH (NOLOCK) ON BO_FUNCTION_MASTER.FUNCTION_ID =FM_PROPERTY_MASTER.FUNCTION_ID   INNER JOIN BO_BRANCH_MASTER WITH (NOLOCK) ON BO_BRANCH_MASTER.FUNCTION_ID=FM_PROPERTY_MASTER.FUNCTION_ID  AND BO_BRANCH_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID    INNER JOIN BO_BRANCH_LOCATION_MASTER WITH (NOLOCK) ON BO_BRANCH_LOCATION_MASTER.FUNCTION_ID=FM_PROPERTY_MASTER.FUNCTION_ID  AND BO_BRANCH_LOCATION_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID AND BO_BRANCH_LOCATION_MASTER.LOCATION_ID=FM_PROPERTY_MASTER.LOCATION_ID  INNER JOIN FM_PROPERTY_RENTAL_MASTER WITH (NOLOCK) ON FM_PROPERTY_RENTAL_MASTER.FUNCTION_ID =FM_PROPERTY_MASTER.FUNCTION_ID  AND FM_PROPERTY_RENTAL_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID AND FM_PROPERTY_RENTAL_MASTER.LOCATION_ID =FM_PROPERTY_MASTER.LOCATION_ID  AND FM_PROPERTY_RENTAL_MASTER.PROPERTY_ID=FM_PROPERTY_MASTER.PROPERTY_ID WHERE 1=1 AND FM_PROPERTY_RENTAL_MASTER.STATUS='A'";
+                if (strfunction !="" && strfunction == "0")
+                {
+                    query = query + " AND FM_PROPERTY_MASTER.function_id='" + strfunction + "'";
+                }
+                if (strbranch != "" && strbranch == "0")
+                {
+                    query = query + " AND FM_PROPERTY_MASTER.Branch_id='" + strbranch + "'";
+                }
+                if (locationid != "" && locationid == "0")
+                {
+                    query = query + " AND FM_PROPERTY_MASTER.location_id='" + locationid + "'";
+                }
+                if (propertyid != "" && propertyid == "0")
+                {
+                    query = query + " AND FM_PROPERTY_MASTER.PROPERTY_ID='" + propertyid + "'";
+                }
+                if (rentid != "" && rentid == "0")
+                {
+                    query = query + " AND FM_PROPERTY_MASTER.RENTAL_ID='" + rentid + "'";
+                }
+
+
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                //var result = (new { recordsets = Logdata1 });
+                return Logdata1;
+            }
+        }
+
 
 
 
