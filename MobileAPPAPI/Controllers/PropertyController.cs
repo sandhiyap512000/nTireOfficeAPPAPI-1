@@ -895,11 +895,6 @@ namespace MobileAppAPI.Controllers
 
 
 
-
-
-
-
-
         //sowmi-31/10/22
 
         [HttpGet]
@@ -912,11 +907,15 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string query = "";
-                query = "select Row_Number()  over(order by ChequeNo) as SNO ,*from(select FM_PROPERTY_TRANSACTIONS_INFO.BANK_NAME as BankName, FM_PROPERTY_MASTER.property_code,FM_PROPERTY_MASTER.location_id,FM_PROPERTY_TRANSACTIONS_INFO.function_id,FM_PROPERTY_TRANSACTIONS_INFO.branch_id,FM_PROPERTY_TRANSACTIONS_INFO.CHEQUE_NO as ChequeNo, convert(varchar(10), CHEQUE_DATE, 103) as Chequedate, FM_PROPERTY_TRANSACTIONS_INFO.Amount, FM_PROPERTY_TRANSACTIONS_INFO.Remarks,case FM_PROPERTY_TRANSACTIONS_INFO.Status when 'R' then 'Returned' when 'P' then 'Pending' when 'C' then 'Cleared' end Status, FM_PROPERTY_TRANSACTIONS_INFO.payment_id,case FM_PROPERTY_TRANSACTIONS_INFO.PAYMODE when 'C' then 'Cash' when 'Q' then 'Cheque' when 'R' then 'RTGS' when 'N' then 'NEFT' end PAYMODE, FM_PROPERTY_TRANSACTIONS_INFO.Flag, FM_PROPERTY_RENT_PAYMENT_SCHEDULE.payment_desc, convert(varchar(10), FM_PROPERTY_RENT_PAYMENT_SCHEDULE.pay_date, 103) as pay_date from FM_PROPERTY_TRANSACTIONS_INFO INNER JOIN FM_PROPERTY_RENT_PAYMENT_SCHEDULE on FM_PROPERTY_TRANSACTIONS_INFO.payment_id = FM_PROPERTY_RENT_PAYMENT_SCHEDULE.payment_id inner join FM_PROPERTY_MASTER on FM_PROPERTY_TRANSACTIONS_INFO.PROPERTY_ID = FM_PROPERTY_MASTER.property_id  where FM_PROPERTY_TRANSACTIONS_INFO.STATUS != 'I'" + "    and ('" + function + "' ='0' or '" + function + "' is null " + "or FM_PROPERTY_TRANSACTIONS_INFO.function_id =cast( ISNULL('" + function + "',0) as int) ) " +
+                query = "select Row_Number()  over(order by ChequeNo) as SNO ,*from(select FM_PROPERTY_TRANSACTIONS_INFO.BANK_NAME as BankName, FM_PROPERTY_MASTER.property_code,FM_PROPERTY_MASTER.location_id,FM_PROPERTY_TRANSACTIONS_INFO.function_id,'BRANCH_CODE'=(select BRANCH_DESC from BO_BRANCH_MASTER bn where bn.BRANCH_ID=FM_PROPERTY_TRANSACTIONS_INFO.branch_id)," +
+                    "'BRANCH_DESC' = (select BRANCH_DESC from BO_BRANCH_MASTER bn where bn.BRANCH_ID = FM_PROPERTY_TRANSACTIONS_INFO.branch_id)," +
+                    "'LOCATION_CODE' = (select LOCATION_CODE from BO_BRANCH_LOCATION_MASTER bln where bln.LOCATION_ID = FM_PROPERTY_TRANSACTIONS_INFO.LOCATION_ID)," +
+                    "'LOCATION_DESC' = (select LOCATION_DESC from BO_BRANCH_LOCATION_MASTER bln where bln.LOCATION_ID = FM_PROPERTY_TRANSACTIONS_INFO.LOCATION_ID)," +
+                    " FM_PROPERTY_TRANSACTIONS_INFO.branch_id,FM_PROPERTY_TRANSACTIONS_INFO.CHEQUE_NO as ChequeNo, convert(varchar(10), CHEQUE_DATE, 103) as Chequedate, FM_PROPERTY_TRANSACTIONS_INFO.Amount, FM_PROPERTY_TRANSACTIONS_INFO.Remarks,case FM_PROPERTY_TRANSACTIONS_INFO.Status when 'R' then 'Returned' when 'P' then 'Pending' when 'C' then 'Cleared' end Status, FM_PROPERTY_TRANSACTIONS_INFO.payment_id,case FM_PROPERTY_TRANSACTIONS_INFO.PAYMODE when 'C' then 'Cash' when 'Q' then 'Cheque' when 'R' then 'RTGS' when 'N' then 'NEFT' end PAYMODE, FM_PROPERTY_TRANSACTIONS_INFO.Flag, FM_PROPERTY_RENT_PAYMENT_SCHEDULE.payment_desc, convert(varchar(10), FM_PROPERTY_RENT_PAYMENT_SCHEDULE.pay_date, 103) as pay_date from FM_PROPERTY_TRANSACTIONS_INFO INNER JOIN FM_PROPERTY_RENT_PAYMENT_SCHEDULE on FM_PROPERTY_TRANSACTIONS_INFO.payment_id = FM_PROPERTY_RENT_PAYMENT_SCHEDULE.payment_id inner join FM_PROPERTY_MASTER on FM_PROPERTY_TRANSACTIONS_INFO.PROPERTY_ID = FM_PROPERTY_MASTER.property_id  where FM_PROPERTY_TRANSACTIONS_INFO.STATUS != 'I'" + "    and ('" + function + "' ='0' or '" + function + "' is null " + "or FM_PROPERTY_TRANSACTIONS_INFO.function_id =cast( ISNULL('" + function + "',0) as int) ) " +
                         "and('" + location + "' = '0' or '" + location + "' is null " +
                         "or FM_PROPERTY_TRANSACTIONS_INFO.LOCATION_ID = cast( ISNULL('" + location + "',0) as int))" +
                         "and('" + property + "' = '0' or '" + property + "' is null " +
-                        "or FM_PROPERTY_TRANSACTIONS_INFO.PROPERTY_ID = cast( ISNULL('" + property + "',0) as int))";
+                        "or FM_PROPERTY_MASTER.property_code = ('" + property + "'))";
 
                 if (SplitID != "")
                 {
@@ -946,6 +945,7 @@ namespace MobileAppAPI.Controllers
 
             }
             return (Logdata1);
+
         }
 
 
@@ -1998,13 +1998,9 @@ namespace MobileAppAPI.Controllers
         }
 
         [HttpGet]
-        [Route("getPropertyrent")]
-        public string getPropertyrent()
-
-
+        [Route("getPropertyrent/{functionid}/{branchid}/{locationid}/{propertyid}")]
+        public string getPropertyrent(string functionid,string branchid,string locationid,string propertyid)
         {
-
-
 
             string Logdata1 = string.Empty;
 
@@ -2012,7 +2008,25 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string query = "";
-                query = "select fm_property_master.function_id,fm_property_master.Branch_id,fm_property_master.location_id,fm_property_master.property_id,fm_property_master.property_code,fm_property_master.property_desc,FM_PROPERTY_RENTAL_MASTER.rental_id,FM_PROPERTY_RENTAL_MASTER.rental_code  from fm_property_master inner join FM_PROPERTY_RENTAL_MASTER on FM_PROPERTY_RENTAL_MASTER.property_id=fm_property_master.property_id";
+                query = "select fm_property_master.function_id,fm_property_master.Branch_id,fm_property_master.location_id,fm_property_master.property_id,fm_property_master.property_code,fm_property_master.property_desc,FM_PROPERTY_RENTAL_MASTER.rental_id,FM_PROPERTY_RENTAL_MASTER.rental_code  from fm_property_master inner join FM_PROPERTY_RENTAL_MASTER on FM_PROPERTY_RENTAL_MASTER.property_id=fm_property_master.property_id where 1=1";
+
+                if (functionid !="" && functionid !="0")
+                {
+                    query = query + " and  fm_property_master.function_id='"+functionid+"'";
+                }
+                if (branchid != "" && branchid != "0")
+                {
+                    query = query + " and  fm_property_master.Branch_id='" + branchid + "'";
+                }
+                if (locationid != "" && locationid != "0")
+                {
+                    query = query + " and  fm_property_master.location_id='" + locationid + "'";
+                }
+                if (propertyid != "" && propertyid != "0")
+                {
+                    query = query + " and  fm_property_master.property_id='" + propertyid + "'";
+                }
+
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
