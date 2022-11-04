@@ -115,6 +115,10 @@ namespace MobileAppAPI.Models
 
 		public string release { get; set; }
 
+
+		public string UserIds { get; set; }
+
+		public string UserTypes { get; set; }
 		//RFQ
 
 		public string strfun { get; set; }
@@ -131,6 +135,26 @@ namespace MobileAppAPI.Models
 		//public ERPItems1 Itemsdetail { get; set; }
 
 		public List<ERPItems1> ERPItems { get; set; }
+
+
+
+		public string FUNCTIONIDM { get; set; }
+		public string BRANCHM { get; set; }
+		public string MRSCODEM { get; set; }
+		public string ITEMCODEM { get; set; }
+
+		public string DATEFROMM { get; set; }
+		public string DATETOM { get; set; }
+		public string STATUSM { get; set; }
+		public string CUTSTATUSM { get; set; }
+		public string MENUIDM { get; set; }
+		public int PAGEINDEXM { get; set; }
+		public int PAGESIZEM { get; set; }
+		public string SORTEXPRESSIONM { get; set; }
+		public string ALPHANAMEM { get; set; }
+		public string USERTYPEM { get; set; }
+		public string USERIDM { get; set; }
+
 
 	}
 		public class RootObject
