@@ -12,6 +12,8 @@ namespace MobileAppAPI.Models
 
         public int branchid { get; set; }
 
+        public int locationid { get; set; }
+
         public string Priority { get; set; }
 
         public string pm_due_date { get; set; }
@@ -26,5 +28,19 @@ namespace MobileAppAPI.Models
 
         public string status { get; set; }
         public string pmr_reference { get; set; }
+        public string Priorityid { get; set; }
+        public string DAMAGE_DESCRIPTION { get; set; }
+        public string AMOUNT { get; set; }
+        
+        public string FLAG { get; set; }
+        public string DUE_DATE { get; set; }
+
+        public string rentid { get; set; }
+     
+        public string PROPERTYSPLITID { get; set; }
+        public string propertyid { get; set; }
+
+        
+
     }
 }
