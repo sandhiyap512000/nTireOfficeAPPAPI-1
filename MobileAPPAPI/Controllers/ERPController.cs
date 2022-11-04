@@ -792,7 +792,6 @@ namespace MobileAppAPI.Controllers
 
 
 
-                    dbConn.Open();
 
                     var serializedObject = JsonConvert.SerializeObject(data).ToString();
 
@@ -916,6 +915,8 @@ namespace MobileAppAPI.Controllers
                         if (prsid == "" || prsid == null)
                         {
 
+                            dbConn.Open();
+
                             string query = "";
                             query = "select max(prs_id) as maxid from ERP_PRS_MASTER";
 
@@ -929,6 +930,37 @@ namespace MobileAppAPI.Controllers
                                 DataRow row = results.Rows[i];
                                 strprsid = row[0].ToString() + 1;
                             }
+
+                            dbConn.Close();
+                        }
+                        else
+                        {
+                            dbConn.Open();
+                            string status1 = string.Empty;
+                            string query = "";
+                            query = "select status from ERP_PRS_MASTER where  prs_id='"+ prsid+"'";
+
+                            SqlCommand cmd = new SqlCommand(query, dbConn);
+                            var reader = cmd.ExecuteReader();
+                            System.Data.DataTable results = new System.Data.DataTable();
+                            results.Load(reader);
+
+                            for (int i = 0; i < results.Rows.Count; i++)
+                            {
+                                DataRow row = results.Rows[i];
+                                status1 = row[0].ToString();
+                            }
+                            if (status1=="N")
+                            {
+                                string wfno_sql = "update erp_prs_master set status='P' where prs_id='" + prsid + "' and function_id=1";
+                                SqlCommand cmd3 = new SqlCommand(wfno_sql, dbConn);
+                                var reader3 = cmd3.ExecuteReader();
+                                System.Data.DataTable results3 = new System.Data.DataTable();
+                                results3.Load(reader3);
+                                stroutput = "Updated successfully";
+                            }
+
+                            dbConn.Close();
                         }
 
 
@@ -936,6 +968,7 @@ namespace MobileAppAPI.Controllers
                         if (prscode == "" || prscode == null)
                         {
 
+                            dbConn.Open();
                             DataSet dsprscode = new DataSet();
                             string sqlprscode = "ERP_PRS_ISCONFIG";
                             SqlCommand cmdprscode = new SqlCommand(sqlprscode, dbConn);
@@ -982,7 +1015,7 @@ namespace MobileAppAPI.Controllers
                                         currency = row[0].ToString() + 1;
                                     }
 
-
+                                    //shy
                                 }
                             }
                             else
@@ -1027,7 +1060,7 @@ namespace MobileAppAPI.Controllers
                                 DataRow row1 = results1.Rows[i];
                                 prsid = row1[0].ToString();
 
-                                dbConn.Close();
+                                
                             }
                             if (strprscode != string.Empty)
                             {
@@ -1036,6 +1069,7 @@ namespace MobileAppAPI.Controllers
                             }
                             //var result = (new { logdata });
                             //return Ok(stroutput);
+                            dbConn.Close();
                         }
                     }
 
@@ -1345,10 +1379,11 @@ namespace MobileAppAPI.Controllers
                                 if (itemid != null)
                                 {
                                     string itemID = itemid;
+                                    dbConn.Open();
                                     // string prs_id = item.prsid;
                                     if (itemid != null)
                                     {
-                                        dbConn.Open();
+                                        
                                         string query = "";
                                         query = "delete from erp_prs_details where item_id = '" + itemID + "' and prs_id='" + prsid + "'";
 
@@ -1356,7 +1391,10 @@ namespace MobileAppAPI.Controllers
                                         var reader = cmd.ExecuteReader();
                                         System.Data.DataTable results = new System.Data.DataTable();
                                         results.Load(reader);
+
+                                        
                                     }
+                                    dbConn.Close();
                                 }
 
 
@@ -1366,6 +1404,8 @@ namespace MobileAppAPI.Controllers
                                 {
                                     if (flag.ToString() != "D")
                                     {
+
+                                        dbConn.Open();
                                         DataSet dsuserdetails = new DataSet();
                                         string sql = "MBL_ERP_PRS_DETAILS_INSERT_UPDATE";
                                         SqlCommand objcommand1 = new SqlCommand(sql, dbConn);
@@ -1425,6 +1465,8 @@ namespace MobileAppAPI.Controllers
 
 
                                         }
+
+                                        dbConn.Close();
                                     }
                                 }
 
@@ -1434,6 +1476,7 @@ namespace MobileAppAPI.Controllers
 
 
 
+                                    dbConn.Open();
 
 
 
@@ -1534,7 +1577,7 @@ namespace MobileAppAPI.Controllers
                                         }
                                         else
                                         {
-                                            string wfno_sql = "update ERP_PRS_MASTER set status='A' WHERE PRS_ID='" + prsid + "' and function_id='" + i_function_id + "'";
+                                            string wfno_sql = "update erp_prs_master set status='P' where prs_id='" + prsid + "' and function_id=1";
                                             SqlCommand cmd3 = new SqlCommand(wfno_sql, dbConn);
                                             var reader3 = cmd3.ExecuteReader();
                                             System.Data.DataTable results3 = new System.Data.DataTable();
@@ -2031,7 +2074,7 @@ namespace MobileAppAPI.Controllers
 
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
-                    string sql = "ERP_VENDORQUOTATION_SUMMARY";
+                    string sql = "MBL_ERP_VENDORQUOTATION_SUMMARY";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
                     //EXEC ERP_VENDORQUOTATION_SUMMARY '1','1','','','','','','','0','0','20','item_id','','2',''
 
@@ -3136,6 +3179,8 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        //ManageRFQ get
+
         [HttpGet]
         [Route("get_Manage_RFQ/{RFQcode}")]
         public string get_Manage_RFQ(string RFQcode)
@@ -3148,7 +3193,7 @@ namespace MobileAppAPI.Controllers
             string pageSize = "10";
             string pageIndex = "0";
 
-            string strfun = "";
+            string strfun = "1";
             string strcode = "RFQ/"+RFQcode;
             string strdate = "";
             string stritemcode = "";
@@ -3205,13 +3250,286 @@ namespace MobileAppAPI.Controllers
                 var prsDetails = javaScriptSerializer.DeserializeObject(Logdata1);//json1
                 var ItemDetails = javaScriptSerializer.DeserializeObject(Logdata2);//json2
 
-                var resultJson = javaScriptSerializer.Serialize(new { PrsDetails = prsDetails, ItemDetails = ItemDetails });
+                var resultJson = javaScriptSerializer.Serialize(new {  ItemDetails = ItemDetails });
 
 
                 //var result = (new { recordsets = Logdata1 });
                 return resultJson;
             }
         }
+
+
+        //Get Vendor Dedails for selected item
+        //Find in Manage RFQ page
+
+        [HttpGet]
+        [Route("get_Find_vendor")]
+        public string get_Find_vendor(string functionid,string branch,string itemCategory,string itemSubCategory,string rFQCode,string keyword,string VendorCode,string Brand,string Model,string qtyval,string ItemID)
+        {
+            string Logdata1 = string.Empty;
+            string Logdata2 = string.Empty;
+            string rfqid = string.Empty;
+            string alphaname = "";
+            string sortExpression = "item_short_Desc";
+            string PageSize = "10";
+            string pageIndex = "0";
+
+            string strfun = "1";
+           // string strcode = "RFQ/" + RFQcode;
+           
+            string SingleVendor = "N";
+
+            string Field1 = "Y";
+            string Field2 = "Y";
+            string Field3 = "Y";
+            string Field4 = "Y";
+            string Field5 = "Y";
+            string Field6 = "Y";
+            string Field7 = "Y";
+            string Field8 = "Y";
+            string Field9 = "Y";
+            string Field10 = "Y";
+            string Field11 = "Y";
+            string Field12 = "Y";
+            string Field13 = "Y";
+            string Field14 = "Y";
+            string Field15 = "Y";
+            string Field16 = "Y";
+            string Field17 = "Y";
+            string Field18 = "Y";
+             string Field19 = "Y";
+            string Field20 = "Y";
+            string CustomFilter = "N";
+            string CatType = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+
+
+
+                string strsql = "EXEC MBL_ERP_GETVENDORDETAILS";
+                // string strsql = "EXEC ERP_GETVENDORDETAILS1";
+                if (functionid != null && functionid !="")
+                {
+                    strsql += " @FUNCTIONID=" + functionid;
+
+                }
+                if (pageIndex != null)
+                {
+                    strsql += " ,@PAGEINDEX=" + pageIndex;
+
+                }
+                if (PageSize != null)
+                {
+                    strsql += " ,@PAGESIZE=" + PageSize;
+                }
+                if (itemCategory != "" && itemCategory != null)
+                {
+                    strsql += " ,@Category='" + itemCategory + "'";
+                }
+                if (rFQCode != "" && rFQCode !=null)
+                {
+                    rFQCode = "RFQ/" + rFQCode;
+                    strsql += " ,@RFQCode='" + rFQCode + "'";
+                }
+                if (itemSubCategory != "" && itemSubCategory !=null)
+                {
+                    strsql += " ,@SubCategory='" + itemSubCategory + "'";
+                }
+                if (keyword != "" && keyword !=null)
+                {
+                    strsql += " ,@KEYWORD='" + keyword + "'";
+                }
+
+                //below vendorCode added by thiru 
+                if (VendorCode != "" && VendorCode !=null)
+                {
+                    strsql += " ,@VendorCode='" + VendorCode + "'";
+                }
+
+
+                if (Brand != "")
+                {
+                    strsql += " ,@Brand='" + Brand + "'";
+                }
+                if (Model != "")
+                {
+                    strsql += " ,@Model='" + Model + "'";
+                }
+                if (SingleVendor != "")
+                {
+                    strsql += " ,@SINGLEVENDOR='" + SingleVendor + "'";
+                }
+                if (qtyval != "")
+                {
+                    strsql += " ,@QTY='" + qtyval + "'";
+                }
+
+                //Custom Values
+
+                if (Field1.ToString().Trim() != "" && Field1.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field1='" + Field1.ToString().Trim() + "'";
+           
+                }
+                if (Field2.ToString().Trim() != "" && Field2.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field2='" + Field2.ToString().Trim() + "'";
+                  
+                }
+                if (Field3.ToString().Trim() != "" && Field3.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field3='" + Field3.ToString().Trim() + "'";
+                   
+                }
+                if (Field4.ToString().Trim() != "" && Field4.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field4='" + Field4.ToString().Trim() + "'";
+                  
+                }
+                if (Field5.ToString().Trim() != "" && Field5.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field5='" + Field5.ToString().Trim() + "'";
+                  
+                }
+                if (Field6.ToString().Trim() != "" && Field6.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field6='" + Field6.ToString().Trim() + "'";
+                 
+                }
+                if (Field7.ToString().Trim() != "" && Field7.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field7='" + Field7.ToString().Trim() + "'";
+                   
+                }
+                if (Field8.ToString().Trim() != "" && Field8.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field8='" + Field8.ToString().Trim() + "'";
+                  
+                }
+                if (Field9.ToString().Trim() != "" && Field9.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field9='" + Field9.ToString().Trim() + "'";
+                
+                }
+                if (Field10.ToString().Trim() != "" && Field10.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field10='" + Field10.ToString().Trim() + "'";
+                  
+                }
+                if (Field11.ToString().Trim() != "" && Field11.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field11='" + Field11.ToString().Trim() + "'";
+                
+                }
+                if (Field12.ToString().Trim() != "" && Field12.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field12='" + Field12.ToString().Trim() + "'";
+                  
+                }
+                if (Field13.ToString().Trim() != "" && Field13.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field13='" + Field13.ToString().Trim() + "'";
+              
+                }
+                if (Field14.ToString().Trim() != "" && Field14.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field14='" + Field14.ToString().Trim() + "'";
+                 
+                }
+                if (Field15.ToString().Trim() != "" && Field15.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field15='" + Field15.ToString().Trim() + "'";
+                  
+                }
+                if (Field16.ToString().Trim() != "" && Field16.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field16='" + Field16.ToString().Trim() + "'";
+               
+                }
+                if (Field17.ToString().Trim() != "" && Field17.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field17='" + Field17.ToString().Trim() + "'";
+                 
+                }
+                if (Field18.ToString().Trim() != "" && Field18.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field18='" + Field18.ToString().Trim() + "'";
+                
+                }
+                if (Field19.ToString().Trim() != "" && Field19.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field19='" + Field19.ToString().Trim() + "'";
+              
+                }
+                if (Field20.ToString().Trim() != "" && Field20.ToString().Trim() != "N")
+                {
+                    strsql += " ,@Field20='" + Field20.ToString().Trim() + "'";
+                 
+                }
+
+                if (CustomFilter == "Y")
+                {
+                    strsql += " ,@CustomFilter='" + CustomFilter + "'";
+                }
+             
+
+                if (ItemID != "" && ItemID != null)
+                {
+                    if (ItemID.ToString() != "0")
+                    {
+                        CatType = "Items";
+                        strsql += " ,@Type='" + CatType + "'";
+                    }
+                    else
+                    {
+                        CatType = "Service";
+                    }
+                }
+                strsql += " ,@branch='" + branch + "'";
+
+                //End Custom Values
+
+
+
+                SqlCommand cmd = new SqlCommand(strsql, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    // prsid = row[0].ToString();
+                  //  rfqid = results.Rows[i]["RFQID"].ToString();
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+
+
+
+
+
+                //ading two json into single json array
+
+                var javaScriptSerializer = new JavaScriptSerializer();
+                var prsDetails = javaScriptSerializer.DeserializeObject(Logdata1);//json1
+                var VendorDetails = javaScriptSerializer.DeserializeObject(Logdata1);//json2
+
+                var resultJson = javaScriptSerializer.Serialize(new { VendorDetails = VendorDetails });
+
+
+                //var result = (new { recordsets = Logdata1 });
+                return resultJson;
+            }
+        }
+
+
+
+
+
 
         //SHANKARI   
 
