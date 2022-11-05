@@ -85,8 +85,17 @@ namespace MobileAppAPI.Models
 
         public string fromhours { get; set; }
         public string tohours { get; set; }
+        public string EXPENSE_REF { get; set; }
+        public string EXPENSE_ID { get; set; }
+        public string EXPENSE_DATE { get; set; }
+        public string EXPENSE_CATEGORY { get; set; }
+        public string DESCRIPTION { get; set; }
+        public string IS_BILLABLE { get; set; }
+        public string COMMENTS { get; set; }
+        public string request_ref { get; set; }
+        
 
-      
+
         //end
     }
 }

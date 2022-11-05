@@ -1674,6 +1674,109 @@ namespace MobileAppAPI.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("getExpenseIDClaims")]
+        public async Task<ActionResult<HRMS>> getExpenseIDClaims(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            var JsonString = new StringBuilder();
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string sql = "select EXPENSE_ID as pk1 from HRMS_EXPENSE_SPECIFICATION_DETAILS where request_ref= '" + data.RequestRef + "'";
+
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                else
+                {
+
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    }
+                }
+                return Ok(Logdata1);
+
+
+
+            }
+        }
+
+
+
+
+
+        [HttpPost]
+        [Route("saveMasterClaimsDetail")]
+        public async Task<ActionResult<HRMS>> saveMasterClaimsDetail(HRMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<HRMS> Logdata = new List<HRMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            var JsonString = new StringBuilder();
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string sql = "EXEC MBL_HRMS_CLAIMS_EXPENSE_MASTER_SAVE @FUNCTION_ID ='" + data.functionid + "',@BRANCH_ID ='" + data.branchid + "',@EMP_ID ='" + data.EmpId + "',@EXPENSE_REF ='" + data.EXPENSE_REF + "',@EXPENSE_ID ='" + data.EXPENSE_ID + "',@EXPENSE_DATE   ='" + data.EXPENSE_DATE + "',@EXPENSE_CATEGORY ='" + data.EXPENSE_CATEGORY + "',@DESCRIPTION   ='" + data.DESCRIPTION + "',@AMOUNT='" + data.Amount + "',@IS_BILLABLE='" + data.IS_BILLABLE + "',@COMMENTS='" + data.COMMENTS + "',@STATUS='" + data.STATUS + "',@CREATED_BY='" + data.userid + "',@UPDATED_BY='" + data.userid + "',@IPADDRESS='::1',@request_ref='" + data.request_ref + "'";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+             
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                else
+                {
+
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    }
+                }
+                return Ok(Logdata1);
+
+
+
+            }
+        }
+
+
+
 
         [HttpPost]
         [Route("gettravelDetailsClaims")]
@@ -2581,29 +2684,25 @@ namespace MobileAppAPI.Controllers
                 cmd.Parameters.AddWithValue("@STATUS", CurrentStatus);
                 cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
-                string st = cmd.Parameters["@Result"].Value.ToString();
-                var json = new JavaScriptSerializer().Serialize(st);
+                
 
                 var reader = cmd.ExecuteReader();
-
+                string st = cmd.Parameters["@Result"].Value.ToString();
+                var json = new JavaScriptSerializer().Serialize(st);
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
                 //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                if (results.Rows.Count == 0)
+                if (json != "")
                 {
-                    string st1 = "No data found";
+                   Logdata1 = "REQUESTID : " + json + " Permission Updated Successfully"; 
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st1);
+                                     
                 }
                 else
                 {
-                    for (int i = 0; i < results.Rows.Count; i++)
-                    {
-                        DataRow row = results.Rows[i];
-                        Logdata1 = DataTableToJSONWithStringBuilder(results);
-                    }
+                    Logdata1 = "No data found";
                 }
-                return json;
+                return Logdata1;
             }
             }
 
