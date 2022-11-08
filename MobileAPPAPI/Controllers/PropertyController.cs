@@ -2063,7 +2063,7 @@ namespace MobileAppAPI.Controllers
                 string query = "";
                 //query = "select * from fm_property_master where property_code like '%"+ code + "%' and function_id='"+ functionid + "' and Branch_id='"+ branchid + "' and location_id='"+ locationid + "' ";
 
-                query = "select function_id,Branch_id,	location_id,property_id,property_code,property_desc,property_ownership,ASSET_ID from fm_property_master where property_code like '%" + code + "%' and function_id='" + functionid + "' and Branch_id='" + branchid + "' and location_id='" + locationid + "' ";
+                query = "select fm_property_master.function_id,fm_property_master.Branch_id,fm_property_master.location_id,fm_property_master.property_id,fm_property_master.property_code,fm_property_master.property_desc,fm_property_master.property_ownership,fm_property_master.ASSET_ID,CAMS_ASSET_MASTER.ASSET_CODE,CAMS_ASSET_MASTER.ASSET_DESCRIPTION,fm_property_master.property_building_name from fm_property_master inner join CAMS_ASSET_MASTER on CAMS_ASSET_MASTER.asset_id=fm_property_master.asset_id where fm_property_master.property_code like '%" + code + "%' and fm_property_master.function_id='" + functionid + "' and fm_property_master.Branch_id='" + branchid + "' and fm_property_master.location_id='" + locationid + "' ";
 
                SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
