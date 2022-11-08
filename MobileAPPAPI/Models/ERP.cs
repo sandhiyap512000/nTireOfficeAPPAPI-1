@@ -193,24 +193,18 @@ namespace MobileAppAPI.Models
 		public string USERIDM { get; set; }
 
 
-		//Material Requistion
-
-		//public string FUNCTIONIDM { get; set; }
-		//public string BRANCHM { get; set; }
-		//public string MRSCODEM { get; set; }
-		//public string ITEMCODEM { get; set; }
-
-		//public string DATEFROMM { get; set; }
-		//public string DATETOM { get; set; }
-		//public string STATUSM { get; set; }
-		//public string CUTSTATUSM { get; set; }
-		//public string MENUIDM { get; set; }
-		//public int PAGEINDEXM { get; set; }
-		//public int PAGESIZEM { get; set; }
-		//public string SORTEXPRESSIONM { get; set; }
-		//public string ALPHANAMEM { get; set; }
-		//public string USERTYPEM { get; set; }
-		//public string USERIDM { get; set; }
+		public string FUNCTIONIDILT { get; set; }
+		public string BRANCHIDILT { get; set; }
+		public string FROMDATEILT { get; set; }
+		public string TODATEILT { get; set; }
+		public string STATUSILT { get; set; }
+		public string MODEILT { get; set; }
+		public string STRITEMCODEILT { get; set; }
+		public string INTERREFILT { get; set; }
+		public string ALPHANAMEILT { get; set; }
+		public string SORTEXPRESSIONILT { get; set; }
+		public int PAGEINDEXILT { get; set; }
+		public int PAGESIZEILT { get; set; }
 
 		//Material Issue
 		public string RBYMI { get; set; }
