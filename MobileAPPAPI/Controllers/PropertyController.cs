@@ -658,7 +658,7 @@ namespace MobileAppAPI.Controllers
                 string query = "";
                
 
-                query = " select  a.STATUS,	a.FUNCTION_ID,	a.BRANCH_ID,	a.ASSET_DEPARTMENT,	a.ASSET_ID	,a.ASSET_CODE	,a.ASSET_DESCRIPTION	,a.ASSET_CATEGORY	,a.ASSET_TYPE	,a.ASSET_VALUE,	a.ASSET_SBS_NO	,a.ASSET_SERIAL_NO,	a.ASSET_BRAND,	a.ASSET_MODE,	a.ASSET_PURCHASE_DATE,	a.ASSET_WARRANTY_TILL,	a.ASSET_OWNER_ID,	a.ASSET_PRODUCTION_LOSS	,a.ASSET_TOTAL_ITEMS,	a.ASSET_CAPACITY,	a.ASSET_CAPACITY_UOM,	a.ASSET_COUNTER_ENABLED	,a.ASSET_RUNNING_HOURSDAYS,a.ASSET_REMARKS	,a.ASSET_INSURANCE_ENABLED	,a.ASSET_INSURANCE_FROMDATE,	a.ASSET_INSURANCE_TODATE	,a.ASSET_INSURANCE_DETAILS	,a.TYPE,	a.ASSET_SUM_INSURED	,a.ASSET_PREMIUM_AMOUNT,	a.ASSET_TASK_DESCRIPTION,	a.ASSET_DEPRECIATION_TYPE	,a.ASSET_DEPRECIATION_PERCENTAGE,	a.ASSET_OBSOLETE_ENABLED,	a.ASSET_OBSOLETE_DATE,	a.ASSET_OBSOLETE_REMARKS,	a.ASSET_INSTALLATION_DATE	,a.ASSET_INSTALLED_BY	,a.ASSET_CERTIFICATE_ISSUED,	a.ASSET_WORKING_CONDITION	,a.ASSET_INSTALLATION_DETAILS,	a.ASSET_PRODUCTIONLOSS_UOM	,a.ASSET_OBSOLETE_AMOUNT,	a.ASSET_RESIDUAL_VALUE,	a.ASSET_BAR_CODE,	a.ASSET_APPREQ_USERINITIATED,	a.ASSET_LIFE_DATE	,a.CAMS_ASSET_MANUFACTURER,	a.CREATED_ON	,a.UPDATED_ON,	a.CREATED_BY,a.UPDATED_BY,	a.IPADDRESS,	a.ASSET_IMAGES,	a.RENT_LEASE,	a.ASSET_USER	,	a.REPLACE_ASSETCODE,	a.ASSET_REPLACEASSET,	a.ASSET_REPLACESCRAP_DATE,	a.ASSET_REPLACESCRAP_REMARKS,	a.Asset_Class,	a.OBSOLETE_USER,	a.Asset_Inspectiondays	,a.Asset_Inspection,	a.ASSET_LocationId	,a.asset_latitude,	a.asset_longitude,bo.FUNCTION_ID   ,bo.TYPE    ,bo.TEXT as Department,	bo.CODE ,bo.VAL ,bo.SEQUENCE    ,bo.ISLOCK  ,bo.rowid,	bo.CREATED_BY,	bo.UPDATED_BY,bo.LST_UPD_DATE   ,bo.IPADDRESS,	bo.STATUS,	bo.COLOR    ,bo.orderby,	bo.Test,	bo.IMAGE    ,bo.id  ,bo.Compliance_category,	bo.Product_category,	bo.Product_subcategory from CAMS_ASSET_MASTER a inner join BO_PARAMETER bo on bo.val = a.ASSET_DEPARTMENT and bo.type = 'bo_team'   where a.function_id = '" + function_id + "' and a.Branch_id = '" + branch_id + "' and a.asset_code like'%" + propertycode + "%'";
+                query = " select  a.STATUS,	a.FUNCTION_ID,	a.BRANCH_ID,	a.ASSET_DEPARTMENT,	a.ASSET_ID	,a.ASSET_CODE	,a.ASSET_DESCRIPTION	,a.ASSET_CATEGORY	,a.ASSET_TYPE	,a.ASSET_VALUE,	a.ASSET_SBS_NO	,a.ASSET_SERIAL_NO,	a.ASSET_BRAND,	a.ASSET_MODE,	a.ASSET_PURCHASE_DATE,	a.ASSET_WARRANTY_TILL,	a.ASSET_OWNER_ID,	a.ASSET_PRODUCTION_LOSS	,a.ASSET_TOTAL_ITEMS,	a.ASSET_CAPACITY,	a.ASSET_CAPACITY_UOM,	a.ASSET_COUNTER_ENABLED	,a.ASSET_RUNNING_HOURSDAYS,a.ASSET_REMARKS	,a.ASSET_INSURANCE_ENABLED	,a.ASSET_INSURANCE_FROMDATE,	a.ASSET_INSURANCE_TODATE	,a.ASSET_INSURANCE_DETAILS	,a.TYPE,	a.ASSET_SUM_INSURED	,a.ASSET_PREMIUM_AMOUNT,	a.ASSET_TASK_DESCRIPTION,	a.ASSET_DEPRECIATION_TYPE	,a.ASSET_DEPRECIATION_PERCENTAGE,	a.ASSET_OBSOLETE_ENABLED,	a.ASSET_OBSOLETE_DATE,	a.ASSET_OBSOLETE_REMARKS,	a.ASSET_INSTALLATION_DATE	,a.ASSET_INSTALLED_BY	,a.ASSET_CERTIFICATE_ISSUED,	a.ASSET_WORKING_CONDITION	,a.ASSET_INSTALLATION_DETAILS,	a.ASSET_PRODUCTIONLOSS_UOM	,a.ASSET_OBSOLETE_AMOUNT,	a.ASSET_RESIDUAL_VALUE,	a.ASSET_BAR_CODE,	a.ASSET_APPREQ_USERINITIATED,	a.ASSET_LIFE_DATE	,a.CAMS_ASSET_MANUFACTURER,	a.CREATED_ON	,a.UPDATED_ON,	a.CREATED_BY,a.UPDATED_BY,	a.IPADDRESS,	a.ASSET_IMAGES,	a.RENT_LEASE,	a.ASSET_USER	,	a.REPLACE_ASSETCODE,	a.ASSET_REPLACEASSET,	a.ASSET_REPLACESCRAP_DATE,	a.ASSET_REPLACESCRAP_REMARKS,	a.Asset_Class,	a.OBSOLETE_USER,	a.Asset_Inspectiondays	,a.Asset_Inspection,	a.ASSET_LocationId	,a.asset_latitude,	a.asset_longitude,bo.FUNCTION_ID   ,bo.TYPE    ,bo.TEXT as Department,	bo.CODE ,bo.VAL ,bo.SEQUENCE    ,bo.ISLOCK  ,bo.rowid,	bo.CREATED_BY,	bo.UPDATED_BY,bo.LST_UPD_DATE   ,bo.IPADDRESS,	bo.STATUS,	bo.COLOR    ,bo.orderby,	bo.Test,	bo.IMAGE    ,bo.id  ,bo.Compliance_category,	bo.Product_category,	bo.Product_subcategory,FM_PROPERTY_MASTER.property_code,FM_PROPERTY_MASTER.property_id,FM_PROPERTY_MASTER.location_id from CAMS_ASSET_MASTER a inner join BO_PARAMETER bo on bo.val = a.ASSET_DEPARTMENT and bo.type = 'bo_team' inner join FM_PROPERTY_MASTER on FM_PROPERTY_MASTER.ASSET_ID=a.ASSET_ID  where a.function_id = '" + function_id + "' and a.Branch_id = '" + branch_id + "' and a.asset_code like'%" + propertycode + "%'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -1784,7 +1784,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "select * from bo_branch_master inner join BO_BRANCH_ACCESS on BO_BRANCH_ACCESS.BRANCH_ID=bo_branch_master.BRANCH_ID and bo_branch_master.FUNCTION_ID=BO_BRANCH_ACCESS.FUNCTION_ID where BO_BRANCH_ACCESS.USER_ID='"+ userid + "' and BO_BRANCH_ACCESS.FUNCTION_ID='"+ function_id + "'";
+                query = "select * from bo_branch_master inner join BO_BRANCH_ACCESS on BO_BRANCH_ACCESS.BRANCH_ID=bo_branch_master.BRANCH_ID and bo_branch_master.FUNCTION_ID=BO_BRANCH_ACCESS.FUNCTION_ID where bo_branch_master.Status='A' and BO_BRANCH_ACCESS.USER_ID='" + userid + "' and BO_BRANCH_ACCESS.FUNCTION_ID='"+ function_id + "'";
 
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
@@ -1877,11 +1877,7 @@ namespace MobileAppAPI.Controllers
         [HttpGet]
         [Route("getlocation/{functionid}/{branchid}")]
         public string getlocation(string functionid, string branchid)
-
-
         {
-
-
 
             string Logdata1 = string.Empty;
 
@@ -2065,9 +2061,11 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string query = "";
-                query = "select * from fm_property_master where property_code like '%"+ code + "%' and function_id='"+ functionid + "' and Branch_id='"+ branchid + "' and location_id='"+ locationid + "' ";
+                //query = "select * from fm_property_master where property_code like '%"+ code + "%' and function_id='"+ functionid + "' and Branch_id='"+ branchid + "' and location_id='"+ locationid + "' ";
 
-                SqlCommand cmd = new SqlCommand(query, dbConn);
+                query = "select fm_property_master.function_id,fm_property_master.Branch_id,fm_property_master.location_id,fm_property_master.property_id,fm_property_master.property_code,fm_property_master.property_desc,fm_property_master.property_ownership,fm_property_master.ASSET_ID,CAMS_ASSET_MASTER.ASSET_CODE,CAMS_ASSET_MASTER.ASSET_DESCRIPTION,fm_property_master.property_building_name from fm_property_master inner join CAMS_ASSET_MASTER on CAMS_ASSET_MASTER.asset_id=fm_property_master.asset_id where fm_property_master.property_code like '%" + code + "%' and fm_property_master.function_id='" + functionid + "' and fm_property_master.Branch_id='" + branchid + "' and fm_property_master.location_id='" + locationid + "' ";
+
+               SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
@@ -2146,25 +2144,25 @@ namespace MobileAppAPI.Controllers
                 dbConn.Open();
                 string query = "";
                 query = "SELECT BO_FUNCTION_MASTER.FUNCTION_DESC,BO_BRANCH_MASTER.BRANCH_DESC,BO_BRANCH_LOCATION_MASTER.LOCATION_DESC, FM_PROPERTY_MASTER.PROPERTY_CODE,BO_BRANCH_LOCATION_MASTER.LOCATION_ID,FM_PROPERTY_MASTER.PROPERTY_ID,FM_PROPERTY_MASTER.PROPERTY_DESC,FM_PROPERTY_MASTER.PROPERTY_CURRENCY, FM_PROPERTY_RENTAL_MASTER.RENTAL_ID,FM_PROPERTY_RENTAL_MASTER.RENTAL_CODE FROM FM_PROPERTY_MASTER WITH (NOLOCK) INNER JOIN BO_FUNCTION_MASTER WITH (NOLOCK) ON BO_FUNCTION_MASTER.FUNCTION_ID =FM_PROPERTY_MASTER.FUNCTION_ID   INNER JOIN BO_BRANCH_MASTER WITH (NOLOCK) ON BO_BRANCH_MASTER.FUNCTION_ID=FM_PROPERTY_MASTER.FUNCTION_ID  AND BO_BRANCH_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID    INNER JOIN BO_BRANCH_LOCATION_MASTER WITH (NOLOCK) ON BO_BRANCH_LOCATION_MASTER.FUNCTION_ID=FM_PROPERTY_MASTER.FUNCTION_ID  AND BO_BRANCH_LOCATION_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID AND BO_BRANCH_LOCATION_MASTER.LOCATION_ID=FM_PROPERTY_MASTER.LOCATION_ID  INNER JOIN FM_PROPERTY_RENTAL_MASTER WITH (NOLOCK) ON FM_PROPERTY_RENTAL_MASTER.FUNCTION_ID =FM_PROPERTY_MASTER.FUNCTION_ID  AND FM_PROPERTY_RENTAL_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID AND FM_PROPERTY_RENTAL_MASTER.LOCATION_ID =FM_PROPERTY_MASTER.LOCATION_ID  AND FM_PROPERTY_RENTAL_MASTER.PROPERTY_ID=FM_PROPERTY_MASTER.PROPERTY_ID WHERE 1=1 AND FM_PROPERTY_RENTAL_MASTER.STATUS='A'";
-                if (strfunction !="" && strfunction == "0")
+                if (strfunction !="" && strfunction != "0")
                 {
                     query = query + " AND FM_PROPERTY_MASTER.function_id='" + strfunction + "'";
                 }
-                if (strbranch != "" && strbranch == "0")
+                if (strbranch != "" && strbranch != "0")
                 {
                     query = query + " AND FM_PROPERTY_MASTER.Branch_id='" + strbranch + "'";
                 }
-                if (locationid != "" && locationid == "0")
+                if (locationid != "" && locationid != "0")
                 {
                     query = query + " AND FM_PROPERTY_MASTER.location_id='" + locationid + "'";
                 }
-                if (propertyid != "" && propertyid == "0")
+                if (propertyid != "" && propertyid != "0")
                 {
                     query = query + " AND FM_PROPERTY_MASTER.PROPERTY_ID='" + propertyid + "'";
                 }
-                if (rentid != "" && rentid == "0")
+                if (rentid != "" && rentid != "0")
                 {
-                    query = query + " AND FM_PROPERTY_MASTER.RENTAL_ID='" + rentid + "'";
+                    query = query + " AND FM_PROPERTY_RENTAL_MASTER.RENTAL_ID='" + rentid + "'";
                 }
 
 
