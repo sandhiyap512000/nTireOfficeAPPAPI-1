@@ -5498,7 +5498,7 @@ namespace MobileAppAPI.Controllers
         public async Task<ActionResult<ERP>> RaiseRFQ(dynamic data)
         {
             string prsids = "", itemids = "", ItemCodeAmount = "", ItemCode = "", Add = "", quotdate = "", rowid="", itemid="", itemcode="";
-            string RFQCODE = "", qty="", branch="", userid="", ipaddress="", Created_by="";
+            string RFQCODE = "", RFQCODE1="", qty="", branch="", userid="", ipaddress="", Created_by="";
             int checkprs = 0, checkedcount = 0, CheckYCount = 0, CheckNCount = 0, CheckSingleCount = 0;
             string strBuyer = "";
             int countt = 0;
@@ -5538,15 +5538,15 @@ namespace MobileAppAPI.Controllers
                             quotdate = item.Value.ToString();
                         }
 
-                        if (item.Key == "prsid")
+                        if (item.Key == "prs_id")
                         {
                             prsid = item.Value.ToString();
                         }
-                        if (item.Key == "itemid")
+                        if (item.Key == "item_id")
                         {
                             itemid = item.Value.ToString();
                         }
-                        if (item.Key == "itemcode")
+                        if (item.Key == "item_Code")
                         {
                             ItemCode = item.Value.ToString();
                         }
@@ -5554,11 +5554,11 @@ namespace MobileAppAPI.Controllers
                         {
                             qty = item.Value.ToString();
                         }
-                        if (item.Key == "branch")
+                        if (item.Key == "branch_id")
                         {
                             branch = item.Value.ToString();
                         }
-                        if (item.Key == "itemdesc1")
+                        if (item.Key == "item_short_Desc")
                         {
                             itemdesc1 = item.Value.ToString();
                         }
@@ -5587,8 +5587,8 @@ namespace MobileAppAPI.Controllers
 
                         prsids += prsid.ToString() + '|';
                         itemids += itemid.ToString() + '|';
-                        ItemCode += itemcode.ToString() + '|';
-                        ItemCodeAmount += itemcode.ToString() + '~' + itemid.ToString() + '~' + qty.ToString() + '~' + branch.ToString() + '~' + prsid.ToString() + '~' + itemdesc1.ToString() + '~' + rowid.ToString() + '|';
+                    itemcode += ItemCode.ToString() + '|';
+                        ItemCodeAmount += ItemCode.ToString() + '~' + itemid.ToString() + '~' + qty.ToString() + '~' + branch.ToString() + '~' + prsid.ToString() + '~' + itemdesc1.ToString() + '~' + rowid.ToString() + '|';
                         checkedcount++;
                         int PRS_ID = Convert.ToInt32(prsid.ToString());
                         int ITEM_ID = Convert.ToInt32(itemid.ToString());
@@ -5636,9 +5636,9 @@ namespace MobileAppAPI.Controllers
                         {
                             string RFQ = "", ClubRFQ = "";
 
-                            if (ItemCode != null && ItemCode != "")
+                            if (itemcode != null && itemcode != "")
                             {
-                                string[] str = ItemCode.Split('|');
+                                string[] str = itemcode.Split('|');
                                 if (str != null && str.Length > 0)
                                 {
                                     for (int i = 0; i < str.Length; i++)
@@ -5716,8 +5716,9 @@ namespace MobileAppAPI.Controllers
 
                                                 for (int i = 0; i < ArrlstItemCode.Count; i++)
                                                 {
-
-                                                    string strSql = "EXEC ERP_INSERT_MULTIITEMS '" + ArrlstItemCode[i].ToString() + "','" + ArrlstItemID[i].ToString() + "','" + ArrlstBranchID[i].ToString() + "','" + ArrlstAmount[i].ToString() + "','" + "'INSERTTEMP'" + "','" + ArrlstItemDesc[i].ToString() + "'";
+                                                dbConn.Open();
+                                                string inserttemp = "INSERTTEMP";
+                                                string strSql = "EXEC ERP_INSERT_MULTIITEMS '" + ArrlstItemCode[i].ToString() + "','" + ArrlstItemID[i].ToString() + "','" + ArrlstBranchID[i].ToString() + "','" + ArrlstAmount[i].ToString() + "','" + "INSERTTEMP" + "','" + ArrlstItemDesc[i].ToString() + "'";
 
 
                                                     SqlCommand cmd = new SqlCommand(strSql, dbConn);
@@ -5739,7 +5740,15 @@ namespace MobileAppAPI.Controllers
                                                 string prsrowid = ArrlstPRSRowid[index].ToString();
                                                 Mode = "GETTEMP";
 
-                                                string str2 = "exec ERP_RFQ_MAX1_RFQID";
+
+                                            string strSqltemp = "EXEC ERP_INSERT_MULTIITEMS '','" + ItemIDD + "','" + BranchID + "','','" + Mode + "','" + itemdesc + "'";
+
+
+                                            SqlCommand cmdtemp = new SqlCommand(strSqltemp, dbConn);
+                                            var reader = cmdtemp.ExecuteReader();
+                                            System.Data.DataTable resultstemp = new System.Data.DataTable();
+                                            resultstemp.Load(reader);
+                                            string str2 = "exec ERP_RFQ_MAX1_RFQID";
 
 
                                                 SqlCommand cmd1 = new SqlCommand(str2, dbConn);
@@ -5750,19 +5759,36 @@ namespace MobileAppAPI.Controllers
                                                 for (int i = 0; i < results1.Rows.Count; i++)
                                                 {
                                                     DataRow row = results1.Rows[i];
-                                                    RFQCODE = results1.Rows[i]["RFQCODE"].ToString();
-                                                    RFQCODE = "RFQ/" + RFQCODE + "AT";
-                                                    Qty = results1.Rows[i]["AMOUNT"].ToString();
-                                                    SingleVendor = "N";
+                                                    RFQCODE = row[0].ToString();
+                                                    RFQCODE1 = "RFQ/" + RFQCODE + "AT";
+                                                   
                                                 }
 
+                                            for (int i = 0; i < resultstemp.Rows.Count; i++)
+                                            {
+                                                DataRow row = resultstemp.Rows[i];
+                                                //RFQCODE = row[0].ToString();
+                                                 Qty = row["AMOUNT"].ToString();
 
-                                                if (!IDADD.Contains(itemdesc.ToUpper().Trim()))
+                                            }
+                                           
+                                            if (CheckSingleCount == CheckYCount)
+                                            {
+                                                SingleVendor = "Y";
+                                            }
+                                            else
+                                            if (CheckSingleCount == CheckNCount)
+                                            {
+                                                SingleVendor = "N";
+                                            }
+
+
+                                            if (!IDADD.Contains(itemdesc.ToUpper().Trim()))
                                                 {
                                                     Mode = "A";
 
 
-                                                    string strSql = "EXEC ERP_RFQ_MASTER_INSERT_NEW '1','" + BranchID + "','" + RFQCODE + "','" + PRSIDD + "','A','" + Created_by + "','" + ipaddress + "','N','" + ItemIDD + "','" + quotdate + "','" + Qty + "','" + countt + "','" + Mode + "','" + SingleVendor + "','" + prsrowid + "'";
+                                                    string strSql = "EXEC MBL_ERP_RFQ_MASTER_INSERT_NEW '1','" + BranchID + "','" + RFQCODE + "','" + PRSIDD + "','A','" + Created_by + "','" + ipaddress + "','N','" + ItemIDD + "','" + quotdate + "','" + Qty + "','" + countt + "','" + Mode + "','" + SingleVendor + "','" + prsrowid + "'";
                                                     SqlCommand cmdstrSql = new SqlCommand(strSql, dbConn);
                                                     var readerstrSql = cmdstrSql.ExecuteReader();
                                                     System.Data.DataTable resultsstrSql = new System.Data.DataTable();
@@ -5771,7 +5797,7 @@ namespace MobileAppAPI.Controllers
                                                     for (int i = 0; i < results1.Rows.Count; i++)
                                                     {
                                                         DataRow row = results1.Rows[i];
-                                                        RFQID = results1.Rows[i]["RFQID"].ToString();
+                                                        RFQID = row[0].ToString().ToString();
                                                     }
 
 
@@ -5779,7 +5805,7 @@ namespace MobileAppAPI.Controllers
                                                 else
                                                 {
                                                     Mode = "S";
-                                                    string strSql = "EXEC ERP_RFQ_MASTER_INSERT_NEW '1','" + BranchID + "','" + RFQCODE + "','" + PRSIDD + "','A','" + Created_by + "','" + ipaddress + "','N','" + ItemIDD + "','" + quotdate + "','" + Qty + "','" + countt + "','" + Mode + "','" + SingleVendor + "','" + prsrowid + "'";
+                                                    string strSql = "EXEC MBL_ERP_RFQ_MASTER_INSERT_NEW '1','" + BranchID + "','" + RFQCODE + "','" + PRSIDD + "','A','" + Created_by + "','" + ipaddress + "','N','" + ItemIDD + "','" + quotdate + "','" + Qty + "','" + countt + "','" + Mode + "','" + SingleVendor + "','" + prsrowid + "'";
                                                     SqlCommand cmdstrSql = new SqlCommand(strSql, dbConn);
                                                     var readerstrSql = cmdstrSql.ExecuteReader();
                                                     System.Data.DataTable resultsstrSql = new System.Data.DataTable();
@@ -5832,7 +5858,7 @@ namespace MobileAppAPI.Controllers
                                             if (ArrlstItemCode != null && ArrlstItemID != null && ArrlstAmount != null)
                                             {
 
-
+                                            
                                                 string strSql = "EXEC ERP_RFQ_MASTER_INSERT_NEW '1','" + BranchID + "','" + RFQCODE + "','" + prsid + "','A','" + Created_by + "','" + ipaddress + "','N','" + itemid + "','" + quotdate + "','" + Qty + "','" + countt + "','" + Mode + "','N','" + rowid + "'";
                                                 SqlCommand cmdstrSql = new SqlCommand(strSql, dbConn);
                                                 var readerstrSql = cmdstrSql.ExecuteReader();
@@ -5870,7 +5896,7 @@ namespace MobileAppAPI.Controllers
                             }
 
 
-                            stroutput = "RFQ Raised Successfully : " + RFQCODE + ".";
+                            stroutput = "RFQ Raised Successfully : " + RFQCODE1 + ".";
 
                         }
                         else if (count > 0)
