@@ -6018,7 +6018,10 @@ namespace MobileAppAPI.Controllers
 
 
                 using (SqlConnection dbConn = new SqlConnection(strconn))
+                    
                 {
+                    dbConn.Open();
+
                     JObject obj_parents = JsonConvert.DeserializeObject<JObject>(data.ToString());
 
                     JObject obj_parent2 = obj_parents.GetValue("Add_vendor")[0] as JObject;
@@ -6147,14 +6150,14 @@ namespace MobileAppAPI.Controllers
                                     {
                                         prsid = Value.ToString();
                                     }
-                                    if (Name== "rowid")
+                                    if (Name == "rOW_NUM")
                                     {
                                         rowid = Value.ToString();
                                     }
-
+                                }
 
                                     DataSet dsuserdetails = new DataSet();
-                                    dbConn.Open();
+                              
                                     string sql = "MBL_ERP_ADDVENDORTEMP";
                                     SqlCommand cmd = new SqlCommand(sql, dbConn);
 
@@ -6215,7 +6218,7 @@ namespace MobileAppAPI.Controllers
                                     }
                                     
                                     
-                                }
+                                
                             }
                         }
                     }
@@ -7588,6 +7591,7 @@ namespace MobileAppAPI.Controllers
             ArrayList saveitems = new ArrayList();
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
+            DataRow rowUserSummary =null;
             try
             {
 
@@ -7599,7 +7603,6 @@ namespace MobileAppAPI.Controllers
                     dbConn.Open();
                     string sql5 = "select serial_no+1 from BO_SLNO_PARAMETER where type='" + type + "' and  function_id='" + strFunction + "'";
 
-                    dbConn.Open();
                     SqlCommand cmd = new SqlCommand(sql5, dbConn);
                     var reader = cmd.ExecuteReader();
                     System.Data.DataTable results = new System.Data.DataTable();
@@ -7615,7 +7618,7 @@ namespace MobileAppAPI.Controllers
 
                     string sql = "Update BO_SLNO_PARAMETER set serial_no='" + itemids + "' where function_id='" + strFunction + "'and type='" + type + "'";
 
-                    dbConn.Open();
+                    //dbConn.Open();
                     SqlCommand cmd1 = new SqlCommand(sql, dbConn);
                     var reader1 = cmd1.ExecuteReader();
                     System.Data.DataTable results1 = new System.Data.DataTable();
@@ -7623,7 +7626,7 @@ namespace MobileAppAPI.Controllers
                     saveitems.Add(incrementAutoNo(strFunction, type));
 
 
-                    DataRow rowUserSummary = null;
+                   
 
                     string ItemID = string.Empty;
 
@@ -7735,7 +7738,7 @@ namespace MobileAppAPI.Controllers
                                     {
                                         amt = Value.ToString();
                                     }
-
+                                }
 
                                     if (ItemID != null && ItemID != "")
                                     {
@@ -7754,9 +7757,9 @@ namespace MobileAppAPI.Controllers
                                         }
 
 
+                                   // rowUserSummary= ds.Tables[0].Rows.Add();
 
-
-                                        rowUserSummary = ds.Tables[0].NewRow();
+                                   // rowUserSummary = ds.Tables[0].NewRow();
                                         rowUserSummary.BeginEdit();
                                         rowUserSummary["function_id"] = strFunction;
                                         rowUserSummary["vendor_id"] = vendor_id.ToString();
@@ -7812,15 +7815,17 @@ namespace MobileAppAPI.Controllers
                                         cmd.Parameters.AddWithValue("@PRSCurrency", item1["PRSCurrency"].ToString());
                                         SqlDataAdapter objadapter = new SqlDataAdapter(cmd);
                                         objadapter.Fill(dt);
+                                        //dbConn.Close();
 
                                     }
 
-                                }
+                                
                             }
 
                         }
                     }
                 }
+                
                 var result = (new { logdata });
                 return Ok(logdata);
 
