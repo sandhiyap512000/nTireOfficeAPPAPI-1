@@ -339,5 +339,27 @@ namespace MobileAppAPI.Models
 	}
 
 
+	public class ERPupload
+	{
+		public string filename { get; set; }
+		public string functionid { get; set; }
+
+		public string branchid { get; set; }
+		public string poid { get; set; }
+		public string paymentid { get; set; }
+		public string vendorid { get; set; }
+		public string invoicedate { get; set; }
+		public string invoiceref { get; set; }
+		public string invoiceamount { get; set; }
+		public string remarks { get; set; }
+		public string userid { get; set; }
+
+		public string approveid { get; set; }
+
+		public string filedata { get; set; }
+
+
+	}
+
 
 }

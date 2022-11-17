@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -7956,7 +7957,7 @@ namespace MobileAppAPI.Controllers
             {
                 string query = "";
 
-                query = "select * from ERP_PO_MASTER where po_number like'%" + ponumber + "%'";
+                query = "select po_id,po_number from ERP_PO_MASTER where po_number like'%" + ponumber + "%'";
 
                 dbConn.Open();
                 SqlCommand cmd = new SqlCommand(query, dbConn);
@@ -7970,7 +7971,6 @@ namespace MobileAppAPI.Controllers
             }
             return Logdata1;
         }
-
         [HttpGet]
         [Route("getinvoicedetails/{fuctionid}/{branchid}/{poid}")]
         public dynamic getinvoicedetails(string fuctionid, string branchid, string poid)
@@ -8314,6 +8314,370 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        //Autocompletion vendor code sang purchase payment
+        [HttpGet]
+        [Route("getvendorcode/{code}")]
+        public string getvendorcode(string code)
+        {
+
+
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "SELECT  vendor_code as VENDOR_CODE FROM erp_vendor_master WHERE STATUS='A' AND VENDOR_CODE LIKE '%" + code + "%' ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
+
+
+        //Material issuedetail popup search
+        [HttpGet]
+        [Route("getmaterialpopup/{ItemID}")]
+        public string getmaterialpopup(string ItemID)
+        {
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "SELECT * FROM ERP_ITEM_MASTER  WHERE ITEM_ID = '" + ItemID + "' AND Status = 'A'  ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
+
+
+
+        //Material issuedetail Location Description popup search
+        [HttpGet]
+        [Route("getmaterialpopupLocationdesc/{functionid}/{branchid}")]
+        public string getmaterialpopupLocationdesc(string functionid, string branchid)
+        {
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select LocationDescription from ERP_LOCATION_MASTER where function_id='" + functionid + "' and BranchId='" + branchid + "' ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
+
+
+        //Material issuedetail Bin Description popup search
+        [HttpGet]
+        [Route("getmaterialpopupbindesc/{functionid}/{branchid}")]
+        public string getmaterialpopupbindesc(string functionid, string branchid)
+        {
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select bin_desc from ERP_BIN_LOCATION_MASTER where function_id='" + functionid + "' and Branch_Id='" + branchid + "' ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
+
+        //deepak nov17
+
+
+        [HttpPost]
+        [Route("uploadinvoice")]
+        public async Task<ActionResult<ERPupload>> uploadinvoice(ERPupload data)
+        {
+
+
+            List<ERPupload> Logdata = new List<ERPupload>();
+            string Logdata1 = string.Empty;
+            string Logdata2 = string.Empty;
+            string Logdata3 = string.Empty;
+            string Logdata4 = string.Empty;
+            string Logdata5 = string.Empty;
+            string Logdata6 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+
+                DataSet dsinvoice = new DataSet();
+                dsinvoice.Tables.Add("INVOICE");
+                dsinvoice.Tables[0].Columns.Add("FUNCTION_ID");
+                dsinvoice.Tables[0].Columns.Add("BRANCH_ID");
+                dsinvoice.Tables[0].Columns.Add("INVOICE_ID");
+                dsinvoice.Tables[0].Columns.Add("PO_ID");
+                dsinvoice.Tables[0].Columns.Add("PAYMENT_ID");
+                dsinvoice.Tables[0].Columns.Add("VENDOR_ID");
+                dsinvoice.Tables[0].Columns.Add("IVOICE_DATE");
+                dsinvoice.Tables[0].Columns.Add("INVOICE_REF");
+                dsinvoice.Tables[0].Columns.Add("INVOICE_MODE");
+                dsinvoice.Tables[0].Columns.Add("PO_AMOUNT");
+                dsinvoice.Tables[0].Columns.Add("DUE_AMOUNT");
+                dsinvoice.Tables[0].Columns.Add("INVOICE_AMOUNT");
+                dsinvoice.Tables[0].Columns.Add("INVOICE_FILE_PATH");
+                dsinvoice.Tables[0].Columns.Add("REMARKSS");
+                dsinvoice.Tables[0].Columns.Add("STATUS");
+                dsinvoice.Tables[0].Columns.Add("CREATED_BY");
+                dsinvoice.Tables[0].Columns.Add("UPDATED_BY");
+                dsinvoice.Tables[0].Columns.Add("IPADDRESS");
+                dsinvoice.Tables[0].Columns.Add("ApprovalID");
+
+                string filename = data.filename;
+                char[] sep1 = { '\\' };
+                string[] fName = filename.Split(sep1);
+                int lngth = fName.Length;
+                string docName = fName[lngth - 1];
+                char[] sep = { '.' };
+                string[] arrfile = filename.Split(sep);
+                string docExtname = arrfile[0];
+                string docExt = arrfile[1];
+                string FileLocation = "SmartERP/UI/Forms/Userfiles/";
+                //   docName = docName + "_" + HF_PAYMENT_ID.Value;
+                DataRow row1 = dsinvoice.Tables[0].NewRow();
+                row1.BeginEdit();
+                string id = row1["Po_id"].ToString();
+                row1["FUNCTION_ID"] = data.functionid;
+                row1["BRANCH_ID"] = data.branchid;
+
+                row1["PO_ID"] = data.poid;
+
+                string paymentid = "select Payment_ID from ERP_PO_PAYMENT_APPROVALS where po_id = '" + data.poid + "'";
+
+                SqlCommand cmd5 = new SqlCommand(paymentid, dbConn);
+                var reader5 = cmd5.ExecuteReader();
+                System.Data.DataTable results5 = new System.Data.DataTable();
+                results5.Load(reader5);
+                // Logdata2 = DataTableToJSONWithStringBuilder(results5);
+                for (int i = 0; i < results5.Rows.Count; i++)
+                {
+
+                    DataRow row2 = results5.Rows[i];
+
+                    Logdata2 = row2[0].ToString();
+                }
+
+
+                string vendor_id = "select vendor_id from ERP_PO_MASTER where po_id = '" + data.poid + "'";
+
+                SqlCommand cmd6 = new SqlCommand(vendor_id, dbConn);
+                var reader6 = cmd6.ExecuteReader();
+                System.Data.DataTable results6 = new System.Data.DataTable();
+                results6.Load(reader6);
+                //   Logdata3 = DataTableToJSONWithStringBuilder(results6);
+                for (int i = 0; i < results6.Rows.Count; i++)
+                {
+
+
+                    DataRow row3 = results6.Rows[i];
+
+                    Logdata3 = row3[0].ToString();
+                }
+
+
+
+                row1["PAYMENT_ID"] = Logdata2;
+                row1["VENDOR_ID"] = Logdata3;
+                row1["IVOICE_DATE"] = data.invoicedate;
+
+                row1["INVOICE_REF"] = data.invoiceref;
+                row1["INVOICE_MODE"] = "U";
+
+                row1["PO_AMOUNT"] = "0";
+                row1["DUE_AMOUNT"] = "0";
+                row1["INVOICE_AMOUNT"] = data.invoiceamount;
+
+                row1["INVOICE_FILE_PATH"] = docName;
+
+                row1["REMARKSS"] = data.remarks;
+                row1["STATUS"] = "P";
+                row1["CREATED_BY"] = data.userid;
+                row1["UPDATED_BY"] = data.userid;
+                row1["IPADDRESS"] = "::1";
+                string approveid = "select Approval_id from ERP_PO_PAYMENT_APPROVALS where po_id = '" + data.poid + "'";
+
+                SqlCommand cmd4 = new SqlCommand(approveid, dbConn);
+                var reader4 = cmd4.ExecuteReader();
+                System.Data.DataTable results4 = new System.Data.DataTable();
+                results4.Load(reader4);
+                //Logdata1 = DataTableToJSONWithStringBuilder(results4);
+                for (int i = 0; i < results4.Rows.Count; i++)
+                {
+
+
+                    DataRow row4 = results4.Rows[i];
+
+                    Logdata1 = row4[0].ToString();
+                }
+
+                row1["ApprovalID"] = Logdata1;
+                row1.EndEdit();
+                dsinvoice.Tables[0].Rows.Add(row1);
+
+                string INVOICE_ID = string.Empty;
+                string INVOICE_FILE_PATH = string.Empty;
+                DataRow row = null;
+                string sql = "";
+
+                if (dsinvoice.Tables[0].Rows.Count > 0)
+                {
+                    row = dsinvoice.Tables[0].Rows[0];
+                    string branchID = "select branch_id from ERP_PO_MASTER where po_id = '" + row["PO_ID"] + "'";
+
+                    SqlCommand cmd1 = new SqlCommand(branchID, dbConn);
+                    var reader1 = cmd1.ExecuteReader();
+                    System.Data.DataTable results1 = new System.Data.DataTable();
+                    results1.Load(reader1);
+                    // Logdata1 = DataTableToJSONWithStringBuilder(results1);
+                    for (int i = 0; i < results1.Rows.Count; i++)
+                    {
+
+
+                        DataRow row5 = results1.Rows[i];
+
+                        Logdata4 = row5[0].ToString();
+                    }
+
+
+                    sql = "EXEC ERP_VENDORMASTER_SAVEINVOICEFILES_NEW '" + row["FUNCTION_ID"] + "','" + Logdata4 + "','" + row["PO_ID"] + "','" + row["PAYMENT_ID"] + "','" + row["VENDOR_ID"] + "','" + row["IVOICE_DATE"] + "','" + row["INVOICE_REF"] + "','" + row["INVOICE_MODE"] + "','" + row["PO_AMOUNT"] + "','" + row["DUE_AMOUNT"] + "','" + row["INVOICE_AMOUNT"] + "','" + row["REMARKSS"] + "','" + row["STATUS"] + "','" + row["CREATED_BY"] + "','" + row["UPDATED_BY"] + "','" + row["IPADDRESS"] + "','" + row["ApprovalID"] + "'";
+
+                    SqlCommand cmd2 = new SqlCommand(sql, dbConn);
+                    var reader2 = cmd2.ExecuteReader();
+                    System.Data.DataTable results2 = new System.Data.DataTable();
+                    results2.Load(reader2);
+                    // Logdata1 = DataTableToJSONWithStringBuilder(results2);
+                    for (int i = 0; i < results2.Rows.Count; i++)
+                    {
+
+
+                        DataRow row6 = results2.Rows[i];
+
+                        Logdata5 = row6[0].ToString();
+                    }
+
+
+                    INVOICE_ID = Logdata5;
+                    INVOICE_FILE_PATH = INVOICE_ID + "_" + row["INVOICE_FILE_PATH"].ToString();
+
+                    sql = "UPDATE ERP_PURCHASE_INVOICE_MASTER SET INVOICE_FILE_PATH='" + INVOICE_FILE_PATH + "' WHERE INVOICE_ID='" + INVOICE_ID + "'";
+
+                    SqlCommand cmd3 = new SqlCommand(sql, dbConn);
+                    var reader3 = cmd3.ExecuteReader();
+                    System.Data.DataTable results3 = new System.Data.DataTable();
+                    results3.Load(reader3);
+                    Logdata1 = DataTableToJSONWithStringBuilder(results3);
+
+
+                    string strVideofile = data.filedata;
+
+
+                    string URLprifix = @"D:\Production\Application\nTireERP\nTireoffice\SmartERP\UI\Forms\Userfiles\";
+                    //string URLprifix = @"F:\deepak\";
+                    string filepath = @"F:\deepak\";
+                    filepath = URLprifix + docExtname + "." + docExt;
+
+                    byte[] imageBytes33 = Convert.FromBase64String(strVideofile);
+                    MemoryStream mss12 = new MemoryStream(imageBytes33, 0, imageBytes33.Length);
+                    mss12.Write(imageBytes33, 0, imageBytes33.Length);
+                    System.IO.File.WriteAllBytes(filepath, imageBytes33);
+
+                }
+
+                dbConn.Close();
+
+
+                return Ok("Uploaded successfully");
+
+
+            }
+        }
 
         public string DataTableToJSONWithStringBuilder(DataTable table)
         {
