@@ -245,6 +245,18 @@ namespace MobileAppAPI.Models
 
 		public string RACKEMIS { get; set; }
 
+		public string poid { get; set; }
+
+		public string PCREMARKS { get; set; }
+		public string PCDATE { get; set; }
+
+		public string BRANCH_ID { get; set; }
+		public string PO_ID { get; set; }
+		public string REV_NO { get; set; }
+		public string PMT_ID { get; set; }
+		public string PO_NO { get; set; }
+		public string APPROVALID { get; set; }
+
 
 	}
 		public class RootObject
