@@ -7926,7 +7926,7 @@ namespace MobileAppAPI.Controllers
                     results3.Load(reader3);
 
 
-                    string sql1 = "EXEC ERP_GETREFERENCE '" + strFunction + "','" + type + "'";
+                    string sql1 = "EXEC MBL_ERP_GETREFERENCE '" + strFunction + "','" + type + "'";
                     SqlCommand cmd4 = new SqlCommand(sql1, dbConn);
                     var reader4 = cmd4.ExecuteReader();
                     System.Data.DataTable results4 = new System.Data.DataTable();
@@ -7978,6 +7978,7 @@ namespace MobileAppAPI.Controllers
                                     if (Name == "RFQID")
                                     {
                                         RfqId = Value.ToString();
+                                        prs_Id = Value.ToString();
                                     }
                                     if (Name == "vendor_id")
                                     {
