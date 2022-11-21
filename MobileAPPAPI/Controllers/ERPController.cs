@@ -2664,9 +2664,9 @@ namespace MobileAppAPI.Controllers
 
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
-                    //string sql = "MBLE_ERP_RFQ_getvendorevaluationRFQs";
+                    string sql = "MBLE_ERP_RFQ_getvendorevaluationRFQs";
 
-                    String sql = "MBL_ERP_RFQ_getvendorevaluationRFQ";
+                   // String sql = "MBL_ERP_RFQ_getvendorevaluationRFQ";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
                     // EXEC MBL_ERP_RFQ_getvendorevaluationRFQs '1','','','','','','','','','RFQ Raised','2','0','20','prs_id DESC','','286','1'
 
@@ -2688,7 +2688,7 @@ namespace MobileAppAPI.Controllers
                     cmd.Parameters.AddWithValue("@PAGESIZE", "20");
                     cmd.Parameters.AddWithValue("@SORTEXPRESSION", "prs_id DESC");
                     cmd.Parameters.AddWithValue("@ALPHANAME", "");
-                    cmd.Parameters.AddWithValue("@UserId", "1");
+                    cmd.Parameters.AddWithValue("@UserId", data.userid);
                     cmd.Parameters.AddWithValue("@UserType", "1");
 
 
@@ -6087,108 +6087,355 @@ namespace MobileAppAPI.Controllers
 
                                     if (Name == "functionid")
                                     {
-                                        functionid = Value.ToString();
+                                        if (Value.ToString()=="")
+                                        {
+                                            functionid = null;
+                                        }
+                                        else
+                                        {
+                                            functionid = Value.ToString();
+                                        }
+                                        
                                     }
                                     if (Name == "rfqcode")
                                     {
-                                        rfqcode = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            rfqcode = null;
+                                        }
+                                        else
+                                        {
+                                            rfqcode = Value.ToString();
+                                        }
+                                        
                                     }
 
                                     if (Name == "vendorid")
                                     {
-                                        vendorid = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            vendorid = null;
+                                        }
+                                        else
+                                        {
+                                            vendorid = Value.ToString();
+
+                                        }
+                                       
                                     }
                                     if (Name == "itemid")
                                     {
-                                        itemid = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            itemid = null;
+
+                                        }
+                                        else
+                                        {
+                                            itemid = Value.ToString();
+                                        }
+                                       
                                     }
                                     if (Name == "itemcategory")
                                     {
-                                        itemcategory = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            itemcategory = null;
+                                        }
+                                        else
+                                        {
+                                            itemcategory = Value.ToString();
+
+                                        }
+                                       
                                     }
                                     if (Name == "itemsubcategory")
                                     {
-                                        itemsubcategory = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            itemsubcategory = null;
+                                        }
+                                        else
+                                        {
+                                            itemsubcategory = Value.ToString();
+                                        }
+                                       
                                     }
                                     if (Name == "brand")
                                     {
-                                        brand = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            brand = null;
+                                        }
+                                        else
+                                        {
+                                            brand = Value.ToString();
+                                        }
+                                       
                                     }
                                     if (Name == "model")
                                     {
-                                        model = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            model = null;
+                                        }
+                                        else
+                                        {
+                                            model = Value.ToString();
+                                        }
+                                       
                                     }
                                     if (Name == "rating")
                                     {
-                                        rating = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            rating = null;
+                                        }
+                                        else
+                                        {
+                                            rating = Value.ToString();
+                                        }
+                                        
                                     }
                                     if (Name == "mode")
                                     {
-                                        mode = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            mode = null;
+                                        }
+                                        else
+                                        {
+                                            mode = Value.ToString();
+                                        }
+                                       
                                     }
                                     if (Name == "ipaddress")
                                     {
-                                        ipaddress = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            ipaddress = null;
+                                        }
+                                        else
+                                        {
+                                            ipaddress = Value.ToString();
+                                        }
+                                        
                                     }
                                     if (Name == "unitprice")
                                     {
-                                        unitprice = Value.ToString();
+                                        if (Value.ToString() == "")
+                                        {
+                                            unitprice = null;
+                                        }
+                                        else
+                                        {
+                                            unitprice = Value.ToString();
+                                        }
+                                        
                                     }
                                     if (Name == "netamount")
                                     {
-                                        netamount = Value.ToString();
+                                        if (Value.ToString() == "")
+                                        {
+                                            netamount = null;
+                                        }
+                                        else
+                                        {
+                                            netamount = Value.ToString();
+                                        }
+                                        
                                     }
                                     if (Name == "discount")
                                     {
-                                        discount = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            discount = null;
+                                        }
+                                        else
+                                        {
+                                            discount = Value.ToString();
+                                        }
+                                        
                                     }
                                     if (Name == "taxes")
                                     {
-                                        taxes = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            taxes = null;
+                                        }
+                                        else
+                                        {
+                                            taxes = Value.ToString();
+                                        }
+                                        
                                     }
                                     if (Name == "transportcharges")
                                     {
-                                        transportcharges = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            transportcharges = null;
+                                        }
+                                        else
+                                        {
+                                            transportcharges = Value.ToString();
+                                        }
+                                        
                                     }
                                     if (Name == "fromqty")
                                     {
-                                        fromqty = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            fromqty = null;
+                                        }
+                                        else
+                                        {
+                                            fromqty = Value.ToString();
+                                        }
+                                        
                                     }
                                     if (Name == "toqty")
                                     {
-                                        toqty = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            toqty = null;
+                                        }
+                                        else
+                                        {
+                                            toqty = Value.ToString();
+                                        }
+                                       
                                     }
                                     if (Name == "leadtime")
                                     {
-                                        leadtime = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            leadtime = null;
+                                        }
+                                        else
+                                        {
+                                            leadtime = Value.ToString();
+                                        }
+                                       
                                     }
                                     if (Name == "itemcode")
                                     {
-                                        itemcode = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            itemcode = null;
+                                        }
+                                        else
+                                        {
+                                            itemcode = Value.ToString();
+                                        }
+                                       
                                     }
                                     if (Name == "itemdesc1")
                                     {
-                                        itemdesc1 = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            itemdesc1 = null;
+                                        }
+                                        else
+                                        {
+                                            itemdesc1 = Value.ToString();
+                                        }
+                                       
                                     }
                                     if (Name == "tamount")
                                     {
-                                        tamount = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            tamount = null;
+                                        }
+                                        else
+                                        {
+                                            tamount = Value.ToString();
+                                        }
+                                        
                                     }
                                     if (Name == "qty")
                                     {
-                                        qty = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            qty = null;
+                                        }
+                                        else
+                                        {
+                                            qty = Value.ToString();
+                                        }
+                                      
                                     }
                                     if (Name == "vendoritemid")
                                     {
-                                        vendoritemid = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            vendoritemid = null;
+                                        }
+                                        else
+                                        {
+                                            vendoritemid = Value.ToString();
+                                        }
+                                       
                                     }
                                     if (Name == "prsid")
                                     {
-                                        prsid = Value.ToString();
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            prsid = null;
+                                        }
+                                        else
+                                        {
+                                            prsid = Value.ToString();
+                                        }
+                                        
                                     }
                                     if (Name == "rOW_NUM")
                                     {
-                                        rowid = Value.ToString();
+                                        if (Value.ToString() == "")
+                                        {
+                                            rowid = null;
+                                        }
+                                        else
+                                        {
+                                            rowid = Value.ToString();
+                                        }
+                                        
+                                    }
+                                    if (Name == "userid")
+                                    {
+
+                                        if (Value.ToString() == "")
+                                        {
+                                            userid = null;
+                                        }
+                                        else
+                                        {
+                                            userid = Value.ToString();
+
+                                        }
+                                        
                                     }
                                 }
 
@@ -6212,11 +6459,11 @@ namespace MobileAppAPI.Controllers
                                 cmd.Parameters.AddWithValue("@MODE", mode);
                                 cmd.Parameters.AddWithValue("@USERID", userid);
                                 cmd.Parameters.AddWithValue("@IPADDRESS", ipaddress);
-                                cmd.Parameters.AddWithValue("@UNIT_PRICE", unitprice);
-                                cmd.Parameters.AddWithValue("@NET_PRICE_PER_UNIT", netamount);
-                                cmd.Parameters.AddWithValue("@DISCOUNT", discount);
-                                cmd.Parameters.AddWithValue("@TAXES_AND_LEVIES ", taxes);
-                                cmd.Parameters.AddWithValue("@TRANSPORT_CHARGES", transportcharges);
+                                cmd.Parameters.AddWithValue("@UNIT_PRICE",Convert.ToDecimal(unitprice));
+                                cmd.Parameters.AddWithValue("@NET_PRICE_PER_UNIT", Convert.ToDecimal(netamount));
+                                cmd.Parameters.AddWithValue("@DISCOUNT", Convert.ToDecimal(discount));
+                                cmd.Parameters.AddWithValue("@TAXES_AND_LEVIES ", Convert.ToDecimal(taxes));
+                                cmd.Parameters.AddWithValue("@TRANSPORT_CHARGES", Convert.ToDecimal(transportcharges));
                                 cmd.Parameters.AddWithValue("@FROM_QTY", fromqty);
                                 cmd.Parameters.AddWithValue("@TO_QTY", toqty);
                                 cmd.Parameters.AddWithValue("@LEAD_TIME", leadtime);
@@ -6230,7 +6477,7 @@ namespace MobileAppAPI.Controllers
                                 cmd.Parameters.AddWithValue("@PRSDETAILSID", prsid);
 
 
-                                cmd.ExecuteNonQuery();
+                               // cmd.ExecuteNonQuery();
                                 var reader = cmd.ExecuteReader();
                                 System.Data.DataTable results = new System.Data.DataTable();
                                 results.Load(reader);
@@ -6288,7 +6535,7 @@ namespace MobileAppAPI.Controllers
                 dbConn.Open();
                 string query = "";
 
-                string strsql = "EXEC MBL_ERP_GETVENDORTEMPDETAILS @FUNCTIONID='" + functionId + "',@RFQCODE='" + rfqcode + "'";
+                string strsql = "EXEC MBL_ERP_GETVENDORTEMPDETAILS1 @FUNCTIONID='" + functionId + "',@RFQCODE='" + rfqcode + "'";
                 SqlCommand cmd = new SqlCommand(strsql, dbConn);
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
@@ -7957,7 +8204,7 @@ namespace MobileAppAPI.Controllers
             {
                 string query = "";
 
-                query = "select po_id,po_number from ERP_PO_MASTER where po_number like'%" + ponumber + "%'";
+                query = "select a.po_id,a.po_number from ERP_PO_MASTER a inner join ERP_PO_PAYMENT_APPROVALS b on a.po_id=b.PO_ID where a.po_number like'%" + ponumber + "%'";
 
                 dbConn.Open();
                 SqlCommand cmd = new SqlCommand(query, dbConn);
@@ -8403,7 +8650,7 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string query = "";
-                query = "select LocationDescription from ERP_LOCATION_MASTER where function_id='" + functionid + "' and BranchId='" + branchid + "' ";
+                query = "select BranchID,LocationID,LocationCode,LocationDescription from ERP_LOCATION_MASTER where function_id='" + functionid + "' and BranchId='" + branchid + "' ";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -8440,7 +8687,7 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string query = "";
-                query = "select bin_desc from ERP_BIN_LOCATION_MASTER where function_id='" + functionid + "' and Branch_Id='" + branchid + "' ";
+                query = "select location_id,bin_id,bin_code,bin_desc from ERP_BIN_LOCATION_MASTER where function_id='" + functionid + "' and Branch_Id='" + branchid + "' ";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
