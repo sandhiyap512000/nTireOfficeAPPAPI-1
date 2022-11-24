@@ -22,8 +22,8 @@ namespace MobileAppAPI.Controllers
 
 
         [HttpGet]
-        [Route("camsbranchcount")]
-        public string camsbranchcount()
+        [Route("camsbranchcount/{strfunction}")]
+        public string camsbranchcount(string strfunction)
         {
             string Logdata1 = string.Empty;
             var logdata = "";
@@ -34,7 +34,9 @@ namespace MobileAppAPI.Controllers
                 dbConn.Open();
                 //string sql = "CAMS_BRANCHWISE_ASSETCOUNT";
                 string sql = "MBL_CAMS_BRANCHWISE_ASSETCOUNT";
+               
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
+                cmd.Parameters.AddWithValue("@FunctionId", strfunction);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
 

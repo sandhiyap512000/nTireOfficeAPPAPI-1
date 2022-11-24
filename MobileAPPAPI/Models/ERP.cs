@@ -115,11 +115,52 @@ namespace MobileAppAPI.Models
 
 		public string release { get; set; }
 
+
+		public string UserIds { get; set; }
+
+		public string UserTypes { get; set; }
 		//RFQ
 
 		public string strfun { get; set; }
 		public string rfqfromdate { get; set; }
 		public string rfqtodate { get; set; }
+
+		public string quotdate { get; set; }
+
+		public string qty { get; set; }
+
+		public string rowid { get; set; }
+
+		public string itemcategory { get; set; }
+
+		public string itemsubcategory { get; set; }
+
+		public string brand { get; set; }
+
+		public string model { get; set; }
+
+		public string rating { get; set; }
+
+		public string unitprice { get; set; }
+
+		public string discount { get; set; }
+
+		public string taxes { get; set; }
+
+		public string transportcharges { get; set; }
+
+		public string fromqty { get; set; }
+		public string toqty { get; set; }
+
+		public string leadtime { get; set; }
+
+		public string tamount { get; set; }
+
+		public string vendoritemid { get; set; }
+
+
+
+		public string itemdesc1 { get; set; }//Item detail description
 
 		//[Column(TypeName = "jsonb")]
 		//public string customfield { get; set; }
@@ -171,6 +212,91 @@ namespace MobileAppAPI.Models
 		//public ERPItems1 Itemsdetail { get; set; }
 
 		public List<ERPItems1> ERPItems { get; set; }
+
+
+
+		public string FUNCTIONIDM { get; set; }
+		public string BRANCHM { get; set; }
+		public string MRSCODEM { get; set; }
+		public string ITEMCODEM { get; set; }
+
+		public string DATEFROMM { get; set; }
+		public string DATETOM { get; set; }
+		public string STATUSM { get; set; }
+		public string CUTSTATUSM { get; set; }
+		public string MENUIDM { get; set; }
+		public int PAGEINDEXM { get; set; }
+		public int PAGESIZEM { get; set; }
+		public string SORTEXPRESSIONM { get; set; }
+		public string ALPHANAMEM { get; set; }
+		public string USERTYPEM { get; set; }
+		public string USERIDM { get; set; }
+
+
+		public string FUNCTIONIDILT { get; set; }
+		public string BRANCHIDILT { get; set; }
+		public string FROMDATEILT { get; set; }
+		public string TODATEILT { get; set; }
+		public string STATUSILT { get; set; }
+		public string MODEILT { get; set; }
+		public string STRITEMCODEILT { get; set; }
+		public string INTERREFILT { get; set; }
+		public string ALPHANAMEILT { get; set; }
+		public string SORTEXPRESSIONILT { get; set; }
+		public int PAGEINDEXILT { get; set; }
+		public int PAGESIZEILT { get; set; }
+
+		//Material Issue
+		public string RBYMI { get; set; }
+		public string STOREMI { get; set; }
+
+		public string FUNCTIONIDMI { get; set; }
+		public string BRANCHIDMI { get; set; }
+		public string ITEM_CODEMI { get; set; }
+		public string ITEM_REFMI { get; set; }
+		public string ILT_REFMI { get; set; }
+		public string SR_REFMI { get; set; }
+		public string FROMDATEMI { get; set; }
+		public string TODATEMI { get; set; }
+		public string STATUSMI { get; set; }
+		public string ALPHANAMEMI { get; set; }
+
+		public string SORTEXPRESSIONMI { get; set; }
+
+		public int PAGEINDEXMI { get; set; }
+
+		public int PAGESIZEMI { get; set; }
+
+		public string SEARCH_TYPEMI { get; set; }
+
+		//Material issuedetails link search
+
+		public string FUNCTIONIDMIS { get; set; }
+		public string BRANCHIDMIS { get; set; }
+		public string LOCATION_IDMIS { get; set; }
+		public string BINMIS { get; set; }
+		public string ITEM_IDMIS { get; set; }
+		public string ALPHANAMEMIS { get; set; }
+		public string SORTEXPRESSIONMIS { get; set; }
+		public int PAGEINDEXMIS { get; set; }
+		public int PAGESIZEMIS { get; set; }
+
+		public string STOREEMIS { get; set; }
+
+		public string RACKEMIS { get; set; }
+
+		public string poid { get; set; }
+
+		public string PCREMARKS { get; set; }
+		public string PCDATE { get; set; }
+
+		public string BRANCH_ID { get; set; }
+		public string PO_ID { get; set; }
+		public string REV_NO { get; set; }
+		public string PMT_ID { get; set; }
+		public string PO_NO { get; set; }
+		public string APPROVALID { get; set; }
+
 
 	}
 		public class RootObject
@@ -252,6 +378,28 @@ namespace MobileAppAPI.Models
 		public string flag { get; set; }
 	}
 
+
+	public class ERPupload
+	{
+		public string filename { get; set; }
+		public string functionid { get; set; }
+
+		public string branchid { get; set; }
+		public string poid { get; set; }
+		public string paymentid { get; set; }
+		public string vendorid { get; set; }
+		public string invoicedate { get; set; }
+		public string invoiceref { get; set; }
+		public string invoiceamount { get; set; }
+		public string remarks { get; set; }
+		public string userid { get; set; }
+
+		public string approveid { get; set; }
+
+		public string filedata { get; set; }
+
+
+	}
 
 
 }
