@@ -124,7 +124,47 @@ namespace MobileAppAPI.Models
 		//[Column(TypeName = "jsonb")]
 		//public string customfield { get; set; }
 		public string item_deatils { get; set; }
-		
+
+
+		//Material Issue
+		public string RBYMI { get; set; }
+		public string STOREMI { get; set; }
+
+		public string FUNCTIONIDMI { get; set; }
+		public string BRANCHIDMI { get; set; }
+		public string ITEM_CODEMI { get; set; }
+		public string ITEM_REFMI { get; set; }
+		public string ILT_REFMI { get; set; }
+		public string SR_REFMI { get; set; }
+		public string FROMDATEMI { get; set; }
+		public string TODATEMI { get; set; }
+		public string STATUSMI { get; set; }
+		public string ALPHANAMEMI { get; set; }
+
+		public string SORTEXPRESSIONMI { get; set; }
+
+		public int PAGEINDEXMI { get; set; }
+
+		public int PAGESIZEMI { get; set; }
+
+		public string SEARCH_TYPEMI { get; set; }
+
+		//Material issuedetails link search
+
+		public string FUNCTIONIDMIS { get; set; }
+		public string BRANCHIDMIS { get; set; }
+		public string LOCATION_IDMIS { get; set; }
+		public string BINMIS { get; set; }
+		public string ITEM_IDMIS { get; set; }
+		public string ALPHANAMEMIS { get; set; }
+		public string SORTEXPRESSIONMIS { get; set; }
+		public int PAGEINDEXMIS { get; set; }
+		public int PAGESIZEMIS { get; set; }
+
+		public string STOREEMIS { get; set; }
+
+		public string RACKEMIS { get; set; }
+
 		public List<ERPItems> Itemsdetail { get; set; }
 
 		//[Column(TypeName = "jsonb")]
