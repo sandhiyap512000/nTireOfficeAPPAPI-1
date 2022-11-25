@@ -81,7 +81,9 @@ namespace JSIGamingAPI.Controllers
                 for (int i = 0; i < results.Rows.Count; i++)
                 {
                     DataRow row = results.Rows[i];
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);//need to uncomment
+
+                    Logdata1 = DataTableToJSONWithStringBuilder1(results);
                     // logdata= DataTableToJSONWithStringBuilder(results);
 
                     dbConn.Close();
@@ -251,8 +253,40 @@ namespace JSIGamingAPI.Controllers
         }
 
 
+        public string DataTableToJSONWithStringBuilder1(DataTable table)
+        {
+            var JSONString = new StringBuilder();
+            if (table.Rows.Count > 0)
+            {
+                JSONString.Append("[");
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    JSONString.Append("{");
+                    for (int j = 0; j < table.Columns.Count; j++)
+                    {
+                        if (j < table.Columns.Count - 1)
+                        {
+                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString().Trim() + "\":" + "\"" + table.Rows[i][j].ToString().Trim() + "\",");
+                        }
+                        else if (j == table.Columns.Count - 1)
+                        {
+                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString().Trim() + "\":" + "\"" + table.Rows[i][j].ToString().Trim() + "\"");
+                        }
+                    }
+                    if (i == table.Rows.Count - 1)
+                    {
+                        JSONString.Append("}");
+                    }
+                    else
+                    {
+                        JSONString.Append("},");
+                    }
+                }
+                JSONString.Append("]");
+            }
+            return JSONString.ToString();
+        }
 
-      
 
 
         public string DataTableToJSONWithStringBuilder(DataTable table)

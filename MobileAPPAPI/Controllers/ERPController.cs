@@ -2403,7 +2403,7 @@ namespace MobileAppAPI.Controllers
                 {
                     string item_id = "0";
 
-                    string query1 = "select item_id from ERP_Item_master where item_code='" + item_code + "'";
+                    string query1 = "select item_id from ERP_Item_master where item_code='" + item_code + "' and status='A'";
 
                     SqlCommand cmd1 = new SqlCommand(query1, dbConn);
                     var reader1 = cmd1.ExecuteReader();
@@ -5619,7 +5619,7 @@ namespace MobileAppAPI.Controllers
                 dbConn.Open();
                 string query = "";
 
-                string strsql = "EXEC MBL_ERP_GETVENDORTEMPDETAILS1 @FUNCTIONID='" + functionId + "',@RFQCODE='" + rfqcode + "'";
+                string strsql = "EXEC MBL_ERP_GETVENDORTEMPDETAILS @FUNCTIONID='" + functionId + "',@RFQCODE='" + rfqcode + "'";
                 SqlCommand cmd = new SqlCommand(strsql, dbConn);
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
@@ -8385,12 +8385,90 @@ namespace MobileAppAPI.Controllers
 
 
 
+        //sowmi23/11
+        [HttpPost]
+        [Route("vendor_paymentdata")]
+        public async Task<ActionResult<ERP>> vendor_paymentdata(ERP data)
+        {
+            // string struser = data.user_lower;
 
-        
+            List<ERP> Logdata = new List<ERP>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                DataSet dsuserdetails = new DataSet();
+                dbConn.Open();
+                string sql = "MBL_ERP_getSalesPaymentDeta2_New";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@POID", data.poid);
+                cmd.Parameters.AddWithValue("@REVISIONNO", "0");
+                cmd.Parameters.AddWithValue("@PAGEINDEX", "0");
+                cmd.Parameters.AddWithValue("@PAGESIZE", "500");
+                cmd.Parameters.AddWithValue("@SORTEXPRESSION", "po_id");
+                cmd.Parameters.AddWithValue("@ALPHANAME", "");
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    dbConn.Close();
+                }
+                var result = (new { logdata });
+                return Ok(Logdata1);
+            }
+        }
 
 
 
 
+        //Auto completion MRS code
+
+        [HttpGet]
+        [Route("MRScode/{code}")]
+        public string MRScode(string code)
+        {
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select mrs_code from ERP_MRS_MASTER where mrs_code like'%" + code + "%'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
 
         public string DataTableToJSONWithStringBuilder(DataTable table)
         {
@@ -8405,11 +8483,11 @@ namespace MobileAppAPI.Controllers
                     {
                         if (j < table.Columns.Count - 1)
                         {
-                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\",");
+                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString().Trim() + "\":" + "\"" + table.Rows[i][j].ToString().Trim() + "\",");
                         }
                         else if (j == table.Columns.Count - 1)
                         {
-                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\"");
+                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString().Trim() + "\":" + "\"" + table.Rows[i][j].ToString().Trim() + "\"");
                         }
                     }
                     if (i == table.Rows.Count - 1)
