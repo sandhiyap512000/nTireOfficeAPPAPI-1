@@ -3844,7 +3844,6 @@ namespace MobileAppAPI.Controllers
 
 
 
-
         [HttpPost]
         [Route("MaterialRequistion_Insert_Update")]
         public async Task<ActionResult<ERP>> MaterialRequistion_Insert_Update(dynamic data)
@@ -4177,33 +4176,29 @@ namespace MobileAppAPI.Controllers
                     // mrs_id = ("EXEC ERP_MRS_SAVEMASTER");
 
                     DataSet dsuserdetails = new DataSet();
-                    string sql = "MBL_ERP_MRS_SAVEMASTER1";
-                    SqlCommand objcommand1 = new SqlCommand(sql, dbConn);
+                    string sqlMRS = "MBL_ERP_MRS_SAVEMASTER1";
+                    SqlCommand objcommandMrs = new SqlCommand(sqlMRS, dbConn);
 
 
-                    objcommand1.CommandType = CommandType.StoredProcedure;
+                    objcommandMrs.CommandType = CommandType.StoredProcedure;
 
 
-                    objcommand1.Parameters.AddWithValue("@FUNCTION_ID", FUNCTION_ID.ToString());
-                    objcommand1.Parameters.AddWithValue("@BRANCH_ID", FUNCTION_ID.ToString());
-                    objcommand1.Parameters.AddWithValue("@MRS_ID", strmrsid.ToString());
-                    objcommand1.Parameters.AddWithValue("@mrs_code", MRS_CODE.ToString());
-
-                    objcommand1.Parameters.AddWithValue("@requested_by", requested_by.ToString());
-                    objcommand1.Parameters.AddWithValue("@requested_Date", requested_Date.ToString());
-
-                    objcommand1.Parameters.AddWithValue("@request_reference", request_reference.ToString());
-                    objcommand1.Parameters.AddWithValue("@request_reason", request_reason.ToString());
-                    objcommand1.Parameters.AddWithValue("@netamount", netamount.ToString());
-                    objcommand1.Parameters.AddWithValue("@STATUS", STATUS.ToString());
-
-                    objcommand1.Parameters.AddWithValue("@created_by", CREATED_BY.ToString());
-                    objcommand1.Parameters.AddWithValue("@LST_UPD_BY", LST_UPD_BY.ToString());
-                    objcommand1.Parameters.AddWithValue("@IPADDRESS", IPADDRESS.ToString());
-
-                    objcommand1.Parameters.AddWithValue("@PRIORITY", Order_Priority.ToString());
-                    objcommand1.Parameters.AddWithValue("@CostCode", CostCode.ToString());
-                    objcommand1.Parameters.AddWithValue("@FLAG", flag.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@FUNCTION_ID", FUNCTION_ID.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@BRANCH_ID", BRANCH_ID.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@MRS_ID", strmrsid.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@mrs_code", MRS_CODE.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@requested_by", requested_by.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@requested_Date", requested_Date.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@request_reference", request_reference.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@request_reason", request_reason.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@netamount", netamount.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@STATUS", STATUS.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@created_by", CREATED_BY.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@LST_UPD_BY", LST_UPD_BY.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@IPADDRESS", IPADDRESS.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@PRIORITY", Order_Priority.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@CostCode", CostCode.ToString());
+                    objcommandMrs.Parameters.AddWithValue("@FLAG", flag.ToString());
                     //objcommand1.Parameters.AddWithValue("@Remarks", remarks.ToString());
                     //objcommand1.Parameters.AddWithValue("@ITEM_DETAILED_DESCRIPTION", item_detailed_description.ToString());
                     //objcommand1.Parameters.AddWithValue("@BDC", BDC.ToString());
@@ -4211,17 +4206,26 @@ namespace MobileAppAPI.Controllers
                     //objcommand1.Parameters.AddWithValue("@ACC", ACC.ToString());
                     //objcommand1.Parameters.AddWithValue("@CPC", CPC.ToString());
                     //objcommand1.Parameters.AddWithValue("@VechileNO", VechileNO.ToString());
-                    // objcommand1.ExecuteNonQuery();
-                    var reader1 = objcommand1.ExecuteReader();
+                    //objcommandMrs.ExecuteNonQuery();
+
+                    var readerMRS = objcommandMrs.ExecuteReader();
                     System.Data.DataTable results1 = new System.Data.DataTable();
-                    results1.Load(reader1);
+                    results1.Load(readerMRS);
 
-                    for (int i = 0; i < results1.Rows.Count; i++)
-                    {
-                        DataRow row1 = results1.Rows[i];
-                        mrs_id = row1[0].ToString();
 
-                    }
+                    //var reader1 = objcommandMrs.ExecuteReader();
+                    //objcommandMrs.ExecuteNonQuery();
+                    //System.Data.DataTable results1 = new System.Data.DataTable();
+                    //results1.Load(reader1);
+
+                    //for (int i = 0; i < results1.Rows.Count; i++)
+                    //{
+                    //    DataRow row1 = results1.Rows[i];
+                    //    mrs_id = row1[0].ToString();
+
+                    //}
+
+
 
                     if (ChkRelease.ToString() == "true")
                     {
@@ -4446,7 +4450,7 @@ namespace MobileAppAPI.Controllers
 
 
 
-                                    //    //    string approveStatus1 = "select *,BO_USER_MASTER.TUM_USER_NAME from ERP_MRS_MASTER INNER JOIN BO_USER_MASTER ON BO_USER_MASTER.TUM_USER_ID = ERP_MRS_MASTER.requested_by  WHERE ERP_MRS_MASTER.mrs_id='" + mrs_id + "' and ERP_MRS_MASTER.function_id='" + FUNCTION_ID + "' select ERP_MRS_DETAILS.*,ERP_ITEM_MASTER.ITEM_CODE,ERP_ITEM_MASTER.ITEM_LONG_DESC  from ERP_MRS_DETAILS  INNER JOIN ERP_ITEM_MASTER ON ERP_MRS_DETAILS.ITEM_ID = ERP_ITEM_MASTER.ITEM_ID WHERE mrs_id='" + mrs_id + "'";
+                                    //    //    string approveStatus1 = "select ,BO_USER_MASTER.TUM_USER_NAME from ERP_MRS_MASTER INNER JOIN BO_USER_MASTER ON BO_USER_MASTER.TUM_USER_ID = ERP_MRS_MASTER.requested_by  WHERE ERP_MRS_MASTER.mrs_id='" + mrs_id + "' and ERP_MRS_MASTER.function_id='" + FUNCTION_ID + "' select ERP_MRS_DETAILS.,ERP_ITEM_MASTER.ITEM_CODE,ERP_ITEM_MASTER.ITEM_LONG_DESC  from ERP_MRS_DETAILS  INNER JOIN ERP_ITEM_MASTER ON ERP_MRS_DETAILS.ITEM_ID = ERP_ITEM_MASTER.ITEM_ID WHERE mrs_id='" + mrs_id + "'";
                                     //    //    SqlCommand cmdwf = new SqlCommand(approveStatus1, dbConn);
                                     //    //    var readerwf = cmdwf.ExecuteReader();
                                     //    //    System.Data.DataTable resultswf = new System.Data.DataTable();
@@ -4495,7 +4499,7 @@ namespace MobileAppAPI.Controllers
 
 
 
-                                    string approveStatus1 = "select *,BO_USER_MASTER.TUM_USER_NAME from ERP_MRS_MASTER INNER JOIN BO_USER_MASTER ON BO_USER_MASTER.TUM_USER_ID = ERP_MRS_MASTER.requested_by  WHERE ERP_MRS_MASTER.mrs_id='" + mrs_id + "' and ERP_MRS_MASTER.function_id='" + FUNCTION_ID + "' select ERP_MRS_DETAILS.*,ERP_ITEM_MASTER.ITEM_CODE,ERP_ITEM_MASTER.ITEM_LONG_DESC  from ERP_MRS_DETAILS  INNER JOIN ERP_ITEM_MASTER ON ERP_MRS_DETAILS.ITEM_ID = ERP_ITEM_MASTER.ITEM_ID WHERE mrs_id='" + mrs_id + "'";
+                                    string approveStatus1 = "select ,BO_USER_MASTER.TUM_USER_NAME from ERP_MRS_MASTER INNER JOIN BO_USER_MASTER ON BO_USER_MASTER.TUM_USER_ID = ERP_MRS_MASTER.requested_by  WHERE ERP_MRS_MASTER.mrs_id='" + mrs_id + "' and ERP_MRS_MASTER.function_id='" + FUNCTION_ID + "' select ERP_MRS_DETAILS.,ERP_ITEM_MASTER.ITEM_CODE,ERP_ITEM_MASTER.ITEM_LONG_DESC  from ERP_MRS_DETAILS  INNER JOIN ERP_ITEM_MASTER ON ERP_MRS_DETAILS.ITEM_ID = ERP_ITEM_MASTER.ITEM_ID WHERE mrs_id='" + mrs_id + "'";
                                     SqlCommand cmdwf = new SqlCommand(approveStatus1, dbConn);
                                     var readerwf = cmdwf.ExecuteReader();
                                     System.Data.DataTable resultswf = new System.Data.DataTable();
@@ -4507,40 +4511,39 @@ namespace MobileAppAPI.Controllers
                                     //retmrs = objdata.savedetails(ds);
                                     DataSet dsuserdetails1 = new DataSet();
                                     string sql1 = "MBL_ERP_MRS_SAVE_DETAILS";
-                                    SqlCommand objcommand = new SqlCommand(sql1, dbConn);
+                                    SqlCommand objcommandDet = new SqlCommand(sql1, dbConn);
 
+                                    objcommandDet.CommandType = CommandType.StoredProcedure;
+                                    objcommandDet.Parameters.AddWithValue("@FUNCTION_ID", FUNCTION_ID.ToString());
+                                    objcommandDet.Parameters.AddWithValue("@mrsdetail_id", mrsdetail_id.ToString());
+                                    objcommandDet.Parameters.AddWithValue("@MRS_ID", mrs_id.ToString());
 
-                                    objcommand.CommandType = CommandType.StoredProcedure;
-                                    objcommand.Parameters.AddWithValue("@FUNCTION_ID", FUNCTION_ID.ToString());
-                                    objcommand.Parameters.AddWithValue("@mrsdetail_id", mrsdetail_id.ToString());
-                                    objcommand.Parameters.AddWithValue("@MRS_ID", mrs_id.ToString());
+                                    objcommandDet.Parameters.AddWithValue("@item_id", item_id);
+                                    objcommandDet.Parameters.AddWithValue("@required_qty", RequiredQty.ToString());
+                                    objcommandDet.Parameters.AddWithValue("@issued_qty", 0);
+                                    objcommandDet.Parameters.AddWithValue("@returned_qty", 0);
+                                    objcommandDet.Parameters.AddWithValue("@cancelled_qty", 0);
+                                    objcommandDet.Parameters.AddWithValue("@UOM", "");
+                                    objcommandDet.Parameters.AddWithValue("@wo_number", 0);
+                                    objcommandDet.Parameters.AddWithValue("@jc_number", 0);
+                                    objcommandDet.Parameters.AddWithValue("@exp_date", EXP_DATE.ToString());
 
-                                    objcommand.Parameters.AddWithValue("@item_id", item_id);
-                                    objcommand.Parameters.AddWithValue("@required_qty", RequiredQty.ToString());
-                                    objcommand.Parameters.AddWithValue("@issued_qty", 0);
-                                    objcommand.Parameters.AddWithValue("@returned_qty", 0);
-                                    objcommand.Parameters.AddWithValue("@cancelled_qty", 0);
-                                    objcommand.Parameters.AddWithValue("@UOM", "");
-                                    objcommand.Parameters.AddWithValue("@wo_number", 0);
-                                    objcommand.Parameters.AddWithValue("@jc_number", 0);
-                                    objcommand.Parameters.AddWithValue("@exp_date", EXP_DATE.ToString());
+                                    objcommandDet.Parameters.AddWithValue("@STATUS", STATUS.ToString());
+                                    objcommandDet.Parameters.AddWithValue("@CREATED_BY", CREATED_BY.ToString());
+                                    objcommandDet.Parameters.AddWithValue("@LST_UPD_BY", LST_UPD_BY.ToString());
+                                    objcommandDet.Parameters.AddWithValue("@IPADDRESS", IPADDRESS.ToString());
 
-                                    objcommand.Parameters.AddWithValue("@STATUS", STATUS.ToString());
-                                    objcommand.Parameters.AddWithValue("@CREATED_BY", CREATED_BY.ToString());
-                                    objcommand.Parameters.AddWithValue("@LST_UPD_BY", LST_UPD_BY.ToString());
-                                    objcommand.Parameters.AddWithValue("@IPADDRESS", IPADDRESS.ToString());
-
-                                    objcommand.Parameters.AddWithValue("@item_detailed_description", item_detailed_description.ToString());
-                                    objcommand.Parameters.AddWithValue("@prs_id", prsid.ToString());
-                                    objcommand.Parameters.AddWithValue("@remarks", remarks.ToString());
-                                    //objcommand.Parameters.AddWithValue("@NETAMOUNT", netamount.ToString());
-                                    objcommand.Parameters.AddWithValue("@flag", flag.ToString());
-                                    //objcommand.Parameters.AddWithValue("@ORDER_PRIORITY", Order_Priority.ToString());
-                                    //objcommand.ExecuteNonQuery();
-                                    var reader2 = objcommand.ExecuteReader();
-                                    System.Data.DataTable results2 = new System.Data.DataTable();
-                                    results2.Load(reader2);
-                                    Outputval = results2.ToString();
+                                    objcommandDet.Parameters.AddWithValue("@item_detailed_description", item_detailed_description.ToString());
+                                    objcommandDet.Parameters.AddWithValue("@prs_id", prsid.ToString());
+                                    objcommandDet.Parameters.AddWithValue("@remarks", remarks.ToString());
+                                    //objcommandDet.Parameters.AddWithValue("@NETAMOUNT", netamount.ToString());
+                                    objcommandDet.Parameters.AddWithValue("@flag", flag.ToString());
+                                    //objcommandDet.Parameters.AddWithValue("@ORDER_PRIORITY", Order_Priority.ToString());
+                                    //objcommandDet.ExecuteNonQuery();
+                                    var readerdet = objcommandDet.ExecuteReader();
+                                    System.Data.DataTable results3 = new System.Data.DataTable();
+                                    results3.Load(readerdet);
+                                    //Outputval = results2.ToString();
                                     //for (int i = 0; i < results1.Rows.Count; i++)
                                     //{
                                     //    DataRow row1 = results1.Rows[i];
@@ -4551,7 +4554,7 @@ namespace MobileAppAPI.Controllers
 
 
                                 }
-
+                                stroutput = "Successfully inserted";
                                 //var result = (new { logdata });
                                 return Ok(stroutput);
                             }
@@ -5619,7 +5622,7 @@ namespace MobileAppAPI.Controllers
                 dbConn.Open();
                 string query = "";
 
-                string strsql = "EXEC MBL_ERP_GETVENDORTEMPDETAILS @FUNCTIONID='" + functionId + "',@RFQCODE='" + rfqcode + "'";
+                string strsql = "EXEC MBL_ERP_GETVENDORTEMPDETAILS1 @FUNCTIONID='" + functionId + "',@RFQCODE='" + rfqcode + "'";
                 SqlCommand cmd = new SqlCommand(strsql, dbConn);
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();

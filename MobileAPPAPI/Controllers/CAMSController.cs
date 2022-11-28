@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LanguageExt.Pipes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MobileAppAPI.Models;
 using Nancy.Json;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,7 +40,7 @@ namespace MobileAppAPI.Controllers
                 string sql = "MBL_CAMS_BRANCHWISE_ASSETCOUNT";
                
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
-                cmd.Parameters.AddWithValue("@FunctionId", strfunction);
+                cmd.Parameters.AddWithValue("@funcionid", strfunction);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
 
@@ -379,7 +383,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "SELECT ASSET_CODE FROM CAMS_ASSET_MASTER where ASSET_CODE like '%"+data.assetcode+"%'";
+                query = "SELECT ASSET_CODE FROM CAMS_ASSET_MASTER where ASSET_CODE like '%"+data.assetcode+ "%' and STATUS='A'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -1829,11 +1833,14 @@ namespace MobileAppAPI.Controllers
             var logdata = "";
             var strtoken = "";
             // var result = "";
+            string ASSET_USER1 = string.Empty;
             int ASSET_USER;
             int ASSET_CATEGORY;
             int ASSET_ID;
             int BRANCH_ID;
             int FUNCTION_ID;
+            string wkno = string.Empty;
+            int ASSET_USER2 = 0;
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
 
@@ -1852,11 +1859,17 @@ namespace MobileAppAPI.Controllers
 
                     CAMS log = new CAMS();
                     DataRow row = results.Rows[i];
-                     ASSET_USER = Convert.ToInt32(row[0]);
+                    ASSET_USER1 = row[0].ToString();
+                    if (ASSET_USER1 != null && ASSET_USER1 !="" )
+                    {
+                      
+                       ASSET_USER = Convert.ToInt32(row[0]);
+                    }
+                     
                     ASSET_CATEGORY = Convert.ToInt32(row[1]);
                     ASSET_ID= Convert.ToInt32(row[2]);
-                    BRANCH_ID = Convert.ToInt32(row[2]);
-                    FUNCTION_ID= Convert.ToInt32(row[3]);
+                    BRANCH_ID = Convert.ToInt32(row[3]);
+                    FUNCTION_ID= Convert.ToInt32(row[4]);
 
                     string query1 = "";
                     query1 = "INSERT INTO CAMS_LAST_MAINTENANCE(BRANCH_ID,FUNCTION_ID,ASSET_ASSET_ID,   ASSET_STATUS,  ASSET_FREQUENCY_MODE,  ASSET_ACTIVITY_DESC,  priority,ASSET_ACTIVITY_ID,ASSET_NEXT_MAINTENANCE,ASSET_REF_NO,CREATED_ON) VALUES (" + BRANCH_ID + "," + FUNCTION_ID + ",'" + ASSET_ID + "', 'P',  'U',  '" + data.reqdetail + "',  " + data.priority + ",0,'" + data.reqdate1 + "','" + data.refmaxno + "'," + data.reqdate + ")";
@@ -1865,7 +1878,7 @@ namespace MobileAppAPI.Controllers
                     System.Data.DataTable results1 = new System.Data.DataTable();
                     results1.Load(reader1);
                    
-                }
+                
 
                 string query2 = "";
                 query2= "select (prefix + '' + serial_no  + '' + isnull(suffix,'')) as wkno from BO_slno_parameter where type='URWorkOrderNumber' and slno_domain='1' ";
@@ -1874,29 +1887,40 @@ namespace MobileAppAPI.Controllers
                 var reader2 = cmd2.ExecuteReader();
                 System.Data.DataTable results2 = new System.Data.DataTable();
                 results2.Load(reader2);
-                for (int i = 0; i < results2.Rows.Count; i++)
+                for (int i1 = 0; i1 < results2.Rows.Count; i1++)
                 {
+                    
 
-                    CAMS log = new CAMS();
-                    DataRow row = results2.Rows[i];
-                    int wkno = Convert.ToInt32(row[0]);
-                    for (int i1 = 0; i1 < results.Rows.Count; i1++)
-                    {
+                    CAMS log1 = new CAMS();
+                    DataRow row1 = results2.Rows[i];
+                   // int wkno = Convert.ToInt32(row[0]);
+                     wkno = row1[0].ToString();
+                    //for (int i1 = 0; i1 < results.Rows.Count; i1++)
+                    //{
 
 
-                        DataRow row1 = results.Rows[i];
-                        ASSET_USER = Convert.ToInt32(row1[0]);
-                        ASSET_CATEGORY = Convert.ToInt32(row1[1]);
-                        ASSET_ID = Convert.ToInt32(row1[2]);
-                        BRANCH_ID = Convert.ToInt32(row1[2]);
-                        FUNCTION_ID = Convert.ToInt32(row1[3]);
+                    //    DataRow row1 = results.Rows[i];
+                    //    // ASSET_USER = Convert.ToInt32(row1[0]);
+                    //    ASSET_USER1 = row1[0].ToString();
+                    //    if (ASSET_USER1 != null && ASSET_USER1 != "")
+                    //    {
+
+                    //        ASSET_USER2 = Convert.ToInt32(row1[0]);
+                    //    }
+
+                    //    ASSET_CATEGORY = Convert.ToInt32(row1[1]);
+                    //    ASSET_ID = Convert.ToInt32(row1[2]);
+                    //    BRANCH_ID = Convert.ToInt32(row1[2]);
+                    //    FUNCTION_ID = Convert.ToInt32(row1[3]);
 
 
 
                         string query3 = "";
-                        query3 = "INSERT INTO CAMS_ASSET_REQUEST(BRANCH_ID,FUNCTION_ID,ASSET_ID,ASSET_ACTIVITY_ID,ASSET_DETAILS,ASSET_DUE_DATE,ASSET_STATUS,ASSET_USER_ID,ASSET_PMR_REFERENCE,ASSET_CATEGORY,ASSET_PM_TYPE,ASSET_REQUESTED_BY,ASSET_DURATION,ASSET_WORKORDNO) VALUES (" + BRANCH_ID + "," + FUNCTION_ID + ",'" + ASSET_ID + "',0,'" + data.reqdetail + "','" + data.reqdate1 + "','A'," + ASSET_USER + ",'" + data.refmaxno + "'," + ASSET_CATEGORY + ",'U','" + data.assetreqid + "','00:00','" + wkno + "')";
+                        query3 = "INSERT INTO CAMS_ASSET_REQUEST(BRANCH_ID,FUNCTION_ID,ASSET_ID,ASSET_ACTIVITY_ID,ASSET_DETAILS,ASSET_DUE_DATE,ASSET_STATUS,ASSET_USER_ID,ASSET_PMR_REFERENCE,ASSET_CATEGORY,ASSET_PM_TYPE,ASSET_REQUESTED_BY,ASSET_DURATION,ASSET_WORKORDNO) VALUES (" + BRANCH_ID + "," + FUNCTION_ID + ",'" + ASSET_ID + "',0,'" + data.reqdetail + "','" + data.reqdate1 + "','A'," + ASSET_USER2 + ",'" + data.refmaxno + "'," + ASSET_CATEGORY + ",'U','" + data.assetreqid + "','00:00','" + wkno + "')";
                         SqlCommand cmd3 = new SqlCommand(query3, dbConn);
                         var reader3 = cmd3.ExecuteReader();
+                        System.Data.DataTable results3 = new System.Data.DataTable();
+                        results3.Load(reader3);
 
 
 
@@ -1904,12 +1928,16 @@ namespace MobileAppAPI.Controllers
                         query4 = "Update BO_SLNO_PARAMETER set serial_no = serial_no + 1 where type = N'URWorkOrderNumber'";
                         SqlCommand cmd4 = new SqlCommand(query4, dbConn);
                         var reader4 = cmd4.ExecuteReader();
+                        System.Data.DataTable results4 = new System.Data.DataTable();
+                        results4.Load(reader4);
 
 
                         string query5 = "";
-                        query5 = "INSERT INTO CAMS_TASKS_ASSIGNED(FUNCTION_ID, CAMS_USER_ID, created_on) VALUES(" + FUNCTION_ID + ", " + ASSET_USER + ", '" + data.reqdate + "')";
+                        query5 = "INSERT INTO CAMS_TASKS_ASSIGNED(FUNCTION_ID, CAMS_USER_ID, created_on) VALUES(" + FUNCTION_ID + ", " + ASSET_USER2 + ", '" + data.reqdate + "')";
                         SqlCommand cmd5 = new SqlCommand(query5, dbConn);
                         var reader5 = cmd5.ExecuteReader();
+                        System.Data.DataTable results5 = new System.Data.DataTable();
+                        results5.Load(reader5);
 
 
                     }
@@ -3396,38 +3424,433 @@ namespace MobileAppAPI.Controllers
             string Logdata1 = string.Empty;
             var logdata = "";
             var strtoken = "";
+            string path_name = data.doc_path;
+            char[] sep = { '.' };
+            string[] arrfile = path_name.Split(sep);
+            string docExtname = arrfile[0];
+            string docExt = arrfile[1];
+            string strimagefile = string.Empty;
+
+            string strVideofile = data.filebase;
+            string FileLocation = "SmartAdmin/Images/CAMS/";
+
+            string URLprifix = @"D:\Production\Application\nTireERP\nTireoffice\SmartAdmin\Images\CAMS\";
+            string localpath = @"C:\Users\admin\Pictures\cams\";
+            string URLprifix1 = "https://demo.herbie.ai/nTireERP/SmartAdmin/Images/CAMS/";
+            string filepath1 = string.Empty;
+            //string URLprifix = @"F:\deepak\";
+            string filepath = "";
+            filepath = URLprifix + docExtname+ "." + docExt;
+          //  filepath = localpath + docExtname + "." + docExt;
+
+            byte[] imageBytes33 = Convert.FromBase64String(strVideofile);
+            MemoryStream mss12 = new MemoryStream(imageBytes33, 0, imageBytes33.Length);
+            mss12.Write(imageBytes33, 0, imageBytes33.Length);
+            System.IO.File.WriteAllBytes(filepath, imageBytes33);
+
+           // https://demo.herbie.ai/nTireERP/SmartAdmin/Images/CAMS/sunsmartDD06YYYY0211.png
+
+
             // var result = "";
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
 
 
                 dbConn.Open();
+
+
+
                 string query = "";
-                query = "update CAMS_ASSET_MASTER SET ImageUrl='" + data.doc_path + "' where ASSET_CODE='" + data.assetcode + "' AND BRANCH_ID=" + data.branchid + " AND FUNCTION_ID=" + data.functionid + "";
+                query = "update CAMS_ASSET_MASTER SET ImageUrl='" + filepath + "' where ASSET_CODE='" + data.assetcode + "' AND BRANCH_ID=" + data.branchid + " AND FUNCTION_ID=" + data.functionid + "";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                //if (results.Rows.Count == 0)
-                //{
-                //    string st = "updated successfully";
-
-                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
-                //}
-                //else
-                //{
+             
                     Logdata1 = DataTableToJSONWithStringBuilder(results);
-               // }
-               // Logdata1 = DataTableToJSONWithStringBuilder(results);
+
+
+                filepath1 = URLprifix1 + path_name;
+
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
-                return Ok(Logdata1);
+                return Ok(filepath1);
 
 
             }
         }
+
+
+
+        //asset transfer 28Nov2022
+
+        [HttpPost]
+        [Route("asset_transfer")]
+        public async Task<ActionResult<CAMS>> asset_transfer(dynamic data)
+        {
+
+            string strFunction = "", CAT_ASSET_ID = "", CAT_FROM_BRANCH_ID = "", CAT_TO_BRANCH_ID = "", CAT_FROM_DEPARTMENT_ID = "", CAT_TO_DEPARTMENT_ID = "0", CAT_FROM_ASSET_OWNER_ID = "",
+            CAT_TO_ASSET_OWNER_ID = "0", strUserId = "", strremarks = "", transfertype = "", strIpAddress = "", transfertypemaster = "";//internal(1) external(2)
+
+            DataSet assetdataset = new DataSet();
+            string flag = "", status = "", wfno="";
+
+            string pk_column_name1 = string.Empty;
+
+            string pk_column_name2 = string.Empty;
+
+            string pk_column_name3 = string.Empty;
+
+            string pk_column_name4 = string.Empty;
+
+            string pk_column_name5 = string.Empty;
+
+
+            string STATUS_COLUMN = string.Empty;
+
+
+
+            string type = "PurchaseEnquiryMaster";
+            string logdata = "";
+            ArrayList saveitems = new ArrayList();
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            //DataTable dtAssign = new DataTable();
+
+            try
+            {
+
+
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+                    dbConn.Open();
+
+                    JObject obj_parents = JsonConvert.DeserializeObject<JObject>(data.ToString());
+
+                    JObject obj_parent2 = obj_parents.GetValue("Asset_tranfer")[0] as JObject;
+
+
+                    foreach (KeyValuePair<string, JToken> item in obj_parent2)
+                    {
+                        JProperty p2 = obj_parent2.Property(item.Key);
+
+
+
+                        if (item.Key == "Asset_details")
+                        {
+                            var Asset_details = item.Value.ToString();
+
+                            JArray array = JArray.Parse(Asset_details);
+                            JArray jsonArray = JArray.Parse(Asset_details);
+
+
+
+                            foreach (JObject content in array.Children<JObject>())
+                            {
+                                DataTable dtAssign = new DataTable();
+                                foreach (JProperty prop in content.Properties())
+                                {
+                                    string Name = prop.Name.ToString().Trim();
+                                    string Value = prop.Value.ToString().Trim();
+
+
+
+
+                                    if (Name == "strFunction")
+                                    {
+                                        strFunction = Value.ToString();
+                                    }
+                                    if (Name == "ASSET_ID")
+                                    {
+                                        CAT_ASSET_ID = Value.ToString();
+
+                                    }
+                                    if (Name == "FROM_BRANCH_ID")
+                                    {
+                                        CAT_FROM_BRANCH_ID = Value.ToString();
+                                    }
+                                    if (Name == "TO_BRANCH_ID")
+                                    {
+                                        CAT_TO_BRANCH_ID = Value.ToString();
+                                    }
+                                    if (Name == "FROM_DEPARTMENT_ID")
+                                    {
+                                        CAT_FROM_DEPARTMENT_ID = Value.ToString();
+                                    }
+                                    if (Name == "FROM_ASSET_OWNER_ID")
+                                    {
+                                        CAT_FROM_ASSET_OWNER_ID = Value.ToString();
+                                    }
+                                    if (Name == "strUserId")
+                                    {
+                                        strUserId = Value.ToString();
+                                    }
+                                    if (Name == "strremarks")
+                                    {
+                                        strremarks = Value.ToString();
+                                    }
+                                    if (Name == "transfertype")
+                                    {
+                                        transfertype = Value.ToString();
+                                    }
+                                    if (Name == "transfertypemaster")
+                                    {
+                                        transfertypemaster = Value.ToString();
+                                    }
+                                    if (Name == "strIpAddress")
+                                    {
+                                        strIpAddress = Value.ToString();
+                                    }
+                                    if (Name == "status")
+                                    {
+                                        status = Value.ToString();
+                                    }
+
+                                }
+
+                                dtAssign.Columns.Add("FUNCTION_ID", typeof(String));
+                                dtAssign.Columns.Add("CAT_ASSET_ID", typeof(String));
+                                dtAssign.Columns.Add("CAT_FROM_BRANCH_ID", typeof(String));
+                                dtAssign.Columns.Add("CAT_TO_BRANCH_ID", typeof(String));
+                                dtAssign.Columns.Add("CAT_FROM_DEPARTMENT_ID", typeof(String));
+                                dtAssign.Columns.Add("CAT_TO_DEPARTMENT_ID", typeof(String));
+                                dtAssign.Columns.Add("CAT_FROM_ASSET_OWNER_ID", typeof(String));
+                                dtAssign.Columns.Add("CAT_TO_ASSET_OWNER_ID", typeof(String));
+                                dtAssign.Columns.Add("CREATED_BY", typeof(String));
+                                dtAssign.Columns.Add("UPDATED_BY", typeof(String));
+                                dtAssign.Columns.Add("IPADDRESS", typeof(String));
+                                dtAssign.Columns.Add("STATUS", typeof(String));
+                                dtAssign.Columns.Add("CAT_CATEGORY_ID", typeof(String));
+                                dtAssign.Columns.Add("Remarks", typeof(String));
+                                dtAssign.Columns.Add("transfertype", typeof(string));
+                                dtAssign.Columns.Add("transfertypemaster", typeof(string));
+
+                                DataRow dr = null;
+                                //dr = dtAssign.NewRow();
+
+
+
+                                //ds.Tables[0].Rows.Add(dr);
+                                for (int i = 0; i < 1; i++)
+                                {
+
+                                    dr = dtAssign.NewRow();
+                                    dr["FUNCTION_ID"] = strFunction.ToString();
+                                    dr["CAT_ASSET_ID"] = CAT_ASSET_ID.ToString();
+                                    dr["CAT_FROM_BRANCH_ID"] = CAT_FROM_BRANCH_ID.ToString();
+                                    dr["CAT_TO_BRANCH_ID"] = CAT_TO_BRANCH_ID.ToString();
+                                    dr["CAT_FROM_DEPARTMENT_ID"] = CAT_FROM_DEPARTMENT_ID.ToString();
+                                    dr["CAT_TO_DEPARTMENT_ID"] = CAT_TO_DEPARTMENT_ID.ToString();
+                                    dr["CAT_FROM_ASSET_OWNER_ID"] = CAT_FROM_ASSET_OWNER_ID.ToString();
+                                    dr["CAT_TO_ASSET_OWNER_ID"] = CAT_TO_ASSET_OWNER_ID.ToString();
+                                    dr["CREATED_BY"] = strUserId.ToString();
+                                    dr["UPDATED_BY"] = strUserId.ToString();
+                                    dr["IPADDRESS"] = strIpAddress.ToString();
+                                    dr["STATUS"] = "P";
+                                    dr["CAT_CATEGORY_ID"] = "0";
+                                    dr["Remarks"] = strremarks.ToString();
+                                    dr["transfertype"] = transfertype.ToString();
+                                    dr["transfertypemaster"] = transfertypemaster.ToString();
+                                    dtAssign.Rows.Add(dr);
+
+                                }
+                                //vel
+                                assetdataset.Tables.Add(dtAssign);
+
+
+                            }
+
+                            flag = SaveAssetTransfer_Ripd(assetdataset, "", "1");
+                            if (flag != "")
+                            {
+                                string wf_config_id = "select wf_config_id from BO_workflow_configurations where table_name like '%Asset_transfer%' and status='A' and function_id='" + strFunction + "'";
+                                SqlCommand cmd2 = new SqlCommand(wf_config_id, dbConn);
+                                var reader2 = cmd2.ExecuteReader();
+                                System.Data.DataTable results2 = new System.Data.DataTable();
+                                results2.Load(reader2);
+
+                                for (int i = 0; i < results2.Rows.Count; i++)
+                                {
+                                    DataRow row = results2.Rows[i];
+                                    wf_config_id = row[0].ToString();
+                                }
+
+                                // wf_config_id = objSql.getString(wf_config_id);
+                                if (wf_config_id != null && wf_config_id != "")
+                                {
+
+                                    string wffun = strFunction;
+                                    string WorkFlowTable = "CAMS_ASSET_TRANSFER_MASTER";
+                                    string PK1 = flag;
+                                    string PK2 = null;
+                                    string PK3 = null;
+                                    string PK4 = null;
+                                    string PK5 = null;
+                                    string User = strUserId;
+
+
+                                    string wf_insert = "select pk_column_name1,pk_column_name2,pk_column_name3,pk_column_name4,pk_column_name5,STATUS_COLUMN from BO_WORKFLOW_CONFIGURATIONS with (nolock) where WF_CONFIG_ID='" + wf_config_id + "'";
+                                    SqlCommand cmdwf = new SqlCommand(wf_insert, dbConn);
+                                    var readerwf = cmdwf.ExecuteReader();
+                                    System.Data.DataTable resultswf = new System.Data.DataTable();
+                                    resultswf.Load(readerwf);
+
+                                    for (int i = 0; i < resultswf.Rows.Count; i++)
+                                    {
+                                        DataRow row = resultswf.Rows[i];
+                                        pk_column_name1 = resultswf.Rows[i]["pk_column_name1"].ToString();
+                                        pk_column_name2 = resultswf.Rows[i]["pk_column_name2"].ToString();
+                                        pk_column_name3 = resultswf.Rows[i]["pk_column_name3"].ToString();
+                                        pk_column_name4 = resultswf.Rows[i]["pk_column_name4"].ToString();
+                                        pk_column_name5 = resultswf.Rows[i]["pk_column_name5"].ToString();
+                                        STATUS_COLUMN = resultswf.Rows[i]["STATUS_COLUMN"].ToString();
+
+                                    }
+
+
+                                    if (pk_column_name1 != "" && STATUS_COLUMN != "")
+                                    {
+                                        string wf_insert2 = "exec usp_WF_ApprovalUsers '" + WorkFlowTable + "','" + pk_column_name1 + "','" + pk_column_name2 + "','" + pk_column_name3 + "','" + pk_column_name4 + "','" + pk_column_name5 + "','" + PK1 + "','" + PK2 + "','" + PK3 + "' ,'" + PK4 + "','" + PK5 + "' ,'" + wffun + "' ,'" + User + "' ,'" + STATUS_COLUMN + "','" + status + "' ,'" + wf_config_id + "'";
+                                        SqlCommand cmdwf2 = new SqlCommand(wf_insert2, dbConn);
+                                        var readerwf2 = cmdwf2.ExecuteReader();
+                                        System.Data.DataTable resultsef2 = new System.Data.DataTable();
+                                        resultsef2.Load(readerwf2);
+                                    }
+
+
+                                    string wfno_sql = "select workflow_no from bo_workflow_details where module_id='260' and pk_value1='" + flag + "' ";
+                                    SqlCommand cmd3 = new SqlCommand(wfno_sql, dbConn);
+                                    var reader3 = cmd3.ExecuteReader();
+                                    System.Data.DataTable results3 = new System.Data.DataTable();
+                                    results3.Load(reader3);
+                                    for (int i = 0; i < results3.Rows.Count; i++)
+                                    {
+                                        DataRow row = results3.Rows[i];
+                                        wfno = row[0].ToString();
+                                    }
+
+                                }
+
+
+
+
+
+                            }
+                        }
+
+                    }
+
+
+                    logdata = "Asset Transfered Successfully";
+
+                    var result = (new { logdata });
+                    return Ok(logdata);
+                }
+            }
+
+
+
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return Ok(json);
+            }
+}
+
+
+
+
+        public string SaveAssetTransfer_Ripd(DataSet ds, string txttranrefid, string trmode)
+        {
+            string flag = "";
+            string scopeid = "";
+            try
+            {
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+                    dbConn.Open();
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        string strtranrefid = txttranrefid != "" ? txttranrefid : "0";
+
+                        string query = "";
+                        query = "select * from CAMS_ASSET_TRANSFER_MASTER where CAT_HISTORY_ID = " + strtranrefid + "";
+
+                        SqlCommand cmd = new SqlCommand(query, dbConn);
+                        var reader = cmd.ExecuteReader();
+                        System.Data.DataTable results = new System.Data.DataTable();
+                        results.Load(reader);
+                        if (results.Rows.Count>0)
+                        {
+
+                            string strQry = "Exec CAMS_SaveAssetTransfer " + strtranrefid + ",'','','','','','','','','','','','','','','','','','','History','','" + trmode + "'";
+                            SqlCommand cmd1 = new SqlCommand(strQry, dbConn);
+                            var reader1 = cmd1.ExecuteReader();
+                            System.Data.DataTable results1 = new System.Data.DataTable();
+                            results1.Load(reader1);
+
+
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+                                DataRow row = ds.Tables[0].Rows[i];
+
+                                flag = txttranrefid.Trim();
+                                string strQry2 = "exec CAMS_SaveAssetTransfer '','" + txttranrefid.Trim() + "','','" + row["CAT_ASSET_ID"].ToString() + "','" + row["CAT_FROM_DEPARTMENT_ID"] + "','" + row["CAT_TO_DEPARTMENT_ID"] + "','" + row["CAT_FROM_BRANCH_ID"] + "','" + row["CAT_TO_BRANCH_ID"] + "','" + row["CAT_FROM_ASSET_OWNER_ID"] + "','" + row["CAT_TO_ASSET_OWNER_ID"] + "','" + row["CREATED_BY"] + "','" + row["UPDATED_BY"] + "','','','','','','','" + row["Remarks"] + "','Update','','" + trmode + "'";
+
+                                SqlCommand cmd2 = new SqlCommand(strQry2, dbConn);
+                                var reader2 = cmd2.ExecuteReader();
+                                System.Data.DataTable results2 = new System.Data.DataTable();
+                                results2.Load(reader2);
+                            }
+                        }
+                        else
+                        {
+                            DataRow row = ds.Tables[0].Rows[0];
+                            string strQry = "exec CAMS_SaveAssetTransfer '' ,'' ,'" + row["FUNCTION_ID"] + "','" + row["CAT_ASSET_ID"] + "','" + row["CAT_FROM_DEPARTMENT_ID"] + "','" + row["CAT_TO_DEPARTMENT_ID"] + "','" + row["CAT_FROM_BRANCH_ID"] + "','" + row["CAT_TO_BRANCH_ID"] + "','" + row["CAT_FROM_ASSET_OWNER_ID"] + "','" + row["CAT_TO_ASSET_OWNER_ID"] + "','" + row["CREATED_BY"] + "','" + row["UPDATED_BY"] + "','" + row["IPADDRESS"] + "','" + row["STATUS"] + "','" + row["CAT_CATEGORY_ID"] + "'," + ds.Tables[0].Rows.Count + ",'" + row["transfertype"] + "','','','Master'," + row["transfertypemaster"] + ",'" + trmode + "'";
+                            SqlCommand cmd3 = new SqlCommand(strQry, dbConn);
+                            var reader3 = cmd3.ExecuteReader();
+                            System.Data.DataTable results3= new System.Data.DataTable();
+                            results3.Load(reader3);
+                            for (int i = 0; i < results3.Rows.Count; i++)
+                            {
+                                DataRow row1 = results.Rows[i];
+                                flag = row1[0].ToString().Trim();
+                            }
+
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+                                DataRow row1 = ds.Tables[0].Rows[i];
+                                string strQry1 = "exec CAMS_SaveAssetTransfer '' ,'' ,'" + row1["FUNCTION_ID"] + "','" + row1["CAT_ASSET_ID"] + "','" + row1["CAT_FROM_DEPARTMENT_ID"] + "','" + row1["CAT_TO_DEPARTMENT_ID"] + "','" + row1["CAT_FROM_BRANCH_ID"] + "','" + row1["CAT_TO_BRANCH_ID"] + "','" + row1["CAT_FROM_ASSET_OWNER_ID"] + "','" + row1["CAT_TO_ASSET_OWNER_ID"] + "','" + row["CREATED_BY"] + "','" + row1["UPDATED_BY"] + "','" + row1["IPADDRESS"] + "','" + row1["STATUS"] + "','" + row1["CAT_CATEGORY_ID"] + "','','" + row1["transfertype"] + "','" + flag + "','" + row1["Remarks"] + "','Details','','" + trmode + "'";
+                                SqlCommand cmd4 = new SqlCommand(strQry1, dbConn);
+                                var reader4 = cmd4.ExecuteReader();
+                                System.Data.DataTable results4 = new System.Data.DataTable();
+                                results4.Load(reader4);
+
+                            }
+
+                        }
+
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return flag;
+        }
+
+
+
+
+
+
+
+
+
 
         //json convertion method
         public string DataTableToJSONWithStringBuilder(DataTable table)

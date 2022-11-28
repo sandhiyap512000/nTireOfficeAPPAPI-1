@@ -70,6 +70,8 @@ namespace MobileAppAPI.Models
 
         public int fzoneid { get; set; }
 
+        
+
         public int fregionid { get; set; }
 
         public int fbranchid { get; set; }
@@ -194,6 +196,8 @@ namespace MobileAppAPI.Models
         public int scrapqty { get; set; }
 
         public string doc_path { get; set; }
+
+        public string filebase { get; set; }
 
 
 

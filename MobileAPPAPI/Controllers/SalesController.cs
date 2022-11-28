@@ -37,8 +37,14 @@ namespace MobileAppAPI.Controllers
 
 
                 dbConn.Open();
+
                 string query = "";
-                query = "select BO_BRANCH_MASTER.BRANCH_ID,BRANCH_DESC from BO_BRANCH_ACCESS inner join BO_BRANCH_MASTER on BO_BRANCH_ACCESS.BRANCH_ID=BO_BRANCH_MASTER.BRANCH_ID where USER_ID= '"+data.userid+"'";
+                query = "select CONCAT(BO_BRANCH_MASTER.BRANCH_ID,'  -  ', BRANCH_DESC) as BRANCH_DESC, BO_BRANCH_MASTER.BRANCH_ID from BO_BRANCH_ACCESS inner join BO_BRANCH_MASTER on BO_BRANCH_ACCESS.BRANCH_ID=BO_BRANCH_MASTER.BRANCH_ID where USER_ID= '" + data.userid + "' and STATUS='A' order by BRANCH_ID asc";//sowmi
+
+
+
+
+                //query = "select BO_BRANCH_MASTER.BRANCH_ID,BRANCH_DESC from BO_BRANCH_ACCESS inner join BO_BRANCH_MASTER on BO_BRANCH_ACCESS.BRANCH_ID=BO_BRANCH_MASTER.BRANCH_ID where USER_ID= '"+data.userid+"'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
