@@ -199,6 +199,10 @@ namespace MobileAppAPI.Models
 
         public string filebase { get; set; }
 
+        public string userid { get; set; }
+
+        public string release { get; set; }
+
 
 
     }

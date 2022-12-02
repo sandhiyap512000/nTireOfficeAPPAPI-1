@@ -856,7 +856,9 @@ namespace MobileAppAPI.Controllers
 
 
                 dbConn.Open();
-                string query = "INSERT INTO FM_PROPERTY_DAMAGE_DETAILS (PROPERTY_ID,DAMAGE_DESCRIPTION,AMOUNT,STATUS,FLAG,DUE_DATE)VALUES ('"+data.propertyid + "','"+data.DAMAGE_DESCRIPTION+ "','" + data.AMOUNT + "','" + data.status + "','" + data.FLAG + "',convert(varchar, convert(datetime, '" + data.DUE_DATE + "', 103), 23)) SELECT SCOPE_IDENTITY()";
+                string query = "INSERT INTO FM_PROPERTY_DAMAGE_DETAILS (PROPERTY_ID,DAMAGE_DESCRIPTION,AMOUNT,STATUS,FLAG,DUE_DATE)VALUES (" +
+                    "cast ('" + data.propertyid + "' as int),'" + data.DAMAGE_DESCRIPTION + "','" + data.AMOUNT + "','" + data.status + "','" + data.FLAG + "'," +
+                    "cast( '" + data.DUE_DATE + "' as datetime)) SELECT SCOPE_IDENTITY()";
 
                 int REF_ID;
 
@@ -872,7 +874,10 @@ namespace MobileAppAPI.Controllers
 
                     REF_ID = Convert.ToInt32(row[0]);
 
-                    string query1 = "declare @RentalPay varchar(50);select @RentalPay=prefix + '' + serial_no+''+suffix   from BO_SLNO_PARAMETER where type='RentalPayment' and slno_domain='" + data.functionid + "'; set dateformat dmy;insert into FM_PROPERTY_RENT_PAYMENT_SCHEDULE ( function_id,branch_id,location_id, property_id,rent_id, payment_flag,payment_desc,pay_amount, pay_date,status,created_by, created_on,lst_upd_by,lst_upd_on,ipaddress,PROPERTY_SPLIT_ID,FLAG,Damage_ID) values( '" + data.functionid + "','" + data.branchid + "','" + data.locationid + "', '" + data.propertyid + "','" + data.rentid + "', '" +data.FLAG + "', '" + data.DAMAGE_DESCRIPTION + "' , '" + data.AMOUNT + "', '"+ data.DUE_DATE + "','" + data.status + "','" + data.userid + "',getdate(), '" + data.userid + "',getdate(),'" + ":11" + "','" + data.PROPERTYSPLITID + "','S', " + REF_ID + ")";
+                    string query1 = " DECLARE @Year varchar(4), @Month varchar(2), @Day varchar(4), @Result varchar(10) SET @Year = (SELECT " +
+                        " substring('" + data.DUE_DATE + "', 9, 3)) SET @Month = (SELECT substring('" + data.DUE_DATE + "', 6, 7)) " +
+                        "SET @Day = (SELECT " + "substring('" + data.DUE_DATE + "', 0, 5)) SET @Result = @Year + '-' + @Month + '-' + @Day  " +
+                        "declare @RentalPay varchar(50);select @RentalPay=prefix + '' + serial_no+''+suffix   from BO_SLNO_PARAMETER where type='RentalPayment' and slno_domain='" + data.functionid + "'; set dateformat dmy;insert into FM_PROPERTY_RENT_PAYMENT_SCHEDULE ( function_id,branch_id,location_id, property_id,rent_id, payment_flag,payment_desc,pay_amount, pay_date,status,created_by, created_on,lst_upd_by,lst_upd_on,ipaddress,PROPERTY_SPLIT_ID,FLAG,Damage_ID) values( '" + data.functionid + "','" + data.branchid + "','" + data.locationid + "', cast ('" + data.propertyid + "' as int),cast ('" + data.rentid + "' as int), '" + data.FLAG + "', '" + data.DAMAGE_DESCRIPTION + "' , '" + data.AMOUNT + "', @Result,'" + data.status + "','" + data.userid + "',getdate(), '" + data.userid + "',getdate(),'" + ":11" + "','" + data.PROPERTYSPLITID + "','S', " + REF_ID + ")";
 
 
                     SqlCommand cmd1 = new SqlCommand(query1, dbConn);
@@ -884,7 +889,7 @@ namespace MobileAppAPI.Controllers
 
 
 
-                    dbConn.Close();
+                dbConn.Close();
 
 
                 return Ok("Saved successfully");
@@ -892,7 +897,6 @@ namespace MobileAppAPI.Controllers
 
             }
         }
-
 
 
         //sowmi-31/10/22
@@ -2127,11 +2131,9 @@ namespace MobileAppAPI.Controllers
             return (Logdata1);
         }
 
-
-
         [HttpGet]
         [Route("getadditionalcharges/{strfunction}/{strbranch}/{locationid}/{propertyid}/{rentid}")]
-        public string getadditionalcharges(string strfunction, string strbranch, string locationid,string propertyid,string rentid)
+        public string getadditionalcharges(string strfunction, string strbranch, string locationid, string propertyid, string rentid)
         {
             string Logdata1 = string.Empty;
             var logdata = "";
@@ -2143,44 +2145,108 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "SELECT BO_FUNCTION_MASTER.FUNCTION_DESC,BO_BRANCH_MASTER.BRANCH_DESC,BO_BRANCH_LOCATION_MASTER.LOCATION_DESC, FM_PROPERTY_MASTER.PROPERTY_CODE,BO_BRANCH_LOCATION_MASTER.LOCATION_ID,FM_PROPERTY_MASTER.PROPERTY_ID,FM_PROPERTY_MASTER.PROPERTY_DESC,FM_PROPERTY_MASTER.PROPERTY_CURRENCY, FM_PROPERTY_RENTAL_MASTER.RENTAL_ID,FM_PROPERTY_RENTAL_MASTER.RENTAL_CODE FROM FM_PROPERTY_MASTER WITH (NOLOCK) INNER JOIN BO_FUNCTION_MASTER WITH (NOLOCK) ON BO_FUNCTION_MASTER.FUNCTION_ID =FM_PROPERTY_MASTER.FUNCTION_ID   INNER JOIN BO_BRANCH_MASTER WITH (NOLOCK) ON BO_BRANCH_MASTER.FUNCTION_ID=FM_PROPERTY_MASTER.FUNCTION_ID  AND BO_BRANCH_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID    INNER JOIN BO_BRANCH_LOCATION_MASTER WITH (NOLOCK) ON BO_BRANCH_LOCATION_MASTER.FUNCTION_ID=FM_PROPERTY_MASTER.FUNCTION_ID  AND BO_BRANCH_LOCATION_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID AND BO_BRANCH_LOCATION_MASTER.LOCATION_ID=FM_PROPERTY_MASTER.LOCATION_ID  INNER JOIN FM_PROPERTY_RENTAL_MASTER WITH (NOLOCK) ON FM_PROPERTY_RENTAL_MASTER.FUNCTION_ID =FM_PROPERTY_MASTER.FUNCTION_ID  AND FM_PROPERTY_RENTAL_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID AND FM_PROPERTY_RENTAL_MASTER.LOCATION_ID =FM_PROPERTY_MASTER.LOCATION_ID  AND FM_PROPERTY_RENTAL_MASTER.PROPERTY_ID=FM_PROPERTY_MASTER.PROPERTY_ID WHERE 1=1 AND FM_PROPERTY_RENTAL_MASTER.STATUS='A'";
-                if (strfunction !="" && strfunction != "0")
-                {
-                    query = query + " AND FM_PROPERTY_MASTER.function_id='" + strfunction + "'";
-                }
-                if (strbranch != "" && strbranch != "0")
-                {
-                    query = query + " AND FM_PROPERTY_MASTER.Branch_id='" + strbranch + "'";
-                }
-                if (locationid != "" && locationid != "0")
-                {
-                    query = query + " AND FM_PROPERTY_MASTER.location_id='" + locationid + "'";
-                }
-                if (propertyid != "" && propertyid != "0")
-                {
-                    query = query + " AND FM_PROPERTY_MASTER.PROPERTY_ID='" + propertyid + "'";
-                }
-                if (rentid != "" && rentid != "0")
-                {
-                    query = query + " AND FM_PROPERTY_RENTAL_MASTER.RENTAL_ID='" + rentid + "'";
-                }
+                string sql = "MBL_FM_Get_Aditional_Charge";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                SqlDataAdapter apd = new SqlDataAdapter(cmd);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FUNCTION_ID", strfunction);
+                cmd.Parameters.AddWithValue("@BRANCH_ID", strbranch);
+                cmd.Parameters.AddWithValue("@LOCATION_ID", locationid);
+                cmd.Parameters.AddWithValue("@PROPERTY_ID", propertyid);
+                cmd.Parameters.AddWithValue("@RENTAL_ID", rentid);
 
-
-
-                SqlCommand cmd = new SqlCommand(query, dbConn);
+                cmd.ExecuteNonQuery();
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-                Logdata1 = DataTableToJSONWithStringBuilder(results);
-                dbConn.Close();
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
 
-                //var result = (new { recordsets = Logdata1 });
+                dbConn.Close();
                 return Logdata1;
+                //query = "SELECT FM_PROPERTY_MASTER.Branch_id,BO_FUNCTION_MASTER.FUNCTION_DESC,BO_BRANCH_MASTER.BRANCH_DESC,BO_BRANCH_LOCATION_MASTER.LOCATION_DESC, FM_PROPERTY_MASTER.PROPERTY_CODE,BO_BRANCH_LOCATION_MASTER.LOCATION_ID,FM_PROPERTY_MASTER.PROPERTY_ID,FM_PROPERTY_MASTER.PROPERTY_DESC,FM_PROPERTY_MASTER.PROPERTY_CURRENCY, FM_PROPERTY_RENTAL_MASTER.RENTAL_ID,FM_PROPERTY_RENTAL_MASTER.RENTAL_CODE FROM FM_PROPERTY_MASTER WITH (NOLOCK) INNER JOIN BO_FUNCTION_MASTER WITH (NOLOCK) ON BO_FUNCTION_MASTER.FUNCTION_ID =FM_PROPERTY_MASTER.FUNCTION_ID   INNER JOIN BO_BRANCH_MASTER WITH (NOLOCK) ON BO_BRANCH_MASTER.FUNCTION_ID=FM_PROPERTY_MASTER.FUNCTION_ID  AND BO_BRANCH_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID    INNER JOIN BO_BRANCH_LOCATION_MASTER WITH (NOLOCK) ON BO_BRANCH_LOCATION_MASTER.FUNCTION_ID=FM_PROPERTY_MASTER.FUNCTION_ID  AND BO_BRANCH_LOCATION_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID AND BO_BRANCH_LOCATION_MASTER.LOCATION_ID=FM_PROPERTY_MASTER.LOCATION_ID  INNER JOIN FM_PROPERTY_RENTAL_MASTER WITH (NOLOCK) ON FM_PROPERTY_RENTAL_MASTER.FUNCTION_ID =FM_PROPERTY_MASTER.FUNCTION_ID  AND FM_PROPERTY_RENTAL_MASTER.BRANCH_ID=FM_PROPERTY_MASTER.BRANCH_ID AND FM_PROPERTY_RENTAL_MASTER.LOCATION_ID =FM_PROPERTY_MASTER.LOCATION_ID  AND FM_PROPERTY_RENTAL_MASTER.PROPERTY_ID=FM_PROPERTY_MASTER.PROPERTY_ID WHERE 1=1 AND FM_PROPERTY_RENTAL_MASTER.STATUS='A' " +
+                //    "and   ('" + strfunction + "' = '0' or '" + strfunction + "' is null or " +
+                //    "BO_BRANCH_LOCATION_MASTER.FUNCTION_ID = '" + strfunction + "') and('" + strbranch + "' = '0' or '" + strbranch + "' is null or " +"FM_PROPERTY_MASTER.BRANCH_ID = '" + strbranch + "') and('" + locationid + "' = '0' or '" + locationid + "' is null or " +  "FM_PROPERTY_MASTER.LOCATION_ID = '" + locationid + "') and('" + propertyid + "' = '0' or '" + propertyid + "' is null or " + "FM_PROPERTY_MASTER.property_id = '" + propertyid + "') and('" + rentid + "' = '0' or '" + rentid + "' is null or " + "FM_PROPERTY_RENTAL_MASTER.rental_id = '" + rentid + "') and ISNULL(FM_PROPERTY_MASTER.property_id,0) >'0' and ISNULL " + " ( FM_PROPERTY_RENTAL_MASTER.rental_id,0) > '0' order by ISNULL(FM_PROPERTY_MASTER.property_id,0)";
+
+
+
+                ////if (strfunction !="" && strfunction != "0")
+                ////{
+                ////    query = query + " AND FM_PROPERTY_MASTER.function_id='" + strfunction + "'";
+                ////}
+                ////if (strbranch != "" && strbranch != "0")
+                ////{
+                ////    query = query + " AND FM_PROPERTY_MASTER.Branch_id='" + strbranch + "'";
+                ////}
+                ////if (locationid != "" && locationid != "0")
+                ////{
+                ////    query = query + " AND FM_PROPERTY_MASTER.location_id='" + locationid + "'";
+                ////}
+                ////if (propertyid != "" && propertyid != "0")
+                ////{
+                ////    query = query + " AND FM_PROPERTY_MASTER.PROPERTY_ID='" + propertyid + "'";
+                ////}
+                ////if (rentid != "" && rentid != "0")
+                ////{
+                ////    query = query + " AND FM_PROPERTY_RENTAL_MASTER.RENTAL_ID='" + rentid + "'";
+                ////}
+
+
+
+                //SqlCommand cmd = new SqlCommand(query, dbConn);
+                //var reader = cmd.ExecuteReader();
+                //System.Data.DataTable results = new System.Data.DataTable();
+                //results.Load(reader);
+                //Logdata1 = DataTableToJSONWithStringBuilder(results);
+                //dbConn.Close();
+
+                ////var result = (new { recordsets = Logdata1 });
+                //return Logdata1;
             }
         }
 
+        //30Nov
 
+        [HttpGet]
+        [Route("Get_Additional_charge/{FUNCTION_ID}/{BRANCH_ID}/{LOCATION_ID}/{PROPERTY_ID}/{RENTAL_ID}")]
+        public string Get_Additional_charge(string FUNCTION_ID, string BRANCH_ID, string LOCATION_ID, string PROPERTY_ID, string RENTAL_ID)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
 
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+
+                string sql = "MBL_FM_Additional_charge";
+                SqlCommand cmd = new SqlCommand(sql, dbConn);
+                SqlDataAdapter apd = new SqlDataAdapter(cmd);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FUNCTION_ID", FUNCTION_ID);
+                cmd.Parameters.AddWithValue("@BRANCH_ID", BRANCH_ID);
+                cmd.Parameters.AddWithValue("@LOCATION_ID", LOCATION_ID);
+                cmd.Parameters.AddWithValue("@PROPERTY_ID", PROPERTY_ID);
+                cmd.Parameters.AddWithValue("@RENTAL_ID", RENTAL_ID);
+
+                cmd.ExecuteNonQuery();
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+                return Logdata1;
+            }
+        }
 
 
 
@@ -2197,11 +2263,11 @@ namespace MobileAppAPI.Controllers
                     {
                         if (j < table.Columns.Count - 1)
                         {
-                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\",");
+                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString().Trim() + "\":" + "\"" + table.Rows[i][j].ToString().Trim() + "\",");
                         }
                         else if (j == table.Columns.Count - 1)
                         {
-                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString() + "\":" + "\"" + table.Rows[i][j].ToString() + "\"");
+                            JSONString.Append("\"" + table.Columns[j].ColumnName.ToString().Trim() + "\":" + "\"" + table.Rows[i][j].ToString().Trim() + "\"");
                         }
                     }
                     if (i == table.Rows.Count - 1)

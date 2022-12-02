@@ -170,6 +170,8 @@ namespace MobileAppAPI.Models
 
         public int file_size { get; set; }
 
+        public string type_id { get; set; }
+
 
     }
 }
