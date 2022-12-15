@@ -1,8 +1,10 @@
 ﻿using JSIGamingAPI.Models;
+using MailKit.Security;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit;
 using MobileAppAPI.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -17,6 +19,7 @@ using System.Data.SqlClient;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -343,6 +346,16 @@ namespace JSIGamingAPI.Controllers
         {
             return Ok(new { token = "" });
         }
+
+
+        //dec6
+
+      
+
+
+
+
+
 
 
 

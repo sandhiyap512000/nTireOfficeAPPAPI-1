@@ -819,16 +819,33 @@ namespace MobileAppAPI.Controllers
             int lasttransfericeidvv;
             int WF_CONFIG_ID;
             var JSONString = new StringBuilder();
+            string transfertype = string.Empty;
 
 
             string output = "";
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
-
+                if (data.tansfertype=="I")
+                {
+                    transfertype = "1";
+                }
+                else if (data.tansfertype == "E")
+                {
+                    transfertype = "2";
+                }
+                else
+                {
+                    transfertype = "0";
+                }
 
                 dbConn.Open();
                 string query = "";
-                query = "INSERT INTO CAMS_ASSET_TRANSFER_MASTER (FUNCTION_ID,CAT_ASSET_ID,CAT_FROM_BRANCH_ID,CAT_TO_BRANCH_ID,CAT_FROM_DEPARTMENT_ID,CAT_TO_DEPARTMENT_ID,CAT_FROM_ASSET_OWNER_ID,CAT_TO_ASSET_OWNER_ID,CREATED_ON,UPDATED_ON,CREATED_BY,STATUS,CAT_CATEGORY_ID,Asset_Transfer_type,Total_Assets,transfertype)VALUES('" + data.functionidrep + "','" + data.assetid + "','" + data.oldbranchid + "','" + data.oldbranchid + "','" + data.assetdepart + "','0','" + data.assetownerid + "','0','" + data.dateins + "','" + data.dateins + "','" + data.createbytf + "','P','" + data.assetcategory + "','M',1,'1');select Scope_Identity() ";
+                query = "INSERT INTO CAMS_ASSET_TRANSFER_MASTER (FUNCTION_ID,CAT_ASSET_ID,CAT_FROM_BRANCH_ID,CAT_TO_BRANCH_ID,CAT_FROM_DEPARTMENT_ID,CAT_TO_DEPARTMENT_ID,CAT_FROM_ASSET_OWNER_ID,CAT_TO_ASSET_OWNER_ID,CREATED_ON,UPDATED_ON,CREATED_BY,STATUS,CAT_CATEGORY_ID,Asset_Transfer_type,Total_Assets,transfertype)VALUES('" + data.functionidrep + "','" + data.assetid + "','" + data.oldbranchid + "','" + data.oldbranchid + "','" + data.assetdepart + "','0','" + data.assetownerid + "','0','" + data.dateins + "','" + data.dateins + "','" + data.createbytf + "','P','" + data.assetcategory + "','M',1,'"+ transfertype+"'); select Scope_Identity() ";
+
+
+
+                query = "INSERT INTO CAMS_ASSET_TRANSFER_MASTER (FUNCTION_ID,CAT_ASSET_ID,CAT_FROM_BRANCH_ID,CAT_TO_BRANCH_ID,CAT_FROM_DEPARTMENT_ID,CAT_TO_DEPARTMENT_ID,CAT_FROM_ASSET_OWNER_ID,CAT_TO_ASSET_OWNER_ID,CREATED_ON,UPDATED_ON,CREATED_BY,STATUS,CAT_CATEGORY_ID,Asset_Transfer_type,Total_Assets,transfertype)VALUES('" + data.functionidrep + "','" + data.assetid + "','" + data.oldbranchid + "','" + data.oldbranchid + "','" + data.assetdepart + "','0','" + data.assetownerid + "','0','" + data.dateins + "','" + data.dateins + "','" + data.createbytf + "','P','" + data.assetcategory + "','M',1,'"+ transfertype+"'); select Scope_Identity() ";
+
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -2202,7 +2219,7 @@ namespace MobileAppAPI.Controllers
             }
         }
 
-
+        //USER INSERT
         [HttpPost]
         [Route("assetreqinsert")]
         public async Task<ActionResult<CAMS>> assetreqinsert(CAMS data)
@@ -2336,7 +2353,7 @@ namespace MobileAppAPI.Controllers
 
             
         }
-
+        //SERVICE INSERT
 
        // sep30
         [HttpPost]
@@ -3832,8 +3849,8 @@ namespace MobileAppAPI.Controllers
             string filepath1 = string.Empty;
             //string URLprifix = @"F:\deepak\";
             string filepath = "";
-           // filepath = URLprifix + docExtname+ "." + docExt;
-            filepath = localpath + docExtname + "." + docExt;
+            filepath = URLprifix + docExtname+ "." + docExt;
+           // filepath = localpath + docExtname + "." + docExt;
 
             byte[] imageBytes33 = Convert.FromBase64String(strVideofile);
             MemoryStream mss12 = new MemoryStream(imageBytes33, 0, imageBytes33.Length);

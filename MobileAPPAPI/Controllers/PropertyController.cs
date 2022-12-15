@@ -644,6 +644,54 @@ namespace MobileAppAPI.Controllers
 
 
 
+
+
+
+
+        [HttpGet]
+        [Route("getpaymentdetails_totalamount/{strPropertyId}/{rentelID}")]
+
+        public string getpaymentdetails_totalamount(string strPropertyId = null, string rentelID = null)
+        {
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            DataSet dsbranchcount = new DataSet();
+            string totalamount = string.Empty;
+            int totalamount1=0;
+            decimal tamount=0.00m;
+            string output = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string strQry = "Exec SP_Recipt_summary_FM '" + strPropertyId + "','" + rentelID + "'";
+                SqlCommand cmd1 = new SqlCommand(strQry, dbConn);
+                var reader1 = cmd1.ExecuteReader();
+                System.Data.DataTable results1 = new System.Data.DataTable();
+                results1.Load(reader1);
+
+                for (int i = 0; i < results1.Rows.Count; i++)
+                {
+                    DataRow row = results1.Rows[i];
+                    totalamount = results1.Rows[i]["BALANCE_PAY"].ToString();
+                  //  totalamount1 += Convert.ToInt32(totalamount);
+                    tamount += Convert.ToDecimal(results1.Rows[i]["BALANCE_PAY"].ToString());
+                    //totalamount += results1.Rows[i]["BALANCE_PAY"].ToString();
+
+
+                }
+                output="Total Amount : " + tamount.ToString();
+
+
+
+            }
+            return output;
+            }
+        
+
+
+
+
         [HttpGet]
         [Route("bindproperty/{function_id}/{branch_id}/{propertycode}")]
         public string bindproperty(string function_id,string branch_id,string propertycode)
@@ -848,16 +896,25 @@ namespace MobileAppAPI.Controllers
 
             List<Property> Logdata = new List<Property>();
             string Logdata1 = string.Empty;
+            string status = string.Empty;
+            string Flag = string.Empty;
             var logdata = "";
             var strtoken = "";
             // var result = "";
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
-
+                if (data.status=="N" || data.status =="A")
+                {
+                    status = "P";
+                }
+                if (data.FLAG=="A"|| data.FLAG=="N")
+                {
+                    Flag = "P";
+                }
 
                 dbConn.Open();
                 string query = "INSERT INTO FM_PROPERTY_DAMAGE_DETAILS (PROPERTY_ID,DAMAGE_DESCRIPTION,AMOUNT,STATUS,FLAG,DUE_DATE)VALUES (" +
-                    "cast ('" + data.propertyid + "' as int),'" + data.DAMAGE_DESCRIPTION + "','" + data.AMOUNT + "','" + data.status + "','" + data.FLAG + "'," +
+                    "cast ('" + data.propertyid + "' as int),'" + data.DAMAGE_DESCRIPTION + "','" + data.AMOUNT + "','" + status + "','" + Flag + "'," +
                     "cast( '" + data.DUE_DATE + "' as datetime)) SELECT SCOPE_IDENTITY()";
 
                 int REF_ID;
@@ -877,7 +934,7 @@ namespace MobileAppAPI.Controllers
                     string query1 = " DECLARE @Year varchar(4), @Month varchar(2), @Day varchar(4), @Result varchar(10) SET @Year = (SELECT " +
                         " substring('" + data.DUE_DATE + "', 9, 3)) SET @Month = (SELECT substring('" + data.DUE_DATE + "', 6, 7)) " +
                         "SET @Day = (SELECT " + "substring('" + data.DUE_DATE + "', 0, 5)) SET @Result = @Year + '-' + @Month + '-' + @Day  " +
-                        "declare @RentalPay varchar(50);select @RentalPay=prefix + '' + serial_no+''+suffix   from BO_SLNO_PARAMETER where type='RentalPayment' and slno_domain='" + data.functionid + "'; set dateformat dmy;insert into FM_PROPERTY_RENT_PAYMENT_SCHEDULE ( function_id,branch_id,location_id, property_id,rent_id, payment_flag,payment_desc,pay_amount, pay_date,status,created_by, created_on,lst_upd_by,lst_upd_on,ipaddress,PROPERTY_SPLIT_ID,FLAG,Damage_ID) values( '" + data.functionid + "','" + data.branchid + "','" + data.locationid + "', cast ('" + data.propertyid + "' as int),cast ('" + data.rentid + "' as int), '" + data.FLAG + "', '" + data.DAMAGE_DESCRIPTION + "' , '" + data.AMOUNT + "', @Result,'" + data.status + "','" + data.userid + "',getdate(), '" + data.userid + "',getdate(),'" + ":11" + "','" + data.PROPERTYSPLITID + "','S', " + REF_ID + ")";
+                        "declare @RentalPay varchar(50);select @RentalPay=prefix + '' + serial_no+''+suffix   from BO_SLNO_PARAMETER where type='RentalPayment' and slno_domain='" + data.functionid + "'; set dateformat dmy;insert into FM_PROPERTY_RENT_PAYMENT_SCHEDULE ( function_id,branch_id,location_id, property_id,rent_id, payment_flag,payment_desc,pay_amount, pay_date,status,created_by, created_on,lst_upd_by,lst_upd_on,ipaddress,PROPERTY_SPLIT_ID,FLAG,Damage_ID) values( '" + data.function_id + "','" + data.branch_id + "','" + data.location + "', cast ('" + data.propertyid + "' as int),cast ('" + data.rentid + "' as int), '" + data.FLAG + "', '" + data.DAMAGE_DESCRIPTION + "' , '" + data.AMOUNT + "', @Result,'" + data.status + "','" + data.user_id + "',getdate(), '" + data.user_id + "',getdate(),'" + ":11" + "','" + data.PROPERTYSPLITID + "','D', " + REF_ID + ")";
 
 
                     SqlCommand cmd1 = new SqlCommand(query1, dbConn);
@@ -927,6 +984,46 @@ namespace MobileAppAPI.Controllers
                 }
 
                 query = query + "and FM_PROPERTY_TRANSACTIONS_INFO.FLAG='R' )temp";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+
+        }
+
+
+
+        [HttpGet]
+        [Route("quickrecipt_Pending_payment/{function}/{location}/{propertyid}")]
+        public string quickrecipt_Pending_payment(string function, string location, string propertyid)
+        {
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+
+                query = "select rent_id, isnull(PDC_NO, 1) as 'NoPDC',receipt_ref,payment_desc,payment_id,pay_amount,convert(varchar(10), pay_date, 103) as pay_date,amount_paid_mode,balance_pay from FM_PROPERTY_RENT_PAYMENT_SCHEDULE where STATUS != 'I' and(balance_pay > 0 or balance_pay is null) and function_id ='" + function + "' and location_id = '" + location + "' and property_id = '" + propertyid + "' and SUBSTRING(convert(varchar, pay_date, 106),4,3)= SUBSTRING(convert(varchar, GETDATE(), 106), 4, 3) order by payment_id";
+
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -1006,7 +1103,10 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "select ISSUEDESCRIPTION text , CATEGORY_ID VAL FROM  CAMS_USERREQUEST_REASON where category_id='"+ cat + "' and sub_category_id='"+ subcat + "' and status='A' order by text asc ";
+                //query = "select ISSUEDESCRIPTION text , CATEGORY_ID VAL FROM  CAMS_USERREQUEST_REASON where category_id='"+ cat + "' and sub_category_id='"+ subcat + "' and status='A' order by text asc ";
+                //shy
+
+                query = "select ISSUEDESCRIPTION text , CATEGORY_ID VAL,ISSUEID FROM  CAMS_USERREQUEST_REASON where category_id='" + cat + "' and sub_category_id='" + subcat + "' and status='A' order by text asc ";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -1635,6 +1735,7 @@ namespace MobileAppAPI.Controllers
                     ds.Tables[0].Columns.Add("controltext");
                     ds.Tables[0].Columns.Add("Created_by");
                     ds.Tables[0].Columns.Add("ipaddress");
+                   // ds.Tables[0].Columns.Add("Issueid");//shylaja
 
 
                     DataRow newrow = ds.Tables[0].NewRow();
@@ -1667,6 +1768,7 @@ namespace MobileAppAPI.Controllers
                     newrow["ipaddress"] = strIpAddress;
 
                     newrow["pmr_shutdown_request"] = "N";
+                  //  newrow["Issueid"] = data.Issueid;//shylaja
 
                     newrow.EndEdit();
                     ds.Tables[0].Rows.Add(newrow);
@@ -1717,7 +1819,9 @@ namespace MobileAppAPI.Controllers
 
                                 DataRow row4 = ds.Tables[0].Rows[0];
 
-                                string strQry = "Exec CAMS_UIR_Save " + data.branchid + "," + data.functionid + "," + row4["pmr_asset_reference"] + "," + row4["pmr_reference"] + "," + row4["amd_activity_id"] + ",'" + row4["pm_due_date"] + "','" + row4["pmr_pm_type"].ToString() + "','" + row4["pmr_details"].ToString() + "','" + row4["problemdescr"] + "','" + row4["Priority"] + "','" + row4["Problem_Type"] + "','" + row4["Problem_Service_Type"] + "','" + row4["Created_by"] + "','" + row4["ipaddress"] + "','" + wkno + "','" + row4["ASSET_DURATION"] + "','" + row4["ASSET_OWNER"] + "','" + row4["pmr_requested_by"] + "','','','','A','Insert'";
+                                string strQry = "Exec CAMS_UIR_Save " + data.branchid + "," + data.functionid + "," + row4["pmr_asset_reference"] + "," + row4["pmr_reference"] + "," + row4["amd_activity_id"] + ",'" + row4["pm_due_date"] + "','" + row4["pmr_pm_type"].ToString() + "','" + row4["pmr_details"].ToString() + "','" + row4["problemdescr"] + "','" + row4["Priority"] + "','" + row4["Problem_Type"] + "','" + row4["Problem_Service_Type"] + "','" + row4["Created_by"] + "','" + row4["ipaddress"] + "','" + wkno + "','" + row4["ASSET_DURATION"] + "','" + row4["ASSET_OWNER"]  + "','" + row4["pmr_requested_by"]  + "','','','','A','Insert'";
+
+                               // +"','" + row4["Issueid"]//shy
 
                                 SqlCommand cmd4 = new SqlCommand(strQry, dbConn);
                                 var reader4 = cmd4.ExecuteReader();
@@ -1819,7 +1923,12 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "SELECT distinct CAMS_LAST_MAINTENANCE.branch_id,ASSET_REF_NO as refno,CAMS_PARAMETER_BRANCH.VAL, CAMS_PARAMETER_BRANCH.text as store_name,CAMS_ASSET_MASTER.ASSET_CODE as pmm_asset_code, CAMS_ASSET_MASTER.ASSET_DESCRIPTION as Asset_name, (case when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE='C' then CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_DESC  when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE='T' then CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_DESC else  CAMS_LAST_MAINTENANCE.ASSET_ACTIVITY_DESC   end ) as amd_activity_desc, CAMS_LAST_MAINTENANCE.ASSET_ASSET_ID as pm_asset_reference,CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY as pm_frequency,   case when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE='C' then  CONVERT(VARCHAR(8),CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_DURATION,108)    when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE='T' then CONVERT(VARCHAR(8),CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_DURATION,108)   else CONVERT(VARCHAR(5), cams_asset_request.ASSET_DURATION,108) end  as amd_maintenance_duration, CAMS_LAST_MAINTENANCE.ASSET_ACTIVITY_ID as amd_activity_id,convert(varchar(10), CAMS_LAST_MAINTENANCE.ASSET_LAST_MAINTENANCE, 103) as CAMS_last_maintenance, convert(varchar(10), CAMS_LAST_MAINTENANCE.ASSET_NEXT_MAINTENANCE, 103) as pm_next_maintenance,(case when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'T' then 'Time Based' when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'C' then 'Counter Based' when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'B' then 'BreakDown' when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'I' then 'Improvement' when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'S' then 'Shutdown'  when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'G' then 'General' when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'D' then 'Conditional' end) as pm_frequency_mode,CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_ASSIGNEDTO,Default_User_Type,isnull(IS_DEFAULT_USER, 'Y') as 'IS_DEFAULT_USER',tum_user_name,CAMS_TASKS_ASSIGNED.CAMS_USER_ID,case CAMS_ASSET_REQUEST.asset_start_status when 'Y' then 'Started' when 'P' then 'Pending' else 'New' end as Realease_status,case when CAMS_MAINTENANCE_DETAILS.Criticality is not null then BPCR.text else BPCR_P.TEXT end as 'Criticality',ASSET_NEXT_MAINTENANCE,CMD_CREATED_ON FROM CAMS_LAST_MAINTENANCE WITH(NOLOCK) left outer JOIN CAMS_MAINTENANCE_DETAILS  WITH(NOLOCK) ON CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_ID = CAMS_LAST_MAINTENANCE.ASSET_ACTIVITY_ID and CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_STATUS != 'S' and CAMS_MAINTENANCE_DETAILS.FUNCTION_ID = CAMS_MAINTENANCE_DETAILS.FUNCTION_ID AND CAMS_MAINTENANCE_DETAILS.BRANCH_ID = CAMS_LAST_MAINTENANCE.BRANCH_ID AND CAMS_MAINTENANCE_DETAILS.CMD_ASSET_ID = CAMS_LAST_MAINTENANCE.ASSET_ASSET_ID INNER JOIN  CAMS_ASSET_MASTER WITH(NOLOCK) ON CAMS_LAST_MAINTENANCE.FUNCTION_ID = CAMS_ASSET_MASTER.FUNCTION_ID AND CAMS_LAST_MAINTENANCE.ASSET_ASSET_ID = CAMS_ASSET_MASTER.ASSET_ID AND CAMS_LAST_MAINTENANCE.BRANCH_ID = CAMS_ASSET_MASTER.BRANCH_ID left outer join CAMS_ASSET_REQUEST with(nolock) on CAMS_ASSET_REQUEST.FUNCTION_ID = CAMS_LAST_MAINTENANCE.FUNCTION_ID and CAMS_ASSET_REQUEST.ASSET_PMR_REFERENCE = CAMS_LAST_MAINTENANCE.ASSET_REF_NO AND CAMS_ASSET_REQUEST.BRANCH_ID = CAMS_LAST_MAINTENANCE.BRANCH_ID AND CAMS_ASSET_REQUEST.ASSET_ID = CAMS_LAST_MAINTENANCE.ASSET_ASSET_ID   inner JOIN  CAMS_PARAMETER_BRANCH WITH(NOLOCK) ON CAMS_ASSET_MASTER.FUNCTION_ID = CAMS_PARAMETER_BRANCH.FUNCTION_ID   AND CAMS_ASSET_MASTER.ASSET_DEPARTMENT = CAMS_PARAMETER_BRANCH.val and CAMS_PARAMETER_BRANCH.type = 'bo_Team' left outer join CAMS_TASKS_ASSIGNED on CAMS_TASKS_ASSIGNED.CAMS_REF_NO = CAMS_LAST_MAINTENANCE.ASSET_REF_NO  and CAMS_TASKS_ASSIGNED.FUNCTION_ID = CAMS_ASSET_REQUEST.FUNCTION_ID left outer join BO_USER_MASTER  on TUM_USER_ID = CAMS_USER_ID and BO_USER_MASTER.FUNCTION_ID = CAMS_TASKS_ASSIGNED.FUNCTION_ID left outer join BO_PARAMETER  BPCR with(nolock) on BPCR.VAL = CAMS_MAINTENANCE_DETAILS.Criticality and BPCR.type = 'Criticality' and BPCR.status = 'A' left join BO_PARAMETER BPCR_P with(nolock) on convert(varchar, BPCR_P.VAL)= CAMS_LAST_MAINTENANCE.priority  and BPCR_P.type = 'Criticality' and BPCR_P.status = 'A' INNER JOIN BO_BRANCH_MASTER ON BO_BRANCH_MASTER.FUNCTION_ID = CAMS_LAST_MAINTENANCE.FUNCTION_ID AND BO_BRANCH_MASTER.BRANCH_ID = CAMS_LAST_MAINTENANCE.BRANCH_ID INNER JOIN BO_FUNCTION_ACCESS WITH(NOLOCK) ON BO_FUNCTION_ACCESS.FUNCTION_ID = CAMS_LAST_MAINTENANCE.FUNCTION_ID and BO_FUNCTION_ACCESS.USER_ID = CAMS_LAST_MAINTENANCE.CREATED_BY INNER JOIN BO_FUNCTION_MASTER WITH(NOLOCK) ON BO_FUNCTION_MASTER.FUNCTION_ID = BO_FUNCTION_ACCESS.FUNCTION_ID INNER JOIN BO_BRANCH_ACCESS WITH(NOLOCK) ON BO_BRANCH_ACCESS.FUNCTION_ID = BO_BRANCH_MASTER.FUNCTION_ID AND BO_BRANCH_ACCESS.USER_ID = CAMS_LAST_MAINTENANCE.CREATED_BY and BO_BRANCH_ACCESS.BRANCH_ID = BO_BRANCH_MASTER.BRANCH_ID INNER JOIN fm_property_master on substring([asset_sbs_no], PatIndex('%[0-9]%', [asset_sbs_no]), len([asset_sbs_no]))= fm_property_master.property_id and cams_asset_master.asset_sbs_no is not null and asset_sbs_no not like '%Batc%' and asset_sbs_no != '' and asset_sbs_no not like '%Seria%' and asset_sbs_no not like '%Lenov%' and asset_sbs_no not like '%Non%' where CAMS_LAST_MAINTENANCE.FUNCTION_ID = '"+ strfunction + "' and CAMS_LAST_MAINTENANCE.BRANCH_ID = '"+ strbranch + "' and fm_property_master.property_id='"+propertyid+"'";
+                query = "SELECT distinct CAMS_LAST_MAINTENANCE.branch_id,ASSET_REF_NO as refno,CAMS_PARAMETER_BRANCH.VAL, CAMS_PARAMETER_BRANCH.text as store_name,CAMS_ASSET_MASTER.ASSET_CODE as pmm_asset_code, CAMS_ASSET_MASTER.ASSET_DESCRIPTION as Asset_name, (case when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE='C' then CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_DESC  when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE='T' then CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_DESC else  CAMS_LAST_MAINTENANCE.ASSET_ACTIVITY_DESC   end ) as amd_activity_desc, CAMS_LAST_MAINTENANCE.ASSET_ASSET_ID as pm_asset_reference,CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY as pm_frequency,   case when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE='C' then  CONVERT(VARCHAR(8),CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_DURATION,108)    when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE='T' then CONVERT(VARCHAR(8),CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_DURATION,108)   else CONVERT(VARCHAR(5), cams_asset_request.ASSET_DURATION,108) end  as amd_maintenance_duration, CAMS_LAST_MAINTENANCE.ASSET_ACTIVITY_ID as amd_activity_id,convert(varchar(10), CAMS_LAST_MAINTENANCE.ASSET_LAST_MAINTENANCE, 103) as CAMS_last_maintenance, convert(varchar(10), CAMS_LAST_MAINTENANCE.ASSET_NEXT_MAINTENANCE, 103) as pm_next_maintenance,(case when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'T' then 'Time Based' when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'C' then 'Counter Based' when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'B' then 'BreakDown' when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'I' then 'Improvement' when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'S' then 'Shutdown'  when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'G' then 'General' when CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_MODE = 'D' then 'Conditional' end) as pm_frequency_mode,CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_ASSIGNEDTO,Default_User_Type,isnull(IS_DEFAULT_USER, 'Y') as 'IS_DEFAULT_USER',tum_user_name,tum_user_name as Assigned_To,CAMS_TASKS_ASSIGNED.CAMS_USER_ID,case CAMS_ASSET_REQUEST.asset_start_status when 'Y' then 'Started' when 'S' then 'Started' when 'P' then 'Pending' when 'C' then 'Completed' when 'I' then 'Cancelled' else 'New' end as Realease_status,case when CAMS_MAINTENANCE_DETAILS.Criticality is not null then BPCR.text else BPCR_P.TEXT end as 'Criticality',ASSET_NEXT_MAINTENANCE,CMD_CREATED_ON FROM CAMS_LAST_MAINTENANCE WITH(NOLOCK) left outer JOIN CAMS_MAINTENANCE_DETAILS  WITH(NOLOCK) ON CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_ID = CAMS_LAST_MAINTENANCE.ASSET_ACTIVITY_ID and CAMS_MAINTENANCE_DETAILS.CMD_ACTIVITY_STATUS != 'S' and CAMS_MAINTENANCE_DETAILS.FUNCTION_ID = CAMS_MAINTENANCE_DETAILS.FUNCTION_ID AND CAMS_MAINTENANCE_DETAILS.BRANCH_ID = CAMS_LAST_MAINTENANCE.BRANCH_ID AND CAMS_MAINTENANCE_DETAILS.CMD_ASSET_ID = CAMS_LAST_MAINTENANCE.ASSET_ASSET_ID INNER JOIN  CAMS_ASSET_MASTER WITH(NOLOCK) ON CAMS_LAST_MAINTENANCE.FUNCTION_ID = CAMS_ASSET_MASTER.FUNCTION_ID AND CAMS_LAST_MAINTENANCE.ASSET_ASSET_ID = CAMS_ASSET_MASTER.ASSET_ID AND CAMS_LAST_MAINTENANCE.BRANCH_ID = CAMS_ASSET_MASTER.BRANCH_ID left outer join CAMS_ASSET_REQUEST with(nolock) on CAMS_ASSET_REQUEST.FUNCTION_ID = CAMS_LAST_MAINTENANCE.FUNCTION_ID and CAMS_ASSET_REQUEST.ASSET_PMR_REFERENCE = CAMS_LAST_MAINTENANCE.ASSET_REF_NO AND CAMS_ASSET_REQUEST.BRANCH_ID = CAMS_LAST_MAINTENANCE.BRANCH_ID AND CAMS_ASSET_REQUEST.ASSET_ID = CAMS_LAST_MAINTENANCE.ASSET_ASSET_ID  inner JOIN  CAMS_PARAMETER_BRANCH WITH(NOLOCK) ON CAMS_ASSET_MASTER.FUNCTION_ID = CAMS_PARAMETER_BRANCH.FUNCTION_ID   AND CAMS_ASSET_MASTER.ASSET_DEPARTMENT = CAMS_PARAMETER_BRANCH.val and CAMS_PARAMETER_BRANCH.type = 'bo_Team' left outer join CAMS_TASKS_ASSIGNED on CAMS_TASKS_ASSIGNED.CAMS_REF_NO = CAMS_LAST_MAINTENANCE.ASSET_REF_NO  and CAMS_TASKS_ASSIGNED.FUNCTION_ID = CAMS_ASSET_REQUEST.FUNCTION_ID left outer join BO_USER_MASTER  on TUM_USER_ID = CAMS_USER_ID and BO_USER_MASTER.FUNCTION_ID = CAMS_TASKS_ASSIGNED.FUNCTION_ID left outer join BO_PARAMETER  BPCR with(nolock) on BPCR.VAL = CAMS_MAINTENANCE_DETAILS.Criticality and BPCR.type = 'Criticality' and BPCR.status = 'A' left join BO_PARAMETER BPCR_P with(nolock) on convert(varchar, BPCR_P.VAL)= CAMS_LAST_MAINTENANCE.priority  and BPCR_P.type = 'Criticality' and BPCR_P.status = 'A' INNER JOIN BO_BRANCH_MASTER ON BO_BRANCH_MASTER.FUNCTION_ID = CAMS_LAST_MAINTENANCE.FUNCTION_ID AND BO_BRANCH_MASTER.BRANCH_ID = CAMS_LAST_MAINTENANCE.BRANCH_ID INNER JOIN BO_FUNCTION_ACCESS WITH(NOLOCK) ON BO_FUNCTION_ACCESS.FUNCTION_ID = CAMS_LAST_MAINTENANCE.FUNCTION_ID and BO_FUNCTION_ACCESS.USER_ID = CAMS_LAST_MAINTENANCE.CREATED_BY INNER JOIN BO_FUNCTION_MASTER WITH(NOLOCK) ON BO_FUNCTION_MASTER.FUNCTION_ID = BO_FUNCTION_ACCESS.FUNCTION_ID INNER JOIN BO_BRANCH_ACCESS WITH(NOLOCK) ON BO_BRANCH_ACCESS.FUNCTION_ID = BO_BRANCH_MASTER.FUNCTION_ID AND BO_BRANCH_ACCESS.USER_ID = CAMS_LAST_MAINTENANCE.CREATED_BY and BO_BRANCH_ACCESS.BRANCH_ID = BO_BRANCH_MASTER.BRANCH_ID INNER JOIN fm_property_master on CAMS_LAST_MAINTENANCE.ASSET_ASSET_ID=fm_property_master.ASSET_ID and substring([asset_sbs_no], PatIndex('%[0-9]%', [asset_sbs_no]), len([asset_sbs_no]))= fm_property_master.property_id and cams_asset_master.asset_sbs_no is not null and asset_sbs_no not like '%Batc%' and asset_sbs_no != '' and asset_sbs_no not like '%Seria%' and asset_sbs_no not like '%Lenov%' and asset_sbs_no not like '%Non%' where CAMS_LAST_MAINTENANCE.FUNCTION_ID = '" + strfunction + "' and CAMS_LAST_MAINTENANCE.BRANCH_ID = '"+ strbranch + "' and fm_property_master.property_id='"+propertyid+"'";
+
+
+                /////inner join CAMS_USERREQUEST_REASON CUR ON 1 = 1 AND CAMS_LAST_MAINTENANCE.ASSET_FREQUENCY_VALUE = CUR.CATEGORY_ID AND CAMS_LAST_MAINTENANCE.ASSET_LAST_MAINTENANCE_TYPE = CUR.ISSUEID
+                ///,CUR.ISSUEDESCRIPTION AS Issuecategory 
+
 
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
@@ -2053,37 +2162,106 @@ namespace MobileAppAPI.Controllers
 
 
         [HttpGet]
-        [Route("getPropertycode/{code}/{functionid}/{branchid}/{locationid}")]
-        public string getPropertycode(string code,string functionid,string branchid,string locationid)
+        [Route("getPropertycode/{code}/{functionid}/{branchid}/{locationid}/{usercode}")]
+        public string getPropertycode(string code,string functionid,string branchid,string locationid,string usercode)
         {
 
 
-
-            string Logdata1 = string.Empty;
+            string usertype = string.Empty;
+            string custid = string.Empty;
+            string Logdata1 = string.Empty; 
 
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string query = "";
-                //query = "select * from fm_property_master where property_code like '%"+ code + "%' and function_id='"+ functionid + "' and Branch_id='"+ branchid + "' and location_id='"+ locationid + "' ";
 
-                query = "select fm_property_master.function_id,fm_property_master.Branch_id,fm_property_master.location_id,fm_property_master.property_id,fm_property_master.property_code,fm_property_master.property_desc,fm_property_master.property_ownership,fm_property_master.ASSET_ID,CAMS_ASSET_MASTER.ASSET_CODE,CAMS_ASSET_MASTER.ASSET_DESCRIPTION,fm_property_master.property_building_name from fm_property_master inner join CAMS_ASSET_MASTER on CAMS_ASSET_MASTER.asset_id=fm_property_master.asset_id where fm_property_master.property_code like '%" + code + "%' and fm_property_master.function_id='" + functionid + "' and fm_property_master.Branch_id='" + branchid + "' and fm_property_master.location_id='" + locationid + "' ";
 
-               SqlCommand cmd = new SqlCommand(query, dbConn);
-                var reader = cmd.ExecuteReader();
-                System.Data.DataTable results = new System.Data.DataTable();
-                results.Load(reader);
-                if (results.Rows.Count == 0)
+
+                string query2 = "";
+                query2 = "select Tum_user_type from bo_user_master where tum_user_code='"+usercode+"' ";
+                SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                var reader2 = cmd2.ExecuteReader();
+                System.Data.DataTable results2 = new System.Data.DataTable();
+                results2.Load(reader2);
+
+                for (int i2 = 0; i2 < results2.Rows.Count; i2++)
                 {
-                    string st = "No data found";
-
-                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    DataRow row1 = results2.Rows[i2];
+                    usertype =row1[0].ToString();
                 }
+
+
+                if (usertype == "1")
+                {
+                    string query1 = "";
+                    query1 = "select fm_property_master.function_id,fm_property_master.Branch_id,fm_property_master.location_id,fm_property_master.property_id,fm_property_master.property_code,fm_property_master.property_desc,fm_property_master.property_ownership,fm_property_master.ASSET_ID,CAMS_ASSET_MASTER.ASSET_CODE,CAMS_ASSET_MASTER.ASSET_DESCRIPTION,fm_property_master.property_building_name from fm_property_master inner join CAMS_ASSET_MASTER on CAMS_ASSET_MASTER.asset_id=fm_property_master.asset_id  left join FM_PROPERTY_RENTAL_MASTER  on FM_PROPERTY_MASTER.property_id=FM_PROPERTY_RENTAL_MASTER.property_id and FM_PROPERTY_MASTER.function_id =FM_PROPERTY_RENTAL_MASTER.function_id and FM_PROPERTY_MASTER.branch_id = FM_PROPERTY_RENTAL_MASTER.branch_id and FM_PROPERTY_MASTER.location_id = FM_PROPERTY_RENTAL_MASTER.location_id where fm_property_master.property_code like '%" + code + "%' and fm_property_master.function_id = '" + functionid + "' and fm_property_master.Branch_id = '" + branchid + "' and fm_property_master.location_id = '" + locationid + "' and FM_PROPERTY_MASTER.status = 'A' and FM_PROPERTY_RENTAL_MASTER.status != 'I' ";
+
+
+                    SqlCommand cmd1 = new SqlCommand(query1, dbConn);
+                    var reader1 = cmd1.ExecuteReader();
+                    System.Data.DataTable results1 = new System.Data.DataTable();
+                    results1.Load(reader1);
+                    if (results1.Rows.Count == 0)
+                    {
+                        string st = "No data found";
+
+                        Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    }
+                    else
+                    {
+                        Logdata1 = DataTableToJSONWithStringBuilder(results1);
+                    }
+
+                }
+
                 else
                 {
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-                }
 
+
+                    string querycust = "";
+                    querycust = "select Cust_ID from fm_customer_master where cust_ref='" + usercode + "' ";
+                    SqlCommand cmdcust = new SqlCommand(querycust, dbConn);
+                    var readercust = cmdcust.ExecuteReader();
+                    System.Data.DataTable resultscust = new System.Data.DataTable();
+                    resultscust.Load(readercust);
+
+                    for (int i2 = 0; i2 < resultscust.Rows.Count; i2++)
+                    {
+                        DataRow row1 = resultscust.Rows[i2];
+                        custid = row1[0].ToString();
+                    }
+
+
+
+
+
+
+
+                    string query = "";
+                    //query = "select * from fm_property_master where property_code like '%"+ code + "%' and function_id='"+ functionid + "' and Branch_id='"+ branchid + "' and location_id='"+ locationid + "' ";
+
+                    //query = "select fm_property_master.function_id,fm_property_master.Branch_id,fm_property_master.location_id,fm_property_master.property_id,fm_property_master.property_code,fm_property_master.property_desc,fm_property_master.property_ownership,fm_property_master.ASSET_ID,CAMS_ASSET_MASTER.ASSET_CODE,CAMS_ASSET_MASTER.ASSET_DESCRIPTION,fm_property_master.property_building_name from fm_property_master inner join CAMS_ASSET_MASTER on CAMS_ASSET_MASTER.asset_id=fm_property_master.asset_id where fm_property_master.property_code like '%" + code + "%' and fm_property_master.function_id='" + functionid + "' and fm_property_master.Branch_id='" + branchid + "' and fm_property_master.location_id='" + locationid + "' ";
+                    //2DEC shy
+
+
+                    query = "select fm_property_master.function_id,fm_property_master.Branch_id,fm_property_master.location_id,fm_property_master.property_id,fm_property_master.property_code,fm_property_master.property_desc,fm_property_master.property_ownership,fm_property_master.ASSET_ID,CAMS_ASSET_MASTER.ASSET_CODE,CAMS_ASSET_MASTER.ASSET_DESCRIPTION,fm_property_master.property_building_name from fm_property_master inner join CAMS_ASSET_MASTER on CAMS_ASSET_MASTER.asset_id=fm_property_master.asset_id  left join FM_PROPERTY_RENTAL_MASTER  on FM_PROPERTY_MASTER.property_id=FM_PROPERTY_RENTAL_MASTER.property_id and FM_PROPERTY_MASTER.function_id =FM_PROPERTY_RENTAL_MASTER.function_id and FM_PROPERTY_MASTER.branch_id = FM_PROPERTY_RENTAL_MASTER.branch_id and FM_PROPERTY_MASTER.location_id = FM_PROPERTY_RENTAL_MASTER.location_id where fm_property_master.property_code like '%" + code + "%' and fm_property_master.function_id = '" + functionid + "' and fm_property_master.Branch_id = '" + branchid + "' and fm_property_master.location_id = '" + locationid + "' and FM_PROPERTY_MASTER.status = 'A' and FM_PROPERTY_RENTAL_MASTER.status != 'I' and FM_PROPERTY_RENTAL_MASTER.customer_id='"+ custid + "'";
+
+
+                    SqlCommand cmd = new SqlCommand(query, dbConn);
+                    var reader = cmd.ExecuteReader();
+                    System.Data.DataTable results = new System.Data.DataTable();
+                    results.Load(reader);
+                    if (results.Rows.Count == 0)
+                    {
+                        string st = "No data found";
+
+                        Logdata1 = new JavaScriptSerializer().Serialize(st);
+                    }
+                    else
+                    {
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    }
+                }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });

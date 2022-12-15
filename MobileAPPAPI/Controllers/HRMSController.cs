@@ -452,19 +452,21 @@ namespace MobileAppAPI.Controllers
 
 
         [HttpGet]
-        [Route("SaveLeave/{Function}/{UserID}/{EmpID}/{RequestID}/{LeaveType}/{FromDate}/{ToDate}/{NoDays}/{ContactPhone}/{LeaveReason}/{Status}")]
-        public string SaveLeave(string Function, string UserID, string EmpID, string RequestID, string LeaveType, string FromDate, string ToDate, string NoDays, string ContactPhone, string LeaveReason, string Status)
+        [Route("SaveLeave/{Function}/{UserID}/{EmpID}/{RequestID}/{LeaveType}/{FromDate}/{ToDate}/{NoDays}/{ContactPhone}/{LeaveReason}/{Status}/{Reaslese}")]
+        public string SaveLeave(string Function, string UserID, string EmpID, string RequestID, string LeaveType, string FromDate, string ToDate, string NoDays, string ContactPhone, string LeaveReason, string Status,string Reaslese)
         {
             string Logdata1 = string.Empty;
             var logdata = "";
             DataSet dsbranchcount = new DataSet();
+            int WF_CONFIG_ID;
 
-            string result = "";
+            string result = "", result1 = "";
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
                 //string sql = "BO_WORKFLOW_USERWISE_SUMMARY";
-                string sql = "MBL_HRMS_INSERTUPDATELEAVE";
+                //string sql = "MBL_HRMS_INSERTUPDATELEAVE";
+                string sql = "MBL_HRMS_INSERTUPDATELEAVE1";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@FUNCTION", Function);
@@ -480,10 +482,81 @@ namespace MobileAppAPI.Controllers
                 cmd.Parameters.AddWithValue("@Status", Status);
                 cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
 
+                cmd.Parameters.Add("@Result1", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;//6dec
+
                 cmd.ExecuteNonQuery();
                 result = cmd.Parameters["@Result"].Value.ToString();
+                result1 = cmd.Parameters["@Result1"].Value.ToString();//dec
                 var json = new JavaScriptSerializer().Serialize(result);
+
+                if (result == "Your request is on holiday, please choose different date" )
+                {
+                    Reaslese = "False";
+                }
+                if (result== "Leave Request already raised for this date. Cannot Process your Request")
+                {
+                    Reaslese = "False";
+                }
+                if (result == "Coff already available for this date")
+                {
+                    Reaslese = "False";
+                }
+                if (result == "OT already available for this date")
+                {
+                    Reaslese = "False";
+                }
+                if (result == "Permission already available for this date")
+                {
+                    Reaslese = "False";
+                }
+                if (result == "OD already available for this date")
+                {
+                    Reaslese = "False";
+                }
+
+                if (Reaslese == "True")//6 dec
+                {
+
+
+
+                    string query2 = "";
+                    query2 = "select WF_CONFIG_ID from BO_WORKFLOW_CONFIGURATIONS where table_name like '%Leave%' and status='A' and Function_ID='" + Function + "'";
+
+                    SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                    var reader2 = cmd2.ExecuteReader();
+                    System.Data.DataTable results2 = new System.Data.DataTable();
+                    results2.Load(reader2);
+                    for (int i = 0; i < results2.Rows.Count; i++)
+                    {
+
+
+                        DataRow row = results2.Rows[i];
+                        int wkno = Convert.ToInt32(row[0]);
+
+                        WF_CONFIG_ID = Convert.ToInt32(row[0]);
+
+
+
+
+                        string query3 = "";
+                        query3 = "exec usp_WF_ApprovalUsers 'HRMS_ATTLEAVEREQUEST','LeaveRequestRef','','','','','" + result1 + "','','' ,'','' ,'1' ,'" + UserID + "' ,'CurrentStatus','' ,'" + WF_CONFIG_ID + "'";
+                        SqlCommand cmd3 = new SqlCommand(query3, dbConn);
+                        var reader3 = cmd3.ExecuteReader();
+
+                        System.Data.DataTable results3 = new System.Data.DataTable();
+                        results3.Load(reader3);
+                        Logdata1 = "Successfully Saved";
+                        for (int i2 = 0; i2 < results3.Rows.Count; i2++)
+                        {
+                            Logdata1 = DataTableToJSONWithStringBuilder(results3);
+                            dbConn.Close();
+                        }
+                    }
+
+                }
                 return json;
+
+
             }
         }
 
@@ -2709,8 +2782,8 @@ namespace MobileAppAPI.Controllers
 
 
         [HttpGet]
-        [Route("SearchPermission/{Function}/{EmpID}/{FromDate}/{ToDate}")]
-        public string SearchPermission(string Function, string EmpID, string FromDate, string ToDate)
+        [Route("SearchPermission/{Function}/{EmpID}/{FromDate}/{ToDate}/{Reason}")]
+        public string SearchPermission(string Function, string EmpID, string FromDate, string ToDate,string Reason)
         {
 
             string Logdata1 = string.Empty;
@@ -2720,7 +2793,8 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
 
-                string sql = "MBL_HRMS_SEARCHPERMREQUESTS";
+                //string sql = "MBL_HRMS_SEARCHPERMREQUESTS";//6 DEC
+                string sql = "MBL_HRMS_SEARCHPERMREQUESTS1";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 SqlDataAdapter apd = new SqlDataAdapter(cmd);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2728,6 +2802,7 @@ namespace MobileAppAPI.Controllers
                 cmd.Parameters.AddWithValue("@EMPID", EmpID);
                 cmd.Parameters.AddWithValue("@FROMDATE", FromDate);
                 cmd.Parameters.AddWithValue("@TODATE", ToDate);
+                cmd.Parameters.AddWithValue("@REASON", Reason);//6 Dec
 
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -2869,57 +2944,167 @@ namespace MobileAppAPI.Controllers
 
 
         [HttpGet]
-        [Route("SaveAssets/{Function}/{Branch}/{RequestID}/{EmpID}/{ReqDate}/{AssetCategory}/{AssetSubCategory}/{ReturnDate}/{Reason}/{Status}")]
-        public string SaveAssets(string Function, string Branch, string RequestID, string EmpID, string ReqDate, string AssetCategory, string AssetSubCategory,  string ReturnDate, string Reason, string Status)
+        [Route("SaveAssets/{Function}/{Branch}/{RequestID}/{EmpID}/{ReqDate}/{AssetCategory}/{AssetSubCategory}/{ReturnDate}/{Reason}/{Status}/{AssetID}/{userid}/{Reaslese}")]
+        public string SaveAssets(string Function, string Branch, string RequestID, string EmpID, string ReqDate, string AssetCategory, string AssetSubCategory,  string ReturnDate, string Reason, string Status,string AssetID,string userid,string Reaslese)
         {
 
             string Logdata1 = string.Empty;
+            string st = string.Empty;
+            string st1 = string.Empty;
+            int WF_CONFIG_ID;
 
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
 
                 dbConn.Open();
-                string sql = "[dbo].[MBL_HRMS_INSERTUPDATEASSET]";
-                SqlCommand cmd = new SqlCommand(sql, dbConn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Function", Function);
-                cmd.Parameters.AddWithValue("@Branch", Branch);
-                cmd.Parameters.AddWithValue("@RequestID", RequestID);
-                cmd.Parameters.AddWithValue("@EmpID", EmpID);
-                cmd.Parameters.AddWithValue("@ReqDate", ReqDate);
-                cmd.Parameters.AddWithValue("@AssetCategory", AssetCategory);
-                cmd.Parameters.AddWithValue("@AssetSubCategory", AssetSubCategory);
-               // cmd.Parameters.AddWithValue("@RequiredBefore", Requiredbefore);
-                cmd.Parameters.AddWithValue("@ReturnDate", ReturnDate);
-                cmd.Parameters.AddWithValue("@Reason", Reason);
-                cmd.Parameters.AddWithValue("@Status", Status);
-                cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
-
-
-
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-
-
-                var reader = cmd.ExecuteReader();
-                 string st = cmd.Parameters["@Result"].Value.ToString();
-                System.Data.DataTable results = new System.Data.DataTable();
-                results.Load(reader);
-                //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                if (results.Rows.Count == 0)
+                if (RequestID == "" || RequestID == null || RequestID =="NULL" || RequestID=="@")
                 {
-                    string st1 = "No data found";
+                    if (RequestID == "NULL")
+                    {
+                        RequestID = "";
+                    }
 
-                    Logdata1 = new JavaScriptSerializer().Serialize(st1);
+                    string sql = "[dbo].[MBL_HRMS_INSERTUPDATEASSET]";
+                    SqlCommand cmd = new SqlCommand(sql, dbConn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Function", Function);
+                    cmd.Parameters.AddWithValue("@Branch", Branch);
+                    cmd.Parameters.AddWithValue("@RequestID", RequestID);
+                    cmd.Parameters.AddWithValue("@EmpID", EmpID);
+                    cmd.Parameters.AddWithValue("@ReqDate", ReqDate);
+                    cmd.Parameters.AddWithValue("@AssetCategory", AssetCategory);
+                    cmd.Parameters.AddWithValue("@AssetSubCategory", AssetSubCategory);
+                    // cmd.Parameters.AddWithValue("@RequiredBefore", Requiredbefore);
+                    cmd.Parameters.AddWithValue("@ReturnDate", ReturnDate);
+                    cmd.Parameters.AddWithValue("@Reason", Reason);
+                    cmd.Parameters.AddWithValue("@Status", Status);
+                    cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+
+
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+
+                    var reader = cmd.ExecuteReader();
+                     st = cmd.Parameters["@Result"].Value.ToString();
+                    System.Data.DataTable results = new System.Data.DataTable();
+                    results.Load(reader);
+                    //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                    //if (results.Rows.Count == 0)
+                    //{
+                    //    string st1 = "No data found";
+
+                    //    Logdata1 = new JavaScriptSerializer().Serialize(st1);
+                    //}
+                    //else
+                    //{
+                    //    for (int i = 0; i < results.Rows.Count; i++)
+                    //    {
+                    //        DataRow row = results.Rows[i];
+                    //        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    //    }
+                    //}
+
+                    if (AssetID==null || AssetID=="NULL"|| AssetID=="Null" || AssetID=="null")
+                    {
+                        AssetID = "0";
+                    }
+
+
+                    string query = "";
+                    query = "INSERT INTO [dbo].[HRMS_ASSET_REQ](FUNCTION_ID,[BRANCH_ID],[EMP_ID],[ASSET_ID],[REQUEST_DATE],[RETURN_DATE],[EXTENSION_TILL],[REASON],[STATUS],[CREATED_BY],[CREATED_ON],[UPDATED_BY],[UPDATED_ON],[IP_ADDRESS])VALUES('" + Function + "','" + Branch + "','" + EmpID + "','" + AssetID + "',convert(datetime,'" + ReqDate + "',103),convert(datetime,'" + ReturnDate+ "',103),convert(datetime,null,103),'" + Reason + "','" + Status + "','" + userid + "',getdate(),'" + userid + "',getdate(),'::0');select Scope_Identity()";
+
+                    SqlCommand cmd1 = new SqlCommand(query, dbConn);
+                    var reader1 = cmd1.ExecuteReader();
+                    System.Data.DataTable results1 = new System.Data.DataTable();
+                    results1.Load(reader1);
+
+
+
+
+
+                    st1 = "Asset Request ID is : " + st + "  Asset Request Saved Successfully";
+
+                   
+
+
                 }
                 else
                 {
-                    for (int i = 0; i < results.Rows.Count; i++)
-                    {
-                        DataRow row = results.Rows[i];
-                        Logdata1 = DataTableToJSONWithStringBuilder(results);
-                    }
+                    string sql = "[dbo].[MBL_HRMS_INSERTUPDATEASSET]";
+                    SqlCommand cmd = new SqlCommand(sql, dbConn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Function", Function);
+                    cmd.Parameters.AddWithValue("@Branch", Branch);
+                    cmd.Parameters.AddWithValue("@RequestID", RequestID);
+                    cmd.Parameters.AddWithValue("@EmpID", EmpID);
+                    cmd.Parameters.AddWithValue("@ReqDate", ReqDate);
+                    cmd.Parameters.AddWithValue("@AssetCategory", AssetCategory);
+                    cmd.Parameters.AddWithValue("@AssetSubCategory", AssetSubCategory);
+                    // cmd.Parameters.AddWithValue("@RequiredBefore", Requiredbefore);
+                    cmd.Parameters.AddWithValue("@ReturnDate", ReturnDate);
+                    cmd.Parameters.AddWithValue("@Reason", Reason);
+                    cmd.Parameters.AddWithValue("@Status", Status);
+                    cmd.Parameters.Add("@Result", SqlDbType.VarChar, 1000).Direction = ParameterDirection.Output;
+
+
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+
+                    var reader = cmd.ExecuteReader();
+                    st = cmd.Parameters["@Result"].Value.ToString();
+                    System.Data.DataTable results = new System.Data.DataTable();
+                    results.Load(reader);
+                    st1 = "Asset Request ID is : "+ st + "  Asset Request Updated Successfully";
                 }
-                return st;
+
+
+                if (Reaslese == "True")
+                {
+
+
+
+                    string query2 = "";
+                    query2 = "select WF_CONFIG_ID from BO_WORKFLOW_CONFIGURATIONS where table_name like '%Asset%' and status='A' and Function_ID='" + Function + "'";
+
+                    SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                    var reader2 = cmd2.ExecuteReader();
+                    System.Data.DataTable results2 = new System.Data.DataTable();
+                    results2.Load(reader2);
+                    for (int i = 0; i < results2.Rows.Count; i++)
+                    {
+
+
+                        DataRow row = results2.Rows[i];
+                        int wkno = Convert.ToInt32(row[0]);
+
+                        WF_CONFIG_ID = Convert.ToInt32(row[0]);
+
+
+
+
+                        string query3 = "";
+                        query3 = "exec usp_WF_ApprovalUsers 'ssg.DBO.hrms_asset_req','REQUEST_ID','','','','','" + st + "','','' ,'','' ,'1' ,'"+ userid+"' ,'STATUS','P' ,'" + WF_CONFIG_ID + "'";
+                        SqlCommand cmd3 = new SqlCommand(query3, dbConn);
+                        var reader3 = cmd3.ExecuteReader();
+
+                        System.Data.DataTable results3 = new System.Data.DataTable();
+                        results3.Load(reader3);
+                        Logdata1 = "Successfully Saved";
+                        for (int i2 = 0; i2 < results3.Rows.Count; i2++)
+                        {
+                            Logdata1 = DataTableToJSONWithStringBuilder(results3);
+                            dbConn.Close();
+                        }
+                    }
+
+                }
+
+
+
+
+                return st1;
             }
         }
 

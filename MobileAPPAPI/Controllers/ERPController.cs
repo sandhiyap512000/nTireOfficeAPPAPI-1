@@ -660,7 +660,7 @@ namespace MobileAppAPI.Controllers
                     cmd.Parameters.AddWithValue("@prsref", data.prsref);
                     cmd.Parameters.AddWithValue("@PAGEINDEX", data.pageindex1);
                     cmd.Parameters.AddWithValue("@PAGESIZE", data.pagesize1);
-                    cmd.ExecuteNonQuery();
+                   // cmd.ExecuteNonQuery();
                     var reader = cmd.ExecuteReader();
                     System.Data.DataTable results = new System.Data.DataTable();
                     results.Load(reader);
@@ -669,7 +669,7 @@ namespace MobileAppAPI.Controllers
                     {
                         DataRow row = results.Rows[i];
                         Logdata1 = DataTableToJSONWithStringBuilder(results);
-                        logdata = DataTableToJSONWithStringBuilder(results);
+                        //logdata = DataTableToJSONWithStringBuilder(results);
 
                         dbConn.Close();
                     }
@@ -1037,7 +1037,7 @@ namespace MobileAppAPI.Controllers
                             cmdprscode.Parameters.AddWithValue("@FUNCTIONID", functionid);
                             cmdprscode.Parameters.AddWithValue("@TYPE", "Purchaserequisition");
 
-                            cmdprscode.ExecuteNonQuery();
+                            //cmdprscode.ExecuteNonQuery();
                             var prscodereader = cmdprscode.ExecuteReader();
                             System.Data.DataTable resultsprscode = new System.Data.DataTable();
                             resultsprscode.Load(prscodereader);
@@ -1718,6 +1718,53 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        //prs code autocompletion
+
+        [HttpGet]
+        [Route("getPRScode/{code}")]
+        public string getPRScode(string code)
+        {
+
+
+
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select prs_id,prs_code ,concat(prs_id,' - ',prs_code) as prsdetails from ERP_PRS_MASTER where PRS_CODE like'" + code + "%'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
+        }
+
+
+
+
+
+
+
+
 
 
         //RFQ search
@@ -1875,7 +1922,12 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string query = "";
-                query = "select function_id, item_id, item_Code, item_short_Desc, item_long_desc from ERP_ITEM_MASTER where item_code like  '%" + code + "%'";
+                //query = "select function_id, item_id, item_Code, item_short_Desc, item_long_desc from ERP_ITEM_MASTER where item_code like  '%" + code + "%'";
+
+
+
+
+                query = "select function_id, item_id, item_Code, item_short_Desc, item_long_desc,concat(item_code,'-',item_short_Desc) itemdetails from ERP_ITEM_MASTER where item_code like  '" + code + "%' or item_short_Desc like '" + code + "%'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -2592,11 +2644,11 @@ namespace MobileAppAPI.Controllers
 
                     if (data.prscode.ToString() == "0" || data.prscode.ToString() == "" || data.prscode.ToString() == string.Empty || data.prscode.ToString() == null)
                     {
-                        data.prscode = "0";
+                        data.prscode = "";
                     }
                     if (data.itemcode.ToString() == "0" || data.itemcode.ToString() == "" || data.itemcode.ToString() == string.Empty || data.itemcode.ToString() == null)
                     {
-                        data.itemcode = "0";
+                        data.itemcode = "";
                     }
 
                     //if (data.reuestdate.ToString() == "0" || data.reuestdate.ToString() == "" || data.reuestdate.ToString() == string.Empty || data.reuestdate.ToString() == null)
@@ -2610,7 +2662,7 @@ namespace MobileAppAPI.Controllers
 
                     if (data.rfqcode.ToString() == "0" || data.rfqcode.ToString() == "" || data.rfqcode.ToString() == string.Empty || data.rfqcode.ToString() == null)
                     {
-                        data.rfqcode = "0";
+                        data.rfqcode = "";
                     }
 
                     //if (data.fromdate.ToString() == "0" || data.fromdate.ToString() == "" || data.fromdate.ToString() == string.Empty || data.fromdate.ToString() == null)
@@ -2640,12 +2692,12 @@ namespace MobileAppAPI.Controllers
 
                     if (data.status.ToString() == "0" || data.status.ToString() == "" || data.status.ToString() == string.Empty || data.status.ToString() == null)
                     {
-                        data.status = "0";
+                        data.status = "";
                     }
 
                     if (data.mode.ToString() == "0" || data.mode.ToString() == "" || data.mode.ToString() == string.Empty || data.mode.ToString() == null)
                     {
-                        data.mode = "0";
+                        data.mode = "";
                     }
                     if (data.pageindex1.ToString() == "0" || data.pageindex1.ToString() == "" || data.pageindex1.ToString() == string.Empty || data.pageindex1.ToString() == null)
                     {
@@ -2664,9 +2716,9 @@ namespace MobileAppAPI.Controllers
 
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
-                    string sql = "MBLE_ERP_RFQ_getvendorevaluationRFQs";
+                   // string sql = "MBLE_ERP_RFQ_getvendorevaluationRFQs";
 
-                   // String sql = "MBL_ERP_RFQ_getvendorevaluationRFQ";
+                    String sql = "MBL_ERP_RFQ_getvendorevaluationRFQ";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
                     // EXEC MBL_ERP_RFQ_getvendorevaluationRFQs '1','','','','','','','','','RFQ Raised','2','0','20','prs_id DESC','','286','1'
 
@@ -2682,17 +2734,23 @@ namespace MobileAppAPI.Controllers
                     cmd.Parameters.AddWithValue("@TODATE", data.todate);
                     cmd.Parameters.AddWithValue("@RFQFromDate", data.rfqfromdate);
                     cmd.Parameters.AddWithValue("@RFQToDate", data.rfqtodate);
-                    cmd.Parameters.AddWithValue("@STATUS", "RFQ Raised");
-                    cmd.Parameters.AddWithValue("@MODE", "1");
-                    cmd.Parameters.AddWithValue("@PAGEINDEX","0");
-                    cmd.Parameters.AddWithValue("@PAGESIZE", "20");
-                    cmd.Parameters.AddWithValue("@SORTEXPRESSION", "prs_id DESC");
+                    //cmd.Parameters.AddWithValue("@STATUS", "RFQ Raised");
+                    //cmd.Parameters.AddWithValue("@MODE", "2");
+                    //cmd.Parameters.AddWithValue("@PAGEINDEX","0");
+                    //cmd.Parameters.AddWithValue("@PAGESIZE", "20");
+                    //cmd.Parameters.AddWithValue("@SORTEXPRESSION", "prs_id DESC");
+
+                    cmd.Parameters.AddWithValue("@STATUS", data.status);
+                    cmd.Parameters.AddWithValue("@MODE",data.mode);
+                    cmd.Parameters.AddWithValue("@PAGEINDEX", data.pageindex1);
+                    cmd.Parameters.AddWithValue("@PAGESIZE",data.pagesize1);
+                    cmd.Parameters.AddWithValue("@SORTEXPRESSION", data.sortexpression);
                     cmd.Parameters.AddWithValue("@ALPHANAME", "");
                     cmd.Parameters.AddWithValue("@UserId", data.userid);
                     cmd.Parameters.AddWithValue("@UserType", "1");
 
 
-                    cmd.ExecuteNonQuery();
+                  //  cmd.ExecuteNonQuery();
                     var reader = cmd.ExecuteReader();
                     System.Data.DataTable results = new System.Data.DataTable();
                     results.Load(reader);
@@ -2917,6 +2975,59 @@ namespace MobileAppAPI.Controllers
                 string PKColumn = string.Empty;
                 try
                 {
+
+
+                    if (strFunction.ToString() == "0" || strFunction.ToString() == "" || strFunction.ToString() == string.Empty || strFunction.ToString() == "null")
+                    {
+                        strFunction = "";
+                    }
+                    if (strConfigId.ToString() == "0" || strConfigId.ToString() == "" || strConfigId.ToString() == string.Empty || strConfigId.ToString() == "null")
+                    {
+                        strConfigId = "";
+                    }
+                    if (Username.ToString() == "0" || Username.ToString() == "" || Username.ToString() == string.Empty || Username.ToString() == "null")
+                    {
+                        Username = "";
+                    }
+                    if (strWorkFlowNo.ToString() == "0" || strWorkFlowNo == "" || strWorkFlowNo.ToString() == string.Empty || strWorkFlowNo.ToString() == "null")
+                    {
+                        strWorkFlowNo = "";
+                    }
+                    if (strFromDate == "0" || strFromDate == "" || strFromDate == string.Empty || strFromDate.ToString() == "null")
+                    {
+                        strFromDate = "";
+                    }
+                    if (strToDate.ToString() == "0" || strToDate.ToString() == "" || strToDate.ToString() == string.Empty || strToDate.ToString() =="null")
+                    {
+                        strToDate = "";
+                    }
+                    if (strWFstatus.ToString() == "0" || strWFstatus.ToString() == "" || strWFstatus.ToString() == string.Empty || strWFstatus.ToString() == "null")
+                    {
+                        strWFstatus = "";
+                    }
+                    if (strMode.ToString() == "0" || strMode.ToString() == "" || strMode.ToString() == string.Empty || strMode.ToString() == "null")
+                    {
+                        strMode = "";
+                    }
+                    if (strUserId.ToString() == "0" || strUserId.ToString() == "" || strUserId.ToString() == string.Empty || strUserId.ToString() == "null")
+                    {
+                        strUserId = "";
+
+                    }
+                    if (strusertype.ToString() == "0" || strusertype.ToString() == "" || strusertype.ToString() == string.Empty || strusertype.ToString() == "null")
+                    {
+                        strusertype = "";
+
+                    }
+
+
+
+
+
+
+
+
+
                     string query = "select  BASEQUERY,PK_COLUMN_NAME1 from BO_WORKFLOW_CONFIGURATIONS WHERE WF_CONFIG_ID='" + strConfigId + "' and FUNCTION_ID='" + strFunction + "'";
 
                     SqlCommand cmd1 = new SqlCommand(query, dbConn);
@@ -2973,7 +3084,7 @@ namespace MobileAppAPI.Controllers
                     cmd.ExecuteNonQuery();
                     var reader1 = cmd.ExecuteReader();
                     System.Data.DataTable results = new System.Data.DataTable();
-                    results.Load(reader);
+                    results.Load(reader1);
                     //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
                     for (int i = 0; i < results.Rows.Count; i++)
                     {
@@ -5633,6 +5744,33 @@ namespace MobileAppAPI.Controllers
             }
         }
 
+        //delete added vendor in raise RFQ
+
+
+        [HttpGet]
+        [Route("deletevendor_RFQ/{functionId}/{rfqcode}/{vendorid}")]
+        public string deletevendor_RFQ(string functionId, string rfqcode,string vendorid)
+        {
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+
+                string strsql = "Delete from ERP_VENDOR_TEMPDETAILS where RFQCode='" + rfqcode + "' and FUNCTION_ID='" + functionId + "' AND VENDOR_ID='" + vendorid + "'";
+                SqlCommand cmd = new SqlCommand(strsql, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+                return Logdata1;
+            }
+        }
+
 
         //shankari
 
@@ -7306,6 +7444,38 @@ namespace MobileAppAPI.Controllers
             }
             return Logdata1;
         }
+
+
+        //display invoice amount 
+
+        [HttpGet]
+        [Route("getpo_invoiceamount/{fuctionid}/{branchid}/{poid}")]
+        public dynamic getpo_invoiceamount(string fuctionid, string branchid, string poid)
+        {
+            List<ERP> Logdata = new List<ERP>();
+
+            string Logdata1 = string.Empty;
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                string query = "";
+
+                query = "select po_id,po_number,po_amount from ERP_PO_MASTER where po_id='" + poid + "' and function_id='" + fuctionid + "' and branch_id='" + branchid + "'";
+
+                dbConn.Open();
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+
+                dbConn.Close();
+            }
+            return Logdata1;
+        }
+
+
+
         [HttpGet]
         [Route("getinvoicedetails/{fuctionid}/{branchid}/{poid}")]
         public dynamic getinvoicedetails(string fuctionid, string branchid, string poid)
@@ -7317,7 +7487,7 @@ namespace MobileAppAPI.Controllers
             {
                 string query = "";
 
-                query = "SELECT A.FUNCTION_ID,A.BRANCH_ID,A.INVOICE_ID,A.PO_ID,A.PAYMENT_ID,A.VENDOR_ID,CONVERT(VARCHAR(10),A.IVOICE_DATE,103) AS 'IVOICE_DATE',A.INVOICE_REF,A.INVOICE_MODE,A.PO_AMOUNT,A.DUE_AMOUNT,A.INVOICE_AMOUNT,A.INVOICE_FILE_PATH,A.REMARKSS,case  A.status when 'U' then 'UnderProcess' when 'P' then 'Pending' when 'A' then 'Approval' when 'R' then 'Rejected' when 'X' then 'Payment Under Process' when 'Z' then 'Paid' end as status,A.CREATED_BY,A.UPDATED_BY,A.CREATED_ON,A.UPDATED_ON,A.IPADDRESS,CONVERT(VARCHAR(10),B.Payment_confirm_on,103) AS Payment_Date,B.Payment_confirm_remarks as Payment_ref FROM ERP_PURCHASE_INVOICE_MASTER A LEFT JOIN ERP_PO_PAYMENT_TERMS B ON B.FUNCTION_ID=A.FUNCTION_ID and B.BRANCH_ID=A.BRANCH_ID and B.PO_ID=A.PO_ID and B.PAYMENT_ID=A.PAYMENT_ID WHERE 1=1 ";
+                query = "SELECT A.FUNCTION_ID,A.BRANCH_ID,A.INVOICE_ID,A.PO_ID,C.po_number,A.PAYMENT_ID,A.VENDOR_ID,CONVERT(VARCHAR(10), A.IVOICE_DATE, 103) AS 'IVOICE_DATE',A.INVOICE_REF,A.INVOICE_MODE,A.PO_AMOUNT,A.DUE_AMOUNT,A.INVOICE_AMOUNT,A.INVOICE_FILE_PATH,A.REMARKSS,case  A.status when 'U' then 'UnderProcess' when 'P' then 'Pending' when 'A' then 'Approval' when 'R' then 'Rejected' when 'X' then 'Payment Under Process' when 'Z' then 'Paid' end as status,A.CREATED_BY,A.UPDATED_BY,A.CREATED_ON,A.UPDATED_ON,A.IPADDRESS,CONVERT(VARCHAR(10), B.Payment_confirm_on, 103) AS Payment_Date, B.Payment_confirm_remarks as Payment_ref FROM ERP_PURCHASE_INVOICE_MASTER A LEFT JOIN ERP_PO_PAYMENT_TERMS B ON B.FUNCTION_ID = A.FUNCTION_ID and B.BRANCH_ID = A.BRANCH_ID and B.PO_ID = A.PO_ID and B.PAYMENT_ID = A.PAYMENT_ID LEFT JOIN ERP_PO_MASTER C ON C.po_id = A.PO_ID WHERE 1 = 1 ";
 
                 if (fuctionid.ToString() != "" && fuctionid.ToString() != string.Empty && fuctionid.ToString() != null && fuctionid.ToString() != "0")
                 {

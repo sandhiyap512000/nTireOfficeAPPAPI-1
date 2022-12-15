@@ -203,6 +203,7 @@ namespace MobileAppAPI.Models
 
         public string release { get; set; }
 
+        public string tansfertype { get; set; }
 
 
     }

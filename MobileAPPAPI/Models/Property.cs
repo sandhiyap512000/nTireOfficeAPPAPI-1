@@ -10,11 +10,18 @@ namespace MobileAppAPI.Models
         public int userid { get; set; }
         public int functionid { get; set; }
 
+        public string function_id { get; set; }
+
         public int branchid { get; set; }
+
+        public string branch_id { get; set; }
 
         public int locationid { get; set; }
 
+        public string location { get; set; }
+
         public string Priority { get; set; }
+
 
         public string pm_due_date { get; set; }
 
@@ -36,11 +43,17 @@ namespace MobileAppAPI.Models
         public string DUE_DATE { get; set; }
 
         public string rentid { get; set; }
+
+        
      
         public string PROPERTYSPLITID { get; set; }
         public string propertyid { get; set; }
 
-        
+        public string Issueid { get; set; }
+
+        public string user_id { get; set; }
+
+
 
     }
 }
