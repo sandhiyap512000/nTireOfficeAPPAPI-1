@@ -685,7 +685,7 @@ namespace MobileAppAPI.Controllers
 
 
 
-                cmd.ExecuteNonQuery();
+               // cmd.ExecuteNonQuery();
 
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();

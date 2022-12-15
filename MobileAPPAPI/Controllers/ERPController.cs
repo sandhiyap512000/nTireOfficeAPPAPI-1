@@ -2033,7 +2033,7 @@ namespace MobileAppAPI.Controllers
             return (Logdata1);
         }
 
-
+        //rfq pending search
 
         [HttpPost]
         [Route("searchRFQLists")]
@@ -2716,9 +2716,9 @@ namespace MobileAppAPI.Controllers
 
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
-                   // string sql = "MBLE_ERP_RFQ_getvendorevaluationRFQs";
+                    string sql = "MBLE_ERP_RFQ_getvendorevaluationRFQs";
 
-                    String sql = "MBL_ERP_RFQ_getvendorevaluationRFQ";
+                   // String sql = "MBL_ERP_RFQ_getvendorevaluationRFQ";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
                     // EXEC MBL_ERP_RFQ_getvendorevaluationRFQs '1','','','','','','','','','RFQ Raised','2','0','20','prs_id DESC','','286','1'
 
@@ -3551,7 +3551,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "select* from Erp_prs_master where prs_code = '" + prscode + "'";
+                query = "select erp.function_id,branch_id,prs_id,prs_category,prs_code,prs_ref,prs_type,bo.TUM_USER_NAME as requested_by,requested_Date,request_type,request_comments,reason_purchase,netamount,IS_BID,currency,status,erp.created_by,erp.created_on,erp.lst_upd_by,erp.lst_upd_on,erp.ipaddress,IS_SINGLE_VENDOR,PRIORITY from Erp_prs_master erp left join bo_user_master bo on erp.function_id = bo.FUNCTION_ID and bo.tum_user_id = erp.requested_by where prs_code = '" + prscode + "'";
 
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);

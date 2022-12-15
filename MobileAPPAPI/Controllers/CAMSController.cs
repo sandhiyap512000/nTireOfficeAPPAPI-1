@@ -608,7 +608,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "(SELECT BRANCH_ID,BRANCH_DESC from BO_BRANCH_MASTER WHERE FUNCTION_ID=" + data.functionidrep + ") order by BRANCH_DESC asc";
+                query = "(SELECT BRANCH_ID,BRANCH_DESC from BO_BRANCH_MASTER WHERE status='A' and FUNCTION_ID=" + data.functionidrep + ") order by BRANCH_DESC asc";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
