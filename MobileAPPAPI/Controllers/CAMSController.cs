@@ -221,7 +221,7 @@ namespace MobileAppAPI.Controllers
                 query = "select distinct CAMS_ASSET_SERVICE.REPLACEMENT_ASSET_ID, CAMS_ASSET_MASTER.asset_code as ASSET_CODE1,CAMS_ASSET_MASTER.ASSET_DESCRIPTION  ,CAMS_ASSET_SERVICE.FUNCTION_ID, HISTORY_ID,BO_BRANCH_MASTER.BRANCH_DESC as branch,CAMS_ASSET_SERVICE.ASSET_CODE,CAMS_ASSET_SERVICE.ASSET_ID,CAMS_ASSET_SERVICE.VENDOR_CODE as vendor,CONVERT(VARCHAR(10),DATE_OF_SERVICE,103) as DATE_OF_SERVICE,CONVERT(VARCHAR(10),EXPECTED_DATE_OF_DELIVERY,103) as'EXPECTED_DATE_OF_DELIVERY',convert(numeric(18,2),EXPECTED_EXPENSES) as EXPECTED_EXPENSES,case CAMS_ASSET_SERVICE.STATUS when 'N' then 'New' when 'P' then 'Pending' when 'A' then 'Approved' when 'D' then 'Denied' end as status,mode,INSURANCECOMPANY,AMOUNTINSURED,CONVERT(VARCHAR(10),WARRANTYDATE,103) as WARRANTYDATE,CAMS_ASSET_SERVICE.CREATED_ON createddate from CAMS_ASSET_SERVICE inner  join BO_BRANCH_MASTER with(nolock)on BO_BRANCH_MASTER.BRANCH_ID=CAMS_ASSET_SERVICE.BRANCH_ID and BO_BRANCH_MASTER.FUNCTION_ID=CAMS_ASSET_SERVICE.FUNCTION_ID left outer join  ERP_VENDOR_MASTER with(nolock)on ERP_VENDOR_MASTER.vendor_id=CAMS_ASSET_SERVICE.VENDOR_ID and ERP_VENDOR_MASTER.function_id=CAMS_ASSET_SERVICE.FUNCTION_ID Join CAMS_ASSET_MASTER on CAMS_ASSET_MASTER.ASSET_ID = CAMS_ASSET_SERVICE.asset_id and CAMS_ASSET_MASTER.FUNCTION_ID=CAMS_ASSET_SERVICE.FUNCTION_ID and CAMS_ASSET_MASTER.BRANCH_ID=CAMS_ASSET_SERVICE.BRANCH_ID where CAMS_ASSET_SERVICE.RELEASE in ('P','A','N','D') and CAMS_ASSET_SERVICE.MODE='S' and CAMS_ASSET_SERVICE.BRANCH_ID='" + data.branchid + "'";
 
                 var flag = 0;
-                if (data.assetcode != null)
+                if (data.assetcode != null && data.assetcode !="")
                 {
                     if (flag == 0)
                     {
@@ -233,7 +233,7 @@ namespace MobileAppAPI.Controllers
                         query = query + " AND CAMS_ASSET_MASTER.asset_code='" + data.assetcode + "'";
                     }
                 }
-                if (data.vendorcode != null)
+                if (data.vendorcode != null && data.vendorcode !="")
                 {
                     if (flag == 0)
                     {
@@ -245,7 +245,7 @@ namespace MobileAppAPI.Controllers
                         query = query + " AND CAMS_ASSET_SERVICE.VENDOR_CODE='" + data.vendorcode + "'";
                     }
                 }
-                if (data.datofservice != null)
+                if (data.datofservice != null && data.datofservice !="")
                 {
                     if (flag == 0)
                     {
@@ -1545,12 +1545,12 @@ namespace MobileAppAPI.Controllers
                         if (results2.Rows.Count >= 1)
                         {
 
-                            Logdata1 = DataTableToJSONWithStringBuilder(results2);
-                            dbConn.Close();
+                            //Logdata1 = DataTableToJSONWithStringBuilder(results2);
+                            //dbConn.Close();
 
-                        }
-                        else
-                        {
+                        //}
+                        //else
+                        //{
                             string st = "This Asset Already Transferred";
 
                             //JSONString.Append("{");
