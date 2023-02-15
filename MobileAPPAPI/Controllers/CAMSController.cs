@@ -23,6 +23,7 @@ namespace MobileAppAPI.Controllers
     public class CAMSController : ControllerBase
     {
         public static Helper objhelper = new Helper();
+        public static SQLAccesLayer objSQLAccesLayer = new SQLAccesLayer();
         public static string strconn = objhelper.Connectionstring();
 
 
@@ -1950,7 +1951,49 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        [HttpGet]
+        [Route("Pendingsearchs111")]
+        public string Pendingsearchs111(string strfunction, string branch, string mode, string fdate, string tdate, string Status, string dept, string tag, string strUserId, string UserType, int pageIndex, int pageSize, string sortExpression, string alphaname, string drpcategory, string drptype, string TASKTYPE, string PrCode, string PrDesc, string strCriticality, string assetname, string actmaintenence, string wrkordno)//, string PrDesc, string PrCode string loginUserId,, string UserType
+        {
+            try
+            {
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+                    try
+                    {
+                        string Logdata1 = string.Empty;
+                        string sql = "";
 
+                        sql = " EXEC CAMS_Pending_GETPENDINGDETAIL_DEPT '" + strfunction + "','" + branch + "','" + mode + "','" + fdate + "','" + tdate + "','" + Status + "','" + dept + "','" + tag + "','" + strUserId + "','" + UserType + "','" + pageIndex + "','" + pageSize + "','" + sortExpression + "','" + alphaname + "','" + drpcategory + "','" + drptype + "','" + TASKTYPE + "','" + PrCode + "','" + PrDesc + "','" + strCriticality + "','" + assetname + "','" + actmaintenence + "','" + wrkordno + "'";
+                         DataSet dtPending = objSQLAccesLayer.getDataSet(sql);
+
+
+
+                        for (int i = 0; i < dtPending.Tables[0].Rows.Count; i++)
+                        {
+                            DataRow row = dtPending.Tables[0].Rows[i];
+                            Logdata1 = DataTableToJSONWithStringBuilder(dtPending.Tables[0]);
+                        }
+                        //}
+                        return Logdata1;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.ToString());
+                    }
+                    
+
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return json;
+            }
+        }
 
 
         [HttpGet]
