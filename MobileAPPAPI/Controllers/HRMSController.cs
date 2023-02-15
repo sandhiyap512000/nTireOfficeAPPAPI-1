@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -3112,6 +3113,169 @@ namespace MobileAppAPI.Controllers
 
 
 
+        //My approval screen search
+
+        //getMailBoxHistory in old
+
+        [HttpGet]
+        [Route("myapprovalsearch")]
+        public string myapprovalsearch(string strFunction, string strConfigId, string Username, string strWorkFlowNo, string strFromDate, string strToDate, string strWFstatus, string strMode, string strUserId, string strusertype)
+        {
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string dataval = "";
+                //DataTable _dtBaseQuery = new DataTable();
+                string strQuery = "";
+                string[] _query = null;
+                DataSet ds = new DataSet();
+                string QuerySecond = string.Empty;
+                string PKColumn = string.Empty;
+                try
+                {
+
+
+                    if (strFunction.ToString() == "0" || strFunction.ToString() == "" || strFunction.ToString() == string.Empty || strFunction.ToString() == "null")
+                    {
+                        strFunction = "";
+                    }
+                    if (strConfigId.ToString() == "0" || strConfigId.ToString() == "" || strConfigId.ToString() == string.Empty || strConfigId.ToString() == "null")
+                    {
+                        strConfigId = "";
+                    }
+                    if (Username.ToString() == "0" || Username.ToString() == "" || Username.ToString() == string.Empty || Username.ToString() == "null")
+                    {
+                        Username = "";
+                    }
+                    if (strWorkFlowNo.ToString() == "0" || strWorkFlowNo == "" || strWorkFlowNo.ToString() == string.Empty || strWorkFlowNo.ToString() == "null")
+                    {
+                        strWorkFlowNo = "";
+                    }
+                    if (strFromDate == "0" || strFromDate == "" || strFromDate == string.Empty || strFromDate.ToString() == "null")
+                    {
+                        strFromDate = "";
+                    }
+                    if (strToDate.ToString() == "0" || strToDate.ToString() == "" || strToDate.ToString() == string.Empty || strToDate.ToString() == "null")
+                    {
+                        strToDate = "";
+                    }
+                    if (strWFstatus.ToString() == "0" || strWFstatus.ToString() == "" || strWFstatus.ToString() == string.Empty || strWFstatus.ToString() == "null")
+                    {
+                        strWFstatus = "";
+                    }
+                    if (strMode.ToString() == "0" || strMode.ToString() == "" || strMode.ToString() == string.Empty || strMode.ToString() == "null")
+                    {
+                        strMode = "";
+                    }
+                    if (strUserId.ToString() == "0" || strUserId.ToString() == "" || strUserId.ToString() == string.Empty || strUserId.ToString() == "null")
+                    {
+                        strUserId = "";
+
+                    }
+                    if (strusertype.ToString() == "0" || strusertype.ToString() == "" || strusertype.ToString() == string.Empty || strusertype.ToString() == "null")
+                    {
+                        strusertype = "";
+
+                    }
+
+
+
+
+
+
+
+
+
+                    string query = "select  BASEQUERY,PK_COLUMN_NAME1 from BO_WORKFLOW_CONFIGURATIONS WHERE WF_CONFIG_ID='" + strConfigId + "' and FUNCTION_ID='" + strFunction + "'";
+
+                    SqlCommand cmd1 = new SqlCommand(query, dbConn);
+                    var reader = cmd1.ExecuteReader();
+                    System.Data.DataTable _dtBaseQuery = new System.Data.DataTable();
+                    _dtBaseQuery.Load(reader);
+                    if (!string.IsNullOrEmpty(_dtBaseQuery.Rows[0]["BASEQUERY"].ToString()))
+                    {
+                        _query = _dtBaseQuery.Rows[0]["BASEQUERY"].ToString().ToUpper().Split(new string[] { "FROM" }, StringSplitOptions.None);
+                        PKColumn = _dtBaseQuery.Rows[0]["PK_COLUMN_NAME1"].ToString();
+                    }
+
+                    strQuery = _query == null || string.IsNullOrEmpty(_query[0].Trim()) ? "set dateformat dmy;select distinct" : "set dateformat dmy;" + _query[0] + ",";
+
+                    if (_query != null && _query.Length > 1)
+                    {
+                        QuerySecond = _query[1].Trim().ToString();
+                        if (!strQuery.ToString().ToUpper().Contains("SELECT DISTINCT"))
+                        {
+                            strQuery = strQuery.ToString().ToUpper().Replace("SELECT", "SELECT DISTINCT");
+                        }
+                    }
+                    else
+                    {
+                        strQuery = "";
+                        QuerySecond = "";
+                        PKColumn = "";
+                    }
+                    TextInfo textInfo = new CultureInfo("en-US", false).TextInfo; // sudish
+                    strQuery = strQuery.ToString();
+                    strQuery = textInfo.ToTitleCase(strQuery.ToLower());
+                    string quer = "BO_WORKFLOW_GETAPPROVAL_DETAILS";
+                    SqlCommand cmd = new SqlCommand(quer, dbConn);
+
+
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@strFunction", strFunction);
+                    cmd.Parameters.AddWithValue("@strConfigId", strConfigId);
+                    cmd.Parameters.AddWithValue("@Username", Username);
+                    cmd.Parameters.AddWithValue("@strWorkFlowNo", strWorkFlowNo);
+                    cmd.Parameters.AddWithValue("@strFromDate", strFromDate);
+                    cmd.Parameters.AddWithValue("@strToDate", strToDate);
+                    cmd.Parameters.AddWithValue("@strWFstatus", strWFstatus);
+                    cmd.Parameters.AddWithValue("@strMode", strMode);
+                    cmd.Parameters.AddWithValue("@strUserId", strUserId);
+                    cmd.Parameters.AddWithValue("@strusertype", strusertype);
+                    cmd.Parameters.AddWithValue("@Query", strQuery);
+                    cmd.Parameters.AddWithValue("@QuerySecond", QuerySecond);
+                    cmd.Parameters.AddWithValue("@PkColumn", PKColumn);
+
+
+                    cmd.ExecuteNonQuery();
+                    var reader1 = cmd.ExecuteReader();
+                    System.Data.DataTable results = new System.Data.DataTable();
+                    results.Load(reader1);
+                    //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+
+
+                        dbConn.Close();
+                    }
+                    //var result = (new { logdata });
+                    return Logdata1;
+
+
+
+
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    Logdata1 = ex.ToString();
+                }
+            }
+
+            return Logdata1;
+        }
+
+
+
+
 
         public string DataTableToJSONWithStringBuilder1(DataTable table)
         {
@@ -3185,5 +3349,11 @@ namespace MobileAppAPI.Controllers
             }
             return JSONString.ToString();
         }
+
+
+
+
+
+
     }
 }

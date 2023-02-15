@@ -350,10 +350,202 @@ namespace JSIGamingAPI.Controllers
 
         //dec6
 
-      
 
 
 
+
+        private static string RandomString(int length)
+        {
+            Random random = new Random();
+            const string chars = "abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        //public static bool Email(string data, string toemail, string toname, string fromname)
+        //{
+          
+
+        //    //return true;
+        //    try
+        //    {
+
+        //        using (SqlConnection dbConn = new SqlConnection(strconn))
+        //        {
+        //            dbConn.Open();
+
+        //            string EmailId = "";
+        //            string port = "";
+        //            //string serverName = "";
+        //            string Password = "";
+        //            string smtpserver = "";
+        //            //string companyname = "";
+
+        //            //sendermailid = /*bbp.getwewbconfigkeybase("sendermailid"); //*/    ConfigurationManager.AppSettings["SenderMailIdNew"].ToString();
+        //            //port = /*bbp.getwewbconfigkeybase("port");  //*/     ConfigurationManager.AppSettings["port"].ToString();
+        //            //serverName =/* bbp.getwewbconfigkeybase("smtpserver");//*/     ConfigurationManager.AppSettings["smtpserver"].ToString();
+        //            //serverpwd = /*bbp.getwewbconfigkeybase("SenderPassword");//*/ ConfigurationManager.AppSettings["SenderPasswordNEW"].ToString();
+        //            //smtpstender = ConfigurationManager.AppSettings["smtpstender"].ToString();
+        //            //companyname= ConfigurationManager.AppSettings["companyname"].ToString();
+        //            string commandText = string.Empty;
+        //            commandText = "select MGE_SMTP_SERVER  ,MGE_EMAIL_ID ,MGE_PASSWORD ,MGE_PORT_NO  from BO_mail_Config where MGE_ID='1'";
+        //            SqlCommand cmd = new SqlCommand(query, dbConn);
+        //            var reader = cmd.ExecuteReader();
+        //            System.Data.DataTable results = new System.Data.DataTable();
+        //            results.Load(reader);
+        //            if (ds1 != null)
+        //            {
+        //                if (ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
+        //                {
+        //                    smtpserver = ds1.Tables[0].Rows[0]["MGE_SMTP_SERVER"].ToString();
+        //                    EmailId = ds1.Tables[0].Rows[0]["MGE_EMAIL_ID"].ToString();
+        //                    Password = ds1.Tables[0].Rows[0]["MGE_PASSWORD"].ToString();
+        //                    port = ds1.Tables[0].Rows[0]["MGE_PORT_NO"].ToString();
+
+
+        //                }
+
+        //            }
+
+
+        //            var message = new MimeMessage();
+
+        //            message.To.Add(new MailboxAddress(toname, toemail));
+        //            /*
+        //                            message.From.Add(new MailboxAddress("E-mail From Name", "srimathi@sunsmartglobal.com"));
+
+        //                            message.Subject = "Subject";
+        //                            //We will say we are sending HTML. But there are options for plaintext etc.
+        //                            message.Body = new TextPart(TextFormat.Html)
+        //                            {
+        //                            Text = data
+        //                            };
+
+        //                            //Be careful that the SmtpClient class is the one from Mailkit not the framework!
+        //                            using (var emailClient = new SmtpClient())
+        //                            {
+        //                            //The last parameter here is to use SSL (Which you should!)
+        //                            emailClient.Connect("mail.sunsmartglobal.com", 587, false);
+
+        //                            //Remove any OAuth functionality as we won't be using it.
+        //                            emailClient.AuthenticationMechanisms.Remove("XOAUTH2");
+
+        //                            emailClient.Authenticate("srimathi@sunsmartglobal.com", "sender@123$");
+        //                            */
+        //            //message.From.Add(new MailboxAddress("SunSmart", "support@sunsmartglobal.com"));
+        //            message.From.Add(new MailboxAddress("SunSmart", EmailId));
+
+
+
+        //            message.Subject = "Notify from " + fromname;
+        //            //We will say we are sending HTML. But there are options for plaintext etc.
+        //            data = data.Replace("&lt;", "<");
+        //            data = data.Replace("&gt;", ">");
+        //            message.Body = new TextPart("html")
+        //            {
+        //                Text = data
+        //            };
+
+        //        }
+
+        //        //Be careful that the SmtpClient class is the one from Mailkit not the framework!
+        //        using (var emailClient = new SmtpClient())
+        //        {
+
+
+
+
+        //            //The last parameter here is to use SSL (Which you should!)
+        //            //emailClient.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+        //            emailClient.Connect(smtpserver, 587, SecureSocketOptions.StartTls);
+
+
+        //            //emailClient.Connect(smtpstender, 587, SecureSocketOptions.StartTls);
+
+
+
+        //            //Remove any OAuth functionality as we won't be using it.
+        //            // emailClient.AuthenticationMechanisms.Remove("XOAUTH2");
+
+        //            //emailClient.Authenticate("support@sunsmartglobal.com", "Ecqsufegzoucluji");
+        //            emailClient.Authenticate(EmailId, Password);
+
+
+
+        //            emailClient.Send(message);
+
+        //            emailClient.Disconnect(true);
+        //        }
+
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+
+        //[Route("LeadCreationAPI/ForgotPassword"), HttpPost]
+        //public List<ForgotPassword> ForgotPassword(ForgotPassword ForgotPassword)
+        //{
+        //    List<ForgotPassword> lstForgotPassword = new List<ForgotPassword>();
+        //    ForgotPassword objForgotPassword = new ForgotPassword();
+        //    string password = "";
+        //    string data = string.Empty;
+        //    //string   companyname = ConfigurationManager.AppSettings["companyname"].ToString();
+        //    try
+        //    {
+        //        string commandText = string.Empty;
+        //        commandText = "select TUM_USER_CODE AS USER_CODE ,TUM_USER_NAME,TUM_USER_STATUS,TUM_USER_EMAILID,TUM_FORCE_LOGON ,PASSWORD_STATUS from BO_USER_MASTER where TUM_USER_CODE='" + ForgotPassword.User_Code + "'";
+
+        //        DataSet ds1 = sa.getDataSet(commandText);
+        //        if (ds1 != null)
+        //        {
+        //            if (ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
+        //            {
+        //                objForgotPassword = new ForgotPassword();
+        //                objForgotPassword.User_Code = ds1.Tables[0].Rows[0]["USER_CODE"].ToString();
+        //                objForgotPassword.UserStatus = ds1.Tables[0].Rows[0]["TUM_USER_STATUS"].ToString();
+        //                objForgotPassword.Emailid = ds1.Tables[0].Rows[0]["TUM_USER_EMAILID"].ToString();
+        //                objForgotPassword.Logon = ds1.Tables[0].Rows[0]["TUM_FORCE_LOGON"].ToString();
+        //                objForgotPassword.PwdStatus = ds1.Tables[0].Rows[0]["PASSWORD_STATUS"].ToString();
+        //                objForgotPassword.UserName = ds1.Tables[0].Rows[0]["TUM_USER_NAME"].ToString();
+
+        //            }
+
+
+        //            if (objForgotPassword.UserStatus == "A" && objForgotPassword.PwdStatus == "I")
+        //            {
+        //                string strquery = "Update BO_USER_MASTER set PASSWORD_STATUS='A' WHERE TUM_USER_CODE='" + ForgotPassword.User_Code + "'";
+        //                sa.ExecuteNonQuery(strquery);
+        //            }
+
+        //        }
+
+
+
+        //        password = RandomString(6);
+        //        string query = "Update BO_USER_MASTER set TUM_USER_PWD=convert(varbinary(max),'" + password + "') where TUM_USER_CODE='" + objForgotPassword.User_Code + "'";
+
+        //        sa.ExecuteNonQuery(query);
+        //        //S sa.getString(query);
+        //        data = "The temporary password id : " + password;
+        //        Email(data, objForgotPassword.Emailid, objForgotPassword.UserName, "SunSmart");
+
+
+
+
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+
+
+        //    return lstForgotPassword;
+        //}
 
 
 

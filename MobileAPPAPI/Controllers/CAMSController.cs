@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace MobileAppAPI.Controllers
 {
@@ -36,9 +37,9 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                //string sql = "CAMS_BRANCHWISE_ASSETCOUNT";
-                string sql = "MBL_CAMS_BRANCHWISE_ASSETCOUNT";
-               
+                string sql = "CAMS_BRANCHWISE_ASSETCOUNT";
+                //string sql = "MBL_CAMS_BRANCHWISE_ASSETCOUNT";
+
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.Parameters.AddWithValue("@funcionid", strfunction);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -69,8 +70,8 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-               // string sql = "CAMS_ASSETCATEGORY_COUNT";
-                string sql = "MBL_CAMS_ASSETCATEGORY_COUNT";
+                string sql = "CAMS_ASSETCATEGORY_COUNT";
+                // string sql = "MBL_CAMS_ASSETCATEGORY_COUNT";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@USERID", struserid);
@@ -98,13 +99,13 @@ namespace MobileAppAPI.Controllers
 
             DataTable dtmaintenancecurrentmonthcount = new DataTable();
             DataSet dsmaintenancecurrentmonthcount = new DataSet();
-          
-                DataSet DS = new DataSet();
+
+            DataSet DS = new DataSet();
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-               // string sql = "CAMS_CURRENT_MONTH_MAINTENANCE_CHART";
-                string sql = "MBL_CAMS_CURRENT_MONTH_MAINTENANCE_CHART";
+                string sql = "CAMS_CURRENT_MONTH_MAINTENANCE_CHART";
+                // string sql = "MBL_CAMS_CURRENT_MONTH_MAINTENANCE_CHART";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@USERID", struserid);
@@ -221,7 +222,7 @@ namespace MobileAppAPI.Controllers
                 query = "select distinct CAMS_ASSET_SERVICE.REPLACEMENT_ASSET_ID, CAMS_ASSET_MASTER.asset_code as ASSET_CODE1,CAMS_ASSET_MASTER.ASSET_DESCRIPTION  ,CAMS_ASSET_SERVICE.FUNCTION_ID, HISTORY_ID,BO_BRANCH_MASTER.BRANCH_DESC as branch,CAMS_ASSET_SERVICE.ASSET_CODE,CAMS_ASSET_SERVICE.ASSET_ID,CAMS_ASSET_SERVICE.VENDOR_CODE as vendor,CONVERT(VARCHAR(10),DATE_OF_SERVICE,103) as DATE_OF_SERVICE,CONVERT(VARCHAR(10),EXPECTED_DATE_OF_DELIVERY,103) as'EXPECTED_DATE_OF_DELIVERY',convert(numeric(18,2),EXPECTED_EXPENSES) as EXPECTED_EXPENSES,case CAMS_ASSET_SERVICE.STATUS when 'N' then 'New' when 'P' then 'Pending' when 'A' then 'Approved' when 'D' then 'Denied' end as status,mode,INSURANCECOMPANY,AMOUNTINSURED,CONVERT(VARCHAR(10),WARRANTYDATE,103) as WARRANTYDATE,CAMS_ASSET_SERVICE.CREATED_ON createddate from CAMS_ASSET_SERVICE inner  join BO_BRANCH_MASTER with(nolock)on BO_BRANCH_MASTER.BRANCH_ID=CAMS_ASSET_SERVICE.BRANCH_ID and BO_BRANCH_MASTER.FUNCTION_ID=CAMS_ASSET_SERVICE.FUNCTION_ID left outer join  ERP_VENDOR_MASTER with(nolock)on ERP_VENDOR_MASTER.vendor_id=CAMS_ASSET_SERVICE.VENDOR_ID and ERP_VENDOR_MASTER.function_id=CAMS_ASSET_SERVICE.FUNCTION_ID Join CAMS_ASSET_MASTER on CAMS_ASSET_MASTER.ASSET_ID = CAMS_ASSET_SERVICE.asset_id and CAMS_ASSET_MASTER.FUNCTION_ID=CAMS_ASSET_SERVICE.FUNCTION_ID and CAMS_ASSET_MASTER.BRANCH_ID=CAMS_ASSET_SERVICE.BRANCH_ID where CAMS_ASSET_SERVICE.RELEASE in ('P','A','N','D') and CAMS_ASSET_SERVICE.MODE='S' and CAMS_ASSET_SERVICE.BRANCH_ID='" + data.branchid + "'";
 
                 var flag = 0;
-                if (data.assetcode != null && data.assetcode !="")
+                if (data.assetcode != null && data.assetcode != "")
                 {
                     if (flag == 0)
                     {
@@ -233,7 +234,7 @@ namespace MobileAppAPI.Controllers
                         query = query + " AND CAMS_ASSET_MASTER.asset_code='" + data.assetcode + "'";
                     }
                 }
-                if (data.vendorcode != null && data.vendorcode !="")
+                if (data.vendorcode != null && data.vendorcode != "")
                 {
                     if (flag == 0)
                     {
@@ -245,12 +246,12 @@ namespace MobileAppAPI.Controllers
                         query = query + " AND CAMS_ASSET_SERVICE.VENDOR_CODE='" + data.vendorcode + "'";
                     }
                 }
-                if (data.datofservice != null && data.datofservice !="")
+                if (data.datofservice != null && data.datofservice != "")
                 {
                     if (flag == 0)
                     {
                         query = query + " AND  DATE_OF_SERVICE='" + data.datofservice + "'";
-                         flag = 1;
+                        flag = 1;
                     }
                     else
                     {
@@ -288,6 +289,8 @@ namespace MobileAppAPI.Controllers
             string Logdata1 = string.Empty;
             var logdata = "";
             var strtoken = "";
+
+            var JSONString = new StringBuilder();
             // var result = "";
             DataSet DS = new DataSet();
             using (SqlConnection dbConn = new SqlConnection(strconn))
@@ -295,33 +298,59 @@ namespace MobileAppAPI.Controllers
 
 
                 dbConn.Open();
-               // string sql = "CAMS_ASSET_getAssetsforreplcaseasset";
-                string sql = "MBL_CAMS_ASSET_getAssetsforreplcaseasset";
+                string sql = "CAMS_ASSET_getAssetsforreplcaseasset";
+                // string sql = "MBL_CAMS_ASSET_getAssetsforreplcaseasset";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@strstatus","A");
-                cmd.Parameters.AddWithValue("@Branch",data.branchid);
-                cmd.Parameters.AddWithValue("@strfunction",data.functionid);
-                cmd.Parameters.AddWithValue("@assettype","0");
-                cmd.Parameters.AddWithValue("@AssetReference","");
-                cmd.Parameters.AddWithValue("@code",data.assetcode);
-                cmd.Parameters.AddWithValue("@desc","");
-                cmd.Parameters.AddWithValue("@dept","");
-                cmd.Parameters.AddWithValue("@pageIndex","0");
-                cmd.Parameters.AddWithValue("@pageSize","20");
+                cmd.Parameters.AddWithValue("@strstatus", "A");
+                cmd.Parameters.AddWithValue("@Branch", data.branchid);
+                cmd.Parameters.AddWithValue("@strfunction", data.functionid);
+                cmd.Parameters.AddWithValue("@assettype", "0");
+                cmd.Parameters.AddWithValue("@AssetReference", "");
+                cmd.Parameters.AddWithValue("@code", data.assetcode);
+                cmd.Parameters.AddWithValue("@desc", "");
+                cmd.Parameters.AddWithValue("@dept", "");
+                cmd.Parameters.AddWithValue("@pageIndex", "0");
+                cmd.Parameters.AddWithValue("@pageSize", "20");
                 cmd.Parameters.AddWithValue("@sortExpression", "currentdate DESC");
-                cmd.Parameters.AddWithValue("@alphaname","");
-                cmd.Parameters.AddWithValue("@Category","0");
+                cmd.Parameters.AddWithValue("@alphaname", "");
+                cmd.Parameters.AddWithValue("@Category", "0");
                 cmd.ExecuteNonQuery();
 
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
                 //string outputval = cmd.Parameters["@outputparam"].Value.ToString();
-                for (int i = 0; i < results.Rows.Count; i++)
+                if (results.Rows.Count > 0)
                 {
-                    DataRow row = results.Rows[i];
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+
+
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    }
+                }
+                else
+                {
+                    string strres = "Result";
+                    string asscode = data.assetcode;
+                    string st1 = "Service already requested for this ASSET  " + data.assetcode;
+                    string st = "Service already requested for this ASSET ";
+                    // JSONString.Append("[");
+                    JSONString.Append("{");
+                    //  JSONString.Append("\"" + st + "\"");
+                    // JSONString.Append("\"" + st + "\":" + "\"" + asscode + "\"");
+                    JSONString.Append("\"" + strres + "\":" + "\"" + st1 + "\"");
+                    JSONString.Append("}");
+                    //  JSONString.Append("]");
+
+                    Logdata1 = JSONString.ToString();
+
+
+                    // Logdata1 = "Service already requested for this ASSET : " + "'"+ data.assetcode + "'";
+
+
                 }
                 return Ok(Logdata1);
 
@@ -344,12 +373,12 @@ namespace MobileAppAPI.Controllers
             // var result = "";
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
-               string split=@"\";
+                string split = @"\";
 
 
                 dbConn.Open();
                 string query = "";
-                query = "SELECT SUBSTRING(cam.ImageUrl , LEN(cam.ImageUrl) -  CHARINDEX('"+ split + "',REVERSE(cam.ImageUrl)) + 2  , LEN(cam.ImageUrl)  ) as ImageUrl,cam.asset_latitude,cam.asset_longitude,bumm.TUM_USER_NAME,casm.SUB_CATEGORY_DESC,cam.TYPE,cam.ASSET_ID,cam.ASSET_CODE,cam.ASSET_DESCRIPTION,cam.ASSET_VALUE,cam.ASSET_BRAND,cam.ASSET_MODE,cam.ASSET_PURCHASE_DATE,cam.ASSET_WARRANTY_TILL,cam.CAMS_ASSET_MANUFACTURER,cam.ASSET_RESIDUAL_VALUE,cam.ASSET_DEPRECIATION_TYPE,cam.ASSET_DEPRECIATION_PERCENTAGE,cam.ASSET_REMARKS,cam.ASSET_APPREQ_USERINITIATED,cam.ASSET_COUNTER_ENABLED,cam.ASSET_INSTALLATION_DATE,cam.ASSET_INSTALLED_BY,cam.ASSET_CERTIFICATE_ISSUED,cam.ASSET_WORKING_CONDITION,bum.TUM_USER_CODE,bop.TEXT as cnme,bop.VAL as cval FROM CAMS_ASSET_MASTER as cam INNER JOIN BO_PARAMETER as bop ON bop.VAL=cam.ASSET_CATEGORY LEFT OUTER JOIN BO_USER_MASTER as bum on bum.TUM_USER_ID=cam.ASSET_USER LEFT OUTER JOIN CAMS_ASSET_SUBCATEGORY_MASTER casm on casm.SUB_CATEGORY_ID=cam.ASSET_TYPE LEFT OUTER JOIN BO_USER_MASTER as bumm on bumm.TUM_USER_ID=cam.ASSET_OWNER_ID WHERE bop.FUNCTION_ID=1 and  bop.TYPE='InfCategory' and cam.ASSET_CODE='" + data.assetcode + "' and cam.BRANCH_ID='" + data.branchid + "'";
+                query = "SELECT SUBSTRING(cam.ImageUrl , LEN(cam.ImageUrl) -  CHARINDEX('" + split + "',REVERSE(cam.ImageUrl)) + 2  , LEN(cam.ImageUrl)  ) as ImageUrl,cam.asset_latitude,cam.asset_longitude,bumm.TUM_USER_NAME,casm.SUB_CATEGORY_DESC,cam.TYPE,cam.ASSET_ID,cam.ASSET_CODE,cam.ASSET_DESCRIPTION,cam.ASSET_VALUE,cam.ASSET_BRAND,cam.ASSET_MODE,cam.ASSET_PURCHASE_DATE,cam.ASSET_WARRANTY_TILL,cam.CAMS_ASSET_MANUFACTURER,cam.ASSET_RESIDUAL_VALUE,cam.ASSET_DEPRECIATION_TYPE,cam.ASSET_DEPRECIATION_PERCENTAGE,cam.ASSET_REMARKS,cam.ASSET_APPREQ_USERINITIATED,cam.ASSET_COUNTER_ENABLED,cam.ASSET_INSTALLATION_DATE,cam.ASSET_INSTALLED_BY,cam.ASSET_CERTIFICATE_ISSUED,cam.ASSET_WORKING_CONDITION,bum.TUM_USER_CODE,bop.TEXT as cnme,bop.VAL as cval FROM CAMS_ASSET_MASTER as cam INNER JOIN BO_PARAMETER as bop ON bop.VAL=cam.ASSET_CATEGORY LEFT OUTER JOIN BO_USER_MASTER as bum on bum.TUM_USER_ID=cam.ASSET_USER LEFT OUTER JOIN CAMS_ASSET_SUBCATEGORY_MASTER casm on casm.SUB_CATEGORY_ID=cam.ASSET_TYPE LEFT OUTER JOIN BO_USER_MASTER as bumm on bumm.TUM_USER_ID=cam.ASSET_OWNER_ID WHERE bop.FUNCTION_ID=1 and  bop.TYPE='InfCategory' and cam.ASSET_CODE='" + data.assetcode + "' and cam.BRANCH_ID='" + data.branchid + "'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -384,7 +413,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "SELECT ASSET_CODE FROM CAMS_ASSET_MASTER where ASSET_CODE like '%"+data.assetcode+ "%' and STATUS='A'";
+                query = "SELECT ASSET_CODE FROM CAMS_ASSET_MASTER where ASSET_CODE like '%" + data.assetcode + "%' and STATUS='A'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -413,13 +442,22 @@ namespace MobileAppAPI.Controllers
             var logdata = "";
             var strtoken = "";
             // var result = "";
+            int assetuser;
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
-
+                if (data.assetuser =="")
+                {
+                    assetuser = 0;
+                }
+                else
+                {
+                    assetuser =Convert.ToInt32(data.assetuser);
+                }
 
                 dbConn.Open();
                 string query = "";
-                query = "INSERT INTO CAMS_PHYSICAL_INVENTORY(FUNCTION_ID,BRANCH_ID,ASSET_ID,DEP_ID,CREATED_BY,MODE,CREATED_ON,UPDATED_ON) VALUES(" + data.functionidrec + "," + data.branchidu + "," + data.assetidrec + "," + data.deprtid + "," + data.assetuser + ",'A','" + data.recrdte + "','" + data.recrdte + "')";
+                //query = "/*INSERT INTO CAMS_PHYSICAL_INVENTORY(FUNCTION_ID,BRANCH_ID,ASSET_ID,DEP_ID,CREATED_BY,MODE,CREATED_ON,UPDATED_ON) VALUES(" + data.functionidrec + "," + data.branchidu + "," + data.assetidrec + "," + data.deprtid + "," + data.assetuser + ",'A','" + data.recrdte + "','" + data.recrdte + "')*/";
+                query = "INSERT INTO CAMS_PHYSICAL_INVENTORY(FUNCTION_ID, BRANCH_ID, ASSET_ID, DEP_ID, CREATED_BY, MODE, CREATED_ON, UPDATED_ON) VALUES(" + data.functionidrec + ", " + data.branchidu + ", " + data.assetidrec + ", " + data.deprtid + ", " + assetuser + ", 'A', convert(datetime, '" + data.recrdte + "'), convert(datetime, '" + data.recrdte + "'))";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -502,7 +540,7 @@ namespace MobileAppAPI.Controllers
             }
         }
 
-       
+
 
 
 
@@ -540,7 +578,7 @@ namespace MobileAppAPI.Controllers
         }
 
 
-       
+
 
 
         [HttpPost]
@@ -559,9 +597,9 @@ namespace MobileAppAPI.Controllers
 
 
                 dbConn.Open();
-               // string Logdata1 = string.Empty;
-               // string sql = "CAMS_GETCAMSServiceDetails";
-                string sql = "MBL_CAMS_GETCAMSServiceDetails";//"CAMS_PENDINGDETAIL_SEARCHS1";
+                // string Logdata1 = string.Empty;
+                string sql = "CAMS_GETCAMSServiceDetails";
+                //  string sql = "MBL_CAMS_GETCAMSServiceDetails";//"CAMS_PENDINGDETAIL_SEARCHS1";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 SqlDataAdapter apd = new SqlDataAdapter(cmd);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -677,7 +715,7 @@ namespace MobileAppAPI.Controllers
             var logdata = "";
             var strtoken = "";
             // var result = "";
-            string flag = "", status = "", wfno="";
+            string flag = "", status = "", wfno = "";
             string strFunction = data.functionidrep;
             string strUserId = data.userid;
 
@@ -791,16 +829,16 @@ namespace MobileAppAPI.Controllers
                 dbConn.Close();
 
             }
-                   
-
-                    var result = (new { recordsets = Logdata1 });
-                    return Ok(Logdata1);
 
 
-             }
-            
-            
-        
+            var result = (new { recordsets = Logdata1 });
+            return Ok(Logdata1);
+
+
+        }
+
+
+
 
 
 
@@ -825,7 +863,7 @@ namespace MobileAppAPI.Controllers
             string output = "";
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
-                if (data.tansfertype=="I")
+                if (data.tansfertype == "I")
                 {
                     transfertype = "1";
                 }
@@ -840,11 +878,11 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "INSERT INTO CAMS_ASSET_TRANSFER_MASTER (FUNCTION_ID,CAT_ASSET_ID,CAT_FROM_BRANCH_ID,CAT_TO_BRANCH_ID,CAT_FROM_DEPARTMENT_ID,CAT_TO_DEPARTMENT_ID,CAT_FROM_ASSET_OWNER_ID,CAT_TO_ASSET_OWNER_ID,CREATED_ON,UPDATED_ON,CREATED_BY,STATUS,CAT_CATEGORY_ID,Asset_Transfer_type,Total_Assets,transfertype)VALUES('" + data.functionidrep + "','" + data.assetid + "','" + data.oldbranchid + "','" + data.oldbranchid + "','" + data.assetdepart + "','0','" + data.assetownerid + "','0','" + data.dateins + "','" + data.dateins + "','" + data.createbytf + "','P','" + data.assetcategory + "','M',1,'"+ transfertype+"'); select Scope_Identity() ";
+                query = "INSERT INTO CAMS_ASSET_TRANSFER_MASTER (FUNCTION_ID,CAT_ASSET_ID,CAT_FROM_BRANCH_ID,CAT_TO_BRANCH_ID,CAT_FROM_DEPARTMENT_ID,CAT_TO_DEPARTMENT_ID,CAT_FROM_ASSET_OWNER_ID,CAT_TO_ASSET_OWNER_ID,CREATED_ON,UPDATED_ON,CREATED_BY,STATUS,CAT_CATEGORY_ID,Asset_Transfer_type,Total_Assets,transfertype)VALUES('" + data.functionidrep + "','" + data.assetid + "','" + data.oldbranchid + "','" + data.oldbranchid + "','" + data.assetdepart + "','0','" + data.assetownerid + "','0','" + data.dateins + "','" + data.dateins + "','" + data.createbytf + "','P','" + data.assetcategory + "','M',1,'" + transfertype + "'); select Scope_Identity() ";
 
 
 
-                query = "INSERT INTO CAMS_ASSET_TRANSFER_MASTER (FUNCTION_ID,CAT_ASSET_ID,CAT_FROM_BRANCH_ID,CAT_TO_BRANCH_ID,CAT_FROM_DEPARTMENT_ID,CAT_TO_DEPARTMENT_ID,CAT_FROM_ASSET_OWNER_ID,CAT_TO_ASSET_OWNER_ID,CREATED_ON,UPDATED_ON,CREATED_BY,STATUS,CAT_CATEGORY_ID,Asset_Transfer_type,Total_Assets,transfertype)VALUES('" + data.functionidrep + "','" + data.assetid + "','" + data.oldbranchid + "','" + data.oldbranchid + "','" + data.assetdepart + "','0','" + data.assetownerid + "','0','" + data.dateins + "','" + data.dateins + "','" + data.createbytf + "','P','" + data.assetcategory + "','M',1,'"+ transfertype+"'); select Scope_Identity() ";
+                query = "INSERT INTO CAMS_ASSET_TRANSFER_MASTER (FUNCTION_ID,CAT_ASSET_ID,CAT_FROM_BRANCH_ID,CAT_TO_BRANCH_ID,CAT_FROM_DEPARTMENT_ID,CAT_TO_DEPARTMENT_ID,CAT_FROM_ASSET_OWNER_ID,CAT_TO_ASSET_OWNER_ID,CREATED_ON,UPDATED_ON,CREATED_BY,STATUS,CAT_CATEGORY_ID,Asset_Transfer_type,Total_Assets,transfertype)VALUES('" + data.functionidrep + "','" + data.assetid + "','" + data.oldbranchid + "','" + data.oldbranchid + "','" + data.assetdepart + "','0','" + data.assetownerid + "','0','" + data.dateins + "','" + data.dateins + "','" + data.createbytf + "','P','" + data.assetcategory + "','M',1,'" + transfertype + "'); select Scope_Identity() ";
 
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
@@ -893,9 +931,9 @@ namespace MobileAppAPI.Controllers
                 }
 
 
-              
+
                 Logdata1 = DataTableToJSONWithStringBuilder(results);
-             
+
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -1336,7 +1374,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "SELECT BRANCH_ID,BRANCH_DESC from BO_BRANCH_MASTER WHERE STATUS='A' and FUNCTION_ID=" + data.functionidrep + " AND ZONE_ID=" +data.zoneid + " AND region_id=" + data.regionid + "";
+                query = "SELECT BRANCH_ID,BRANCH_DESC from BO_BRANCH_MASTER WHERE STATUS='A' and FUNCTION_ID=" + data.functionidrep + " AND ZONE_ID=" + data.zoneid + " AND region_id=" + data.regionid + "";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -1380,72 +1418,72 @@ namespace MobileAppAPI.Controllers
                 query = "SELECT CAMS_ASSET_MASTER.FUNCTION_ID,BO_ZONE_MASTER.ZONE_ID,BO_ZONE_MASTER.ZONE_DESC AS 'Zone',BO_REGION_MASTER.region_id,BO_REGION_MASTER.region_desc as 'Region',CAMS_ASSET_MASTER.BRANCH_ID,BO_BRANCH_MASTER.BRANCH_DESC as 'Branch',CAMS_ASSET_MASTER.ASSET_CATEGORY,CAMS_ASSET_MASTER.ASSET_TYPE,BO_PARAMETER.TEXT as 'Category',CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_DESC as 'SubCategore',CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_ID,COUNT(CAMS_ASSET_MASTER.ASSET_ID) as Qty, CAMS_ASSET_MASTER.STATUS as 'Status' FROM CAMS_ASSET_MASTER WITH(NOLOCK) inner join BO_FUNCTION_MASTER with(nolock) on BO_FUNCTION_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID inner join BO_PARAMETER with(nolock) on BO_PARAMETER.TYPE='INFCATEGORY' and BO_PARAMETER.VAL=CAMS_ASSET_MASTER.ASSET_CATEGORY and BO_PARAMETER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID and BO_PARAMETER.STATUS='A' inner join CAMS_ASSET_SUBCATEGORY_MASTER with(nolock) on CAMS_ASSET_SUBCATEGORY_MASTER.CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_CATEGORY and CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_TYPE and CAMS_ASSET_SUBCATEGORY_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID INNER JOIN   BO_BRANCH_MASTER WITH (NOLOCK) ON BO_BRANCH_MASTER.BRANCH_ID=CAMS_ASSET_MASTER.BRANCH_ID   AND BO_BRANCH_MASTER.STATUS='A'   AND   BO_BRANCH_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID       INNER JOIN BO_ZONE_MASTER WITH (NOLOCK) ON BO_ZONE_MASTER.ZONE_ID=BO_BRANCH_MASTER.ZONE_ID AND BO_ZONE_MASTER.ZONE_STATUS='A'   AND   BO_ZONE_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID INNER JOIN BO_REGION_MASTER WITH(NOLOCK) ON BO_FUNCTION_MASTER.FUNCTION_ID=BO_REGION_MASTER.function_id AND BO_ZONE_MASTER.ZONE_ID=BO_REGION_MASTER.zone_id AND BO_BRANCH_MASTER.region_id=BO_REGION_MASTER.region_id  where 1=1 AND CAMS_ASSET_MASTER.FUNCTION_ID=" + data.functionidrep + "";
 
 
-                
-               
-                if (pzoneid != null && pzoneid!=0)
+
+
+                if (pzoneid != null && pzoneid != 0)
                 {
                     if (flag == 0)
                     {
-                         query = query + "  AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " ";
-                         flag = 1;
+                        query = query + "  AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " ";
+                        flag = 1;
                     }
                     else
                     {
-                         query = query + "  AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " ";
+                        query = query + "  AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " ";
                     }
                 }
-                if (pregionid != null && pregionid!=0)
+                if (pregionid != null && pregionid != 0)
                 {
                     if (flag == 0)
                     {
-                         query = query + "  AND BO_REGION_MASTER.region_id=" + data.fregionid + " ";
-                         flag = 1;
+                        query = query + "  AND BO_REGION_MASTER.region_id=" + data.fregionid + " ";
+                        flag = 1;
                     }
                     else
                     {
-                         query = query + " AND BO_REGION_MASTER.region_id=" + data.fregionid + " ";
+                        query = query + " AND BO_REGION_MASTER.region_id=" + data.fregionid + " ";
                     }
                 }
-                if (pbranchid != null && pbranchid!=0)
+                if (pbranchid != null && pbranchid != 0)
                 {
                     if (flag == 0)
                     {
-                         query = query + "  AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " ";
-                         flag = 1;
+                        query = query + "  AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " ";
+                        flag = 1;
                     }
                     else
                     {
-                         query = query + " AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " ";
+                        query = query + " AND CAMS_ASSET_MASTER.BRANCH_ID=" + data.fbranchid + " ";
                     }
                 }
-                if (passetcatid != null && passetcatid!=0)
+                if (passetcatid != null && passetcatid != 0)
                 {
                     if (flag == 0)
                     {
-                         query = query + "  AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " ";
-                         flag = 1;
+                        query = query + "  AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " ";
+                        flag = 1;
                     }
                     else
                     {
-                         query = query + " AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " ";
+                        query = query + " AND CAMS_ASSET_MASTER.ASSET_CATEGORY=" + data.fassetcatid + " ";
                     }
                 }
-                if (passetsubcatid != null && passetsubcatid!=0)
+                if (passetsubcatid != null && passetsubcatid != 0)
                 {
                     if (flag == 0)
                     {
-                         query = query + "  AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
-                         flag = 1;
+                        query = query + "  AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
+                        flag = 1;
                     }
                     else
                     {
-                         query = query + " AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
+                        query = query + " AND CAMS_ASSET_MASTER.ASSET_TYPE=" + data.fassetsubcatid + " ";
                     }
                 }
-           
-      
+
+
                 query = query + " group by  CAMS_ASSET_MASTER.FUNCTION_ID,BO_ZONE_MASTER.ZONE_DESC ,BO_REGION_MASTER.region_desc ,BO_BRANCH_MASTER.BRANCH_DESC,BO_PARAMETER.TEXT,CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_DESC ,CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_ID,CAMS_ASSET_MASTER.ASSET_MODE,BO_ZONE_MASTER.ZONE_ID,BO_REGION_MASTER.region_id,CAMS_ASSET_MASTER.BRANCH_ID,CAMS_ASSET_MASTER.ASSET_CATEGORY,CAMS_ASSET_MASTER.ASSET_TYPE,CAMS_ASSET_MASTER.STATUS ";
-        // console.log(fserinslistf);
+                // console.log(fserinslistf);
 
 
 
@@ -1548,17 +1586,32 @@ namespace MobileAppAPI.Controllers
                             //Logdata1 = DataTableToJSONWithStringBuilder(results2);
                             //dbConn.Close();
 
-                        //}
-                        //else
-                        //{
+                            //}
+                            //else
+                            //{
                             string st = "This Asset Already Transferred";
 
-                            //JSONString.Append("{");
-                            //JSONString.Append("\"" + st + "\"");
-                            //JSONString.Append("}");
 
-                            Logdata1 = st;
-                          
+
+
+
+                            string strres = "Result";
+                            string asscode = data.assetcode;
+                            string st1 = "This Asset Already Transferred  " + data.assetcode;
+
+                            // JSONString.Append("[");
+                            JSONString.Append("{");
+                            //  JSONString.Append("\"" + st + "\"");
+                            // JSONString.Append("\"" + st + "\":" + "\"" + asscode + "\"");
+                            JSONString.Append("\"" + strres + "\":" + "\"" + st1 + "\"");
+                            JSONString.Append("}");
+                            //  JSONString.Append("]");
+
+
+
+
+                            Logdata1 = JSONString.ToString(); ;
+
                             dbConn.Close();
                         }
                     }
@@ -1581,7 +1634,7 @@ namespace MobileAppAPI.Controllers
 
 
 
-       
+
 
 
 
@@ -1692,7 +1745,7 @@ namespace MobileAppAPI.Controllers
             var pzoneid = data.fzoneid;
             var pregionid = data.fregionid;
             var pbranchid = data.fbranchid;
-           
+
             var depatid = data.depatmentid;
             var locatid = data.locationidd;
             using (SqlConnection dbConn = new SqlConnection(strconn))
@@ -1704,12 +1757,12 @@ namespace MobileAppAPI.Controllers
                 query = "select DISTINCT  BO_FUNCTION_MASTER.FUNCTION_DESC as 'Function', BRANCH_DESC Branch ,BO_PARAMETER1.TEXT Department,BO_PARAMETER.TEXT Location, count (Asset_id) AssetCount   from CAMS_ASSET_MASTER  Join BO_PARAMETER on BO_PARAMETER.TYPE ='BO_DEPTLOCATION'  and CAMS_ASSET_MASTER.FUNCTION_ID =BO_PARAMETER.FUNCTION_ID and BO_PARAMETER.VAL=ASSET_LocationId Join Bo_branch_master on Bo_branch_master.FUNCTION_ID=CAMS_ASSET_MASTER.Function_id and CAMS_ASSET_MASTER.BRANCH_ID=Bo_branch_master.BRANCH_ID left Join BO_PARAMETER as BO_PARAMETER1 on BO_PARAMETER1.TYPE='BO_TEAM' and BO_PARAMETER1.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID and CAMS_ASSET_MASTER.BRANCH_ID=Bo_branch_master.BRANCH_ID and BO_PARAMETER1.val=CAMS_ASSET_MASTER.ASSET_DEPARTMENT and BO_PARAMETER1.STATUS='A' inner join BO_FUNCTION_MASTER on BO_FUNCTION_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID INNER JOIN BO_ZONE_MASTER ON BO_ZONE_MASTER.ZONE_ID=BO_BRANCH_MASTER.ZONE_ID AND ZONE_STATUS='A'   AND   BO_ZONE_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.function_id where  CAMS_ASSET_MASTER.STATUS='A'";
 
                 var flag = 0;
-                if (pzoneid != null && pzoneid !=0)
+                if (pzoneid != null && pzoneid != 0)
                 {
                     if (flag == 0)
                     {
                         query = query + " AND BO_ZONE_MASTER.ZONE_ID=" + data.fzoneid + " ";
-                         flag = 1;
+                        flag = 1;
                     }
                     else
                     {
@@ -1721,31 +1774,31 @@ namespace MobileAppAPI.Controllers
                     if (flag == 0)
                     {
                         query = query + " AND Bo_branch_master.BRANCH_ID=" + data.fbranchid + " ";
-                         flag = 1;
+                        flag = 1;
                     }
                     else
                     {
                         query = query + " AND Bo_branch_master.BRANCH_ID=" + data.fbranchid + "  ";
                     }
                 }
-                if (depatid != null && depatid != 0  )
+                if (depatid != null && depatid != 0)
                 {
                     if (flag == 0)
                     {
                         query = query + " AND ASSET_DEPARTMENT=" + data.depatmentid + " ";
-                         flag = 1;
+                        flag = 1;
                     }
                     else
                     {
                         query = query + " AND ASSET_DEPARTMENT=" + data.depatmentid + "  ";
                     }
                 }
-                if (locatid != null && locatid != 0 )
+                if (locatid != null && locatid != 0)
                 {
                     if (flag == 0)
                     {
                         query = query + " AND ASSET_LocationId=" + data.locationidd + " ";
-                         flag = 1;
+                        flag = 1;
                     }
                     else
                     {
@@ -1753,7 +1806,7 @@ namespace MobileAppAPI.Controllers
                     }
                 }
                 query = query + " Group by BO_FUNCTION_MASTER.FUNCTION_DESC , BRANCH_DESC ,BO_PARAMETER1.TEXT ,BO_PARAMETER.TEXT ";
-             
+
 
 
 
@@ -1772,7 +1825,7 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
                 //}
                 dbConn.Close();
 
@@ -1792,7 +1845,7 @@ namespace MobileAppAPI.Controllers
             try
             {
                 using (SqlConnection dbConn = new SqlConnection(strconn))
-               {
+                {
                     var JSONString = new StringBuilder();
                     dbConn.Open();
 
@@ -1826,7 +1879,7 @@ namespace MobileAppAPI.Controllers
                     }
                     if (drptype.ToString() == "0" || drptype.ToString() == "" || drptype.ToString() == string.Empty || drptype.ToString() == "null")
                     {
-                        drptype =null;
+                        drptype = null;
                     }
                     if (TASKTYPE.ToString() == "0" || TASKTYPE.ToString() == "" || TASKTYPE.ToString() == string.Empty || TASKTYPE.ToString() == "null")
                     {
@@ -1838,28 +1891,28 @@ namespace MobileAppAPI.Controllers
                     }
 
                     string Logdata1 = string.Empty;
-                //string sql = "CAMS__SEARCHS_PENDINGDETAIL";
-                    string sql = "MBL_CAMS__SEARCHS_PENDINGDETAIL";//"CAMS_PENDINGDETAIL_SEARCHS1";
+                    string sql = "CAMS__SEARCHS_PENDINGDETAIL";
+                    //    string sql = "MBL_CAMS__SEARCHS_PENDINGDETAIL";//"CAMS_PENDINGDETAIL_SEARCHS1";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
-                SqlDataAdapter apd = new SqlDataAdapter(cmd);
-                cmd.CommandType = CommandType.StoredProcedure;
-                // cmd.Parameters.AddWithValue("@loginUserId", loginUserId);
-                cmd.Parameters.AddWithValue("@strfunction", strfunction);
-                cmd.Parameters.AddWithValue("@branch", branch);
-                cmd.Parameters.AddWithValue("@fdate", fdate);
-                cmd.Parameters.AddWithValue("@tdate", tdate);
-               
-                cmd.Parameters.AddWithValue("@Status", Status);
-               
-                cmd.Parameters.AddWithValue("@strUserId", strUserId);
-                cmd.Parameters.AddWithValue("@UserType", UserType);
-                cmd.Parameters.AddWithValue("@drpcategory", drpcategory);
-                cmd.Parameters.AddWithValue("@drptype", drptype);
+                    SqlDataAdapter apd = new SqlDataAdapter(cmd);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    // cmd.Parameters.AddWithValue("@loginUserId", loginUserId);
+                    cmd.Parameters.AddWithValue("@strfunction", strfunction);
+                    cmd.Parameters.AddWithValue("@branch", branch);
+                    cmd.Parameters.AddWithValue("@fdate", fdate);
+                    cmd.Parameters.AddWithValue("@tdate", tdate);
 
-                cmd.Parameters.AddWithValue("@TASKTYPE", TASKTYPE);
-               
-                cmd.Parameters.AddWithValue("@AssetCode", AssetCode);
-                  //  cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@Status", Status);
+
+                    cmd.Parameters.AddWithValue("@strUserId", strUserId);
+                    cmd.Parameters.AddWithValue("@UserType", UserType);
+                    cmd.Parameters.AddWithValue("@drpcategory", drpcategory);
+                    cmd.Parameters.AddWithValue("@drptype", drptype);
+
+                    cmd.Parameters.AddWithValue("@TASKTYPE", TASKTYPE);
+
+                    cmd.Parameters.AddWithValue("@AssetCode", AssetCode);
+                    //  cmd.ExecuteNonQuery();
 
                     var reader = cmd.ExecuteReader();
                     System.Data.DataTable results = new System.Data.DataTable();
@@ -1876,11 +1929,11 @@ namespace MobileAppAPI.Controllers
                     //}
                     //else
                     //{
-                        for (int i = 0; i < results.Rows.Count; i++)
-                        {
-                            DataRow row = results.Rows[i];
-                            Logdata1 = DataTableToJSONWithStringBuilder(results);
-                        }
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    }
                     //}
                     return Logdata1;
 
@@ -1921,7 +1974,7 @@ namespace MobileAppAPI.Controllers
                     }
                     if (fdate.ToString() == "0" || fdate.ToString() == "" || fdate.ToString() == string.Empty || fdate.ToString() == "null")
                     {
-                        fdate =null;
+                        fdate = null;
                     }
                     if (tdate.ToString() == "0" || tdate.ToString() == "" || tdate.ToString() == string.Empty || tdate.ToString() == "null")
                     {
@@ -1945,8 +1998,8 @@ namespace MobileAppAPI.Controllers
                     }
 
                     string Logdata1 = string.Empty;
-                    //string sql = "CAMS_PENDINGDETAIL_COMPLETED_SEARCH";
-                    string sql = "MBL_CAMS_PENDINGDETAIL_COMPLETED_SEARCH";//"CAMS_PENDINGDETAIL_SEARCHS1";
+                    string sql = "CAMS_PENDINGDETAIL_COMPLETED_SEARCH";
+                    // string sql = "MBL_CAMS_PENDINGDETAIL_COMPLETED_SEARCH";//"CAMS_PENDINGDETAIL_SEARCHS1";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
                     SqlDataAdapter apd = new SqlDataAdapter(cmd);
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -1958,8 +2011,8 @@ namespace MobileAppAPI.Controllers
 
                     cmd.Parameters.AddWithValue("@Status", Status);
 
-                  //  cmd.Parameters.AddWithValue("@strUserId", strUserId);
-                  //  cmd.Parameters.AddWithValue("@UserType", UserType);
+                    //  cmd.Parameters.AddWithValue("@strUserId", strUserId);
+                    //  cmd.Parameters.AddWithValue("@UserType", UserType);
                     cmd.Parameters.AddWithValue("@drpcategory", drpcategory);
                     cmd.Parameters.AddWithValue("@drptype", drptype);
 
@@ -1984,13 +2037,13 @@ namespace MobileAppAPI.Controllers
                     //}
                     //else
                     //{
-                        for (int i = 0; i < results.Rows.Count; i++)
-                        {
-                            DataRow row = results.Rows[i];
-                            Logdata1 = DataTableToJSONWithStringBuilder(results);
-                        }
+                    for (int i = 0; i < results.Rows.Count; i++)
+                    {
+                        DataRow row = results.Rows[i];
+                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    }
                     //}
-                   
+
                     return Logdata1;
 
 
@@ -2044,8 +2097,8 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-               // }
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                // }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2092,8 +2145,8 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-               // }
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                // }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2140,8 +2193,8 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-               // }
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                // }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2183,14 +2236,14 @@ namespace MobileAppAPI.Controllers
 
                     CAMS log = new CAMS();
                     DataRow row = results.Rows[i];
-                   int ASSET_TYPE = Convert.ToInt32(row[0]);
-                   int ASSET_CATEGORY = Convert.ToInt32(row[2]);
-                  
+                    int ASSET_TYPE = Convert.ToInt32(row[0]);
+                    int ASSET_CATEGORY = Convert.ToInt32(row[2]);
+
                     string query1 = "";
                     query1 = "SELECT cur.ISSUEID,cur.ISSUEDESCRIPTION FROM  CAMS_USERREQUEST_REASON as cur where CATEGORY_ID=" + ASSET_CATEGORY + " and SUB_CATEGORY_ID=" + ASSET_TYPE + " and FUNCTION_ID=1";
                     SqlCommand cmd1 = new SqlCommand(query1, dbConn);
                     var reader1 = cmd1.ExecuteReader();
-                   
+
                     results1.Load(reader1);
                 }
 
@@ -2205,11 +2258,11 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results1);
+                Logdata1 = DataTableToJSONWithStringBuilder(results1);
                 //}
 
 
-                   
+
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2238,6 +2291,8 @@ namespace MobileAppAPI.Controllers
             int BRANCH_ID;
             int FUNCTION_ID;
             string wkno = string.Empty;
+            int serialno = 0;
+            string serial_num = string.Empty;
             int ASSET_USER2 = 0;
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
@@ -2258,74 +2313,85 @@ namespace MobileAppAPI.Controllers
                     CAMS log = new CAMS();
                     DataRow row = results.Rows[i];
                     ASSET_USER1 = row[0].ToString();
-                    if (ASSET_USER1 != null && ASSET_USER1 !="" )
+                    if (ASSET_USER1 != null && ASSET_USER1 != "")
                     {
-                      
-                       ASSET_USER = Convert.ToInt32(row[0]);
+
+                        ASSET_USER = Convert.ToInt32(ASSET_USER1);
                     }
-                     
+
                     ASSET_CATEGORY = Convert.ToInt32(row[1]);
-                    ASSET_ID= Convert.ToInt32(row[2]);
+                    ASSET_ID = Convert.ToInt32(row[2]);
                     BRANCH_ID = Convert.ToInt32(row[3]);
-                    FUNCTION_ID= Convert.ToInt32(row[4]);
+                    FUNCTION_ID = Convert.ToInt32(row[4]);
 
                     string query1 = "";
-                    query1 = "INSERT INTO CAMS_LAST_MAINTENANCE(BRANCH_ID,FUNCTION_ID,ASSET_ASSET_ID,   ASSET_STATUS,  ASSET_FREQUENCY_MODE,  ASSET_ACTIVITY_DESC,  priority,ASSET_ACTIVITY_ID,ASSET_LAST_MAINTENANCE,ASSET_NEXT_MAINTENANCE,ASSET_REF_NO,CREATED_ON,UPDATED_ON,CREATED_BY,UPDATED_BY) VALUES (" + BRANCH_ID + "," + FUNCTION_ID + ",'" + ASSET_ID + "', 'P',  'U',  '" + data.reqdetail + "',  " + data.priority + ",0,'" + data.reqdate1 + "','" + data.reqdate1 + "','" + data.refmaxno + "',Getdate(),getdate(),'"+data.userid+ "','"+data.userid+"')";
+                    query1 = "INSERT INTO CAMS_LAST_MAINTENANCE(BRANCH_ID,FUNCTION_ID,ASSET_ASSET_ID,   ASSET_STATUS,  ASSET_FREQUENCY_MODE,  ASSET_ACTIVITY_DESC,  priority,ASSET_ACTIVITY_ID,ASSET_LAST_MAINTENANCE,ASSET_NEXT_MAINTENANCE,ASSET_REF_NO,CREATED_ON,UPDATED_ON,CREATED_BY,UPDATED_BY) VALUES (" + BRANCH_ID + "," + FUNCTION_ID + ",'" + ASSET_ID + "', 'P',  'U',  '" + data.reqdetail + "',  " + data.priority + ",0,'" + data.reqdate1 + "','" + data.reqdate1 + "','" + data.refmaxno + "',Getdate(),getdate(),'" + data.userid + "','" + data.userid + "')";
 
                     //" + data.reqdate + "
                     SqlCommand cmd1 = new SqlCommand(query1, dbConn);
                     var reader1 = cmd1.ExecuteReader();
                     System.Data.DataTable results1 = new System.Data.DataTable();
                     results1.Load(reader1);
-                   
-                
-
-                string query2 = "";
-                query2= "select (prefix + '' + serial_no  + '' + isnull(suffix,'')) as wkno from BO_slno_parameter where type='URWorkOrderNumber' and slno_domain='1' ";
-
-                SqlCommand cmd2 = new SqlCommand(query2, dbConn);
-                var reader2 = cmd2.ExecuteReader();
-                System.Data.DataTable results2 = new System.Data.DataTable();
-                results2.Load(reader2);
-                for (int i1 = 0; i1 < results2.Rows.Count; i1++)
-                {
-                    
-
-                    CAMS log1 = new CAMS();
-                    DataRow row1 = results2.Rows[i];
-                   // int wkno = Convert.ToInt32(row[0]);
-                     wkno = row1[0].ToString();
-                    //for (int i1 = 0; i1 < results.Rows.Count; i1++)
-                    //{
-
-
-                    //    DataRow row1 = results.Rows[i];
-                    //    // ASSET_USER = Convert.ToInt32(row1[0]);
-                    //    ASSET_USER1 = row1[0].ToString();
-                    //    if (ASSET_USER1 != null && ASSET_USER1 != "")
-                    //    {
-
-                    //        ASSET_USER2 = Convert.ToInt32(row1[0]);
-                    //    }
-
-                    //    ASSET_CATEGORY = Convert.ToInt32(row1[1]);
-                    //    ASSET_ID = Convert.ToInt32(row1[2]);
-                    //    BRANCH_ID = Convert.ToInt32(row1[2]);
-                    //    FUNCTION_ID = Convert.ToInt32(row1[3]);
 
 
 
+                    string query2 = "";
+                    query2 = "select (prefix + '' + serial_no  + '' + isnull(suffix,'')) as wkno ,serial_no from BO_slno_parameter where type='URWorkOrderNumber' and slno_domain='1' ";
+
+                    SqlCommand cmd2 = new SqlCommand(query2, dbConn);
+                    var reader2 = cmd2.ExecuteReader();
+                    System.Data.DataTable results2 = new System.Data.DataTable();
+                    results2.Load(reader2);
+                    for (int i1 = 0; i1 < results2.Rows.Count; i1++)
+                    {
+
+
+                        CAMS log1 = new CAMS();
+                        DataRow row1 = results2.Rows[i1];
+                        // int wkno = Convert.ToInt32(row[0]);
+                        wkno = row1[0].ToString();
+                        serial_num = row1[1].ToString();
+                        //for (int i1 = 0; i1 < results.Rows.Count; i1++)
+                        //{
+
+
+                        //    DataRow row1 = results.Rows[i];
+                        //    // ASSET_USER = Convert.ToInt32(row1[0]);
+                        //    ASSET_USER1 = row1[0].ToString();
+                        //    if (ASSET_USER1 != null && ASSET_USER1 != "")
+                        //    {
+
+                        //        ASSET_USER2 = Convert.ToInt32(row1[0]);
+                        //    }
+
+                        //    ASSET_CATEGORY = Convert.ToInt32(row1[1]);
+                        //    ASSET_ID = Convert.ToInt32(row1[2]);
+                        //    BRANCH_ID = Convert.ToInt32(row1[2]);
+                        //    FUNCTION_ID = Convert.ToInt32(row1[3]);
+
+
+                        serialno = Convert.ToInt32(serial_num) + 1;
+                        serial_num = serialno.ToString();
                         string query3 = "";
                         query3 = "INSERT INTO CAMS_ASSET_REQUEST(BRANCH_ID,FUNCTION_ID,ASSET_ID,ASSET_ACTIVITY_ID,ASSET_DETAILS,ASSET_DUE_DATE,ASSET_STATUS,ASSET_USER_ID,ASSET_PMR_REFERENCE,ASSET_CATEGORY,ASSET_PM_TYPE,ASSET_REQUESTED_BY,ASSET_DURATION,ASSET_WORKORDNO) VALUES (" + BRANCH_ID + "," + FUNCTION_ID + ",'" + ASSET_ID + "',0,'" + data.reqdetail + "','" + data.reqdate1 + "','A'," + ASSET_USER2 + ",'" + data.refmaxno + "'," + ASSET_CATEGORY + ",'U','" + data.assetreqid + "','00:00','" + wkno + "')";
                         SqlCommand cmd3 = new SqlCommand(query3, dbConn);
                         var reader3 = cmd3.ExecuteReader();
                         System.Data.DataTable results3 = new System.Data.DataTable();
                         results3.Load(reader3);
+                    
+
+
+
+
+
+
+
+
 
 
 
                         string query4 = "";
-                        query4 = "Update BO_SLNO_PARAMETER set serial_no = serial_no + 1 where type = N'URWorkOrderNumber'";
+                        query4 = "Update BO_SLNO_PARAMETER set serial_no = '"+ serial_num + "' where type = N'URWorkOrderNumber'";
                         SqlCommand cmd4 = new SqlCommand(query4, dbConn);
                         var reader4 = cmd4.ExecuteReader();
                         System.Data.DataTable results4 = new System.Data.DataTable();
@@ -2344,18 +2410,18 @@ namespace MobileAppAPI.Controllers
                 }
 
 
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-                    dbConn.Close();
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
 
-                    var result = (new { recordsets = Logdata1 });
-                    return Ok(Logdata1);
-                }
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+            }
 
-            
+
         }
         //SERVICE INSERT
 
-       // sep30
+        // sep30
         [HttpPost]
         [Route("assetserviceinsert")]
         public async Task<ActionResult<CAMS>> assetserviceinsert(CAMS data)
@@ -2495,7 +2561,7 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
                 //}
                 dbConn.Close();
 
@@ -2544,8 +2610,8 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-               // }
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                // }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2555,7 +2621,7 @@ namespace MobileAppAPI.Controllers
             }
         }
 
-       
+
         [HttpPost]
         [Route("vendorcodelist")]
         public async Task<ActionResult<CAMS>> vendorcodelist(CAMS data)
@@ -2574,7 +2640,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                query = "SELECT Vendor_Code,vendor_id,Vendor_Name FROM ERP_VENDOR_MASTER erpm WHERE  function_id='1' and Vendor_Code like '%"+ data.vendorcode +"%' ";
+                query = "SELECT Vendor_Code,vendor_id,Vendor_Name FROM ERP_VENDOR_MASTER erpm WHERE  function_id='1' and Vendor_Code like '%" + data.vendorcode + "%' ";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -2596,8 +2662,8 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-               // }
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                // }
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2663,7 +2729,7 @@ namespace MobileAppAPI.Controllers
                 }
 
 
-                
+
                 string query = "";
                 query = "Select BRANCH_DESC Branch,a.TEXT Department, BO_PARAMETER.TEXT Location,ASSET_CODE AssetCode,b.TEXT catgry,SUB_CATEGORY_DESC subcatry from CAMS_ASSET_MASTER Join Bo_branch_master on Bo_branch_master.FUNCTION_ID=CAMS_ASSET_MASTER.Function_id and CAMS_ASSET_MASTER.BRANCH_ID=Bo_branch_master.BRANCH_ID Join BO_PARAMETER on BO_PARAMETER.TYPE ='BO_DEPTLOCATION'  and CAMS_ASSET_MASTER.FUNCTION_ID =BO_PARAMETER.FUNCTION_ID and BO_PARAMETER.VAL=CAMS_ASSET_MASTER.ASSET_LocationId inner join BO_PARAMETER a with(nolock) on a.VAL=CAMS_ASSET_MASTER.ASSET_DEPARTMENT and a.TYPE='bo_Team' and a.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID inner join BO_PARAMETER b with(nolock) on b.TYPE='INFCATEGORY' and b.VAL=CAMS_ASSET_MASTER.ASSET_CATEGORY and b.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID inner join CAMS_ASSET_SUBCATEGORY_MASTER with(nolock) on CAMS_ASSET_SUBCATEGORY_MASTER.CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_CATEGORY and CAMS_ASSET_SUBCATEGORY_MASTER.SUB_CATEGORY_ID=CAMS_ASSET_MASTER.ASSET_TYPE and CAMS_ASSET_SUBCATEGORY_MASTER.FUNCTION_ID=CAMS_ASSET_MASTER.FUNCTION_ID AND  CAMS_ASSET_SUBCATEGORY_MASTER.STATUS='A' where a.VAL =" + depid + " and BO_PARAMETER.VAL=" + locid + " ";
 
@@ -2679,9 +2745,9 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
                 //}
-           
+
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2703,7 +2769,8 @@ namespace MobileAppAPI.Controllers
             {
 
                 dbConn.Open();
-                string sql = "MBL_CAMSMOBIAPI_CAMS_PENDING_REOPENED";
+                //string sql = "MBL_CAMSMOBIAPI_CAMS_PENDING_REOPENED";
+                string sql = "CAMSMOBIAPI_CAMS_PENDING_REOPENED";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ASSETACTIVITYID", ASSETACTIVITYID);
@@ -2735,14 +2802,14 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    for (int i = 0; i < results.Rows.Count; i++)
-                    {
-                        DataRow row = results.Rows[i];
-                        Logdata1 = DataTableToJSONWithStringBuilder(results);
-                    }
-              //  }
-                        
-               
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                //  }
+
+
                 return JSONString.ToString();
             }
         }
@@ -2773,7 +2840,7 @@ namespace MobileAppAPI.Controllers
                 var reader2 = cmd2.ExecuteReader();
                 System.Data.DataTable results2 = new System.Data.DataTable();
                 results2.Load(reader2);
-               
+
                 string query3 = "";
                 query3 = "update CAMS_LAST_MAINTENANCE set ASSET_STATUS='O',UPDATED_ON=" + data.todaydte + " where  ASSET_ASSET_ID='" + data.assetid + "' and ASSET_ACTIVITY_ID='" + data.activityid + "'";
 
@@ -2825,9 +2892,9 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-              //  }
-               
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                //  }
+
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
@@ -2858,32 +2925,34 @@ namespace MobileAppAPI.Controllers
                 string functionid = data.functionid.ToString();
                 string branchid = data.branchid.ToString();
                 string assetid = data.assetid.ToString();
-                if (data.activityid.ToString()=="" || data.activityid.ToString() == "null")
+                if (data.activityid.ToString() == "" || data.activityid.ToString() == "null")
                 {
-                    activityid  = "";
+                    activityid = "";
                 }
                 else
                 {
-                     activityid = data.activityid.ToString();
+                    activityid = data.activityid.ToString();
                 }
-                     string ref1 = data.ref1.ToString();
+                string ref1 = data.ref1.ToString();
                 string duedate = data.duedate.ToString();
                 dbConn.Open();
-                string sql = "MBL_CAMS_PENDING_UPDATESTARTDATE";
+
+                //string sql = "MBL_CAMS_PENDING_UPDATESTARTDATE";
+                string sql = "CAMS_PENDING_UPDATESTARTDATE";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@FUNCTION_ID", functionid);
                 cmd.Parameters.AddWithValue("@BRANCH_ID", branchid);
                 cmd.Parameters.AddWithValue("@ASSET_ID", assetid);
                 cmd.Parameters.AddWithValue("@ASSET_ACTIVITY_ID", activityid);
-                cmd.Parameters.AddWithValue("@ASSET_REFERENCE",ref1);
-                cmd.Parameters.AddWithValue("@ASSET_DUE_DATE",duedate);
-                                cmd.ExecuteNonQuery();
+                cmd.Parameters.AddWithValue("@ASSET_REFERENCE", ref1);
+                cmd.Parameters.AddWithValue("@ASSET_DUE_DATE", duedate);
+                cmd.ExecuteNonQuery();
 
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-              //  Logdata1 = "Updated successfully";
+                //  Logdata1 = "Updated successfully";
                 string st = "Started successfully";
                 string output = JsonConvert.SerializeObject(st);
                 Logdata1 = output;
@@ -2964,12 +3033,12 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    for (int i = 0; i < results.Rows.Count; i++)
-                    {
-                        DataRow row = results.Rows[i];
-                        Logdata1 = DataTableToJSONWithStringBuilder(results);
-                    }
-               // }
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                // }
 
                 return Logdata1;
 
@@ -2995,17 +3064,28 @@ namespace MobileAppAPI.Controllers
                 string functionid = data.functionid.ToString();
                 string branchid = data.branchid.ToString();
                 string assetid = data.assetid.ToString();
-                if (data.activityid.ToString() == "")
+                if (data.activityid.ToString() == "" || data.activityid.ToString() == "0")
                 {
-                    activityid = null;
+                    activityid = "";
                 }
                 else
                 {
                     activityid = data.activityid.ToString();
                 }
 
+
+                if (data.assetid.ToString() == "" || data.assetid.ToString() == "0")
+                {
+                    assetid = "";
+                }
+                else
+                {
+                    assetid = data.assetid.ToString();
+                }
                 dbConn.Open();
-                string sql = "MBL_CAMS_JC_GETTASK";
+                // string sql = "MBL_CAMS_JC_GETTASK";
+
+                string sql = "CAMS_JC_GETTASK";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ASSET_ACTIVITY_ID", activityid);
@@ -3016,7 +3096,7 @@ namespace MobileAppAPI.Controllers
                 cmd.Parameters.AddWithValue("@PAGEINDEX", "0");
                 cmd.Parameters.AddWithValue("@PAGESIZE", "10");
                 cmd.Parameters.AddWithValue("@SORTEXPRESSION", "points_to_be_checked");
-                 cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
 
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
@@ -3030,12 +3110,12 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    for (int i = 0; i < results.Rows.Count; i++)
-                    {
-                        DataRow row = results.Rows[i];
-                        Logdata1 = DataTableToJSONWithStringBuilder(results);
-                    }
-               // }
+                for (int i = 0; i < results.Rows.Count; i++)
+                {
+                    DataRow row = results.Rows[i];
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                // }
                 return Ok(Logdata1);
 
             }
@@ -3075,13 +3155,13 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-               // }
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                // }
 
                 dbConn.Close();
 
                 var result = (new { recordsets = Logdata1 });
-               
+
             }
             return Ok(Logdata1);
         }
@@ -3118,8 +3198,8 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-               // }
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                // }
 
                 dbConn.Close();
 
@@ -3148,7 +3228,7 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string query = "";
-                query = "SELECT  * FROM (select  TOP 20 ROW_NUMBER() OVER (ORDER BY tum_user_code) as ROW_NUM,* from (select *, ROW_NUMBER() over (order by tum_user_code desc) as gridviewcount from( select distinct  tum_user_id,tum_user_code,tum_user_name,tum_user_type,BO_USER_TYPE_MASTER.description,isnull(tum_user_emailid,'') as Email FROM BO_USER_MASTER with(nolock) inner join BO_USER_TYPE_MASTER on cast(BO_USER_TYPE_MASTER.TYPE_ID as nvarchar)=BO_USER_MASTER.TUM_USER_TYPE and BO_USER_MASTER.function_id=BO_USER_TYPE_MASTER.function_id WHERE 1=1 and   BO_USER_MASTER.FUNCTION_ID='" + data.functionid + "' and BO_USER_MASTER.TUM_BRANCH_ID='" + data.branchid + "' and BO_USER_MASTER.tum_user_type='" + data.usertype + "')gridTempTable) tblname  ORDER BY ROW_NUM) innerSelect WHERE ROW_NUM > 0";
+                query = "SELECT  * FROM (select  TOP 20 ROW_NUMBER() OVER (ORDER BY tum_user_code) as ROW_NUM,* from (select *, ROW_NUMBER() over (order by tum_user_code desc) as gridviewcount from( select distinct tum_user_code,tum_user_id,tum_user_name,tum_user_type,BO_USER_TYPE_MASTER.description,isnull(tum_user_emailid,'') as Email FROM BO_USER_MASTER with(nolock) inner join BO_USER_TYPE_MASTER on cast(BO_USER_TYPE_MASTER.TYPE_ID as nvarchar)=BO_USER_MASTER.TUM_USER_TYPE and BO_USER_MASTER.function_id=BO_USER_TYPE_MASTER.function_id WHERE 1=1 and   BO_USER_MASTER.FUNCTION_ID='" + data.functionid + "' and BO_USER_MASTER.TUM_BRANCH_ID='" + data.branchid + "' and BO_USER_MASTER.tum_user_type='" + data.usertype + "' and BO_USER_MASTER.TUM_USER_STATUS='A' and BO_USER_MASTER.TUM_VALIDITY_FROM != '' and BO_USER_MASTER.TUM_VALIDITY_TO != '' and BO_USER_MASTER.tum_user_emailid!='' )gridTempTable) tblname  ORDER BY ROW_NUM) innerSelect WHERE ROW_NUM > 0";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -3162,8 +3242,8 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-               // }
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                // }
 
                 dbConn.Close();
 
@@ -3206,8 +3286,8 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-               // }
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                // }
 
                 dbConn.Close();
 
@@ -3227,7 +3307,7 @@ namespace MobileAppAPI.Controllers
             var JSONString = new StringBuilder();
 
             string Logdata1 = string.Empty;
-           // var lasttransfericeidvv = "";
+            // var lasttransfericeidvv = "";
             string strcost = string.Empty;
             System.Data.DataTable results = new System.Data.DataTable();
 
@@ -3251,7 +3331,8 @@ namespace MobileAppAPI.Controllers
                 string assethrs = data.assethrs.ToString();
 
                 dbConn.Open();
-                string sql = "MBL_CAMS_JC_GETUSERCOST";
+                //string sql = "MBL_CAMS_JC_GETUSERCOST";
+                string sql = "CAMS_JC_GETUSERCOST";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@USERTYPEID", userskill);
@@ -3260,9 +3341,9 @@ namespace MobileAppAPI.Controllers
                 cmd.ExecuteNonQuery();
 
                 var reader = cmd.ExecuteReader();
-               
+
                 results.Load(reader);
-                if (results.Rows.Count>0)
+                if (results.Rows.Count > 0)
                 {
                     strcost = results.Rows[0]["cost"].ToString();
                 }
@@ -3270,24 +3351,24 @@ namespace MobileAppAPI.Controllers
                 {
                     strcost = "";
                 }
-              
-                if (strcost==""|| strcost==null || strcost.Length==0)
+
+                if (strcost == "" || strcost == null || strcost.Length == 0)
                 {
                     // Logdata1 = "nocost";
                     string st = "nocost";
                     JSONString.Append("{");
                     JSONString.Append("\"" + st + "\"");
                     JSONString.Append("}");
-                   
+
 
                     Logdata1 = JSONString.ToString();
                 }
                 else
                 {
-                   
 
 
-                    string sql1 = "MBL_CAMS_INSERT_MPP_USED";
+                    //string sql1 = "MBL_CAMS_INSERT_MPP_USED";
+                    string sql1 = "CAMS_INSERT_MPP_USED";
                     SqlCommand cmd1 = new SqlCommand(sql1, dbConn);
                     cmd1.CommandType = CommandType.StoredProcedure;
                     cmd1.Parameters.AddWithValue("@BRANCH_ID", branchid);
@@ -3322,7 +3403,7 @@ namespace MobileAppAPI.Controllers
                     //}
                     //else
                     //{
-                        Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    Logdata1 = DataTableToJSONWithStringBuilder(results2);
                     //}
 
                     dbConn.Close();
@@ -3341,7 +3422,7 @@ namespace MobileAppAPI.Controllers
 
             List<CAMS> Logdata = new List<CAMS>();
             string Logdata1 = string.Empty;
-          
+
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
@@ -3360,7 +3441,7 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
                 //}
 
                 dbConn.Close();
@@ -3377,7 +3458,7 @@ namespace MobileAppAPI.Controllers
         [Route("spareitemdtl")]
         public async Task<ActionResult<CAMS>> spareitemdtl(CAMS data)
         {
-           
+
 
             List<CAMS> Logdata = new List<CAMS>();
             string Logdata1 = string.Empty;
@@ -3386,7 +3467,7 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string query = "";
-                query = "select * from CAMS_ITEM_MASTER where function_id='" + data.functionid + "'";
+                query = "select *,CONCAT(item_code,' - ',ITEM_DESCRIPTION) as mrs_code_desc from CAMS_ITEM_MASTER where function_id='" + data.functionid + "'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -3400,8 +3481,8 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-               // }
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                // }
 
                 dbConn.Close();
 
@@ -3438,7 +3519,7 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
                 //}
 
                 dbConn.Close();
@@ -3448,6 +3529,50 @@ namespace MobileAppAPI.Controllers
             }
             return Ok(Logdata1);
         }
+
+
+
+        //19dec new
+        [HttpPost]
+        [Route("sparedelete")]
+        public async Task<ActionResult<CAMS>> sparedelete(CAMS data)
+        {
+
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "delete from  CAMS_SPARE_USED where rowuniqueid='" + data.uniqueid + "' and FUNCTION_ID='" + data.functionid + "' ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "Deleted Successfully";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    //}
+
+                    dbConn.Close();
+
+                    var result = (new { recordsets = Logdata1 });
+
+                }
+                return Ok(Logdata1);
+            }
+        }
+
+
 
 
 
@@ -3482,7 +3607,7 @@ namespace MobileAppAPI.Controllers
                 }
                 string assetid = data.assetid.ToString();
                 string assetpmref = data.assetpmref.ToString();
-               
+
                 dbConn.Open();
 
                 string query = "";
@@ -3496,7 +3621,7 @@ namespace MobileAppAPI.Controllers
                 strcost = results.Rows[0]["cosucount"].ToString();
                 if (strcost != "0")
                 {
-                   // Logdata1 = "consume";
+                    // Logdata1 = "consume";
 
 
                     string st1 = "consume";
@@ -3506,13 +3631,15 @@ namespace MobileAppAPI.Controllers
                 else
                 {
 
-                    string sql = "MBL_CAMS_JC_GETCITEMMASTER";
+                    string sql = "CAMS_JC_GETCITEMMASTER";
+
+                    //string sql = "MBL_CAMS_JC_GETCITEMMASTER";
                     SqlCommand cmd1 = new SqlCommand(sql, dbConn);
                     cmd1.CommandType = CommandType.StoredProcedure;
                     cmd1.Parameters.AddWithValue("@ITEM_CODE", itemcode);
                     cmd1.Parameters.AddWithValue("@FUNCTION", functionid);
                     cmd1.Parameters.AddWithValue("@TYPE", "GETCOST");
-                    cmd1.ExecuteNonQuery();
+                    // cmd1.ExecuteNonQuery();
                     var reader1 = cmd1.ExecuteReader();
                     results1.Load(reader1);
                     if (results1.Rows.Count > 0)
@@ -3520,17 +3647,17 @@ namespace MobileAppAPI.Controllers
                         strITEM_COST = results1.Rows[0]["ITEM_COST"].ToString();
                         itemcost = Convert.ToInt32(results1.Rows[0]["ITEM_COST"]);
                     }
-                   
+
                     int spareqty = data.spareqty;
                     int hrscost = spareqty * itemcost;
-                   
+
                     string query1 = "";
                     query1 = "insert into CAMS_SPARE_USED(FUNCTION_ID,BRANCH_ID,ASSET_ID,ASSET_SPARE_CODE,ASSET_SPARE_SLNO,ASSET_SPARE_QUANTITY,ASSET_SPARECOST,ASSET_MSS_STATUS,ASSET_ACTIVITY_ID,ASSET_PMR_REFERENCE,ASSET_SPARE_FLAG,CAMS_ASSET_INSTALLATION_DATE) values(" + data.functionid + "," + data.branchid + ",'" + data.assetid + "', '" + data.itemcode + "','" + data.slno + "','" + data.spareqty + "','" + hrscost + "','A','" + data.assetactivityid + "','" + data.assetpmref + "','S','" + data.instdte + "')";
 
-                     SqlCommand cmd2 = new SqlCommand(query1, dbConn);
-                        var reader2 = cmd2.ExecuteReader();
-                        System.Data.DataTable results2 = new System.Data.DataTable();
-                        results2.Load(reader2);
+                    SqlCommand cmd2 = new SqlCommand(query1, dbConn);
+                    var reader2 = cmd2.ExecuteReader();
+                    System.Data.DataTable results2 = new System.Data.DataTable();
+                    results2.Load(reader2);
 
 
                     string query2 = "";
@@ -3551,15 +3678,15 @@ namespace MobileAppAPI.Controllers
                     //}
                     //    else
                     //    {
-                            Logdata1 = DataTableToJSONWithStringBuilder(results3);
-                      //  }
+                    Logdata1 = DataTableToJSONWithStringBuilder(results3);
+                    //  }
 
-                        dbConn.Close();
-                    }
-                    return Ok(Logdata1);
-
+                    dbConn.Close();
                 }
+                return Ok(Logdata1);
+
             }
+        }
 
 
 
@@ -3598,42 +3725,42 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
 
-              
 
-                    string sql = "MBL_CAMS_JC_GETCITEMMASTER";
-                    SqlCommand cmd1 = new SqlCommand(sql, dbConn);
-                    cmd1.CommandType = CommandType.StoredProcedure;
-                    cmd1.Parameters.AddWithValue("@ITEM_CODE", itemcode);
-                    cmd1.Parameters.AddWithValue("@FUNCTION", functionid);
-                    cmd1.Parameters.AddWithValue("@TYPE", "GETCOST");
-                    cmd1.ExecuteNonQuery();
-                    var reader1 = cmd1.ExecuteReader();
-                    results1.Load(reader1);
-                    if (results1.Rows.Count > 0)
-                    {
-                        strITEM_COST = results1.Rows[0]["ITEM_COST"].ToString();
-                        itemcost = Convert.ToInt32(results1.Rows[0]["ITEM_COST"]);
-                    }
+                //string sql = "MBL_CAMS_JC_GETCITEMMASTER";
+                string sql = "CAMS_JC_GETCITEMMASTER";
+                SqlCommand cmd1 = new SqlCommand(sql, dbConn);
+                cmd1.CommandType = CommandType.StoredProcedure;
+                cmd1.Parameters.AddWithValue("@ITEM_CODE", itemcode);
+                cmd1.Parameters.AddWithValue("@FUNCTION", functionid);
+                cmd1.Parameters.AddWithValue("@TYPE", "GETCOST");
+                cmd1.ExecuteNonQuery();
+                var reader1 = cmd1.ExecuteReader();
+                results1.Load(reader1);
+                if (results1.Rows.Count > 0)
+                {
+                    strITEM_COST = results1.Rows[0]["ITEM_COST"].ToString();
+                    itemcost = Convert.ToInt32(results1.Rows[0]["ITEM_COST"]);
+                }
 
-                    int spareqty = data.spareqty;
-                    int hrscost = spareqty * itemcost;
+                int spareqty = data.spareqty;
+                int hrscost = spareqty * itemcost;
 
-                    string query1 = "";
-                    query1 = "update CAMS_SPARE_USED set ASSET_SPARE_SLNO='" + data.slno + "', ASSET_SPARE_QUANTITY='" + data.spareqty + "',ASSET_SPARECOST='" + data.cost + "',CAMS_ASSET_INSTALLATION_DATE='" + data.instdte + "'  where ASSET_ID='" + data.assetid + "' and rowuniqueid='" + data.uniqueid + "' and function_id='" + data.functionid + "'";
+                string query1 = "";
+                query1 = "update CAMS_SPARE_USED set ASSET_SPARE_SLNO='" + data.slno + "', ASSET_SPARE_QUANTITY='" + data.spareqty + "',ASSET_SPARECOST='" + data.cost + "',CAMS_ASSET_INSTALLATION_DATE=Convert(date,'" + data.instdte + "',103) where ASSET_ID='" + data.assetid + "' and rowuniqueid='" + data.uniqueid + "' and function_id='" + data.functionid + "'";
 
-                    SqlCommand cmd2 = new SqlCommand(query1, dbConn);
-                    var reader2 = cmd2.ExecuteReader();
-                    System.Data.DataTable results2 = new System.Data.DataTable();
-                    results2.Load(reader2);
+                SqlCommand cmd2 = new SqlCommand(query1, dbConn);
+                var reader2 = cmd2.ExecuteReader();
+                System.Data.DataTable results2 = new System.Data.DataTable();
+                results2.Load(reader2);
 
 
-                    string query2 = "";
-                    query2 = "SELECT distinct CAMS_SPARE_USED.rowuniqueid as rowuniqueid,ASSET_SPARE_SLNO as serialno,ASSET_SPARE_CODE as MaterialCode,CAMS_ITEM_MASTER.ITEM_DESCRIPTION as MaterialDescription,CAMS_ITEM_MASTER.ITEM_ID as MaterialID,  CAMS_SPARE_USED.ASSET_SPARE_QUANTITY as sparequantity,convert(numeric(18,2),ASSET_SPARECOST) as SPARECOST,convert(varchar(10),CAMS_SPARE_USED.CAMS_ASSET_INSTALLATION_DATE,103) as CAMS_ASSET_INSTALLATION_DATE  FROM CAMS_SPARE_USED WITH(NOLOCK)  Inner join CAMS_ITEM_MASTER WITH(NOLOCK)  on  CAMS_SPARE_USED.ASSET_SPARE_CODE=CAMS_ITEM_MASTER.ITEM_CODE and  CAMS_ITEM_MASTER.function_id=CAMS_SPARE_USED.function_id   where CAMS_SPARE_USED.ASSET_SPARE_FLAG = 'S' AND (CAMS_SPARE_USED.HISTORY_REF <> 'HR' OR CAMS_SPARE_USED.HISTORY_REF IS  NULL)  AND CAMS_SPARE_USED.FUNCTION_ID = '" + data.functionid + "' AND CAMS_SPARE_USED.BRANCH_ID = '" + data.branchid + "' and CAMS_SPARE_USED.ASSET_ACTIVITY_ID = '" + data.assetactivityid + "' and CAMS_SPARE_USED.ASSET_PMR_REFERENCE = '" + data.assetpmref + "'";
+                string query2 = "";
+                query2 = "SELECT distinct CAMS_SPARE_USED.rowuniqueid as rowuniqueid,ASSET_SPARE_SLNO as serialno,ASSET_SPARE_CODE as MaterialCode,CAMS_ITEM_MASTER.ITEM_DESCRIPTION as MaterialDescription,CAMS_ITEM_MASTER.ITEM_ID as MaterialID,  CAMS_SPARE_USED.ASSET_SPARE_QUANTITY as sparequantity,convert(numeric(18,2),ASSET_SPARECOST) as SPARECOST,convert(varchar(10),CAMS_SPARE_USED.CAMS_ASSET_INSTALLATION_DATE,103) as CAMS_ASSET_INSTALLATION_DATE  FROM CAMS_SPARE_USED WITH(NOLOCK)  Inner join CAMS_ITEM_MASTER WITH(NOLOCK)  on  CAMS_SPARE_USED.ASSET_SPARE_CODE=CAMS_ITEM_MASTER.ITEM_CODE and  CAMS_ITEM_MASTER.function_id=CAMS_SPARE_USED.function_id   where CAMS_SPARE_USED.ASSET_SPARE_FLAG = 'S' AND (CAMS_SPARE_USED.HISTORY_REF <> 'HR' OR CAMS_SPARE_USED.HISTORY_REF IS  NULL)  AND CAMS_SPARE_USED.FUNCTION_ID = '" + data.functionid + "' AND CAMS_SPARE_USED.BRANCH_ID = '" + data.branchid + "' and CAMS_SPARE_USED.ASSET_ACTIVITY_ID = '" + data.assetactivityid + "' and CAMS_SPARE_USED.ASSET_PMR_REFERENCE = '" + data.assetpmref + "'";
 
-                    SqlCommand cmd3 = new SqlCommand(query2, dbConn);
-                    var reader3 = cmd3.ExecuteReader();
-                    System.Data.DataTable results3 = new System.Data.DataTable();
-                    results3.Load(reader3);
+                SqlCommand cmd3 = new SqlCommand(query2, dbConn);
+                var reader3 = cmd3.ExecuteReader();
+                System.Data.DataTable results3 = new System.Data.DataTable();
+                results3.Load(reader3);
 
 
                 //    if (results3.Rows.Count == 0)
@@ -3645,14 +3772,14 @@ namespace MobileAppAPI.Controllers
                 //}
                 //    else
                 //    {
-                        Logdata1 = DataTableToJSONWithStringBuilder(results3);
-                 //   }
+                Logdata1 = DataTableToJSONWithStringBuilder(results3);
+                //   }
 
-                    dbConn.Close();
-                }
-                return Ok(Logdata1);
-
+                dbConn.Close();
             }
+            return Ok(Logdata1);
+
+        }
 
 
 
@@ -3684,8 +3811,8 @@ namespace MobileAppAPI.Controllers
                 //}
                 //else
                 //{
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
-               // }
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                // }
 
                 dbConn.Close();
 
@@ -3746,14 +3873,14 @@ namespace MobileAppAPI.Controllers
                 }
                 else
                 {
-
-                    string sql = "MBL_CAMS_JC_GETCITEMMASTER";
+                    //string sql = "MBL_CAMS_JC_GETCITEMMASTER";
+                    string sql = "CAMS_JC_GETCITEMMASTER";
                     SqlCommand cmd1 = new SqlCommand(sql, dbConn);
                     cmd1.CommandType = CommandType.StoredProcedure;
                     cmd1.Parameters.AddWithValue("@ITEM_CODE", itemcode);
                     cmd1.Parameters.AddWithValue("@FUNCTION", functionid);
                     cmd1.Parameters.AddWithValue("@TYPE", "GETCOST");
-                    cmd1.ExecuteNonQuery();
+                    //cmd1.ExecuteNonQuery();
                     var reader1 = cmd1.ExecuteReader();
                     results1.Load(reader1);
                     if (results1.Rows.Count > 0)
@@ -3765,34 +3892,34 @@ namespace MobileAppAPI.Controllers
                     int spareqty = data.spareqty;
                     int hrscost = spareqty * itemcost;
 
-               
 
-                    string sql1 = "MBL_CAMS_INSERT_SPARE_USED";
+                    string sql1 = "CAMS_INSERT_SPARE_USED";
+                    // string sql1 = "MBL_CAMS_INSERT_SPARE_USED";
                     SqlCommand cmd2 = new SqlCommand(sql1, dbConn);
                     cmd2.CommandType = CommandType.StoredProcedure;
                     cmd2.Parameters.AddWithValue("@FUNCTION_ID", functionid);
                     cmd2.Parameters.AddWithValue("@BRANCH_ID", branchid);
                     cmd2.Parameters.AddWithValue("@ASSET_ID", assetid);
-                    cmd2.Parameters.AddWithValue("@ASSET_ACTIVITY_ID",assetactivityid);
+                    cmd2.Parameters.AddWithValue("@ASSET_ACTIVITY_ID", assetactivityid);
                     cmd2.Parameters.AddWithValue("@ASSET_PMR_REFERENCE", data.assetpmref.ToString());
                     cmd2.Parameters.AddWithValue("@ASSET_SPARE_CODE", data.itemcode.ToString());
-                    cmd2.Parameters.AddWithValue("@ASSET_SPARE_SLNO","0");
+                    cmd2.Parameters.AddWithValue("@ASSET_SPARE_SLNO", "0");
                     cmd2.Parameters.AddWithValue("@ASSET_SPARE_QUANTITY", data.plannedqty.ToString());
                     cmd2.Parameters.AddWithValue("@ASSET_REPLACED_QTY", data.replaceqty.ToString());
                     cmd2.Parameters.AddWithValue("@ASSET_RETURNED_QTY", data.returnqty.ToString());
                     cmd2.Parameters.AddWithValue("@ASSET_SCRAP_QTY", data.scrapqty.ToString());
-                    cmd2.Parameters.AddWithValue("@ASSET_MSS_STATUS","A");
+                    cmd2.Parameters.AddWithValue("@ASSET_MSS_STATUS", "A");
                     cmd2.Parameters.AddWithValue("@ASSET_SPARECOST", hrscost);
-                    cmd2.Parameters.AddWithValue("@ASSET_SPARE_FLAG","F");
-                    cmd2.ExecuteNonQuery();
-              
+                    cmd2.Parameters.AddWithValue("@ASSET_SPARE_FLAG", "F");
+                    // cmd2.ExecuteNonQuery();
+
                     var reader2 = cmd2.ExecuteReader();
                     System.Data.DataTable results2 = new System.Data.DataTable();
                     results2.Load(reader2);
 
 
                     string query2 = "";
-                    query2 = "select  distinct CAMS_SPARE_USED.ASSET_SPARE_CODE as spare_code,convert(numeric(18,2),ASSET_SPARECOST) as ASSET_SPARECOST,rowuniqueid as mmp_rowuniqueid1,CAMS_SPARE_USED.FTP_UPLOAD_FLAG as asm_flag,CAMS_ITEM_MASTER.ITEM_DESCRIPTION as itemdesc,CAMS_SPARE_USED.ASSET_SPARE_QUANTITY as asm_spare_qty,CAMS_SPARE_USED.ASSET_REPLACED_QTY as mss_replaced_qty,CAMS_SPARE_USED.ASSET_RETURNED_QTY as mss_returned_qty,convert(numeric(18,2),ASSET_SPARECOST) as SPARECOST,ASSET_SCRAP_QTY as mss_scrap_qty from CAMS_SPARE_USED WITH (NOLOCK)  inner join  CAMS_ITEM_MASTER  WITH (NOLOCK) on  CAMS_SPARE_USED.ASSET_SPARE_CODE=CAMS_ITEM_MASTER.item_code  where (CAMS_SPARE_USED.ASSET_SPARE_FLAG = 'C' or CAMS_SPARE_USED.ASSET_SPARE_FLAG='F') and CAMS_SPARE_USED.FUNCTION_ID=CAMS_ITEM_MASTER.function_id  and CAMS_SPARE_USED.FUNCTION_ID='" + data.functionid + "' and CAMS_SPARE_USED.BRANCH_ID='" + data.branchid + "' and  CAMS_SPARE_USED.ASSET_ID='" + data.assetid + "' and CAMS_SPARE_USED.ASSET_ACTIVITY_ID='"+ data.assetactivityid + "'";
+                    query2 = "select  distinct CAMS_SPARE_USED.ASSET_SPARE_CODE as spare_code,convert(numeric(18,2),ASSET_SPARECOST) as ASSET_SPARECOST,rowuniqueid as mmp_rowuniqueid1,CAMS_SPARE_USED.FTP_UPLOAD_FLAG as asm_flag,CAMS_ITEM_MASTER.ITEM_DESCRIPTION as itemdesc,CAMS_SPARE_USED.ASSET_SPARE_QUANTITY as asm_spare_qty,CAMS_SPARE_USED.ASSET_REPLACED_QTY as mss_replaced_qty,CAMS_SPARE_USED.ASSET_RETURNED_QTY as mss_returned_qty,convert(numeric(18,2),ASSET_SPARECOST) as SPARECOST,ASSET_SCRAP_QTY as mss_scrap_qty from CAMS_SPARE_USED WITH (NOLOCK)  inner join  CAMS_ITEM_MASTER  WITH (NOLOCK) on  CAMS_SPARE_USED.ASSET_SPARE_CODE=CAMS_ITEM_MASTER.item_code  where (CAMS_SPARE_USED.ASSET_SPARE_FLAG = 'C' or CAMS_SPARE_USED.ASSET_SPARE_FLAG='F') and CAMS_SPARE_USED.FUNCTION_ID=CAMS_ITEM_MASTER.function_id  and CAMS_SPARE_USED.FUNCTION_ID='" + data.functionid + "' and CAMS_SPARE_USED.BRANCH_ID='" + data.branchid + "' and  CAMS_SPARE_USED.ASSET_ID='" + data.assetid + "' and CAMS_SPARE_USED.ASSET_ACTIVITY_ID='" + data.assetactivityid + "'";
 
                     SqlCommand cmd3 = new SqlCommand(query2, dbConn);
                     var reader3 = cmd3.ExecuteReader();
@@ -3802,14 +3929,14 @@ namespace MobileAppAPI.Controllers
 
                     //if (results3.Rows.Count == 0)
                     //{
-                        
+
                     //    string st = "No data found";
 
                     //    Logdata1 = new JavaScriptSerializer().Serialize(st);
                     //}
                     //else
-                   // {
-                        Logdata1 = DataTableToJSONWithStringBuilder(results3);
+                    // {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results3);
                     //}
 
                     dbConn.Close();
@@ -3849,15 +3976,15 @@ namespace MobileAppAPI.Controllers
             string filepath1 = string.Empty;
             //string URLprifix = @"F:\deepak\";
             string filepath = "";
-            filepath = URLprifix + docExtname+ "." + docExt;
-           // filepath = localpath + docExtname + "." + docExt;
+            filepath = URLprifix + docExtname + "." + docExt;
+            // filepath = localpath + docExtname + "." + docExt;
 
             byte[] imageBytes33 = Convert.FromBase64String(strVideofile);
             MemoryStream mss12 = new MemoryStream(imageBytes33, 0, imageBytes33.Length);
             mss12.Write(imageBytes33, 0, imageBytes33.Length);
             System.IO.File.WriteAllBytes(filepath, imageBytes33);
 
-           // https://demo.herbie.ai/nTireERP/SmartAdmin/Images/CAMS/sunsmartDD06YYYY0211.png
+            // https://demo.herbie.ai/nTireERP/SmartAdmin/Images/CAMS/sunsmartDD06YYYY0211.png
 
 
             // var result = "";
@@ -3876,8 +4003,8 @@ namespace MobileAppAPI.Controllers
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
                 results.Load(reader);
-             
-                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
 
 
                 filepath1 = URLprifix1 + path_name;
@@ -3893,7 +4020,7 @@ namespace MobileAppAPI.Controllers
 
 
 
-      
+
 
 
         public string SaveAssetTransfer_Ripd(DataSet ds, string txttranrefid, string trmode)
@@ -3916,7 +4043,7 @@ namespace MobileAppAPI.Controllers
                         var reader = cmd.ExecuteReader();
                         System.Data.DataTable results = new System.Data.DataTable();
                         results.Load(reader);
-                        if (results.Rows.Count>0)
+                        if (results.Rows.Count > 0)
                         {
 
                             string strQry = "Exec CAMS_SaveAssetTransfer " + strtranrefid + ",'','','','','','','','','','','','','','','','','','','History','','" + trmode + "'";
@@ -3945,7 +4072,7 @@ namespace MobileAppAPI.Controllers
                             string strQry = "exec CAMS_SaveAssetTransfer '' ,'' ,'" + row["FUNCTION_ID"] + "','" + row["CAT_ASSET_ID"] + "','" + row["CAT_FROM_DEPARTMENT_ID"] + "','" + row["CAT_TO_DEPARTMENT_ID"] + "','" + row["CAT_FROM_BRANCH_ID"] + "','" + row["CAT_TO_BRANCH_ID"] + "','" + row["CAT_FROM_ASSET_OWNER_ID"] + "','" + row["CAT_TO_ASSET_OWNER_ID"] + "','" + row["CREATED_BY"] + "','" + row["UPDATED_BY"] + "','" + row["IPADDRESS"] + "','" + row["STATUS"] + "','" + row["CAT_CATEGORY_ID"] + "'," + ds.Tables[0].Rows.Count + ",'" + row["transfertype"] + "','','','Master'," + row["transfertypemaster"] + ",'" + trmode + "'";
                             SqlCommand cmd3 = new SqlCommand(strQry, dbConn);
                             var reader3 = cmd3.ExecuteReader();
-                            System.Data.DataTable results3= new System.Data.DataTable();
+                            System.Data.DataTable results3 = new System.Data.DataTable();
                             results3.Load(reader3);
                             for (int i = 0; i < results3.Rows.Count; i++)
                             {
@@ -3980,6 +4107,263 @@ namespace MobileAppAPI.Controllers
 
 
 
+
+
+
+        //jan 6 2023
+
+        [HttpPost]
+        [Route("insertIntraDatatask")]
+        public async Task<ActionResult<HRMS>> insertIntraDatatask(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+
+            string Logdata1 = string.Empty;
+            // var lasttransfericeidvv = "";
+            string strcost = string.Empty;
+            string strITEM_COST = string.Empty;
+            System.Data.DataTable results = new System.Data.DataTable();
+            System.Data.DataTable results1 = new System.Data.DataTable();
+            int itemcost = 0;
+
+            string activityid = "";
+
+
+            string functionid = data.functionid.ToString();
+            string branchid = data.branchid.ToString();
+            string assetid = data.assetid.ToString();
+            string taskid = data.taskid.ToString();
+            string taskuid = data.taskid.ToString();
+            if (data.activityid.ToString() == "" || data.activityid.ToString() == "0")
+            {
+                activityid = "";
+            }
+            else
+            {
+                activityid = data.activityid.ToString();
+            }
+
+
+            if (data.assetid.ToString() == "" || data.assetid.ToString() == "0")
+            {
+                assetid = "";
+            }
+            else
+            {
+                assetid = data.assetid.ToString();
+            }
+
+            if (data.taskid.ToString() == "" || data.taskid.ToString() == "0")
+            {
+                taskid = "";
+            }
+            else
+            {
+                taskid = data.taskid.ToString();
+            }
+
+            if (data.taskuid.ToString() == "" || data.taskuid.ToString() == "0")
+            {
+                taskuid = "";
+            }
+            else
+            {
+                taskuid = data.taskuid.ToString();
+            }
+
+
+
+
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+
+
+                string sql = "CAMS_INSERT_TASK_MAINTENANCE";
+                SqlCommand cmd1 = new SqlCommand(sql, dbConn);
+                cmd1.CommandType = CommandType.StoredProcedure;
+                cmd1.Parameters.AddWithValue("@FUNCTION_ID", data.functionid);
+                cmd1.Parameters.AddWithValue("@ASSET_ID", assetid);
+                cmd1.Parameters.AddWithValue("@ASSET_ACTIVITY_ID", activityid);
+                cmd1.Parameters.AddWithValue("@ASSET_TASK_ID", taskid);
+                cmd1.Parameters.AddWithValue("@ASSET_TASK_UID", taskuid);
+                cmd1.Parameters.AddWithValue("@CTM_STATUS", "A");
+                cmd1.Parameters.AddWithValue("@CTM_REMARKS", "");
+                cmd1.Parameters.AddWithValue("@CREATED_BY", data.createdby);
+                cmd1.Parameters.AddWithValue("@UPDATED_BY", data.createdby);
+                cmd1.Parameters.AddWithValue("@IPADDRESS", "192.168.0.24");
+                //cmd1.ExecuteNonQuery();
+                var reader1 = cmd1.ExecuteReader();
+                results1.Load(reader1);
+
+
+                // string sql1 = "MBL_CAMS_JC_GETTASK";
+                string sql1 = "CAMS_JC_GETTASK";
+                SqlCommand cmd = new SqlCommand(sql1, dbConn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ASSET_ACTIVITY_ID", activityid);
+                cmd.Parameters.AddWithValue("@FUNCTION", data.functionid);
+                cmd.Parameters.AddWithValue("@BRANCH", data.branchid);
+                cmd.Parameters.AddWithValue("@ASSET_ID", assetid);
+                cmd.Parameters.AddWithValue("@ALPHANAME", "");
+                cmd.Parameters.AddWithValue("@PAGEINDEX", "0");
+                cmd.Parameters.AddWithValue("@PAGESIZE", "10");
+                cmd.Parameters.AddWithValue("@SORTEXPRESSION", "points_to_be_checked");
+                //cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                results.Load(reader);
+
+                if (results.Rows.Count > 0)
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+                else
+                {
+                    Logdata1 = "";
+                }
+
+
+
+                //}
+
+                dbConn.Close();
+            }
+            return Ok(Logdata1);
+
+        }
+
+
+
+
+
+
+        [HttpPost]
+        [Route("manpowerrefdtlu")]
+        public async Task<ActionResult<CAMS>> manpowerrefdtlu(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+                query = "SELECT  * FROM (select  TOP 20 ROW_NUMBER() OVER (ORDER BY tum_user_code) as ROW_NUM,* from (select *, ROW_NUMBER() over (order by tum_user_code desc) as gridviewcount from( select distinct  tum_user_id,tum_user_code,tum_user_name,tum_user_type,BO_USER_TYPE_MASTER.description,isnull(tum_user_emailid,'') as Email FROM BO_USER_MASTER with(nolock) inner join BO_USER_TYPE_MASTER on cast(BO_USER_TYPE_MASTER.TYPE_ID as nvarchar)=BO_USER_MASTER.TUM_USER_TYPE and BO_USER_MASTER.function_id=BO_USER_TYPE_MASTER.function_id WHERE 1=1 and   BO_USER_MASTER.FUNCTION_ID='" + data.functionid + "' and BO_USER_MASTER.TUM_BRANCH_ID='" + data.branchid + "' and BO_USER_MASTER.tum_user_id='" + data.usertype + "')gridTempTable) tblname  ORDER BY ROW_NUM) innerSelect WHERE ROW_NUM > 0SELECT  * FROM (select  TOP 20 ROW_NUMBER() OVER (ORDER BY tum_user_code) as ROW_NUM,* from (select *, ROW_NUMBER() over (order by tum_user_code desc) as gridviewcount from( select distinct  tum_user_id,tum_user_code,tum_user_name,tum_user_type,BO_USER_TYPE_MASTER.description,isnull(tum_user_emailid,'') as Email FROM BO_USER_MASTER with(nolock) inner join BO_USER_TYPE_MASTER on cast(BO_USER_TYPE_MASTER.TYPE_ID as nvarchar)=BO_USER_MASTER.TUM_USER_TYPE and BO_USER_MASTER.function_id=BO_USER_TYPE_MASTER.function_id WHERE 1=1 and   BO_USER_MASTER.FUNCTION_ID='" + data.functionid + "' and BO_USER_MASTER.TUM_BRANCH_ID='" + data.branchid + "' and BO_USER_MASTER.tum_user_id='" + data.usertype + "')gridTempTable) tblname  ORDER BY ROW_NUM) innerSelect WHERE ROW_NUM > 0";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
+
+        [HttpPost]
+        [Route("consumableupdateapp")]
+        public async Task<ActionResult<HRMS>> consumableupdateapp(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+
+            string Logdata1 = string.Empty;
+            // var lasttransfericeidvv = "";
+            string strcost = string.Empty;
+            string strITEM_COST = string.Empty;
+            System.Data.DataTable results = new System.Data.DataTable();
+            System.Data.DataTable results1 = new System.Data.DataTable();
+            int itemcost = 0;
+
+            string assetactivityid = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                string functionid = data.functionid.ToString();
+                string branchid = data.branchid.ToString();
+                string itemcode = data.itemcode.ToString();
+                if (data.assetactivityid.ToString() == "")
+                {
+                    assetactivityid = null;
+                }
+                else
+                {
+                    assetactivityid = data.assetactivityid.ToString();
+                }
+                string assetid = data.assetid.ToString();
+                string assetpmref = data.assetpmref.ToString();
+
+                dbConn.Open();
+                string sql = "CAMS_JC_GETCITEMMASTER";
+                //string sql = "MBL_CAMS_JC_GETCITEMMASTER";
+                SqlCommand cmd1 = new SqlCommand(sql, dbConn);
+                cmd1.CommandType = CommandType.StoredProcedure;
+                cmd1.Parameters.AddWithValue("@ITEM_CODE", itemcode);
+                cmd1.Parameters.AddWithValue("@FUNCTION", functionid);
+                cmd1.Parameters.AddWithValue("@TYPE", "GETCOST");
+                // cmd1.ExecuteNonQuery();
+                var reader1 = cmd1.ExecuteReader();
+                results1.Load(reader1);
+                if (results1.Rows.Count > 0)
+                {
+                    strITEM_COST = results1.Rows[0]["ITEM_COST"].ToString();
+                    itemcost = Convert.ToInt32(results1.Rows[0]["ITEM_COST"]);
+                }
+
+                int spareqty = data.spareqty;
+                int hrscost = spareqty * itemcost;
+
+                string query1 = "";
+                query1 = "update CAMS_SPARE_USED set ASSET_SPARECOST='" + hrscost + "', ASSET_SPARE_CODE='" + itemcode + "', ASSET_SPARE_QUANTITY='" + data.plannedqty + "',ASSET_REPLACED_QTY='" + data.replaceqty + "',ASSET_RETURNED_QTY='" + data.returnqty + "',ASSET_SCRAP_QTY='" + data.scrapqty + "' where rowuniqueid=" + data.rowuniqid + " and function_id='" + data.functionid + "'";
+
+                SqlCommand cmd2 = new SqlCommand(query1, dbConn);
+                var reader2 = cmd2.ExecuteReader();
+                System.Data.DataTable results2 = new System.Data.DataTable();
+                results2.Load(reader2);
+
+
+                string query2 = "";
+                query2 = "select  distinct CAMS_SPARE_USED.ASSET_SPARE_CODE as spare_code,convert(numeric(18,2),ASSET_SPARECOST) as ASSET_SPARECOST,rowuniqueid as mmp_rowuniqueid1,CAMS_SPARE_USED.FTP_UPLOAD_FLAG as asm_flag,CAMS_ITEM_MASTER.ITEM_DESCRIPTION as itemdesc,CAMS_SPARE_USED.ASSET_SPARE_QUANTITY as asm_spare_qty,CAMS_SPARE_USED.ASSET_REPLACED_QTY as mss_replaced_qty,CAMS_SPARE_USED.ASSET_RETURNED_QTY as mss_returned_qty,convert(numeric(18,2),ASSET_SPARECOST) as SPARECOST,ASSET_SCRAP_QTY as mss_scrap_qty from CAMS_SPARE_USED WITH (NOLOCK)  inner join  CAMS_ITEM_MASTER  WITH (NOLOCK) on  CAMS_SPARE_USED.ASSET_SPARE_CODE=CAMS_ITEM_MASTER.item_code  where (CAMS_SPARE_USED.ASSET_SPARE_FLAG = 'C' or CAMS_SPARE_USED.ASSET_SPARE_FLAG='F') and CAMS_SPARE_USED.FUNCTION_ID=CAMS_ITEM_MASTER.function_id  and CAMS_SPARE_USED.FUNCTION_ID='" + data.functionid + "' and CAMS_SPARE_USED.BRANCH_ID='" + data.branchid + "' and  CAMS_SPARE_USED.ASSET_ID='" + data.assetid + "' and CAMS_SPARE_USED.ASSET_ACTIVITY_ID='" + data.assetactivityid + "'";
+
+                SqlCommand cmd3 = new SqlCommand(query2, dbConn);
+                var reader3 = cmd3.ExecuteReader();
+                System.Data.DataTable results3 = new System.Data.DataTable();
+                results3.Load(reader3);
+
+
+                //if (results3.Rows.Count == 0)
+                //    {
+
+                //    string st = "No data found";
+
+                //    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                //}
+                //    else
+                //    {
+                Logdata1 = DataTableToJSONWithStringBuilder(results3);
+                //  }
+
+                dbConn.Close();
+            }
+            return Ok(Logdata1);
+
+        }
 
 
 

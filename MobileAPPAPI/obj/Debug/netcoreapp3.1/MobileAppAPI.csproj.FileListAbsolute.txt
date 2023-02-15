@@ -194,3 +194,445 @@ E:\Mobile\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.pd
 E:\Mobile\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.genruntimeconfig.cache
 E:\Mobile\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.PlatformAbstractions.dll
 E:\Mobile\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Nancy.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\web.config
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\appsettings.json
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.StaticWebAssets.xml
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.exe
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.deps.json
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.runtimeconfig.json
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.runtimeconfig.dev.json
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.pdb
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Castle.Core.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Castle.Windsor.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\EPPlus.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\EPPlus.Interfaces.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\EPPlus.System.Drawing.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.Themes.Aero.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.Themes.Metro.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.Toolkit.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\LanguageExt.Core.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.Mvc.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.Razor.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.Helpers.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.WebPages.Deployment.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.WebPages.Razor.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.WebPages.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.FileExtensions.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Json.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Physical.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileSystemGlobbing.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.PlatformAbstractions.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Abstractions.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IO.RecyclableMemoryStream.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Nancy.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Npgsql.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\PayPal.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.AccessControl.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Permissions.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Principal.Windows.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Windows.Extensions.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\cs-CZ\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\de\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\es\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\fr\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\hu\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\it\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ja-JP\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\pt-BR\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ro\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ru\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\sv\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Security.AccessControl.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.csproj.AssemblyReference.cache
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.GeneratedMSBuildEditorConfig.editorconfig
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.AssemblyInfoInputs.cache
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.AssemblyInfo.cs
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.csproj.CoreCompileInputs.cache
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.MvcApplicationPartsAssemblyInfo.cache
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\staticwebassets\MobileAppAPI.StaticWebAssets.Manifest.cache
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.RazorTargetAssemblyInfo.cache
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.csproj.CopyComplete
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.dll
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.pdb
+E:\MobileAPP\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.genruntimeconfig.cache
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\web.config
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\appsettings.json
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.StaticWebAssets.xml
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.exe
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.deps.json
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.runtimeconfig.json
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.runtimeconfig.dev.json
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.pdb
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Castle.Core.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Castle.Windsor.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\EPPlus.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\EPPlus.Interfaces.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\EPPlus.System.Drawing.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.Themes.Aero.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.Themes.Metro.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.Toolkit.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\LanguageExt.Core.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.Mvc.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.Razor.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.Helpers.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.WebPages.Deployment.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.WebPages.Razor.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.WebPages.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.FileExtensions.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Json.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Physical.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileSystemGlobbing.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.PlatformAbstractions.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Abstractions.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IO.RecyclableMemoryStream.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Nancy.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Npgsql.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\NPOI.OOXML.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\NPOI.OpenXml4Net.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\NPOI.OpenXmlFormats.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\NPOI.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\PayPal.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ICSharpCode.SharpZipLib.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.AccessControl.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Permissions.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Principal.Windows.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Windows.Extensions.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\cs-CZ\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\de\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\es\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\fr\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\hu\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\it\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ja-JP\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\pt-BR\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ro\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ru\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\sv\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Security.AccessControl.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.GeneratedMSBuildEditorConfig.editorconfig
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.AssemblyInfoInputs.cache
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.AssemblyInfo.cs
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.csproj.CoreCompileInputs.cache
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.MvcApplicationPartsAssemblyInfo.cache
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\staticwebassets\MobileAppAPI.StaticWebAssets.Manifest.cache
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.RazorTargetAssemblyInfo.cache
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.csproj.CopyComplete
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.pdb
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.genruntimeconfig.cache
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MailKit.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MimeKit.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Formats.Asn1.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.Cng.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.Pkcs.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Security.Cryptography.Cng.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.1\System.Security.Cryptography.Pkcs.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Dnp.dll
+E:\MobileAPP_gitHUB\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.csproj.AssemblyReference.cache
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\web.config
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\appsettings.json
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.exe
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.deps.json
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.runtimeconfig.json
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.runtimeconfig.dev.json
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.pdb
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Castle.Core.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Castle.Windsor.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\EPPlus.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\EPPlus.Interfaces.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\EPPlus.System.Drawing.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.Themes.Aero.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.Themes.Metro.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.Toolkit.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\LanguageExt.Core.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MailKit.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.Mvc.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.Razor.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.Helpers.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.WebPages.Deployment.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.WebPages.Razor.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.WebPages.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.FileExtensions.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Json.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Physical.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileSystemGlobbing.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.PlatformAbstractions.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Abstractions.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IO.RecyclableMemoryStream.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MimeKit.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Nancy.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Npgsql.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\NPOI.OOXML.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\NPOI.OpenXml4Net.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\NPOI.OpenXmlFormats.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\NPOI.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\PayPal.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ICSharpCode.SharpZipLib.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Formats.Asn1.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.AccessControl.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.Cng.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.Pkcs.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Permissions.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Principal.Windows.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Windows.Extensions.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Dnp.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\cs-CZ\Xceed.Wpf.AvalonDock.resources.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\de\Xceed.Wpf.AvalonDock.resources.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\es\Xceed.Wpf.AvalonDock.resources.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\fr\Xceed.Wpf.AvalonDock.resources.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\hu\Xceed.Wpf.AvalonDock.resources.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\it\Xceed.Wpf.AvalonDock.resources.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ja-JP\Xceed.Wpf.AvalonDock.resources.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\pt-BR\Xceed.Wpf.AvalonDock.resources.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ro\Xceed.Wpf.AvalonDock.resources.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ru\Xceed.Wpf.AvalonDock.resources.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\sv\Xceed.Wpf.AvalonDock.resources.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Security.AccessControl.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Security.Cryptography.Cng.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.1\System.Security.Cryptography.Pkcs.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.csproj.AssemblyReference.cache
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.GeneratedMSBuildEditorConfig.editorconfig
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.AssemblyInfoInputs.cache
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.AssemblyInfo.cs
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.csproj.CoreCompileInputs.cache
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.MvcApplicationPartsAssemblyInfo.cache
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\staticwebassets\MobileAppAPI.StaticWebAssets.Manifest.cache
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\staticwebassets\MobileAppAPI.StaticWebAssets.xml
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\scopedcss\bundle\MobileAppAPI.styles.css
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.RazorTargetAssemblyInfo.cache
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.csproj.CopyComplete
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.dll
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.pdb
+F:\Prakash N\Prakash N   MobileApp\New folder\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.genruntimeconfig.cache
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\web.config
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\appsettings.json
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.StaticWebAssets.xml
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.exe
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.deps.json
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.runtimeconfig.json
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.runtimeconfig.dev.json
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MobileAppAPI.pdb
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Castle.Core.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Castle.Windsor.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\EPPlus.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\EPPlus.Interfaces.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\EPPlus.System.Drawing.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.Themes.Aero.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.Themes.Metro.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.AvalonDock.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Xceed.Wpf.Toolkit.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\LanguageExt.Core.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MailKit.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.Mvc.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.Razor.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.Helpers.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.WebPages.Deployment.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.WebPages.Razor.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Web.WebPages.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.FileExtensions.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Json.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Physical.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileSystemGlobbing.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.PlatformAbstractions.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Abstractions.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.IO.RecyclableMemoryStream.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\MimeKit.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Nancy.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Npgsql.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\NPOI.OOXML.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\NPOI.OpenXml4Net.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\NPOI.OpenXmlFormats.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\NPOI.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\PayPal.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ICSharpCode.SharpZipLib.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Formats.Asn1.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.AccessControl.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.Cng.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.Pkcs.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Permissions.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Security.Principal.Windows.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\System.Windows.Extensions.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\Dnp.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\cs-CZ\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\de\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\es\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\fr\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\hu\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\it\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ja-JP\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\pt-BR\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ro\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\ru\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\sv\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Security.AccessControl.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Security.Cryptography.Cng.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.1\System.Security.Cryptography.Pkcs.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Security.Principal.Windows.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.GeneratedMSBuildEditorConfig.editorconfig
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.AssemblyInfoInputs.cache
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.AssemblyInfo.cs
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.csproj.CoreCompileInputs.cache
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.MvcApplicationPartsAssemblyInfo.cache
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\staticwebassets\MobileAppAPI.StaticWebAssets.Manifest.cache
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.RazorTargetAssemblyInfo.cache
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.csproj.CopyComplete
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.dll
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.pdb
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.genruntimeconfig.cache
+E:\MobileAPI_latest\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.csproj.AssemblyReference.cache

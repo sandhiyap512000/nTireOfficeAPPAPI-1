@@ -205,6 +205,12 @@ namespace MobileAppAPI.Models
 
         public string tansfertype { get; set; }
 
+        public string taskid { get; set; }
+
+        public string taskuid { get; set; }
+
+        public string rowuniqid { get; set; }
+
 
     }
 }

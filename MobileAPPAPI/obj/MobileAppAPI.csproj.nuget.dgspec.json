@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Mobile\\nTireOfficeAPPAPI\\MobileAPPAPI\\MobileAppAPI.csproj": {}
+    "E:\\MobileAPI_latest\\nTireOfficeAPPAPI\\MobileAPPAPI\\MobileAppAPI.csproj": {}
   },
   "projects": {
-    "E:\\Mobile\\nTireOfficeAPPAPI\\MobileAPPAPI\\MobileAppAPI.csproj": {
+    "E:\\MobileAPI_latest\\nTireOfficeAPPAPI\\MobileAPPAPI\\MobileAppAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Mobile\\nTireOfficeAPPAPI\\MobileAPPAPI\\MobileAppAPI.csproj",
+        "projectUniqueName": "E:\\MobileAPI_latest\\nTireOfficeAPPAPI\\MobileAPPAPI\\MobileAppAPI.csproj",
         "projectName": "MobileAppAPI",
-        "projectPath": "E:\\Mobile\\nTireOfficeAPPAPI\\MobileAPPAPI\\MobileAppAPI.csproj",
-        "packagesPath": "C:\\Users\\Admin.SSG0079\\.nuget\\packages\\",
-        "outputPath": "E:\\Mobile\\nTireOfficeAPPAPI\\MobileAPPAPI\\obj\\",
+        "projectPath": "E:\\MobileAPI_latest\\nTireOfficeAPPAPI\\MobileAPPAPI\\MobileAppAPI.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "E:\\MobileAPI_latest\\nTireOfficeAPPAPI\\MobileAPPAPI\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Admin.SSG0079\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
@@ -62,6 +58,10 @@
               "target": "Package",
               "version": "[4.0.3, )"
             },
+            "MailKit": {
+              "target": "Package",
+              "version": "[3.4.3, )"
+            },
             "Microsoft.AspNet.Mvc": {
               "target": "Package",
               "version": "[5.2.7, )"
@@ -69,6 +69,14 @@
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
               "version": "[6.23.1, )"
+            },
+            "MimeKit": {
+              "target": "Package",
+              "version": "[3.4.3, )"
+            },
+            "NPOI": {
+              "target": "Package",
+              "version": "[2.5.6, )"
             },
             "Nancy": {
               "target": "Package",
@@ -88,11 +96,19 @@
             },
             "System.Data.SqlClient": {
               "target": "Package",
-              "version": "[4.8.3, )"
+              "version": "[4.8.5, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[6.23.1, )"
+            },
+            "System.Security.Cryptography.Algorithms": {
+              "target": "Package",
+              "version": "[4.3.1, )"
+            },
+            "Test": {
+              "target": "Package",
+              "version": "[2.0.1.1, )"
             }
           },
           "imports": [
@@ -105,6 +121,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[3.1.22, 3.1.22]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -113,7 +135,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

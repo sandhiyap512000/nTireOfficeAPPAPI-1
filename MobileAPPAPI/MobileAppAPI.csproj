@@ -9,14 +9,19 @@
     <PackageReference Include="EPPlus" Version="6.0.6" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.3.0" />
     <PackageReference Include="LanguageExt.Core" Version="4.0.3" />
+    <PackageReference Include="MailKit" Version="3.4.3" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.23.1" />
+    <PackageReference Include="MimeKit" Version="3.4.3" />
     <PackageReference Include="Nancy" Version="2.0.0" />
     <PackageReference Include="Npgsql" Version="5.0.10" />
+    <PackageReference Include="NPOI" Version="2.5.6" />
     <PackageReference Include="PayPal" Version="1.9.1" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.23.1" />
+    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
+    <PackageReference Include="Test" Version="2.0.1.1" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/azure-deviceupdate-update-manifest-4.json" /></VisualStudio></ProjectExtensions>
