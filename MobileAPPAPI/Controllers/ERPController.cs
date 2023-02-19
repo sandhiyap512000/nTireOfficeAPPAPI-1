@@ -2403,7 +2403,7 @@ namespace MobileAppAPI.Controllers
 
                     string sql = "ERP_VENDORQUOTATION_SUMMARY";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
-                    //EXEC ERP_VENDORQUOTATION_SUMMARY '1','1','','','','','','','0','0','20','item_id','','2',''
+                    
 
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -2426,7 +2426,7 @@ namespace MobileAppAPI.Controllers
                     cmd.Parameters.AddWithValue("@VENDORCODE", data.VENDORCODEP);
 
 
-
+                    //EXEC ERP_VENDORQUOTATION_SUMMARY '1','1','0','','','0','0','','0','0','20','QUOTE_id desc','0','2',''
 
                     //cmd.ExecuteNonQuery();
                     var reader = cmd.ExecuteReader();

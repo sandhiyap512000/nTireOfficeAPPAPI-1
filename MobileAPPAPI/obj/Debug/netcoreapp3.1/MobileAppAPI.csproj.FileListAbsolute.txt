@@ -750,3 +750,4 @@ E:\00_DevSource\MobileApp\GitHub\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcor
 E:\00_DevSource\MobileApp\GitHub\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.dll
 E:\00_DevSource\MobileApp\GitHub\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.pdb
 E:\00_DevSource\MobileApp\GitHub\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.genruntimeconfig.cache
+E:\00_DevSource\MobileApp\GitHub\nTireOfficeAPPAPI\MobileAPPAPI\obj\Debug\netcoreapp3.1\MobileAppAPI.csproj.AssemblyReference.cache
