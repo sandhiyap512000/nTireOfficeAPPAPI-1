@@ -1996,9 +1996,11 @@ namespace MobileAppAPI.Controllers
         }
 
         //GET Method in PendingTaskCOmpleted Sankari
+        //Exec CAMS_PendingTaskComplete_Getdetailsdept '1','1','','','','','','','1','1',0,20,'pmr_asset_reference','','0','','MT','',''
         [HttpGet]
         [Route("PendingTaskCompletedsearchs")]
-        public string PendingTaskCompletedsearchs(string strfunction, string branch,  string fdate, string tdate, string Status, string drpcategory, string drptype, string TASKTYPE)
+        public string PendingTaskCompletedsearchs(string strfunction, string branch, string mode, string fdate, string tdate, string Status, string dept, string tag, string strUserId, string UserType, int pageIndex, int pageSize, string sortExpression, string alphaname, string drpcategory, string drptype, string TASKTYPE, string PrCode, string PrDesc)
+           
         {
             try
             {
@@ -2008,8 +2010,10 @@ namespace MobileAppAPI.Controllers
                     {
                         string Logdata1 = string.Empty;
                         string sql = "";
+                        //CAMS_PendingTaskComplete_Getdetailsdept
+                        sql = "Exec CAMS_PendingTaskComplete_Getdetailsdept '" + strfunction + "','" + branch + "','" + mode + "','" + fdate + "','" + tdate + "','" + Status + "','" + dept + "','" + tag + "','" + strUserId + "','" + UserType + "'," + pageIndex + "," + pageSize + ",'" + sortExpression + "','" + alphaname + "','" + drpcategory + "','" + drptype + "','" + TASKTYPE + "','" + PrCode + "','" + PrDesc + "'";
 
-                        sql = " EXEC CAMS_PENDINGDETAIL_COMPLETED_SEARCH '" + strfunction + "','" + branch + "','" + fdate + "','" + tdate + "','" + Status + "','" + drpcategory + "','" + drptype + "','" + TASKTYPE + "'";
+                      //sql = " EXEC CAMS_PENDINGDETAIL_COMPLETED_SEARCH '" + strfunction + "','" + branch + "','" + fdate + "','" + tdate + "','" + Status + "','" + drpcategory + "','" + drptype + "','" + TASKTYPE + "'";
                         DataSet dtPending = objSQLAccesLayer.getDataSet(sql);
 
 
@@ -3392,7 +3396,7 @@ namespace MobileAppAPI.Controllers
 
         [HttpPost]
         [Route("manpowerinsertapp")]
-        public async Task<ActionResult<HRMS>> manpowerinsertapp(CAMS data)
+        public async Task<ActionResult<CAMS>> manpowerinsertapp(CAMS data)
         {
             // string struser = data.user_lower;
             var JSONString = new StringBuilder();
