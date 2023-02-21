@@ -1995,6 +1995,54 @@ namespace MobileAppAPI.Controllers
             }
         }
 
+        //GET Method in PendingTaskCOmpleted Sankari
+        [HttpGet]
+        [Route("PendingTaskCompletedsearchs")]
+        public string PendingTaskCompletedsearchs(string strfunction, string branch,  string fdate, string tdate, string Status, string drpcategory, string drptype, string TASKTYPE)
+        {
+            try
+            {
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+                    try
+                    {
+                        string Logdata1 = string.Empty;
+                        string sql = "";
+
+                        sql = " EXEC CAMS_PENDINGDETAIL_COMPLETED_SEARCH '" + strfunction + "','" + branch + "','" + fdate + "','" + tdate + "','" + Status + "','" + drpcategory + "','" + drptype + "','" + TASKTYPE + "'";
+                        DataSet dtPending = objSQLAccesLayer.getDataSet(sql);
+
+
+
+                        for (int i = 0; i < dtPending.Tables[0].Rows.Count; i++)
+                        {
+                            DataRow row = dtPending.Tables[0].Rows[i];
+                            Logdata1 = DataTableToJSONWithStringBuilder(dtPending.Tables[0]);
+                        }
+                        //}
+                        return Logdata1;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.ToString());
+                    }
+
+
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return json;
+            }
+        }
+
+
+
+
 
         [HttpGet]
         [Route("CAMSPENDING_COMPLTED_SEARCH")]
