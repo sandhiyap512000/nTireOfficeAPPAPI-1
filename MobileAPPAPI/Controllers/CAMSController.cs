@@ -3511,7 +3511,7 @@ namespace MobileAppAPI.Controllers
 
         //ManpowerDelete sankari
 
-
+        //sa
         [HttpPost]
         [Route("Manpoweruseddelete")]
         public async Task<ActionResult<CAMS>> Manpoweruseddelete(CAMS data)
