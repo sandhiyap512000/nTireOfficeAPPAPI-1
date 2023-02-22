@@ -3509,6 +3509,74 @@ namespace MobileAppAPI.Controllers
         }
 
 
+        //ManpowerDelete sankari
+
+
+        [HttpPost]
+        [Route("Manpoweruseddelete")]
+        public async Task<ActionResult<CAMS>> Manpoweruseddelete(CAMS data)
+        {
+
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "delete from  CAMS_MPP_USED  where rowuniqueid='" + data.uniqueid + "' and FUNCTION_ID='" + data.functionid + "' ";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "Deleted Successfully";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                    //}
+
+                    dbConn.Close();
+
+                    var result = (new { recordsets = Logdata1 });
+
+                }
+                return Ok(Logdata1);
+            }
+        }
+
+        [HttpGet]
+        [Route("deletemanpowerused/{functionId}/{uniqueid}")]
+        public string deletemanpowerused(string functionId, string uniqueid)
+        {
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+
+                string strsql = "delete from  CAMS_MPP_USED  where rowuniqueid='" + uniqueid + "' and FUNCTION_ID='" + functionId + "'";
+                SqlCommand cmd = new SqlCommand(strsql, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+                return Logdata1;
+            }
+        }
+
+
+
         [HttpPost]
         [Route("sparealldatadetail")]
         public async Task<ActionResult<CAMS>> sparealldatadetail(CAMS data)
@@ -4065,7 +4133,8 @@ namespace MobileAppAPI.Controllers
             string strVideofile = data.filebase;
             string FileLocation = "SmartAdmin/Images/CAMS/";
 
-            string URLprifix = @"D:\Production\Application\nTireERP\nTireoffice\SmartAdmin\Images\CAMS\";
+            //string URLprifix = @"D:\Production\Application\nTireERP\nTireoffice\SmartAdmin\Images\CAMS\";
+            string URLprifix = @"E:\SankarinTireERP\NewSVNApplication\nTireERP\nTireoffice\SmartAdmin\Images\CAMS\";
             string localpath = @"C:\Users\admin\Pictures\cams\";
             string URLprifix1 = "https://demo.herbie.ai/nTireERP/SmartAdmin/Images/CAMS/";
             string filepath1 = string.Empty;
