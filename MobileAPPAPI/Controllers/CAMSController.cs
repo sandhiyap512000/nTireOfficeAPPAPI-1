@@ -3525,7 +3525,7 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string query = "";
-                query = "delete from  CAMS_MPP_USED  where rowuniqueid='" + data.uniqueid + "' and FUNCTION_ID='" + data.functionid + "' ";
+                query = "delete from  CAMS_MPP_USED  where  FUNCTION_ID='" + data.functionid + "' and BRANCH_ID='" + data.branchid + "' and ASSET_ID='" + data.assetid + "' and ASSET_ACTIVITY_ID='" + data.assetactivityid + "' and ASSET_PM_REFERENCE='" + data.assetpmref + "'and ASSET_EMP_ID='" + data.assetempid + "' and ASSET_USER_ID='" + data.assetuser + "' and rowuniqueid='" + data.uniqueid + "'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -3552,8 +3552,8 @@ namespace MobileAppAPI.Controllers
         }
 
         [HttpGet]
-        [Route("deletemanpowerused/{functionId}/{uniqueid}")]
-        public string deletemanpowerused(string functionId, string uniqueid)
+        [Route("deletemanpowerused/{functionId}/{branchid}/{assetid}/{assetactivityid}/{assetpmref}/{assetempid}/{assetuser}/{uniqueid}/{accesstoken}/{usertoken}")]
+        public string deletemanpowerused(string functionId, string branchid,string assetid,string assetactivityid,string assetpmref,string assetempid,string assetuser,string uniqueid,string accesstoken,string usertoken)
         {
             string Logdata1 = string.Empty;
 
@@ -3564,7 +3564,9 @@ namespace MobileAppAPI.Controllers
                 dbConn.Open();
                 string query = "";
 
-                string strsql = "delete from  CAMS_MPP_USED  where rowuniqueid='" + uniqueid + "' and FUNCTION_ID='" + functionId + "'";
+                // string strsql = "delete from  CAMS_MPP_USED  where rowuniqueid='" + uniqueid + "' and FUNCTION_ID='" + functionId + "'";
+                string strsql = "delete from  CAMS_MPP_USED  where  FUNCTION_ID='" + functionId + "' and BRANCH_ID='" + branchid + "' and ASSET_ID='" + assetid + "' and ASSET_ACTIVITY_ID='" + assetactivityid + "' and ASSET_PM_REFERENCE='" + assetpmref + "'and ASSET_EMP_ID='" + assetempid + "' and ASSET_USER_ID='" + assetuser + "' rowuniqueid='" + uniqueid + "'";
+
                 SqlCommand cmd = new SqlCommand(strsql, dbConn);
                 var reader = cmd.ExecuteReader();
                 System.Data.DataTable results = new System.Data.DataTable();
