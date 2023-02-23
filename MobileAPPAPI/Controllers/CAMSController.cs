@@ -26,7 +26,7 @@ namespace MobileAppAPI.Controllers
         public static SQLAccesLayer objSQLAccesLayer = new SQLAccesLayer();
         public static string strconn = objhelper.Connectionstring();
 
-
+        //sankari count checked
         [HttpGet]
         [Route("camsbranchcount/{strfunction}")]
         public string camsbranchcount(string strfunction)
