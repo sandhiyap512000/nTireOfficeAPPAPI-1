@@ -2429,7 +2429,7 @@ namespace MobileAppAPI.Controllers
 
 
                     //EXEC ERP_VENDORQUOTATION_SUMMARY '1','1','0','','','0','0','','0','0','20','QUOTE_id desc','0','2',''
-
+                    //Added Catid and subcatid
                     //cmd.ExecuteNonQuery();
                     var reader = cmd.ExecuteReader();
                     System.Data.DataTable results = new System.Data.DataTable();
