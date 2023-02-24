@@ -4530,7 +4530,55 @@ namespace MobileAppAPI.Controllers
             return Ok(Logdata1);
 
         }
+        //All Branch
 
+
+        [HttpGet]
+        [Route("AllBranch/{strfunction}")]
+        public string AllBranch(string strfunction)
+
+        {
+            try
+            {
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+                    try
+                    {
+                        string Logdata1 = string.Empty;
+                        string sql = "";
+                        dbConn.Open();
+
+                        sql = "SELECT BRANCH_ID,BRANCH_DESC from BO_BRANCH_MASTER WHERE status='A' and FUNCTION_ID='"+ strfunction + "' order by BRANCH_DESC asc";
+
+                        DataSet dtPending = objSQLAccesLayer.getDataSet(sql);
+
+
+
+                        for (int i = 0; i < dtPending.Tables[0].Rows.Count; i++)
+                        {
+                            DataRow row = dtPending.Tables[0].Rows[i];
+                            Logdata1 = DataTableToJSONWithStringBuilder(dtPending.Tables[0]);
+                        }
+                        //}
+                        return Logdata1;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.ToString());
+                    }
+
+
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return json;
+            }
+        }
 
 
 
@@ -4570,7 +4618,7 @@ namespace MobileAppAPI.Controllers
             return JSONString.ToString();
         }
 
-
+        //
 
     }
 }
