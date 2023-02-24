@@ -26,6 +26,8 @@ namespace MobileAppAPI.Controllers
     {
         public static Helper objhelper = new Helper();
         public static string strconn = objhelper.Connectionstring();
+        public static SQLAccesLayer objSQLAccesLayer = new SQLAccesLayer();
+
         static string JsonString = string.Empty;
         DataSet dstSubDelivery = new DataSet();
         //node source starts
@@ -829,7 +831,7 @@ namespace MobileAppAPI.Controllers
             }
             catch (Exception ex)
             {
-
+                
                 var json = new JavaScriptSerializer().Serialize(ex.Message);
                 return Ok(json);
             }
@@ -9188,12 +9190,58 @@ namespace MobileAppAPI.Controllers
         //        DropDowndeliveryterms.DataTextField = "TEXT";
         //        DropDowndeliveryterms.DataValueField = "VALUE";
         //        DropDowndeliveryterms.DataBind();
-        //        DropDowndeliveryterms.Items.Insert(0, new ListItem("<<Select>>", "0"));
+        //        DropDowndeliveryterms.Items.Insert(0, new ListItem("<<Select>>", "0"));fet
 
 
         //    }
         //}
 
+
+        [HttpGet]
+        [Route("Tax1Tax2Tax3Tax4Details/{strfunction}/{catid}/{subcatid}")]
+        public string Tax1Tax2Tax3Tax4Details(string strfunction, string catid,string subcatid)
+
+        {
+            try
+            {
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+                    try
+                    {
+                        string Logdata1 = string.Empty;
+                        string sql = "";
+                        //[ERP_PO_GET_ERP_FA_TAX_MASTER_ByCategory_ALLTAX]
+                        sql = "Exec ERP_PO_GET_ERP_FA_TAX_MASTER_ByCategory_ALLTAX '" + strfunction + "','" + catid + "','" + subcatid + "'";
+
+                        DataSet dtPending = objSQLAccesLayer.getDataSet(sql);
+
+
+
+                        for (int i = 0; i < dtPending.Tables[0].Rows.Count; i++)
+                        {
+                            DataRow row = dtPending.Tables[0].Rows[i];
+                            Logdata1 = DataTableToJSONWithStringBuilder(dtPending.Tables[0]);
+                        }
+                        //}
+                        return Logdata1;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.ToString());
+                    }
+
+
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return json;
+            }
+        }
         public string DataTableToJSONWithStringBuilder(DataTable table)
         {
             var JSONString = new StringBuilder();
