@@ -2338,32 +2338,58 @@ namespace MobileAppAPI.Controllers
                     {
                         data.RFQCODEP = "0";
                     }
+                    //if (data.FROMDATEP.ToString() == "0" || data.FROMDATEP.ToString() == "" || data.FROMDATEP.ToString() == string.Empty || data.FROMDATEP.ToString() == null)
+                    //{
+                    //    data.FROMDATEP = "0";
+                    //}
+                    //else
+                    //{
+                    //    string date = data.FROMDATEP;
+                    //    //DateTime dt = DateTime.Parse(date);
+                    //    //dt.ToString("dd/MM/yyyy");
+                    //    //fromdate = dt.ToString();
+
+                    //    fromdate = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+
+                    //}
+                    //if (data.TODATEP.ToString() == "0" || data.TODATEP.ToString() == "" || data.TODATEP.ToString() == string.Empty || data.TODATEP.ToString() == null)
+                    //{
+                    //    data.TODATEP = "0";
+                    //}
+                    //else
+                    //{
+                    //    string date = data.TODATEP;
+                    //    //DateTime dt = DateTime.Parse(date);
+                    //    //dt.ToString("dd/MM/yyyy");
+                    //    todate = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    //}
+
+
+
+
+                    //if (data.FROMDATEP.ToString() == "0" || data.FROMDATEP.ToString() == "" || data.FROMDATEP.ToString() == string.Empty || data.FROMDATEP.ToString() == null)
+                    //{
+                    //    data.FROMDATEP = "quote_date >= CONVERT(varchar, convert(datetime,'" + data.FROMDATEP + "', 103),103)";
+                    //    // data.FROMDATEP = "0";
+                    //}
+                    //if (data.TODATEP.ToString() == "0" || data.TODATEP.ToString() == "" || data.TODATEP.ToString() == string.Empty || data.TODATEP.ToString() == null)
+                    //{
+                    //    // data.TODATEP = "0";
+                    //    data.TODATEP = "quote_date >= CONVERT(varchar, convert(datetime,'" + data.TODATEP + "', 103),103)";
+
+                    //}
+
+
                     if (data.FROMDATEP.ToString() == "0" || data.FROMDATEP.ToString() == "" || data.FROMDATEP.ToString() == string.Empty || data.FROMDATEP.ToString() == null)
                     {
-                        data.FROMDATEP = "0";
-                    }
-                    else
-                    {
-                        string date = data.FROMDATEP;
-                        //DateTime dt = DateTime.Parse(date);
-                        //dt.ToString("dd/MM/yyyy");
-                        //fromdate = dt.ToString();
-
-                        fromdate = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-
-
+                        data.FROMDATEP = "";
                     }
                     if (data.TODATEP.ToString() == "0" || data.TODATEP.ToString() == "" || data.TODATEP.ToString() == string.Empty || data.TODATEP.ToString() == null)
                     {
-                        data.TODATEP = "0";
+                        data.TODATEP = "";
                     }
-                    else
-                    {
-                        string date = data.TODATEP;
-                        //DateTime dt = DateTime.Parse(date);
-                        //dt.ToString("dd/MM/yyyy");
-                        todate = DateTime.ParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    }
+
                     if (data.ITEMCODEP.ToString() == "0" || data.ITEMCODEP.ToString() == "" || data.ITEMCODEP.ToString() == string.Empty || data.ITEMCODEP.ToString() == null)
                     {
                         data.ITEMCODEP = "0";
@@ -2401,19 +2427,17 @@ namespace MobileAppAPI.Controllers
 
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
-                   // string sql = "MBL_ERP_VENDORQUOTATION_SUMMARY";
+                    //  string sql = "MBL_ERP_VENDORQUOTATION_SUMMARY";
 
                     string sql = "ERP_VENDORQUOTATION_SUMMARY";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
-                    
-
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@FUNCTIONID", data.FUNCTIONIDP);
                     cmd.Parameters.AddWithValue("@BRANCHID", data.BRANCHIDP);
                     cmd.Parameters.AddWithValue("@RFQCODE", data.RFQCODEP);
-                    cmd.Parameters.AddWithValue("@FROMDATE", fromdate);
-                    cmd.Parameters.AddWithValue("@TODATE",todate);
+                    cmd.Parameters.AddWithValue("@FROMDATE", data.FROMDATEP);
+                    cmd.Parameters.AddWithValue("@TODATE",data.TODATEP);
                     cmd.Parameters.AddWithValue("@ITEMCODE", data.ITEMCODEP);
                     cmd.Parameters.AddWithValue("@VENDORID", data.VENDORIDP);
                     cmd.Parameters.AddWithValue("@QUOTEREF", data.QUOTEREFP);
