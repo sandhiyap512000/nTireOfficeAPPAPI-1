@@ -3426,7 +3426,7 @@ namespace MobileAppAPI.Controllers
                 string assethrs = data.assethrs.ToString();
 
                 dbConn.Open();
-                //string sql = "MBL_CAMS_JC_GETUSERCOST";
+                //string sql = "MBL_CAMS_JC_GETUSERCOST"; sankari
                 string sql = "CAMS_JC_GETUSERCOST";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
