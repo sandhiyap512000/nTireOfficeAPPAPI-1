@@ -4582,6 +4582,92 @@ namespace MobileAppAPI.Controllers
 
 
 
+        [HttpGet]
+        [Route("AllBranchNameLsit/{BranchName}")]
+        public string AllBranchNameLsit(string BranchName)
+
+        {
+            try
+            {
+                using (SqlConnection dbConn = new SqlConnection(strconn))
+                {
+                    try
+                    {
+                        string Logdata1 = string.Empty;
+                        string sql = "";
+                        dbConn.Open();
+
+                        sql = "SELECT BRANCH_ID from BO_BRANCH_MASTER WHERE status='A' and FUNCTION_ID=1 and BRANCH_DESC='"+ BranchName + "' order by BRANCH_DESC asc";
+
+                        DataSet dtPending = objSQLAccesLayer.getDataSet(sql);
+
+
+
+                        for (int i = 0; i < dtPending.Tables[0].Rows.Count; i++)
+                        {
+                            DataRow row = dtPending.Tables[0].Rows[i];
+                            Logdata1 = DataTableToJSONWithStringBuilder(dtPending.Tables[0]);
+                        }
+                        //}
+                        return Logdata1;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.ToString());
+                    }
+
+
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var json = new JavaScriptSerializer().Serialize(ex.Message);
+                return json;
+            }
+        }
+
+
+        //All Branch Post
+
+
+
+        [HttpPost]
+        [Route("allbranchdetails")]
+        public async Task<ActionResult<CAMS>> allbranchdetails(CAMS data)
+        {
+            // string struser = data.user_lower;
+
+            List<CAMS> Logdata = new List<CAMS>();
+            string Logdata1 = string.Empty;
+            var logdata = "";
+            var strtoken = "";
+            // var result = "";
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+
+
+                dbConn.Open();
+                string query = "";
+               
+                query = "SELECT BRANCH_ID,BRANCH_DESC from BO_BRANCH_MASTER WHERE status='A' and FUNCTION_ID='" + data.functionid + "' order by BRANCH_DESC asc";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                Logdata1 = DataTableToJSONWithStringBuilder(results);
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+                return Ok(Logdata1);
+
+
+            }
+        }
+
 
         //json convertion method
         public string DataTableToJSONWithStringBuilder(DataTable table)
