@@ -2427,7 +2427,7 @@ namespace MobileAppAPI.Controllers
 
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
-                    //  string sql = "MBL_ERP_VENDORQUOTATION_SUMMARY";
+                 //string sql = "MBL_ERP_VENDORQUOTATION_SUMMARY";
 
                     string sql = "ERP_VENDORQUOTATION_SUMMARY";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
@@ -8819,6 +8819,8 @@ namespace MobileAppAPI.Controllers
 
                                 if (dtAssign?.Rows?.Count > 0)
                                 {
+                                   
+
 
                                     string strPRSCurrency = "EXEC GETREVISIONNO '" + dtAssign.Rows[0]["function_id"].ToString() + "','" + dtAssign.Rows[0]["branch_id"].ToString() + "','" + quote_id + "','" + dtAssign.Rows[0]["item_id"].ToString() + "'";
 
@@ -8834,8 +8836,8 @@ namespace MobileAppAPI.Controllers
 
                                     }
 
-
-                                    string sql2 = "ERP_PURCHASE_VENDOR_QUOTATIONS_DETAILS_UPDATE";
+                                    // string sql2 = "ERP_PURCHASE_VENDOR_QUOTATIONS_DETAILS_UPDATE";
+                                    string sql2 = "MBL_ERP_PURCHASE_VENDOR_QUOTATIONS_DETAILS_UPDATE";
                                     SqlCommand cmd2 = new SqlCommand(sql2, dbConn);
                                     cmd2.CommandType = CommandType.StoredProcedure;
                                     cmd2.Parameters.AddWithValue("@STATUS", dtAssign.Rows[0]["status"].ToString());
@@ -8855,8 +8857,10 @@ namespace MobileAppAPI.Controllers
                                     cmd2.Parameters.AddWithValue("@ITEMID", dtAssign.Rows[0]["item_id"].ToString());
                                     cmd2.Parameters.AddWithValue("@TAX2", dtAssign.Rows[0]["tax2"].ToString());
                                     cmd2.Parameters.AddWithValue("@vendoritemid", dtAssign.Rows[0]["VENDORITEMID"].ToString());
-                                    SqlDataAdapter objadapter = new SqlDataAdapter(cmd2);
-                                    objadapter.Fill(dtAssign);
+
+
+                                    //SqlDataAdapter objadapter = new SqlDataAdapter(cmd2);
+                                    //objadapter.Fill(dtAssign);
 
 
 
@@ -8872,7 +8876,8 @@ namespace MobileAppAPI.Controllers
 
 
                                     }
-
+                                  
+                                    dbConn.Open();
 
                                     string strupdate = "UPDATE ERP_PURCHASE_VENDOR_QUOTATIONS_MASTER SET BID_CURRENCY='" + Multi_Currency + "' WHERE function_id='" + function_id + "' AND branch_id='" + sqlVQBranch + "' AND QUOTE_ID='" + quote_id + "'";
 
@@ -8887,9 +8892,10 @@ namespace MobileAppAPI.Controllers
 
 
                                     }
+                                    dbConn.Close();
                                 }
 
-
+                               // dbConn.Close();
 
                             }
 
@@ -8909,42 +8915,48 @@ namespace MobileAppAPI.Controllers
 
                         if (TC != "" && delivery_before != "")
                         {
+                        dbConn.Open();
                             string strsql1 = "UPDATE ERP_PURCHASE_VENDOR_QUOTATIONS_MASTER SET delivery_terms='" + delivery_terms.ToString() + "',delivery_date='" + delivery_before.ToString() + "',delivery_terms_des='" + delivery_terms_desc.ToString() + "' WHERE rfq_id='" + rfqid + "' AND QUOTE_ID='" + quote_id + "'";
                             SqlCommand cmdupdate = new SqlCommand(strsql1, dbConn);
                             var readerupdate = cmdupdate.ExecuteReader();
                             System.Data.DataTable resultsupdate = new System.Data.DataTable();
                             resultsupdate.Load(readerupdate);
 
-                          
 
+                        dbConn.Close();
                         }
                         else if (TC != "" && delivery_before == "")
                         {
+                        dbConn.Open();
                             string strsql1 = "UPDATE ERP_PURCHASE_VENDOR_QUOTATIONS_MASTER SET delivery_terms='" + delivery_terms.ToString() + "',delivery_date=convert(varchar, '" + DateTime.Now.ToString("dd/MMM/yyyy") + "', 121),delivery_terms_des='" + TC.ToString() + "' WHERE rfq_id='" + rfqid + "' AND QUOTE_ID='" + quote_id + "'";
                             SqlCommand cmdupdate = new SqlCommand(strsql1, dbConn);
                             var readerupdate = cmdupdate.ExecuteReader();
                             System.Data.DataTable resultsupdate = new System.Data.DataTable();
                             resultsupdate.Load(readerupdate);
+                        dbConn.Close();
 
                         }
                         else if (TC == "0" && delivery_before != "")
                         {
+                        dbConn.Open();
                             string strsql1 = "UPDATE ERP_PURCHASE_VENDOR_QUOTATIONS_MASTER SET delivery_terms='13',delivery_date='" + delivery_before.ToString() + "', 121),delivery_terms_des='Free Delivery at ICRISAT Stores' WHERE rfq_id='" + rfqid + "' AND QUOTE_ID='" + quote_id + "'";
                             SqlCommand cmdupdate = new SqlCommand(strsql1, dbConn);
                             var readerupdate = cmdupdate.ExecuteReader();
                             System.Data.DataTable resultsupdate = new System.Data.DataTable();
                             resultsupdate.Load(readerupdate);
-
+                        dbConn.Close();
                         }
                         else
                         {
+                        dbConn.Open();
                             string strsql1 = "UPDATE ERP_PURCHASE_VENDOR_QUOTATIONS_MASTER SET delivery_terms='13',delivery_date=convert(varchar, '" + DateTime.Now.ToString("dd/MMM/yyyy") + "', 121),delivery_terms_des='Free Delivery at ICRISAT Stores' WHERE rfq_id='" + rfqid + "' AND QUOTE_ID='" + quote_id + "'";
                             SqlCommand cmdupdate = new SqlCommand(strsql1, dbConn);
                             var readerupdate = cmdupdate.ExecuteReader();
                             System.Data.DataTable resultsupdate = new System.Data.DataTable();
                             resultsupdate.Load(readerupdate);
 
-                         //objSql.ExecuteNonQuery(strsql1);
+                        //objSql.ExecuteNonQuery(strsql1);
+                        dbConn.Close();
                         }
 
 
