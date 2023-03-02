@@ -3426,8 +3426,8 @@ namespace MobileAppAPI.Controllers
                 string assethrs = data.assethrs.ToString();
 
                 dbConn.Open();
-                //string sql = "MBL_CAMS_JC_GETUSERCOST"; sankari
-                string sql = "CAMS_JC_GETUSERCOST";
+               string sql = "MBL_CAMS_JC_GETUSERCOST"; 
+              //  string sql = "CAMS_JC_GETUSERCOST";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@USERTYPEID", userskill);
@@ -3461,9 +3461,8 @@ namespace MobileAppAPI.Controllers
                 else
                 {
 
-
-                    //string sql1 = "MBL_CAMS_INSERT_MPP_USED";
-                    string sql1 = "CAMS_INSERT_MPP_USED";
+string sql1 = "MBL_CAMS_INSERT_MPP_USED";
+                   // string sql1 = "CAMS_INSERT_MPP_USED";
                     SqlCommand cmd1 = new SqlCommand(sql1, dbConn);
                     cmd1.CommandType = CommandType.StoredProcedure;
                     cmd1.Parameters.AddWithValue("@BRANCH_ID", branchid);
@@ -3484,7 +3483,9 @@ namespace MobileAppAPI.Controllers
 
 
                     string query = "";
-                    query = "SELECT distinct TUM_USER_ID AS VAL,TUM_USER_CODE +'-' +TUM_USER_NAME AS TEXT ,TYPE_ID,BO_USER_TYPE_MASTER.DESCRIPTION AS SKILL_TEXT,CAMS_MPP_USED.ASSET_EMP_ID AS EMP_ID,convert(varchar(10),ASSET_ACTUAL_HRS,108) as actual_hrs,tum_user_name as emp_name, FTP_UPLOAD_FLAG as flag,rowuniqueid as rowuniqueid,ASSET_COST FROM CAMS_MPP_USED WITH(NOLOCK) INNER JOIN BO_USER_TYPE_MASTER WITH(NOLOCK) ON  BO_USER_TYPE_MASTER.FUNCTION_ID = CAMS_MPP_USED.FUNCTION_ID AND BO_USER_TYPE_MASTER.TYPE_ID =CAMS_MPP_USED.ASSET_SKILL_SET INNER JOIN bo_user_master WITH(NOLOCK) ON  bo_user_master.FUNCTION_ID = CAMS_MPP_USED.FUNCTION_ID AND bo_user_master.TUM_BRANCH_ID = CAMS_MPP_USED.BRANCH_ID   AND bo_user_master.TUM_USER_TYPE=convert(nvarchar,CAMS_MPP_USED.ASSET_SKILL_SET)  and bo_user_master.TUM_USER_ID=CAMS_MPP_USED.ASSET_EMP_ID  where 1=1 AND CAMS_MPP_USED.FUNCTION_ID = '" + data.functionid + "'  AND CAMS_MPP_USED.BRANCH_ID = '" + data.branchid + "'  AND CAMS_MPP_USED.asset_id = '" + data.assetid + "' and ASSET_ACTIVITY_ID='" + data.assetactivityid + "'";
+                    query = "SELECT distinct TUM_USER_ID AS VAL,TUM_USER_CODE +'-' +TUM_USER_NAME AS TEXT ,TYPE_ID,BO_USER_TYPE_MASTER.DESCRIPTION AS SKILL_TEXT,CAMS_MPP_USED.ASSET_EMP_ID AS EMP_ID,convert(varchar(10),ASSET_ACTUAL_HRS,108) as actual_hrs,tum_user_name as emp_name, FTP_UPLOAD_FLAG as flag,rowuniqueid as rowuniqueid,ASSET_COST FROM CAMS_MPP_USED WITH(NOLOCK) INNER JOIN BO_USER_TYPE_MASTER WITH(NOLOCK) ON  BO_USER_TYPE_MASTER.FUNCTION_ID = CAMS_MPP_USED.FUNCTION_ID AND BO_USER_TYPE_MASTER.TYPE_ID =CAMS_MPP_USED.ASSET_SKILL_SET INNER JOIN bo_user_master WITH(NOLOCK) ON  bo_user_master.FUNCTION_ID = CAMS_MPP_USED.FUNCTION_ID AND bo_user_master.TUM_BRANCH_ID = CAMS_MPP_USED.BRANCH_ID   AND bo_user_master.TUM_USER_TYPE=convert(nvarchar,CAMS_MPP_USED.ASSET_SKILL_SET)  and bo_user_master.TUM_USER_ID=CAMS_MPP_USED.ASSET_EMP_ID  where 1=1 AND CAMS_MPP_USED.FUNCTION_ID = '" + data.functionid + "'  AND CAMS_MPP_USED.BRANCH_ID = '" + data.branchid + "'  AND CAMS_MPP_USED.asset_id = '" + data.assetid + "' and ASSET_ACTIVITY_ID='" + data.assetactivityid + "' ORDER BY rowuniqueid DESC ";
+
+                    //SELECT * FROM HD_AANVRAGEN ORDER BY rowuniqueid DESC LIMIT 1
 
                     SqlCommand cmd2 = new SqlCommand(query, dbConn);
                     var reader2 = cmd2.ExecuteReader();
