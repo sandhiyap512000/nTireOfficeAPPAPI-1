@@ -8902,7 +8902,7 @@ namespace MobileAppAPI.Controllers
 
                                     string sql = "select branch_id from ERP_PURCHASE_VENDOR_QUOTATIONS_MASTER where QUOTE_ID='" + quote_id + "'";
                                     SqlCommand cmdsql = new SqlCommand(sql, dbConn);
-                                    var readersql = cmdcurr.ExecuteReader();
+                                    var readersql = cmdsql.ExecuteReader();
                                     System.Data.DataTable resultssql = new System.Data.DataTable();
                                     resultssql.Load(readersql);
                                     for (int i = 0; i < resultssql.Rows.Count; i++)
@@ -8912,8 +8912,10 @@ namespace MobileAppAPI.Controllers
 
 
                                     }
+                                    dbConn.Close();
                                   
                                     dbConn.Open();
+
 
                                     string strupdate = "UPDATE ERP_PURCHASE_VENDOR_QUOTATIONS_MASTER SET BID_CURRENCY='" + Multi_Currency + "' WHERE function_id='" + function_id + "' AND branch_id='" + sqlVQBranch + "' AND QUOTE_ID='" + quote_id + "'";
 
@@ -9066,6 +9068,43 @@ namespace MobileAppAPI.Controllers
                 var result = (new { logdata });
                 return Ok(Logdata1);
             }
+        }
+
+        //--------------Saravanan-------
+
+        [HttpGet]
+        [Route("GetCurrency")]
+        public string GetCurrency()
+        {
+            string Logdata1 = string.Empty;
+
+            using (SqlConnection dbConn = new SqlConnection(strconn))
+            {
+                dbConn.Open();
+                string query = "";
+                query = "select TEXT as TEXT,VAL as VALUE from bo_parameter where type='currency' and function_id='1'";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                var reader = cmd.ExecuteReader();
+                System.Data.DataTable results = new System.Data.DataTable();
+                results.Load(reader);
+                if (results.Rows.Count == 0)
+                {
+                    string st = "No data found";
+
+                    Logdata1 = new JavaScriptSerializer().Serialize(st);
+                }
+                else
+                {
+                    Logdata1 = DataTableToJSONWithStringBuilder(results);
+                }
+
+                dbConn.Close();
+
+                var result = (new { recordsets = Logdata1 });
+
+            }
+            return (Logdata1);
         }
 
 
