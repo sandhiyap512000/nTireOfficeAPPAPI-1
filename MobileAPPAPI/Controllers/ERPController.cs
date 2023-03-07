@@ -2424,7 +2424,24 @@ namespace MobileAppAPI.Controllers
                         data.modep = "0";
                     }
 
-
+                    string strFDate = string.Empty;
+                    string strTDate = string.Empty;
+                    if (data.FROMDATEP.ToString() != "0" && data.FROMDATEP.ToString() != "" && data.FROMDATEP.ToString() != string.Empty && data.FROMDATEP.ToString() != null)
+                    {
+                        strFDate = Convert.ToDateTime(data.FROMDATEP.ToString()).ToString("dd/MM/yyyy");
+                    }
+                    else
+                    {
+                        strFDate = data.FROMDATEP.ToString();
+                    }
+                    if (data.TODATEP.ToString() != "0" && data.TODATEP.ToString() != "" && data.TODATEP.ToString() != string.Empty && data.TODATEP.ToString() != null)
+                    {
+                        strTDate = Convert.ToDateTime(data.TODATEP.ToString()).ToString("dd/MM/yyyy");
+                    }
+                    else
+                    {
+                        strTDate = data.TODATEP.ToString();
+                    }
 
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
