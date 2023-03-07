@@ -2436,6 +2436,9 @@ namespace MobileAppAPI.Controllers
                     }
                     if (data.TODATEP.ToString() != "0" && data.TODATEP.ToString() != "" && data.TODATEP.ToString() != string.Empty && data.TODATEP.ToString() != null)
                     {
+
+
+
                         strTDate = Convert.ToDateTime(data.TODATEP.ToString()).ToString("dd/MM/yyyy");
                     }
                     else
