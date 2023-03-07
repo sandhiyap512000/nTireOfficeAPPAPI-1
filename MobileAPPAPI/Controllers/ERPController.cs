@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Configuration;
 //using nTireAdminLib.BLL;
 namespace MobileAppAPI.Controllers
 {
@@ -4306,6 +4307,7 @@ namespace MobileAppAPI.Controllers
             string UserID = string.Empty;
             string unitprice = string.Empty;
             string item_id = string.Empty;
+            //string item_id = null;
             string flag = string.Empty;
             string val = string.Empty;
             string ChkRelease = string.Empty;
@@ -4362,7 +4364,7 @@ namespace MobileAppAPI.Controllers
                         {
                             BRANCH_DESC = item.Value.ToString();
                         }
-                        if (item.Key == "MRS_ID")
+                        if (item.Key == "mrs_id")
                         {
                             // mrs_id = item.Value.ToString();
                             mrs_id = strmrsid;
@@ -4371,7 +4373,7 @@ namespace MobileAppAPI.Controllers
                         if (item.Key == "MRS_CODE")
                         {
                             // mrs_id = item.Value.ToString();
-                            //MRS_CODE = strmrsid;
+                            MRS_CODE = strmrsid;
 
                         }
 
@@ -4526,7 +4528,9 @@ namespace MobileAppAPI.Controllers
                     {
 
                         DataSet dsmrscode = new DataSet();
-                        string sqlmrscode = "MBL_ERP_MRS_ISCONFIG";
+                        string sqlmrscode = "ERP_MRS_ISCONFIG";
+                        //string sqlmrscode = "ERP_MRS_DETAILS";
+
                         SqlCommand cmdmrscode = new SqlCommand(sqlmrscode, dbConn);
 
 
@@ -4595,9 +4599,15 @@ namespace MobileAppAPI.Controllers
                     //objcommand1.Parameters.AddWithValue("@VechileNO", VechileNO.ToString());
                     //objcommandMrs.ExecuteNonQuery();
 
+                    //....
                     var readerMRS = objcommandMrs.ExecuteReader();
+                    //var readerMRS = objcommandMrs.ExecuteNonQuery();
                     System.Data.DataTable results1 = new System.Data.DataTable();
                     results1.Load(readerMRS);
+
+                    //var reader1 = objcommandMrs.ExecuteReader();
+                    //System.Data.DataTable results1 = new System.Data.DataTable();
+                    //results1.Load(reader);
 
 
                     //var reader1 = objcommandMrs.ExecuteReader();
@@ -4723,7 +4733,7 @@ namespace MobileAppAPI.Controllers
                                     //    mrs_id = strmrsid;
 
                                     //}
-                                    if (Name == "Item_Id")
+                                    if (Name == "item_id")
                                     {
                                         // mrs_id = item.Value.ToString();
                                         item_id = Value.ToString();
@@ -4905,7 +4915,7 @@ namespace MobileAppAPI.Controllers
                                     objcommandDet.Parameters.AddWithValue("@mrsdetail_id", mrsdetail_id.ToString());
                                     objcommandDet.Parameters.AddWithValue("@MRS_ID", mrs_id.ToString());
 
-                                    objcommandDet.Parameters.AddWithValue("@item_id", item_id);
+                                    objcommandDet.Parameters.AddWithValue("@ITEM_ID", item_id.ToString());
                                     objcommandDet.Parameters.AddWithValue("@required_qty", RequiredQty.ToString());
                                     objcommandDet.Parameters.AddWithValue("@issued_qty", 0);
                                     objcommandDet.Parameters.AddWithValue("@returned_qty", 0);
@@ -8369,6 +8379,7 @@ namespace MobileAppAPI.Controllers
                 string docExtname = arrfile[0];
                 string docExt = arrfile[1];
                 string FileLocation = "SmartERP/UI/Forms/Userfiles/";
+                
                 //   docName = docName + "_" + HF_PAYMENT_ID.Value;
                 DataRow row1 = dsinvoice.Tables[0].NewRow();
                 row1.BeginEdit();
@@ -8507,7 +8518,10 @@ namespace MobileAppAPI.Controllers
                     string strVideofile = data.filedata;
 
 
-                    string URLprifix = @"D:\Production\Application\nTireERP\nTireoffice\SmartERP\UI\Forms\Userfiles\";
+                    //... string URLprifix = @"F:\Production\Application\nTireERP\nTireoffice\SmartERP\UI\Forms\Userfiles\";
+                    string strpath = ConfigurationManager.AppSettings["Uploadpath"];
+                    string URLprifix = strpath;
+
                     //string URLprifix = @"F:\deepak\";
                     string filepath = @"F:\deepak\";
                     filepath = URLprifix + docExtname + "." + docExt;
@@ -8537,7 +8551,9 @@ namespace MobileAppAPI.Controllers
         {
             string Logdata1 = string.Empty;
             string invoice_file_path = string.Empty;
-            string URLprifix = @"D:\Production\Application\nTireERP\nTireoffice\SmartERP\UI\Forms\Userfiles\";
+            //...string URLprifix = @"D:\Production\Application\nTireERP\nTireoffice\SmartERP\UI\Forms\Userfiles\";
+            
+
             string URLprifix1 = "https://demo.herbie.ai/nTireERP/SmartERP/UI/Forms/Userfiles/";
             string filepath = string.Empty;
 
