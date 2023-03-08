@@ -3426,14 +3426,14 @@ namespace MobileAppAPI.Controllers
                 string assethrs = data.assethrs.ToString();
 
                 dbConn.Open();
-               string sql = "MBL_CAMS_JC_GETUSERCOST"; 
+               string sql = "CAMS_JC_GETUSERCOST"; 
               //  string sql = "CAMS_JC_GETUSERCOST";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@USERTYPEID", userskill);
                 cmd.Parameters.AddWithValue("@FUNCTION", functionid);
                 cmd.Parameters.AddWithValue("@BRANCH", branchid);
-                cmd.ExecuteNonQuery();
+               // cmd.ExecuteNonQuery();
 
                 var reader = cmd.ExecuteReader();
 
@@ -3461,7 +3461,7 @@ namespace MobileAppAPI.Controllers
                 else
                 {
 
-string sql1 = "MBL_CAMS_INSERT_MPP_USED";
+string sql1 = "CAMS_INSERT_MPP_USED";
                    // string sql1 = "CAMS_INSERT_MPP_USED";
                     SqlCommand cmd1 = new SqlCommand(sql1, dbConn);
                     cmd1.CommandType = CommandType.StoredProcedure;
@@ -3475,7 +3475,7 @@ string sql1 = "MBL_CAMS_INSERT_MPP_USED";
                     cmd1.Parameters.AddWithValue("@ASSET_ACTUAL_HRS", assethrs);
                     cmd1.Parameters.AddWithValue("@ASSET_STATUS", "A");
                     cmd1.Parameters.AddWithValue("@ASSET_COST", strcost);
-                    cmd1.ExecuteNonQuery();
+                    //cmd1.ExecuteNonQuery()
 
                     var reader1 = cmd1.ExecuteReader();
                     System.Data.DataTable results1 = new System.Data.DataTable();
