@@ -668,7 +668,7 @@ namespace MobileAppAPI.Controllers
 
 
                 dbConn.Open();
-                string sql = "MBL_MOB_PROD_PENDINGLEAD";
+                string sql = "MOB_PROD_PENDINGLEAD";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@NAME", data.Name);
@@ -1310,8 +1310,8 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
+                string sql = "MOB_CustResponse";
                 //string sql = "MOB_CustResponse";
-                string sql = "MBL_MOB_CustResponse";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@producttypeid", producttypeid);
@@ -1346,7 +1346,7 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 //string sql = "MOB_CustResponse";
-                string sql = "MBL_Mob_AddContact";
+                string sql = "Mob_AddContact";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@CompanyId", CompanyId);
@@ -1395,7 +1395,7 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string sql = "MBL_MOB_NewLeadInsert_corporate";
+                string sql = "MOB_NewLeadInsert_corporate";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@FUNCTION_ID", functionid);
@@ -1446,7 +1446,7 @@ namespace MobileAppAPI.Controllers
             using (SqlConnection dbConn = new SqlConnection(strconn))
             {
                 dbConn.Open();
-                string sql = "MBL_Mob_NewCorporate";
+                string sql = "Mob_NewCorporate";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Functionid", functionid);
@@ -1698,7 +1698,7 @@ namespace MobileAppAPI.Controllers
 
 
 
-                    string sql = "MBL_MOB_NewLeadInsert";
+                    string sql = "MOB_NewLeadInsert";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@FUNCTION_ID", functionid.Trim());

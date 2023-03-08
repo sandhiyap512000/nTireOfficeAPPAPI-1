@@ -514,7 +514,7 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 // string sql = "dbo.HRMS_COMMON_DROPDOWN";
-                string sql = "MBL_FM_ReceiptSummary_GetRentalSummaryNew";
+                string sql = "FM_ReceiptSummary_GetRentalSummaryNew";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 if (strFunctionId.ToString() != "" || strFunctionId.ToString() != string.Empty || strFunctionId.ToString() != null)
@@ -836,7 +836,7 @@ namespace MobileAppAPI.Controllers
                 sortExpression = "duedate_long desc";
 
 
-                query = "EXEC MBL_CAMS_Pending_GETPENDINGDETAIL_DEPT '" + strfunction + "','" + branch + "','" + mode + "','" + fdate + "','" + tdate + "','" + Status + "','" + dept + "','" + tag + "','" + strUserId + "','" + UserType + "','" + pageIndex + "','" + pageSize + "','" + sortExpression + "','" + alphaname + "','" + drpcategory + "','" + drptype + "','" + TASKTYPE + "','" + PrCode + "','" + PrDesc + "','" + strCriticality + "','" + assetname + "','" + actmaintenence + "','" + wrkordno + "'";
+                query = "EXEC CAMS_Pending_GETPENDINGDETAIL_DEPT '" + strfunction + "','" + branch + "','" + mode + "','" + fdate + "','" + tdate + "','" + Status + "','" + dept + "','" + tag + "','" + strUserId + "','" + UserType + "','" + pageIndex + "','" + pageSize + "','" + sortExpression + "','" + alphaname + "','" + drpcategory + "','" + drptype + "','" + TASKTYPE + "','" + PrCode + "','" + PrDesc + "','" + strCriticality + "','" + assetname + "','" + actmaintenence + "','" + wrkordno + "'";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -1172,7 +1172,7 @@ namespace MobileAppAPI.Controllers
                    
 
                     string Logdata1 = string.Empty;
-                    string sql = "MBL_SP_Recipt_summary_FM"; //"CAMS_PENDINGDETAIL_SEARCHS1";
+                    string sql = "SP_Recipt_summary_FM"; //"CAMS_PENDINGDETAIL_SEARCHS1";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
                     SqlDataAdapter apd = new SqlDataAdapter(cmd);
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -2330,7 +2330,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                string sql = "MBL_FM_Get_Aditional_Charge";
+                string sql = "FM_Get_Aditional_Charge";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 SqlDataAdapter apd = new SqlDataAdapter(cmd);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2408,7 +2408,7 @@ namespace MobileAppAPI.Controllers
                 dbConn.Open();
                 string query = "";
 
-                string sql = "MBL_FM_Additional_charge";
+                string sql = "FM_Additional_charge";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 SqlDataAdapter apd = new SqlDataAdapter(cmd);
                 cmd.CommandType = CommandType.StoredProcedure;

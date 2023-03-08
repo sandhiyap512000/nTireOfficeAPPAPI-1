@@ -39,7 +39,7 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string sql = "CAMS_BRANCHWISE_ASSETCOUNT";
-                //string sql = "MBL_CAMS_BRANCHWISE_ASSETCOUNT";
+                //string sql = "CAMS_BRANCHWISE_ASSETCOUNT";
 
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.Parameters.AddWithValue("@funcionid", strfunction);
@@ -72,7 +72,7 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string sql = "CAMS_ASSETCATEGORY_COUNT";
-                // string sql = "MBL_CAMS_ASSETCATEGORY_COUNT";
+                // string sql = "CAMS_ASSETCATEGORY_COUNT";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@USERID", struserid);
@@ -106,7 +106,7 @@ namespace MobileAppAPI.Controllers
             {
                 dbConn.Open();
                 string sql = "CAMS_CURRENT_MONTH_MAINTENANCE_CHART";
-                // string sql = "MBL_CAMS_CURRENT_MONTH_MAINTENANCE_CHART";
+                // string sql = "CAMS_CURRENT_MONTH_MAINTENANCE_CHART";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@USERID", struserid);
@@ -300,7 +300,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string sql = "CAMS_ASSET_getAssetsforreplcaseasset";
-                // string sql = "MBL_CAMS_ASSET_getAssetsforreplcaseasset";
+                // string sql = "CAMS_ASSET_getAssetsforreplcaseasset";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@strstatus", "A");
@@ -600,7 +600,7 @@ namespace MobileAppAPI.Controllers
                 dbConn.Open();
                 // string Logdata1 = string.Empty;
                 string sql = "CAMS_GETCAMSServiceDetails";
-                //  string sql = "MBL_CAMS_GETCAMSServiceDetails";//"CAMS_PENDINGDETAIL_SEARCHS1";
+                //  string sql = "CAMS_GETCAMSServiceDetails";//"CAMS_PENDINGDETAIL_SEARCHS1";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 SqlDataAdapter apd = new SqlDataAdapter(cmd);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -1893,7 +1893,7 @@ namespace MobileAppAPI.Controllers
 
                     string Logdata1 = string.Empty;
                     string sql = "CAMS__SEARCHS_PENDINGDETAIL";
-                    //    string sql = "MBL_CAMS__SEARCHS_PENDINGDETAIL";//"CAMS_PENDINGDETAIL_SEARCHS1";
+                    //    string sql = "CAMS__SEARCHS_PENDINGDETAIL";//"CAMS_PENDINGDETAIL_SEARCHS1";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
                     SqlDataAdapter apd = new SqlDataAdapter(cmd);
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -2094,7 +2094,7 @@ namespace MobileAppAPI.Controllers
 
                     string Logdata1 = string.Empty;
                     string sql = "CAMS_PENDINGDETAIL_COMPLETED_SEARCH";
-                    // string sql = "MBL_CAMS_PENDINGDETAIL_COMPLETED_SEARCH";//"CAMS_PENDINGDETAIL_SEARCHS1";
+                    // string sql = "CAMS_PENDINGDETAIL_COMPLETED_SEARCH";//"CAMS_PENDINGDETAIL_SEARCHS1";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
                     SqlDataAdapter apd = new SqlDataAdapter(cmd);
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -2864,7 +2864,7 @@ namespace MobileAppAPI.Controllers
             {
 
                 dbConn.Open();
-                //string sql = "MBL_CAMSMOBIAPI_CAMS_PENDING_REOPENED";
+                //string sql = "CAMSMOBIAPI_CAMS_PENDING_REOPENED";
                 string sql = "CAMSMOBIAPI_CAMS_PENDING_REOPENED";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3032,7 +3032,7 @@ namespace MobileAppAPI.Controllers
                 string duedate = data.duedate.ToString();
                 dbConn.Open();
 
-                //string sql = "MBL_CAMS_PENDING_UPDATESTARTDATE";
+                //string sql = "CAMS_PENDING_UPDATESTARTDATE";
                 string sql = "CAMS_PENDING_UPDATESTARTDATE";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -3178,7 +3178,7 @@ namespace MobileAppAPI.Controllers
                     assetid = data.assetid.ToString();
                 }
                 dbConn.Open();
-                // string sql = "MBL_CAMS_JC_GETTASK";
+                // string sql = "CAMS_JC_GETTASK";
 
                 string sql = "CAMS_JC_GETTASK";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
@@ -3799,7 +3799,7 @@ string sql1 = "CAMS_INSERT_MPP_USED";
 
                     string sql = "CAMS_JC_GETCITEMMASTER";
 
-                    //string sql = "MBL_CAMS_JC_GETCITEMMASTER";
+                    //string sql = "CAMS_JC_GETCITEMMASTER";
                     SqlCommand cmd1 = new SqlCommand(sql, dbConn);
                     cmd1.CommandType = CommandType.StoredProcedure;
                     cmd1.Parameters.AddWithValue("@ITEM_CODE", itemcode);
@@ -3892,7 +3892,7 @@ string sql1 = "CAMS_INSERT_MPP_USED";
                 dbConn.Open();
 
 
-                //string sql = "MBL_CAMS_JC_GETCITEMMASTER";
+                //string sql = "CAMS_JC_GETCITEMMASTER";
                 string sql = "CAMS_JC_GETCITEMMASTER";
                 SqlCommand cmd1 = new SqlCommand(sql, dbConn);
                 cmd1.CommandType = CommandType.StoredProcedure;
@@ -4039,7 +4039,7 @@ string sql1 = "CAMS_INSERT_MPP_USED";
                 }
                 else
                 {
-                    //string sql = "MBL_CAMS_JC_GETCITEMMASTER";
+                    //string sql = "CAMS_JC_GETCITEMMASTER";
                     string sql = "CAMS_JC_GETCITEMMASTER";
                     SqlCommand cmd1 = new SqlCommand(sql, dbConn);
                     cmd1.CommandType = CommandType.StoredProcedure;
@@ -4060,7 +4060,7 @@ string sql1 = "CAMS_INSERT_MPP_USED";
 
 
                     string sql1 = "CAMS_INSERT_SPARE_USED";
-                    // string sql1 = "MBL_CAMS_INSERT_SPARE_USED";
+                    // string sql1 = "CAMS_INSERT_SPARE_USED";
                     SqlCommand cmd2 = new SqlCommand(sql1, dbConn);
                     cmd2.CommandType = CommandType.StoredProcedure;
                     cmd2.Parameters.AddWithValue("@FUNCTION_ID", functionid);
@@ -4368,7 +4368,7 @@ string sql1 = "CAMS_INSERT_MPP_USED";
                 results1.Load(reader1);
 
 
-                // string sql1 = "MBL_CAMS_JC_GETTASK";
+                // string sql1 = "CAMS_JC_GETTASK";
                 string sql1 = "CAMS_JC_GETTASK";
                 SqlCommand cmd = new SqlCommand(sql1, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -4478,7 +4478,7 @@ string sql1 = "CAMS_INSERT_MPP_USED";
 
                 dbConn.Open();
                 string sql = "CAMS_JC_GETCITEMMASTER";
-                //string sql = "MBL_CAMS_JC_GETCITEMMASTER";
+                //string sql = "CAMS_JC_GETCITEMMASTER";
                 SqlCommand cmd1 = new SqlCommand(sql, dbConn);
                 cmd1.CommandType = CommandType.StoredProcedure;
                 cmd1.Parameters.AddWithValue("@ITEM_CODE", itemcode);

@@ -637,9 +637,9 @@ namespace MobileAppAPI.Controllers
                     dbConn.Open();
                     string sql = "erp_prs_getdetails";
 
-                   // string sql = "MBL_erp_prs_getdetails";
+                   // string sql = "erp_prs_getdetails";
 
-                    // string sql = "MBL_erp_prs_getdetails1";
+                    // string sql = "erp_prs_getdetails1";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
 
 
@@ -781,9 +781,9 @@ namespace MobileAppAPI.Controllers
 
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
-                    //string sql = "MBL_erp_prs_getdetails";
+                    //string sql = "erp_prs_getdetails";
 
-                    // string sql = "MBL_erp_prs_getdetails1";
+                    // string sql = "erp_prs_getdetails1";
 
                     string sql = "erp_prs_getdetails";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
@@ -1270,7 +1270,7 @@ namespace MobileAppAPI.Controllers
 
 
                             DataSet dsuserdetails = new DataSet();
-                           // string sql = "MBL_ERP_PRS_SAVEDATA";
+                           // string sql = "ERP_PRS_SAVEDATA";
                             string sql = "erp_prs_savedata";
                             SqlCommand cmd1 = new SqlCommand(sql, dbConn);
                             cmd1.CommandType = CommandType.StoredProcedure;
@@ -1655,7 +1655,7 @@ namespace MobileAppAPI.Controllers
 
                                             dbConn.Open();
                                             DataSet dsuserdetails = new DataSet();
-                                            //string sql = "MBL_ERP_PRS_DETAILS_INSERT_UPDATE";
+                                            //string sql = "ERP_PRS_DETAILS_INSERT_UPDATE";
 
                                             string sql = "ERP_PRS_DETAILS_INSERT_UPDATE";
                                             SqlCommand objcommand1 = new SqlCommand(sql, dbConn);
@@ -1887,7 +1887,7 @@ namespace MobileAppAPI.Controllers
 
 
                 dbConn.Open();
-                //string sql = "MBL_ERP_PRS_DELETE";
+                //string sql = "ERP_PRS_DELETE";
                 string sql = "ERP_PRS_DELETE";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -2051,7 +2051,7 @@ namespace MobileAppAPI.Controllers
 
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
-                    //string sql = "MBL_erp_prs_getdetails";
+                    //string sql = "erp_prs_getdetails";
                     string sql = "erp_prs_getdetails";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
 
@@ -2251,7 +2251,7 @@ namespace MobileAppAPI.Controllers
 
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
-                    //string sql = "MBL_ERP_RFQ_getvendorevaluationRFQ";
+                    //string sql = "ERP_RFQ_getvendorevaluationRFQ";
 
                     string sql = "ERP_RFQ_getvendorevaluationRFQ";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
@@ -2448,7 +2448,7 @@ namespace MobileAppAPI.Controllers
 
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
-                 //string sql = "MBL_ERP_VENDORQUOTATION_SUMMARY";
+                 //string sql = "ERP_VENDORQUOTATION_SUMMARY";
 
                     string sql = "ERP_VENDORQUOTATION_SUMMARY";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
@@ -2603,7 +2603,7 @@ namespace MobileAppAPI.Controllers
 
 
 
-                   // string sql = "MBL_ERP_PO_ORDER_SUMMARY";
+                   // string sql = "ERP_PO_ORDER_SUMMARY";
 
                     string sql = "ERP_PO_ORDER_SUMMARY";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
@@ -2998,9 +2998,9 @@ namespace MobileAppAPI.Controllers
 
                     string sql = "ERP_RFQ_getvendorevaluationRFQs";
 
-                    // String sql = "MBL_ERP_RFQ_getvendorevaluationRFQ";
+                    // String sql = "ERP_RFQ_getvendorevaluationRFQ";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
-                    // EXEC MBL_ERP_RFQ_getvendorevaluationRFQs '1','','','','','','','','','RFQ Raised','2','0','20','prs_id DESC','','286','1'
+                    // EXEC ERP_RFQ_getvendorevaluationRFQs '1','','','','','','','','','RFQ Raised','2','0','20','prs_id DESC','','286','1'
 
 
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -3585,7 +3585,7 @@ namespace MobileAppAPI.Controllers
 
                     string sql = "ERP_MI_GETISSUESUMMARY";
 
-                   // string sql = "MBL_ERP_MI_GETISSUESUMMARY";
+                   // string sql = "ERP_MI_GETISSUESUMMARY";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
 
 
@@ -3862,7 +3862,7 @@ namespace MobileAppAPI.Controllers
                 }
 
 
-               // MBL_ERP_PRS_GETITEM2
+               // ERP_PRS_GETITEM2
 
                 string StrSql = "EXEC ERP_PRS_GETITEM2  '" + functionid + "', '" + prsid + "', '" + alphaname + "', '" + sortExpression + "', '" + pageIndex + "', '" + pageSize + "'";
 
@@ -3940,7 +3940,7 @@ namespace MobileAppAPI.Controllers
                 }
 
 
-                // MBL_ERP_VENDOR_EVALUATION_SUMMARY
+                // ERP_VENDOR_EVALUATION_SUMMARY
 
                 mode = "1";
 
@@ -4023,7 +4023,7 @@ namespace MobileAppAPI.Controllers
 
 
 
-               // string strsql = "EXEC MBL_ERP_GETVENDORDETAILS";
+               // string strsql = "EXEC ERP_GETVENDORDETAILS";
                 string strsql = "EXEC ERP_GETVENDORDETAILS";
                 if (functionid != null && functionid != "" && functionid !="null")
                 {
@@ -4587,7 +4587,7 @@ namespace MobileAppAPI.Controllers
                     DataSet dsuserdetails = new DataSet();
                     string sqlMRS = "ERP_MRS_SAVEMASTER";
 
-                   // string sqlMRS = "MBL_ERP_MRS_SAVEMASTER1";
+                   // string sqlMRS = "ERP_MRS_SAVEMASTER1";
                     SqlCommand objcommandMrs = new SqlCommand(sqlMRS, dbConn);
 
 
@@ -4880,7 +4880,7 @@ namespace MobileAppAPI.Controllers
                                     //{
 
                                     //    DataSet dsmrscode = new DataSet();
-                                    //    string sqlmrscode = "MBL_ERP_MRS_ISCONFIG";
+                                    //    string sqlmrscode = "ERP_MRS_ISCONFIG";
                                     //    SqlCommand cmdmrscode = new SqlCommand(sqlmrscode, dbConn);
 
 
@@ -4927,7 +4927,8 @@ namespace MobileAppAPI.Controllers
                                 {
                                     //retmrs = objdata.savedetails(ds);
                                     DataSet dsuserdetails1 = new DataSet();
-                                    string sql1 = "MBL_ERP_MRS_SAVE_DETAILS";
+                                    //string sql1 = "ERP_MRS_SAVE_DETAILS";
+                                    string sql1 = "ERP_MRS_SAVE_DETAILS";
                                     SqlCommand objcommandDet = new SqlCommand(sql1, dbConn);
 
                                     objcommandDet.CommandType = CommandType.StoredProcedure;
@@ -5373,7 +5374,7 @@ namespace MobileAppAPI.Controllers
                                                     {
                                                         Mode = "A";
 
-                                                        //MBL_ERP_RFQ_MASTER_INSERT_NEW
+                                                        //ERP_RFQ_MASTER_INSERT_NEW
                                                         if (countt==0)
                                                         {
 
@@ -5992,7 +5993,7 @@ namespace MobileAppAPI.Controllers
 
                                 DataSet dsuserdetails = new DataSet();
 
-                                //string sql = "MBL_ERP_ADDVENDORTEMP";
+                                //string sql = "ERP_ADDVENDORTEMP";
 
                                 string sql = "ERP_ADDVENDORTEMP";
                                 SqlCommand cmd = new SqlCommand(sql, dbConn);
@@ -6094,7 +6095,7 @@ namespace MobileAppAPI.Controllers
 
                 dbConn.Open();
                 string query = "";
-                //MBL_ERP_GETVENDORTEMPDETAILS1
+                //ERP_GETVENDORTEMPDETAILS1
                 string strsql = "EXEC ERP_GETVENDORTEMPDETAILS @FUNCTIONID='" + functionId + "',@RFQCODE='" + rfqcode + "'";
                 SqlCommand cmd = new SqlCommand(strsql, dbConn);
                 var reader = cmd.ExecuteReader();
@@ -6138,7 +6139,7 @@ namespace MobileAppAPI.Controllers
 
         //issue details Search
 
-        //MBL_ERP_MI_GETSTOCKDETAILS
+        //ERP_MI_GETSTOCKDETAILS
 
 
 
@@ -6211,7 +6212,7 @@ namespace MobileAppAPI.Controllers
 
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
-                   // string sql = "MBL_ERP_MI_GETSTOCKDETAILS";
+                   // string sql = "ERP_MI_GETSTOCKDETAILS";
 
                     string sql = "ERP_MI_GETSTOCKDETAILS";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
@@ -6361,12 +6362,12 @@ namespace MobileAppAPI.Controllers
 
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
-                   // string sql = "MBL_ERP_MATISSUE_GETISSUESUMMARY";
+                   // string sql = "ERP_MATISSUE_GETISSUESUMMARY";
 
                     string sql = "ERP_MI_GETISSUESUMMARY";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
 
-                    //EXEC MBL_ERP_MI_GETISSUESUMMARYS '1','1','','', '','', '','','0', '', 'item_short_desc','0', '20' ,  'MI'
+                    //EXEC ERP_MI_GETISSUESUMMARYS '1','1','','', '','', '','','0', '', 'item_short_desc','0', '20' ,  'MI'
 
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -6494,7 +6495,7 @@ namespace MobileAppAPI.Controllers
                     }
                     DataSet dsuserdetails = new DataSet();
                     dbConn.Open();
-                    //string sql = "MBL_ERP_ILT_GETINTERLOCATIONMASTERSUMMARY";
+                    //string sql = "ERP_ILT_GETINTERLOCATIONMASTERSUMMARY";
 
                     string sql = "ERP_ILT_GETINTERLOCATIONMASTERSUMMARY";
                     SqlCommand cmd = new SqlCommand(sql, dbConn);
@@ -7518,7 +7519,7 @@ namespace MobileAppAPI.Controllers
                     System.Data.DataTable results3 = new System.Data.DataTable();
                     results3.Load(reader3);
 
-                    //MBL_ERP_GETREFERENCE
+                    //ERP_GETREFERENCE
 
                     string sql1 = "EXEC ERP_GETREFERENCE '" + strFunction + "','" + type + "'";
                     SqlCommand cmd4 = new SqlCommand(sql1, dbConn);
@@ -7703,7 +7704,7 @@ namespace MobileAppAPI.Controllers
                                     //foreach (DataRow item1 in dtAssign.Rows)
                                     //{
                                     //cmd.CommandText = "ERP_VENDOR_EVALUATION_QUOTATION_RAISE";
-                                   // string sql2 = "MBL_ERP_VENDOR_EVALUATION_QUOTATION_RAISE";
+                                   // string sql2 = "ERP_VENDOR_EVALUATION_QUOTATION_RAISE";
                                     string sql2 = "ERP_VENDOR_EVALUATION_QUOTATION_RAISE";
                                     SqlCommand cmd2 = new SqlCommand(sql2, dbConn);
                                     cmd2.CommandType = CommandType.StoredProcedure;
@@ -8156,7 +8157,7 @@ namespace MobileAppAPI.Controllers
                 DataSet dsuserdetails = new DataSet();
                 dbConn.Open();
 
-               // string sql = "MBL_ERP_PURCHASEORDER_UPDATE_PAYMENTDETAILS_NEW";
+               // string sql = "ERP_PURCHASEORDER_UPDATE_PAYMENTDETAILS_NEW";
                 string sql = "ERP_PURCHASEORDER_UPDATE_PAYMENTDETAILS_NEW";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
 
@@ -8872,8 +8873,8 @@ namespace MobileAppAPI.Controllers
 
                                     }
 
-                                    // string sql2 = "ERP_PURCHASE_VENDOR_QUOTATIONS_DETAILS_UPDATE";
-                                    string sql2 = "MBL_ERP_PURCHASE_VENDOR_QUOTATIONS_DETAILS_UPDATE";
+                                     string sql2 = "ERP_PURCHASE_VENDOR_QUOTATIONS_DETAILS_UPDATE";
+                                    //string sql2 = "ERP_PURCHASE_VENDOR_QUOTATIONS_DETAILS_UPDATE";
                                     SqlCommand cmd2 = new SqlCommand(sql2, dbConn);
                                     cmd2.CommandType = CommandType.StoredProcedure;
                                     cmd2.Parameters.AddWithValue("@STATUS", dtAssign.Rows[0]["status"].ToString());
@@ -9041,7 +9042,7 @@ namespace MobileAppAPI.Controllers
 
                 DataSet dsuserdetails = new DataSet();
                 dbConn.Open();
-               // string sql = "MBL_ERP_getSalesPaymentDeta2_New";
+               // string sql = "ERP_getSalesPaymentDeta2_New";
 
                 string sql = "ERP_getSalesPaymentDeta2_New";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);

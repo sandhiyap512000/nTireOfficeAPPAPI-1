@@ -63,7 +63,7 @@ namespace JSIGamingAPI.Controllers
                 //hashedBytes= sha256.ComputeHash(utf8Encoder.GetBytes(data.password));//new added
                 DataSet dsuserdetails = new DataSet();
                 dbConn.Open();
-                string sql = "MBL_BO_MOB_USER_AUTHENCATION";
+                string sql = "BO_MOB_USER_AUTHENCATION";
                 SqlCommand cmd = new SqlCommand(sql, dbConn);
 
 
