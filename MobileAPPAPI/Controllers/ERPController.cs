@@ -8722,6 +8722,10 @@ namespace MobileAppAPI.Controllers
                                     {
                                         quote_id = Value.ToString();
                                     }
+                                    if (quote_id == "")
+                                    {
+                                        quote_id = null;
+                                    }
                                     if (Name == "enquiry_id")
                                     {
                                         enquiry_id = Value.ToString();
@@ -8729,6 +8733,10 @@ namespace MobileAppAPI.Controllers
                                     if (Name == "item_id")
                                     {
                                         item_id = Value.ToString();
+                                    }
+                                    if (item_id == "")
+                                    {
+                                        item_id = null;
                                     }
                                     if (Name == "qty")
                                     {
@@ -8793,12 +8801,7 @@ namespace MobileAppAPI.Controllers
                                     }
 
                                 }
-
-
-
-
-                                //vel
-
+                                //Vel
 
                                 dtAssign.Columns.Add("function_id", typeof(String));
                                 dtAssign.Columns.Add("branch_id", typeof(String));
@@ -8821,35 +8824,40 @@ namespace MobileAppAPI.Controllers
                                 dtAssign.Columns.Add("tax4", typeof(String));
                                 DataRow dr = null;
                                 //dr = dtAssign.NewRow();
-
-
-
                                 //ds.Rows.Add(dr);
-                                for (int i = 0; i < 1; i++)
+                                try
                                 {
+                                    for (int i = 0; i < 1; i++)
+                                    {
 
-                                    dr = dtAssign.NewRow();
-                                    dr["function_id"] = function_id.ToString();
-                                    dr["branch_id"] = branch_id.ToString();
-                                    dr["quote_id"] = quote_id.ToString();
-                                    dr["enquiry_id"] = enquiry_id.ToString();
-                                    dr["item_id"] = item_id.ToString();
-                                    dr["qty"] = qty.ToString();
-                                    dr["status"] = status.ToString();
-                                    dr["unit_price"] = unit_price.ToString();
-                                    dr["tax2"] = tax2.ToString();
-                                    dr["margin"] = margin.ToString();
-                                    dr["other_charges"] = other_charges.ToString();
-                                    dr["TC"] = TC.ToString();
-                                    dr["delivery_before"] = delivery_before.ToString();
-                                    dr["net_price"] = net_price.ToString();
-                                    dr["remarks"] = remarks.ToString();
-                                    dr["currency"] = currency.ToString();
-                                    dr["VENDORITEMID"] = VENDORITEMID.ToString();
-                                    dr["tax3"] = tax3.ToString();
-                                    dr["tax4"] = tax4.ToString();
-                                    dtAssign.Rows.Add(dr);
+                                        dr = dtAssign.NewRow();
+                                        dr["function_id"] = function_id.ToString();
+                                        dr["branch_id"] = branch_id.ToString();
+                                        dr["quote_id"] = quote_id.ToString();
+                                        dr["enquiry_id"] = enquiry_id.ToString();
+                                        dr["item_id"] = item_id.ToString();
+                                        dr["qty"] = qty.ToString();
+                                        dr["status"] = status.ToString();
+                                        dr["unit_price"] = unit_price.ToString();
+                                        dr["tax2"] = tax2.ToString();
+                                        dr["margin"] = margin.ToString();
+                                        dr["other_charges"] = other_charges.ToString();
+                                        dr["TC"] = TC.ToString();
+                                        dr["delivery_before"] = delivery_before.ToString();
+                                        dr["net_price"] = net_price.ToString();
+                                        dr["remarks"] = remarks.ToString();
+                                        dr["currency"] = currency.ToString();
+                                        dr["VENDORITEMID"] = VENDORITEMID.ToString();
+                                        dr["tax3"] = tax3.ToString();
+                                        dr["tax4"] = tax4.ToString();
+                                        dtAssign.Rows.Add(dr);
 
+                                    }
+                                }
+                                catch (NullReferenceException e)
+                                {
+                                    var json = new JavaScriptSerializer().Serialize(e.Message+" (Note: quote_id , item_id should not be Empty)");
+                                    return Ok(json);
                                 }
 
                                 //vel
@@ -8937,17 +8945,6 @@ namespace MobileAppAPI.Controllers
                                // dbConn.Close();
 
                             }
-
-
-
-
-
-
-
-
-
-
-
                         }
 
                     }
@@ -9018,6 +9015,7 @@ namespace MobileAppAPI.Controllers
                 var json = new JavaScriptSerializer().Serialize(ex.Message);
                 return Ok(json);
             }
+            
         }
 
 
